@@ -944,6 +944,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 (function(){
 "use strict";
 var $=function(i){return document.getElementById(i);};
+var QVERSION="v1"; /* bump when question/card wording changes meaningfully; codes above stay stable */
 
 /* ---------- dimensions ---------- */
 var AXES=[
@@ -963,33 +964,33 @@ var AXES=[
 
 /* ---------- part 1: 21 placement statements ---------- */
 var Q=[
- {a:"econ",w:1.0,t:"Free secondary education and primary healthcare should be guaranteed by government for every Nigerian, funded from public revenue.",c:"Universal provision against targeted or fee-paying services."},
- {a:"econ",w:-0.5,t:"Government should sell its remaining stakes in refineries, ports and power assets to private operators.",c:"Privatisation of what the federal government still owns outright."},
- {a:"econ",w:-0.5,t:"Cutting taxes and regulation on business will do more for jobs than any government programme.",c:"Enterprise-led employment against state-led employment."},
+ {code:"ECON_001",a:"econ",w:1.0,t:"Free secondary education and primary healthcare should be guaranteed by government for every Nigerian, funded from public revenue.",c:"Universal provision against targeted or fee-paying services."},
+ {code:"ECON_002",a:"econ",w:-0.5,t:"Government should sell its remaining stakes in refineries, ports and power assets to private operators.",c:"Privatisation of what the federal government still owns outright."},
+ {code:"ECON_003",a:"econ",w:-0.5,t:"Cutting taxes and regulation on business will do more for jobs than any government programme.",c:"Enterprise-led employment against state-led employment."},
 
- {a:"struct",w:-1.0,t:"Oil and mineral revenue belongs to all Nigerians and should be shared nationally, not kept where it is produced.",c:"The national-patrimony case against derivation."},
- {a:"struct",w:0.5,t:"States should own the minerals and oil under their territory and pay tax to the centre.",c:"Resource control: the derivation argument, running since the 1950s."},
- {a:"struct",w:0.5,t:"States should run their own police forces instead of relying on one national force.",c:"State policing — repeatedly proposed, repeatedly blocked at the centre."},
+ {code:"STRUCT_001",a:"struct",w:-1.0,t:"Oil and mineral revenue belongs to all Nigerians and should be shared nationally, not kept where it is produced.",c:"The national-patrimony case against derivation."},
+ {code:"STRUCT_002",a:"struct",w:0.5,t:"States should own the minerals and oil under their territory and pay tax to the centre.",c:"Resource control: the derivation argument, running since the 1950s."},
+ {code:"STRUCT_003",a:"struct",w:0.5,t:"States should run their own police forces instead of relying on one national force.",c:"State policing — repeatedly proposed, repeatedly blocked at the centre."},
 
- {a:"social",w:-1.0,t:"Religious teaching should shape the laws Nigeria passes.",c:"The place of religious argument in federal and state legislation."},
- {a:"social",w:0.5,t:"A minimum share of elected and appointed offices should be reserved for women.",c:"Affirmative action — rejected by the National Assembly in the 2022 amendments."},
- {a:"social",w:0.5,t:"Nigerians under 40 are ready to hold the highest offices now.",c:"Generational authority, and what Not Too Young To Run was asking for."},
+ {code:"SOCIAL_001",a:"social",w:-1.0,t:"Religious teaching should shape the laws Nigeria passes.",c:"The place of religious argument in federal and state legislation."},
+ {code:"SOCIAL_002",a:"social",w:0.5,t:"A minimum share of elected and appointed offices should be reserved for women.",c:"Affirmative action — rejected by the National Assembly in the 2022 amendments."},
+ {code:"SOCIAL_003",a:"social",w:0.5,t:"Nigerians under 40 are ready to hold the highest offices now.",c:"Generational authority, and what Not Too Young To Run was asking for."},
 
- {a:"security",w:1.0,t:"The right to protest must hold even when government says it threatens public order.",c:"The Aba women's tax revolt, the 1945 general strike, #EndSARS."},
- {a:"security",w:-0.5,t:"Security forces should be able to act without waiting on courts when lives are at risk.",c:"Emergency powers and the limits of judicial oversight."},
- {a:"security",w:-0.5,t:"It is better that some innocent people are detained than that dangerous people go free.",c:"The order-versus-rights trade-off, stated plainly."},
+ {code:"SECURITY_001",a:"security",w:1.0,t:"The right to protest must hold even when government says it threatens public order.",c:"The Aba women's tax revolt, the 1945 general strike, #EndSARS."},
+ {code:"SECURITY_002",a:"security",w:-0.5,t:"Security forces should be able to act without waiting on courts when lives are at risk.",c:"Emergency powers and the limits of judicial oversight."},
+ {code:"SECURITY_003",a:"security",w:-0.5,t:"It is better that some innocent people are detained than that dangerous people go free.",c:"The order-versus-rights trade-off, stated plainly."},
 
- {a:"represent",w:-1.0,t:"A representative's first duty is to his own people and constituency, not to national policy.",c:"The core of the clientelist bargain, as a principle rather than an accusation."},
- {a:"represent",w:0.5,t:"Constituency funds should build public infrastructure, not buy items handed to individuals.",c:"More than half of constituency funds currently go to private goods."},
- {a:"represent",w:0.5,t:"You should vote on a party's programme even if the candidate from your area offers you more.",c:"Programmatic voting against the transactional offer, at the ballot."},
+ {code:"REPRESENT_001",a:"represent",w:-1.0,t:"A representative's first duty is to his own people and constituency, not to national policy.",c:"The core of the clientelist bargain, as a principle rather than an accusation."},
+ {code:"REPRESENT_002",a:"represent",w:0.5,t:"Constituency funds should build public infrastructure, not buy items handed to individuals.",c:"More than half of constituency funds currently go to private goods."},
+ {code:"REPRESENT_003",a:"represent",w:0.5,t:"You should vote on a party's programme even if the candidate from your area offers you more.",c:"Programmatic voting against the transactional offer, at the ballot."},
 
- {a:"method",w:1.0,t:"Mass protest is a legitimate and necessary tool when institutions fail.",c:"Whether change is forced from outside the system or negotiated inside it.",ax:"method"},
- {a:"method",w:-0.5,t:"Change should come by working inside existing parties and institutions, however slow.",c:"Reform from within against replacement from without."},
- {a:"method",w:-0.5,t:"Experienced insiders govern better than outsiders with new ideas.",c:"Whether competence in Nigerian government is learned inside the system."},
+ {code:"METHOD_001",a:"method",w:1.0,t:"Mass protest is a legitimate and necessary tool when institutions fail.",c:"Whether change is forced from outside the system or negotiated inside it.",ax:"method"},
+ {code:"METHOD_002",a:"method",w:-0.5,t:"Change should come by working inside existing parties and institutions, however slow.",c:"Reform from within against replacement from without."},
+ {code:"METHOD_003",a:"method",w:-0.5,t:"Experienced insiders govern better than outsiders with new ideas.",c:"Whether competence in Nigerian government is learned inside the system."},
 
- {a:"horizon",w:-1.0,t:"Nigeria should fix its own problems before spending money or sending troops elsewhere in Africa.",c:"The cost of ECOWAS leadership against domestic need."},
- {a:"horizon",w:0.5,t:"Nigeria should open fully to African free trade and movement, even where local firms lose out at first.",c:"AfCFTA implementation and the cost borne by protected industry."},
- {a:"horizon",w:0.5,t:"Leading Africa is part of Nigeria's job, not a distraction from it.",c:"The Afrocentric foreign policy doctrine."}
+ {code:"HORIZON_001",a:"horizon",w:-1.0,t:"Nigeria should fix its own problems before spending money or sending troops elsewhere in Africa.",c:"The cost of ECOWAS leadership against domestic need."},
+ {code:"HORIZON_002",a:"horizon",w:0.5,t:"Nigeria should open fully to African free trade and movement, even where local firms lose out at first.",c:"AfCFTA implementation and the cost borne by protected industry."},
+ {code:"HORIZON_003",a:"horizon",w:0.5,t:"Leading Africa is part of Nigeria's job, not a distraction from it.",c:"The Afrocentric foreign policy doctrine."}
 ];
 AXES.push({k:"method",n:"Method of change",neg:"Institutional",pos:"Mobilisation",c:"var(--red)",
   d:"Whether Nigeria is repaired from inside its parties and institutions, or from the street."});
@@ -998,26 +999,26 @@ AXES = [AXES[0],AXES[1],AXES[2],AXES[3],AXES[4],AXES[6],AXES[5]];
 
 /* ---------- part 2: 10 civic statements, 7 calibrated ---------- */
 var CIVIC=[
- {m:"demo",k:1,t:"Democracy is preferable to any other kind of government.",
+ {code:"DEMO_001",m:"demo",k:1,t:"Democracy is preferable to any other kind of government.",
   ab:{q:"Q22",agree:64.0,dis:27.7,note:"27.7% say a non-democratic government can sometimes be preferable; 8.2% say it does not matter what kind of government Nigeria has."}},
- {m:"demo",k:-1,t:"It is legitimate for the armed forces to take control of government when elected leaders abuse power.",
+ {code:"DEMO_002",m:"demo",k:-1,t:"It is legitimate for the armed forces to take control of government when elected leaders abuse power.",
   ab:{q:"Q31A",agree:53.7,dis:44.9,note:"This is the most evenly divided item in the national survey — and a majority sits on the side that accepts a coup against an abusive government."}},
- {m:"demo",k:-1,t:"I would approve of the army coming in to govern the country.",
+ {code:"DEMO_003",m:"demo",k:-1,t:"I would approve of the army coming in to govern the country.",
   ab:{q:"Q21B",agree:26.9,dis:65.9,note:"Approval drops sharply when the army governing is stated plainly rather than framed as a response to abuse."}},
- {m:"demo",k:1,t:"The President must always obey the laws and the courts, even when he thinks they are wrong.",
+ {code:"DEMO_004",m:"demo",k:1,t:"The President must always obey the laws and the courts, even when he thinks they are wrong.",
   ab:{q:"Q28",agree:71.9,dis:27.2,note:"27.2% say a President should not be bound by laws or courts he considers wrong."}},
 
- {m:"plur",k:1,t:"Many political parties are needed to give Nigerians real choice.",
+ {code:"PLUR_001",m:"plur",k:1,t:"Many political parties are needed to give Nigerians real choice.",
   ab:{q:"Q24",agree:59.9,dis:39.2,note:"39.2% say political parties create division and confusion and that many are unnecessary."}},
- {m:"plur",k:-1,t:"After an election the opposition should accept defeat and cooperate with government rather than criticise it.",
+ {code:"PLUR_002",m:"plur",k:-1,t:"After an election the opposition should accept defeat and cooperate with government rather than criticise it.",
   ab:{q:"Q27",agree:71.1,dis:28.7,note:"Only 28.7% say the opposition should monitor and criticise government to hold it accountable. This is one reason programmatic opposition is weak in Nigeria."}},
 
- {m:"acct",k:1,t:"It is more important to hold government accountable, even if that makes decisions slower.",
+ {code:"ACCT_001",m:"acct",k:1,t:"It is more important to hold government accountable, even if that makes decisions slower.",
   ab:{q:"Q19",agree:63.4,dis:35.6,note:"35.6% prefer a government that can get things done even if citizens have no influence over what it does."}},
 
- {m:"imp",k:1,t:"It is wrong for an official to help his own relatives get government jobs.",ab:null},
- {m:"eff",k:1,t:"Ordinary Nigerians like me can change the way this country is governed.",ab:null},
- {m:"exit",k:1,t:"The best thing an ambitious young Nigerian can do now is leave.",ab:null}
+ {code:"IMP_001",m:"imp",k:1,t:"It is wrong for an official to help his own relatives get government jobs.",ab:null},
+ {code:"EFF_001",m:"eff",k:1,t:"Ordinary Nigerians like me can change the way this country is governed.",ab:null},
+ {code:"EXIT_001",m:"exit",k:1,t:"The best thing an ambitious young Nigerian can do now is leave.",ab:null}
 ];
 var MEASURES=[
  {k:"demo",n:"Democratic commitment",d:"How firmly you hold that democratic procedure binds, including when leaders behave badly."},
@@ -1640,131 +1641,131 @@ var VKEYS=VALUES.map(function(v){return v.k;});
    on six measures, ax = which stated position this choice acts against, f = sets a flag,
    req = only appears if flag held */
 var DECK=[
- {w:"The Finance Minister",s:"Fuel subsidy is a fifth of what we spend. I can end it on Monday, or you can find the money somewhere else.",
+ {code:"PRES_001",w:"The Finance Minister",s:"Fuel subsidy is a fifth of what we spend. I can end it on Monday, or you can find the money somewhere else.",
   l:{t:"End it Monday.",m:{purse:16,street:-18,gov:4},v:{pro:7,cap:6,int:5,coh:-4,sov:3,sec:-3},ax:{econ:-1},f:"subsidy_gone"},
   r:{t:"Find it elsewhere.",m:{purse:-16,street:10},v:{pro:-6,cap:-5,int:-4,coh:3,sov:-2,sec:2},ax:{econ:1}}},
 
- {w:"The National Security Adviser",s:"They have held the Lekki road four days. Lagos business is losing billions. We can open it tonight.",
+ {code:"PRES_002",w:"The National Security Adviser",s:"They have held the Lekki road four days. Lagos business is losing billions. We can open it tonight.",
   l:{t:"Open the road.",m:{barracks:14,street:-26,palace:4},v:{pro:-9,sec:4,coh:-10,int:-12},ax:{security:-1},f:"crackdown"},
   r:{t:"Go and talk to them.",m:{street:16,barracks:-12},v:{pro:5,sec:-3,coh:8,int:7},ax:{security:1}}},
 
- {w:"A Governor from the North West",s:"My people are being killed while your federal police sit in Abuja. Let me raise and arm my own force.",
+ {code:"PRES_003",w:"A Governor from the North West",s:"My people are being killed while your federal police sit in Abuja. Let me raise and arm my own force.",
   l:{t:"Raise it.",m:{gov:18,barracks:-16,street:6},v:{pro:6,sec:9,cap:5,coh:-7,int:-5},ax:{struct:1},f:"state_police"},
   r:{t:"The centre keeps the guns.",m:{barracks:14,gov:-18},v:{pro:-5,sec:-7,cap:-3,coh:4,int:3},ax:{struct:-1}}},
 
- {w:"A council of traditional rulers",s:"We want our role written into the constitution. We deliver peace in places your government has never reached.",
+ {code:"PRES_004",w:"A council of traditional rulers",s:"We want our role written into the constitution. We deliver peace in places your government has never reached.",
   l:{t:"Write them in.",m:{palace:20,street:-8,gov:6},v:{pro:-6,sec:6,coh:6,cap:-4,int:-9},ax:{social:-1}},
   r:{t:"Advice, not authority.",m:{palace:-18,street:8},v:{pro:5,sec:-4,coh:-4,cap:4,int:8},ax:{social:1}}},
 
- {w:"A licensed trader",s:"The allocation is routine. It has been done this way under every administration, including the ones people remember fondly.",
+ {code:"PRES_005",w:"A licensed trader",s:"The allocation is routine. It has been done this way under every administration, including the ones people remember fondly.",
   l:{t:"Sign it.",m:{purse:14,palace:6},v:{pro:-14,int:-17,cap:-6,coh:-3},ax:{represent:-1},f:"dirty"},
   r:{t:"Send it to open tender.",m:{purse:-10,street:8},v:{pro:9,int:15,cap:7,coh:2},ax:{represent:1}}},
 
- {w:"The President of the Labour Congress",s:"The new wage or the country stops on Monday. We have done it before and you know we can do it again.",
+ {code:"PRES_006",w:"The President of the Labour Congress",s:"The new wage or the country stops on Monday. We have done it before and you know we can do it again.",
   l:{t:"Meet the wage.",m:{street:20,purse:-18},v:{pro:4,coh:8,sec:3,cap:-5,int:2},ax:{econ:1}},
   r:{t:"No work, no pay.",m:{barracks:8,street:-20,purse:12},v:{pro:-5,coh:-9,sec:-4,cap:3,int:-2},ax:{econ:-1}}},
 
- {w:"The Central Bank Governor",s:"The official rate and the street rate have not spoken in months. Every importer in the country is lying on a form.",
+ {code:"PRES_007",w:"The Central Bank Governor",s:"The official rate and the street rate have not spoken in months. Every importer in the country is lying on a form.",
   l:{t:"Float it.",m:{purse:16,street:-20},v:{pro:10,int:9,cap:3,coh:-6,sov:-5,sec:-4},ax:{econ:-1},f:"floated"},
   r:{t:"Hold the rate.",m:{street:10,purse:-16},v:{pro:-11,int:-8,cap:-3,coh:4,sov:5,sec:2},ax:{econ:1}}},
 
- {w:"Your Party Chairman",s:"The Minister is from home. The file against him is thick. If you move on him, we lose the state in four years.",
+ {code:"PRES_008",w:"Your Party Chairman",s:"The Minister is from home. The file against him is thick. If you move on him, we lose the state in four years.",
   l:{t:"Suspend him.",m:{street:18,palace:-14,gov:-6},v:{pro:8,int:16,cap:4,coh:-5},ax:{represent:1}},
   r:{t:"The file can wait.",m:{palace:14,street:-18},v:{pro:-11,int:-16,cap:-4,coh:3},ax:{represent:-1},f:"dirty"}},
 
- {w:"The ASUU President",s:"Nine months out and the universities are shut again. Fund the agreement your predecessors signed, or explain to a generation why not.",
+ {code:"PRES_009",w:"The ASUU President",s:"Nine months out and the universities are shut again. Fund the agreement your predecessors signed, or explain to a generation why not.",
   l:{t:"Fund it.",m:{street:16,purse:-18},v:{pro:14,cap:17,coh:5,int:3,sec:5},ax:{econ:1}},
   r:{t:"Renegotiate downward.",m:{purse:12,street:-16},v:{pro:-12,cap:-15,coh:-5,int:-3,sec:-5},ax:{econ:-1}}},
 
- {w:"The Chief of Army Staff",s:"ECOWAS wants Nigerian troops after the coup next door. If we do not go, the bloc is finished as an idea.",
+ {code:"PRES_010",w:"The Chief of Army Staff",s:"ECOWAS wants Nigerian troops after the coup next door. If we do not go, the bloc is finished as an idea.",
   l:{t:"Send them.",m:{barracks:16,purse:-14,street:-6},v:{pro:-3,sec:4,sov:13,cap:-4,coh:-3},ax:{horizon:1}},
   r:{t:"Sanctions, not soldiers.",m:{barracks:-14,purse:8},v:{pro:2,sec:-2,sov:-9,cap:2},ax:{horizon:-1}}},
 
- {w:"The Chief Justice",s:"The court has ruled against your administration. My registrar tells me the ministry is drafting reasons to delay compliance.",
+ {code:"PRES_011",w:"The Chief Justice",s:"The court has ruled against your administration. My registrar tells me the ministry is drafting reasons to delay compliance.",
   l:{t:"Comply this week.",m:{street:16,barracks:-8,gov:6},v:{pro:15,int:19,cap:9,coh:4,sec:5},ax:{security:1}},
   r:{t:"We will appeal it forever.",m:{barracks:10,street:-22},v:{pro:-16,int:-19,cap:-9,coh:-4,sec:-6},ax:{security:-1},f:"dirty"}},
 
- {w:"The Comptroller of Customs",s:"Close the land borders and local rice wins. Leave them open and the smugglers do.",
+ {code:"PRES_012",w:"The Comptroller of Customs",s:"Close the land borders and local rice wins. Leave them open and the smugglers do.",
   l:{t:"Close them.",m:{purse:12,palace:10,street:-16},v:{pro:-10,sov:11,sec:4,coh:-4,cap:-3},ax:{horizon:-1}},
   r:{t:"Keep them open.",m:{street:12,purse:-8},v:{pro:7,sov:-6,sec:-3,coh:4,cap:2},ax:{horizon:1}}},
 
- {w:"The Minister of Power",s:"The tariff has not covered the cost of a unit of electricity in twenty years. That is why there is no electricity.",
+ {code:"PRES_013",w:"The Minister of Power",s:"The tariff has not covered the cost of a unit of electricity in twenty years. That is why there is no electricity.",
   l:{t:"Cost-reflective tariff.",m:{purse:14,street:-20},v:{pro:16,cap:15,int:5,coh:-6,sec:4},ax:{econ:-1}},
   r:{t:"Hold the tariff.",m:{street:14,purse:-14},v:{pro:-13,cap:-13,int:-4,coh:5,sec:-4},ax:{econ:1}}},
 
- {w:"A foreign lender",s:"Twelve billion, fifteen years, our contractors. The rail will be built and it will be built quickly.",
+ {code:"PRES_014",w:"A foreign lender",s:"Twelve billion, fifteen years, our contractors. The rail will be built and it will be built quickly.",
   l:{t:"Take the money.",m:{purse:16,gov:6},v:{pro:9,cap:11,sov:-15,int:-4,sec:3},ax:{horizon:1},f:"debt"},
   r:{t:"We will build it slower.",m:{purse:-10},v:{pro:-3,cap:-4,sov:11,int:3,sec:-2},ax:{horizon:-1}}},
 
- {w:"The Accountant-General",req:"debt",s:"Debt service is now larger than revenue. The loans you took are being repaid with loans.",
+ {code:"PRES_015",w:"The Accountant-General",req:"debt",s:"Debt service is now larger than revenue. The loans you took are being repaid with loans.",
   l:{t:"Borrow to cover it.",m:{purse:10,street:4},v:{pro:-15,sov:-13,cap:-4,int:-5,coh:3},ax:{econ:1}},
   r:{t:"Austerity budget.",m:{purse:-6,street:-16,gov:-10},v:{pro:6,sov:9,int:5,cap:-6,coh:-9},ax:{econ:-1}}},
 
- {w:"The Governors' Forum",s:"VAT is collected in our states and spent from Abuja. We are going to court, unless you would rather talk.",
+ {code:"PRES_016",w:"The Governors' Forum",s:"VAT is collected in our states and spent from Abuja. We are going to court, unless you would rather talk.",
   l:{t:"Concede collection.",m:{gov:20,purse:-16},v:{pro:5,coh:4,int:4,cap:-7},ax:{struct:1}},
   r:{t:"See you in court.",m:{gov:-18,purse:12},v:{pro:-4,coh:-7,int:2,cap:6},ax:{struct:-1}}},
 
- {w:"The Chairman of the anti-graft commission",s:"We have enough on a sitting Governor's closest man. He delivered three states for the party.",
+ {code:"PRES_017",w:"The Chairman of the anti-graft commission",s:"We have enough on a sitting Governor's closest man. He delivered three states for the party.",
   l:{t:"Charge him.",m:{street:18,gov:-18},v:{pro:11,int:19,cap:5,coh:-5},ax:{represent:1}},
   r:{t:"Not this year.",m:{gov:14,street:-16},v:{pro:-12,int:-17,cap:-4,coh:3},ax:{represent:-1},f:"dirty"}},
 
- {w:"The Minister of Communications",req:"crackdown",s:"They are organising on the apps. We can take the networks down in an hour, the way other governments do.",
+ {code:"PRES_018",w:"The Minister of Communications",req:"crackdown",s:"They are organising on the apps. We can take the networks down in an hour, the way other governments do.",
   l:{t:"Shut it down.",m:{barracks:14,street:-28},v:{pro:-14,int:-17,sec:3,coh:-8,cap:-5},ax:{security:-1}},
   r:{t:"Leave it on.",m:{street:16,barracks:-14},v:{pro:8,int:15,sec:-2,coh:6,cap:3},ax:{security:1}}},
 
- {w:"A delegation of young Nigerians",s:"You promised us the room, not the photograph. There is not one person under forty in your cabinet.",
+ {code:"PRES_019",w:"A delegation of young Nigerians",s:"You promised us the room, not the photograph. There is not one person under forty in your cabinet.",
   l:{t:"Appoint them.",m:{street:18,palace:-12},v:{pro:8,coh:11,cap:6,int:5,sec:5},ax:{social:1}},
   r:{t:"Experience first.",m:{palace:10,street:-14},v:{pro:-5,coh:-9,cap:-3,int:-3,sec:-5},ax:{social:-1}}},
 
- {w:"The Attorney-General",s:"Local government funds pass through the states and mostly stop there. The constitution says otherwise. You can enforce it.",
+ {code:"PRES_020",w:"The Attorney-General",s:"Local government funds pass through the states and mostly stop there. The constitution says otherwise. You can enforce it.",
   l:{t:"Enforce autonomy.",m:{gov:-20,street:16},v:{pro:14,cap:13,int:13,coh:-5,sec:6},ax:{method:1}},
   r:{t:"Do not start that fight.",m:{gov:16,street:-8},v:{pro:-9,cap:-10,int:-11,coh:4,sec:-6},ax:{method:-1}}},
 
- {w:"The Sponsor of the Seats Bill",s:"Reserved seats for women. It failed in 2022. It fails again next week without you standing up in public.",
+ {code:"PRES_021",w:"The Sponsor of the Seats Bill",s:"Reserved seats for women. It failed in 2022. It fails again next week without you standing up in public.",
   l:{t:"Stand up for it.",m:{street:14,palace:-18},v:{pro:9,coh:11,int:10,cap:4},ax:{method:1}},
   r:{t:"Let the chamber decide.",m:{palace:12,street:-10},v:{pro:-6,coh:-8,int:-7},ax:{method:-1}}},
 
- {w:"A Niger Delta leader",s:"The amnesty stipends have kept the creeks quiet for fifteen years. The budget office wants them cut.",
+ {code:"PRES_022",w:"A Niger Delta leader",s:"The amnesty stipends have kept the creeks quiet for fifteen years. The budget office wants them cut.",
   l:{t:"Keep paying.",m:{purse:-14,street:6},v:{pro:-7,sec:9,int:-10,coh:3,cap:-4},ax:{represent:-1}},
   r:{t:"End the programme.",m:{purse:14,barracks:-8},v:{pro:4,sec:-11,int:10,coh:-4,cap:3},ax:{represent:1},f:"creeks"}},
 
- {w:"The Chief of Defence Staff",req:"creeks",s:"Production is down four hundred thousand barrels a day. The creeks are not quiet any more.",
+ {code:"PRES_023",w:"The Chief of Defence Staff",req:"creeks",s:"Production is down four hundred thousand barrels a day. The creeks are not quiet any more.",
   l:{t:"Send in the military.",m:{barracks:16,street:-14,purse:-8},v:{pro:-10,sec:3,coh:-11,int:-6},ax:{security:-1}},
   r:{t:"Reopen negotiations.",m:{street:10,barracks:-10,purse:-10},v:{pro:3,sec:6,coh:8,int:-4},ax:{security:1}}},
 
- {w:"The Minister of Trade",s:"AfCFTA means opening properly. Our manufacturers will lose the first three years and gain the next twenty.",
+ {code:"PRES_024",w:"The Minister of Trade",s:"AfCFTA means opening properly. Our manufacturers will lose the first three years and gain the next twenty.",
   l:{t:"Open the borders.",m:{purse:-8,street:-8,gov:6},v:{pro:15,cap:6,sov:-9,coh:-3},ax:{horizon:1}},
   r:{t:"Protect them.",m:{purse:10,street:10},v:{pro:-11,cap:-5,sov:10,coh:3},ax:{horizon:-1}}},
 
- {w:"A group of state governors",s:"Herders and farmers are killing each other across the middle of the country. We want a national ranching law.",
+ {code:"PRES_025",w:"A group of state governors",s:"Herders and farmers are killing each other across the middle of the country. We want a national ranching law.",
   l:{t:"Federal ranching law.",m:{gov:-12,palace:-10},v:{pro:12,coh:13,sec:11,cap:5},ax:{struct:-1}},
   r:{t:"Each state decides.",m:{gov:16,palace:8},v:{pro:-8,coh:-10,sec:-9,cap:-4},ax:{struct:1}}},
 
- {w:"The INEC Chairman",s:"The election budget has been cut by a third. I can run a cheaper election. I cannot run a cheaper credible one.",
+ {code:"PRES_026",w:"The INEC Chairman",s:"The election budget has been cut by a third. I can run a cheaper election. I cannot run a cheaper credible one.",
   l:{t:"Fund it fully.",m:{street:16,purse:-14},v:{pro:10,int:19,coh:6,cap:5,sec:6},ax:{represent:1}},
   r:{t:"Run the cheap one.",m:{purse:12,street:-20},v:{pro:-14,int:-19,coh:-8,cap:-4,sec:-8},ax:{represent:-1},f:"dirty"}},
 
- {w:"A General",s:"The procurement is classified. That is the nature of defence procurement. You are asking questions your predecessors did not.",
+ {code:"PRES_027",w:"A General",s:"The procurement is classified. That is the nature of defence procurement. You are asking questions your predecessors did not.",
   l:{t:"Open the books.",m:{barracks:-18,street:14},v:{pro:11,int:17,cap:6,sec:-4},ax:{represent:1}},
   r:{t:"Sign it blind.",m:{barracks:16,purse:-12},v:{pro:-13,int:-17,cap:-5,sec:5},ax:{represent:-1},f:"dirty"}},
 
- {w:"The Diaspora Commission",s:"Twenty billion dollars a year comes home from them and they cannot vote. They have noticed.",
+ {code:"PRES_028",w:"The Diaspora Commission",s:"Twenty billion dollars a year comes home from them and they cannot vote. They have noticed.",
   l:{t:"Give them the vote.",m:{street:12,purse:-6},v:{pro:7,coh:9,int:9,sov:4,cap:-3},ax:{horizon:1}},
   r:{t:"Not this cycle.",m:{palace:8,street:-10},v:{pro:-4,coh:-6,int:-6,sov:-2},ax:{horizon:-1}}},
 
- {w:"An oil major",s:"We are divesting onshore. Either you approve the sale to a local buyer, or we simply stop spending and let the fields decline.",
+ {code:"PRES_029",w:"An oil major",s:"We are divesting onshore. Either you approve the sale to a local buyer, or we simply stop spending and let the fields decline.",
   l:{t:"Approve the sale.",m:{purse:12,gov:-6},v:{pro:-5,sov:7,cap:-3,int:-5},ax:{econ:-1}},
   r:{t:"Block it pending review.",m:{purse:-12,street:6},v:{pro:4,sov:-3,cap:3,int:6},ax:{econ:1}}},
 
- {w:"The Minister of Education",s:"Twenty million children are not in any school. Fixing it costs more than one term and pays out after three.",
+ {code:"PRES_030",w:"The Minister of Education",s:"Twenty million children are not in any school. Fixing it costs more than one term and pays out after three.",
   l:{t:"Fund it anyway.",m:{purse:-20,palace:-6},v:{pro:20,cap:21,coh:8,sec:6},ax:{econ:1}},
   r:{t:"Not affordable now.",m:{purse:14},v:{pro:-15,cap:-19,coh:-6,sec:-5},ax:{econ:-1}}},
 
- {w:"The IMF mission chief",s:"The programme comes with conditions. You know what the conditions are. Everyone in this building knows what they are.",
+ {code:"PRES_031",w:"The IMF mission chief",s:"The programme comes with conditions. You know what the conditions are. Everyone in this building knows what they are.",
   l:{t:"Accept the programme.",m:{purse:18,street:-18},v:{pro:6,sov:-17,cap:5,int:4,coh:-5,sec:-5},ax:{horizon:1}},
   r:{t:"We will manage alone.",m:{street:14,purse:-16},v:{pro:-6,sov:15,cap:-4,coh:4,sec:2},ax:{horizon:-1}}},
 
- {w:"Your Chief of Staff",req:"dirty",s:"A reporter has most of it. Not all of it, but most of it. We can make the story difficult for her.",
+ {code:"PRES_032",w:"Your Chief of Staff",req:"dirty",s:"A reporter has most of it. Not all of it, but most of it. We can make the story difficult for her.",
   l:{t:"Make it difficult.",m:{barracks:8,street:-24},v:{pro:-12,int:-19,coh:-6,sec:-4},ax:{security:-1}},
   r:{t:"Let her publish.",m:{street:18,palace:-8},v:{pro:10,int:17,coh:5,sec:3},ax:{security:1}}}
 ];
@@ -1867,7 +1868,7 @@ var PER_YEAR=4,PER_TERM=16,BASE_LIMIT=32;
 /* Obasanjo put a third term to the National Assembly in 2006 and it died on the floor.
    Whether yours passes depends on whether you have the Palace, the Barracks and the
    Governors — which is roughly what it depended on then. */
-var THIRD={w:"The Senate President",
+var THIRD={code:"PRES_THIRD",w:"The Senate President",
  s:"There is a way to amend the constitution. It was tried once before and it died on the floor. My people tell me the arithmetic is different this time.",
  l:{t:"Put it to the Assembly.",third:true},
  r:{t:"Two terms. Then I go.",m:{street:15,gov:9},v:{pro:5,int:20,coh:8},f:"went_quietly"}};
