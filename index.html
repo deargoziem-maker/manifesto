@@ -1,0 +1,2249 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Manifesto.ng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+
+<style>
+/* ===== HARMATTAN AND RAINS — Manifesto.ng identity v1 ===== */
+:root{
+  /* grounds */
+  --paper:#EFEFE8; --stock:#F8F8F3; --stock-2:#E2E2D8;
+  /* ink, indigo-biased */
+  --ink:#141821; --ink-2:#474D58; --ink-3:#6B7079;
+  --rule:#141821; --hair:#C9C9BE;
+  /* brand */
+  --elu:#1B2A4A; --elu-mark:#2E5AA8;
+  --palm:#18915C; --palm-text:#0E7A4B; --palm-bright:#2BBF7B;
+  --danfo:#F0B323;
+  --laterite:#B84A2B; --laterite-text:#A63E24;
+  --bronze:#96702F; --bronze-text:#856327;
+  /* diverging — the seven readings */
+  --pole-cool:#2E5AA8; --pole-warm:#A05A18;
+  /* status — the register */
+  --st-recorded:#18915C; --st-invited:#DDA112; --st-none:#B84A2B; --st-wait:#6B7079;
+  /* legacy aliases */
+  --red:#B84A2B; --mustard:#F0B323; --green:#18915C; --blue:#2E5AA8;
+  /* on-indigo text */
+  --on-elu:#F3F4F0; --on-elu-2:#C6CEE2;
+
+  --s--1:clamp(.79rem,.77rem + .1vw,.85rem);
+  --s-0:clamp(1rem,.97rem + .16vw,1.08rem);
+  --s-1:clamp(1.18rem,1.1rem + .34vw,1.4rem);
+  --s-2:clamp(1.5rem,1.3rem + .8vw,2.05rem);
+  --s-3:clamp(2rem,1.6rem + 1.7vw,3rem);
+  --s-4:clamp(2.7rem,1.9rem + 3.6vw,5rem);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#10151F; --stock:#181F2C; --stock-2:#222A38;
+    --ink:#EDEDE4; --ink-2:#AEB3BC; --ink-3:#8A9099;
+    --rule:#EDEDE4; --hair:#333B49;
+    --elu:#8FA6D8; --elu-mark:#6E93E0;
+    --palm:#35B47C; --palm-text:#4ED79A; --palm-bright:#4ED79A;
+    --danfo:#FFC93F;
+    --laterite:#E8836A; --laterite-text:#E8836A;
+    --bronze:#D6AC5C; --bronze-text:#D6AC5C;
+    --pole-cool:#6E93E0; --pole-warm:#D99A4E;
+    --st-recorded:#33A873; --st-invited:#D9AE33; --st-none:#D05C77; --st-wait:#8A9099;
+    --red:#E8836A; --mustard:#FFC93F; --green:#35B47C; --blue:#6E93E0;
+    --on-elu:#EDEDE4; --on-elu-2:#AEB3BC;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#10151F; --stock:#181F2C; --stock-2:#222A38;
+  --ink:#EDEDE4; --ink-2:#AEB3BC; --ink-3:#8A9099;
+  --rule:#EDEDE4; --hair:#333B49;
+  --elu:#8FA6D8; --elu-mark:#6E93E0;
+  --palm:#35B47C; --palm-text:#4ED79A; --palm-bright:#4ED79A;
+  --danfo:#FFC93F;
+  --laterite:#E8836A; --laterite-text:#E8836A;
+  --bronze:#D6AC5C; --bronze-text:#D6AC5C;
+  --pole-cool:#6E93E0; --pole-warm:#D99A4E;
+  --st-recorded:#33A873; --st-invited:#D9AE33; --st-none:#D05C77; --st-wait:#8A9099;
+  --red:#E8836A; --mustard:#FFC93F; --green:#35B47C; --blue:#6E93E0;
+  --on-elu:#EDEDE4; --on-elu-2:#AEB3BC;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Literata",Georgia,serif;font-size:var(--s-0);line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.05;
+  background-image:radial-gradient(var(--ink) .6px, transparent .7px);
+  background-size:3px 3px;
+}
+h1,h2,h3,h4,.disp{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  font-weight:800;letter-spacing:-.03em;line-height:1.02;text-wrap:balance;margin:0;}
+.mono,.lab,.num{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;}
+.lab{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);font-weight:500;}
+a{color:var(--elu-mark);text-underline-offset:3px;}
+:focus-visible{outline:2px solid var(--danfo);outline-offset:2px;}
+
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;position:relative;z-index:2;}
+.measure{max-width:63ch;}
+
+/* masthead */
+.mast{border-bottom:3px solid var(--rule);background:var(--paper);position:sticky;top:0;z-index:40;}
+.mast .wrap{display:flex;align-items:center;gap:18px;padding-block:12px;flex-wrap:wrap;}
+.logo{background:none;border:0;padding:0;cursor:pointer;font:inherit;color:inherit;
+  text-align:left;display:flex;align-items:center;gap:11px;}
+.logo .mark{width:30px;height:30px;flex:none;display:block;}
+.logo .wordmark{display:block;}
+/* uli — the curvilinear line with punctuating dots, used as a section rule */
+.uli{display:block;width:100%;height:26px;margin-block:6px;opacity:.5;}
+.logo b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.32rem;letter-spacing:-.035em;
+  text-transform:uppercase;display:block;line-height:.95;}
+.logo b i{font-style:normal;color:var(--palm-text);}
+.logo span{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink-3);display:block;margin-top:3px;}
+nav.top{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap;}
+nav.top button{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.06em;
+  text-transform:uppercase;background:none;border:1px solid transparent;color:var(--ink-2);
+  padding:6px 10px;cursor:pointer;}
+nav.top button:hover{background:var(--stock-2);color:var(--ink);}
+nav.top button[aria-current="true"]{border-color:var(--rule);background:var(--ink);color:var(--paper);}
+
+.view[hidden]{display:none !important;}
+.view{padding-block:clamp(30px,5vw,60px) 80px;}
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.eyebrow::after{content:"";height:2px;background:var(--rule);flex:1;}
+
+.btn{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:.95rem;letter-spacing:-.01em;
+  background:var(--elu);color:var(--on-elu);border:2px solid var(--elu);padding:13px 24px;cursor:pointer;}
+.btn:hover{background:var(--elu-mark);border-color:var(--elu-mark);color:var(--on-elu);}
+.btn.go{background:var(--danfo);border-color:var(--danfo);color:#141821;}
+.btn.go:hover{background:var(--danfo);border-color:var(--ink);color:#141821;}
+.btn.ghost{background:none;color:var(--ink);}
+.btn.ghost:hover{background:var(--ink);color:var(--paper);}
+.btn.sm{font-size:.76rem;padding:9px 14px;}
+
+/* landing */
+.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(24px,4vw,52px);align-items:start;}
+.hero h1{font-size:var(--s-4);}
+.hero h1 em{font-style:normal;color:var(--palm-text);}
+.kick{font-size:var(--s-1);color:var(--ink-2);margin:22px 0 0;max-width:42ch;line-height:1.42;}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px;align-items:center;}
+.note{font-size:var(--s--1);color:var(--ink-3);margin-top:14px;}
+
+.finding{border:2px solid var(--rule);background:var(--stock);padding:22px;}
+.finding .lab{margin-bottom:14px;display:block;}
+.fstat{display:flex;align-items:baseline;gap:12px;padding-block:12px;border-bottom:1px solid var(--hair);}
+.fstat:last-of-type{border-bottom:0;}
+.fstat b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.72rem;color:var(--palm-text);line-height:1;min-width:3.6em;}
+.fstat span{font-size:.87rem;color:var(--ink-2);line-height:1.42;}
+.fsrc{font-family:"IBM Plex Mono",monospace;font-size:.6rem;color:var(--ink-3);margin-top:14px;
+  padding-top:12px;border-top:1px solid var(--hair);letter-spacing:.04em;line-height:1.5;}
+
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0;
+  border-block:3px solid var(--rule);margin-top:clamp(36px,5vw,60px);}
+.strip div{padding:20px 18px;border-right:1px solid var(--hair);}
+.strip div:last-child{border-right:0;}
+.strip h4{font-size:.94rem;margin-bottom:8px;}
+.strip p{margin:0;font-size:.86rem;color:var(--ink-2);line-height:1.48;}
+.strip .n{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:.7rem;color:var(--bronze-text);display:block;margin-bottom:8px;letter-spacing:.1em;}
+
+.axgrid{display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  border-top:2px solid var(--rule);margin-top:22px;}
+.axcard{padding:18px 18px 20px;border-bottom:1px solid var(--hair);border-right:1px solid var(--hair);}
+.axcard h4{font-size:.95rem;margin-bottom:8px;}
+.axcard h4 i{font-style:normal;color:var(--elu);}
+.axcard p{margin:0;font-size:.85rem;color:var(--ink-2);line-height:1.48;}
+.poles{display:flex;justify-content:space-between;gap:10px;font-family:"IBM Plex Mono",monospace;
+  font-size:.6rem;color:var(--ink-3);letter-spacing:.06em;margin-top:12px;padding-top:8px;border-top:1px solid var(--hair);}
+
+/* quiz */
+.qshell{max-width:820px;margin:0 auto;}
+.rail{display:flex;gap:2px;margin-bottom:28px;}
+.rail i{flex:1;height:6px;background:var(--stock-2);}
+.rail i.done{background:var(--palm);}
+.rail i.now{background:var(--danfo);}
+.qhead{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:16px;}
+.qstate{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:var(--s-3);line-height:1.04;
+  letter-spacing:-.02em;text-transform:none;margin:0 0 10px;max-width:20ch;}
+.qctx{color:var(--ink-2);font-size:var(--s--1);margin:0 0 28px;max-width:56ch;font-style:italic;}
+.likert{display:grid;gap:6px;max-width:600px;}
+.likert button{display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  background:var(--stock);border:1px solid var(--hair);padding:13px 16px;cursor:pointer;
+  font-family:"Literata",serif;font-size:1.01rem;color:var(--ink);}
+.likert button:hover{border-color:var(--ink);}
+.likert button[aria-pressed="true"]{border-color:var(--elu);background:var(--elu);color:var(--on-elu);}
+.likert button[aria-pressed="true"] kbd{border-color:var(--on-elu-2);color:var(--on-elu);}
+.likert kbd{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--ink-3);
+  border:1px solid var(--hair);padding:2px 7px;flex:none;}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:24px;flex-wrap:wrap;}
+
+.bench{border-left:4px solid var(--bronze);background:var(--stock);padding:14px 16px;margin-top:18px;max-width:600px;}
+.bench .lab{display:block;margin-bottom:6px;}
+.bench p{margin:0;font-size:.9rem;color:var(--ink-2);line-height:1.46;}
+.bench b{color:var(--ink);font-family:"IBM Plex Mono",monospace;}
+
+.live{position:fixed;right:20px;bottom:20px;z-index:30;background:var(--stock);
+  border:2px solid var(--rule);padding:9px;width:132px;}
+.live .lab{font-size:.54rem;margin-bottom:5px;display:block;}
+.live svg{display:block;width:100%;height:auto;}
+@media (max-width:780px){.live{display:none;}}
+
+/* results */
+.plate{border:3px solid var(--rule);background:var(--stock);}
+.rgrid{display:grid;grid-template-columns:minmax(0,430px) minmax(0,1fr);}
+.rgrid > .pane{padding:clamp(18px,2.6vw,28px);}
+.rgrid > .pane + .pane{border-left:1px solid var(--hair);}
+@media (max-width:860px){.rgrid{grid-template-columns:1fr;}
+  .rgrid > .pane + .pane{border-left:0;border-top:1px solid var(--hair);}}
+#compass,#demo{display:block;width:100%;height:auto;}
+.coord{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--ink-2);}
+.coord b{color:var(--ink);}
+.plain{margin:14px 0 0;padding-top:13px;border-top:1px solid var(--hair);
+  font-size:.9rem;line-height:1.56;color:var(--ink-2);}
+
+.aname{font-size:var(--s-3);margin:8px 0 0;}
+.afit{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--bronze-text);letter-spacing:.1em;margin-top:10px;display:block;}
+.asum{color:var(--ink-2);margin:14px 0 0;font-size:.97rem;line-height:1.52;}
+.tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.12em;
+  text-transform:uppercase;border:1px solid var(--ink);padding:4px 8px;color:var(--ink);}
+
+.bars{display:grid;gap:13px;margin-top:4px;}
+.brow .bl{display:flex;justify-content:space-between;gap:10px;font-family:"IBM Plex Mono",monospace;
+  font-size:.61rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;}
+.brow .bl b{color:var(--ink);letter-spacing:.04em;}
+.track{position:relative;height:12px;background:var(--stock-2);border:1px solid var(--hair);}
+.track::before{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:2px;background:var(--ink);}
+.track i{position:absolute;top:0;bottom:0;background:var(--edge,var(--blue));}
+
+.alist{display:grid;gap:7px;margin-top:4px;}
+.arow{display:grid;grid-template-columns:minmax(108px,auto) minmax(0,1fr) 42px;gap:10px;align-items:center;}
+.arow span{font-size:.84rem;color:var(--ink-2);}
+.arow .t{height:9px;background:var(--stock-2);}
+.arow .t i{display:block;height:100%;background:var(--elu-mark);}
+.arow.top span{color:var(--ink);font-weight:600;}
+.arow.top .t i{background:var(--danfo);}
+.arow .v{font-family:"IBM Plex Mono",monospace;font-size:.67rem;color:var(--ink-3);text-align:right;}
+
+.trad{border:3px solid var(--rule);background:var(--stock);margin-top:22px;
+  display:grid;grid-template-columns:150px minmax(0,1fr);}
+@media (max-width:640px){.trad{grid-template-columns:1fr;}}
+.portrait{border-right:1px solid var(--hair);padding:20px;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-start;gap:10px;background:var(--stock-2);}
+@media (max-width:640px){.portrait{border-right:0;border-bottom:1px solid var(--hair);}}
+.portrait svg{width:100%;max-width:110px;height:auto;display:block;}
+.portrait .cap{font-family:"IBM Plex Mono",monospace;font-size:.52rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);text-align:center;line-height:1.5;}
+.tbody{padding:clamp(18px,2.6vw,26px);}
+.tbody h3{font-size:var(--s-2);}
+.tdates{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--ink-3);margin-top:6px;display:block;}
+.tbody p{margin:14px 0 0;line-height:1.56;}
+.twhy{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);font-size:.89rem;color:var(--ink-2);}
+.tsec{display:grid;gap:12px;margin-top:16px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));}
+.tsec div{border-left:3px solid var(--bronze);padding-left:12px;}
+.tsec b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:.8rem;display:block;text-transform:none;}
+.tsec span{font-size:.83rem;color:var(--ink-2);line-height:1.46;display:block;margin-top:4px;}
+
+/* civic profile */
+.civ{display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  border-top:2px solid var(--rule);margin-top:18px;}
+.civcard{padding:18px;border-bottom:1px solid var(--hair);border-right:1px solid var(--hair);}
+.civcard .lab{display:block;margin-bottom:8px;}
+.civcard .val{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.5rem;line-height:1;}
+.civcard .meter{height:10px;background:var(--stock-2);border:1px solid var(--hair);margin-top:10px;position:relative;}
+.civcard .meter i{display:block;height:100%;background:var(--palm);}
+.civcard p{margin:10px 0 0;font-size:.84rem;color:var(--ink-2);line-height:1.46;}
+.civcard .nat{font-family:"IBM Plex Mono",monospace;font-size:.62rem;color:var(--ink-3);margin-top:8px;display:block;}
+
+.share{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:26px;}
+.secondary{display:flex;gap:7px;flex-wrap:wrap;align-items:center;
+  padding-left:14px;border-left:1px solid var(--hair);}
+@media (max-width:620px){.secondary{padding-left:0;border-left:0;width:100%;}}
+.toast{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--palm-text);opacity:0;transition:opacity .2s;}
+.toast.on{opacity:1;}
+
+/* prose */
+.prose h2{font-size:var(--s-2);margin-top:40px;}
+.prose h3{font-size:var(--s-1);margin-top:26px;}
+.prose p{margin:13px 0 0;}
+.prose ul{margin:13px 0 0;padding-left:19px;}
+.prose li{margin:7px 0;}
+.prose li::marker{color:var(--bronze-text);}
+.callout{border:2px solid var(--rule);background:var(--stock);padding:18px 20px;margin-top:20px;}
+.callout p:first-child{margin-top:0;}
+.tblw{overflow-x:auto;margin-top:18px;border:2px solid var(--rule);}
+table{border-collapse:collapse;width:100%;min-width:600px;background:var(--stock);}
+th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--hair);font-size:.86rem;vertical-align:top;}
+th{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--paper);background:var(--ink);font-weight:500;}
+td.mono{font-family:"IBM Plex Mono",monospace;font-size:.76rem;}
+tr:last-child td{border-bottom:0;}
+.empty{border:2px dashed var(--hair);padding:24px;text-align:center;color:var(--ink-3);
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.08em;margin-top:18px;}
+
+/* ballot */
+.sample-banner{border:3px solid var(--laterite);background:var(--stock);padding:14px 18px;margin-bottom:24px;
+  display:flex;gap:14px;align-items:flex-start;}
+.sample-banner .bang{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;color:var(--laterite-text);font-size:1.1rem;line-height:1.2;flex:none;}
+.sample-banner p{margin:0;font-size:.88rem;color:var(--ink-2);line-height:1.48;}
+.sample-banner b{color:var(--laterite-text);}
+
+.picker{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:8px;}
+.picker label{display:block;}
+.picker .lab{display:block;margin-bottom:6px;}
+.picker select{font-family:"IBM Plex Mono",monospace;font-size:.86rem;background:var(--stock);
+  color:var(--ink);border:2px solid var(--ink);padding:10px 12px;min-width:210px;border-radius:0;}
+
+.race{border:2px solid var(--rule);background:var(--stock);margin-top:20px;}
+.race-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding:13px 18px;background:var(--ink);color:var(--paper);flex-wrap:wrap;}
+.race-head h3{font-size:1rem;color:var(--paper);}
+.race-head span{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.1em;opacity:.75;}
+.cand{display:grid;grid-template-columns:minmax(0,1fr) 82px minmax(0,230px);gap:14px;
+  padding:13px 18px;border-bottom:1px solid var(--hair);align-items:center;}
+.cand:last-child{border-bottom:0;}
+@media (max-width:640px){.cand{grid-template-columns:minmax(0,1fr) 70px;}
+  .cand .st{grid-column:1 / -1;}}
+.cand .nm{font-family:"Literata",serif;font-size:.98rem;}
+.cand .nm small{display:block;font-family:"IBM Plex Mono",monospace;font-size:.62rem;
+  color:var(--ink-3);letter-spacing:.06em;margin-top:2px;}
+.cand .pty{font-family:"IBM Plex Mono",monospace;font-size:.7rem;font-weight:600;
+  border:1px solid var(--hair);padding:3px 6px;text-align:center;color:var(--ink-2);}
+.cand .st{font-family:"IBM Plex Mono",monospace;font-size:.66rem;line-height:1.4;
+  padding-left:12px;border-left:4px solid var(--edge,var(--ink-3));color:var(--ink-2);}
+.cand .st b{display:block;color:var(--edge,var(--ink));letter-spacing:.04em;text-transform:uppercase;font-size:.62rem;}
+
+.legend{border:2px solid var(--hair);background:var(--stock);padding:18px;margin-top:24px;}
+.legend .lab{display:block;margin-bottom:14px;}
+.legend .lrow{display:grid;grid-template-columns:minmax(150px,190px) minmax(0,1fr);gap:14px;
+  padding:9px 0;border-bottom:1px solid var(--hair);align-items:baseline;}
+.legend .lrow:last-child{border-bottom:0;}
+.legend .lrow b{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.06em;
+  text-transform:uppercase;padding-left:10px;border-left:4px solid var(--edge,var(--ink-3));color:var(--edge,var(--ink));}
+.legend .lrow span{font-size:.85rem;color:var(--ink-2);line-height:1.46;}
+
+.gap{border:3px solid var(--rule);background:var(--stock);padding:clamp(18px,2.6vw,26px);margin-top:26px;}
+.gap h3{font-size:var(--s-2);}
+.gap p{color:var(--ink-2);margin-top:12px;}
+.gapstat{display:flex;gap:0;flex-wrap:wrap;border-top:2px solid var(--rule);margin-top:18px;}
+.gapstat div{flex:1 1 140px;padding:14px 16px;border-right:1px solid var(--hair);}
+.gapstat div:last-child{border-right:0;}
+.gapstat b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.6rem;display:block;line-height:1;color:var(--laterite-text);}
+.gapstat span{font-size:.82rem;color:var(--ink-2);display:block;margin-top:6px;line-height:1.4;}
+
+/* candidate accordion */
+.cand{display:grid;grid-template-columns:38px minmax(0,1fr) 66px 22px;gap:13px;
+  padding:14px 16px;border-bottom:1px solid var(--hair);align-items:center;
+  cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;width:100%;
+  text-align:left;font:inherit;color:inherit;}
+.cand:hover{background:var(--stock-2);}
+.cand:last-of-type{border-bottom:0;}
+.cand .flag{width:38px;height:26px;border:1px solid var(--hair);display:grid;place-items:center;
+  font-family:"IBM Plex Mono",monospace;font-size:.56rem;font-weight:600;letter-spacing:.02em;color:#fff;}
+.cand .nm{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:1rem;letter-spacing:-.015em;}
+.cand .nm small{display:block;font-family:"Literata",serif;font-weight:400;font-size:.8rem;
+  color:var(--ink-3);letter-spacing:0;margin-top:2px;}
+.cand .pty{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--ink-2);text-align:right;}
+.cand .chev{font-family:"IBM Plex Mono",monospace;color:var(--ink-3);font-size:.8rem;text-align:center;}
+.cand[aria-expanded="true"]{background:var(--stock-2);}
+.cand[aria-expanded="true"] .chev{color:var(--ink);}
+.detail{padding:4px 16px 20px 67px;border-bottom:1px solid var(--hair);background:var(--stock-2);}
+@media (max-width:560px){.detail{padding-left:16px;}}
+.detail p{margin:0 0 12px;font-size:.92rem;color:var(--ink-2);line-height:1.56;max-width:60ch;}
+.detail .pos{display:flex;gap:10px;align-items:baseline;padding:9px 0;border-top:1px solid var(--hair);}
+.detail .pos b{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--e,var(--ink-3));min-width:132px;}
+.detail .pos span{font-size:.86rem;color:var(--ink-2);}
+.soon{padding:34px 20px;text-align:center;color:var(--ink-3);font-size:.92rem;border:1px dashed var(--hair);}
+
+.agg-panel{border:2px solid var(--ink);background:var(--stock);padding:clamp(18px,2.6vw,26px);margin-top:26px;}
+.who-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;}
+.who-row label{display:block;}
+.who-row .lab{display:block;margin-bottom:6px;}
+.who-row select{font-family:"IBM Plex Mono",monospace;font-size:.84rem;background:var(--paper);
+  color:var(--ink);border:2px solid var(--ink);padding:9px 11px;min-width:170px;border-radius:0;}
+
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;
+  border-block:3px solid var(--rule);margin-top:clamp(36px,5vw,56px);}
+.step{display:block;width:100%;text-align:left;background:none;border:0;
+  border-right:1px solid var(--hair);padding:22px 20px 20px;cursor:pointer;font:inherit;color:inherit;
+  position:relative;transition:background .15s ease,opacity .3s ease;}
+.step:last-child{border-right:0;}
+.step:hover{background:var(--stock);}
+.step .n{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:.6rem;
+  letter-spacing:.18em;color:var(--ink-3);display:block;margin-bottom:9px;}
+.step h4{font-size:1.06rem;margin-bottom:8px;}
+.step p{margin:0;font-size:.86rem;color:var(--ink-2);line-height:1.48;}
+.step .state{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.1em;
+  text-transform:uppercase;display:block;margin-top:12px;color:var(--ink-3);}
+/* These were dimmed to .42 until Discover was done, which read as "disabled" —
+   three testers in a row concluded the site was a quiz and never found the game.
+   All three doors are open from the first visit now. */
+.step.locked{opacity:1;}
+.step.now{background:var(--stock);}
+.step.now .n{color:var(--danfo);}
+.step.now::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--danfo);}
+.step.done .n{color:var(--palm-text);}
+.step.done .state{color:var(--palm-text);}
+
+/* seasons — the run turns from rains to harmattan as the terms pass */
+#view-play[data-season="rains"]{--g-ac:var(--palm);--g-veil:var(--elu);}
+#view-play[data-season="harmattan"]{--g-ac:var(--bronze);--g-veil:var(--bronze);}
+#view-play[data-season="latedry"]{--g-ac:var(--laterite);--g-veil:var(--laterite);}
+#view-play .card{border-color:var(--g-ac,var(--ink));transition:border-color 1.2s ease;}
+#view-play .pros i{background:var(--g-ac,var(--palm));transition:width .5s ease,background 1.2s ease;}
+#view-play .card .who{color:var(--g-ac,var(--ink-3));transition:color 1.2s ease;}
+
+.season-veil{position:absolute;inset:0;z-index:20;display:grid;place-items:center;
+  background:var(--g-veil,var(--elu));animation:veilIn .6s ease both;}
+.season-veil[hidden]{display:none !important;}
+.season-veil.out{animation:veilOut .7s ease both;}
+@keyframes veilIn{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:none}}
+@keyframes veilOut{from{opacity:1}to{opacity:0}}
+.sv-in{text-align:center;padding:24px;}
+.sv-in .lab{display:block;font-size:1.9rem;letter-spacing:-.03em;text-transform:none;
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:800;color:#F3F4F0;}
+.sv-in p{margin:12px auto 0;max-width:34ch;color:#D6DCEA;font-size:.94rem;line-height:1.5;}
+@media (prefers-reduced-motion:reduce){.season-veil,.season-veil.out{animation:none;}}
+
+/* the post-mortem — one line, overheard */
+.overheard{margin:26px 0 0;padding:22px 0 0;border-top:2px solid var(--g-ac,var(--ink));}
+.overheard blockquote{margin:0;font-family:"Bricolage Grotesque",sans-serif;font-weight:600;
+  font-size:clamp(1.25rem,1.05rem + .8vw,1.6rem);line-height:1.34;letter-spacing:-.02em;
+  color:var(--ink);max-width:30ch;text-wrap:balance;}
+.overheard figcaption{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin-top:14px;line-height:1.6;}
+
+/* the philosophy snapshot */
+.phil{display:grid;grid-template-columns:minmax(0,270px) minmax(0,1fr);gap:24px;align-items:start;margin-top:6px;}
+@media (max-width:700px){.phil{grid-template-columns:1fr;}}
+.phil-c{border:2px solid var(--ink);background:var(--stock);padding:14px;}
+.phil-c svg{display:block;width:100%;height:auto;}
+.phil-key{font-family:"IBM Plex Mono",monospace;font-size:.58rem;color:var(--ink-3);
+  display:block;margin-top:9px;line-height:1.6;letter-spacing:.04em;}
+.phil-b h3{font-size:var(--s-2);margin-top:6px;}
+.phil-b > p{color:var(--ink-2);margin-top:10px;line-height:1.55;}
+.phil-rows{display:grid;gap:0;border-top:1px solid var(--hair);margin-top:18px;}
+.phil-rows div{display:grid;grid-template-columns:minmax(96px,132px) minmax(0,1fr);gap:14px;
+  padding:10px 0;border-bottom:1px solid var(--hair);}
+.phil-rows b{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);padding-top:2px;}
+.phil-rows span{font-size:.89rem;color:var(--ink-2);line-height:1.5;}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px;}
+.chips i{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.6rem;
+  letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--hair);
+  padding:5px 9px;color:var(--ink-2);}
+.chips i.hot{border-color:var(--laterite);color:var(--laterite-text);}
+.chips i.good{border-color:var(--palm);color:var(--palm-text);}
+
+/* ===== the game ===== */
+.g-wrap{max-width:660px;margin:0 auto;}
+#gameRun{position:relative;}
+.gate-blocs{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0;
+  border-top:2px solid var(--ink);margin-top:26px;}
+.gate-blocs div{padding:14px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);}
+.gate-blocs h4{font-size:.9rem;margin-bottom:6px;}
+.gate-blocs p{margin:0;font-size:.8rem;color:var(--ink-2);line-height:1.44;}
+
+.meters{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:18px;}
+.mt{text-align:center;position:relative;padding-top:17px;}
+.mt .bar{height:74px;background:var(--stock-2);border:1px solid var(--hair);position:relative;overflow:hidden;}
+.mt .bar i{position:absolute;left:0;right:0;bottom:0;background:var(--mc,var(--elu));transition:height .45s cubic-bezier(.4,0,.2,1);}
+.mt .bar::after{content:"";position:absolute;left:0;right:0;top:20%;height:1px;background:var(--hair);}
+.mt .bar::before{content:"";position:absolute;left:0;right:0;bottom:20%;height:1px;background:var(--hair);}
+.mt.danger .bar{border-color:var(--laterite);box-shadow:inset 0 0 0 1px var(--laterite);}
+.mt span{display:block;font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);margin-top:6px;line-height:1.3;}
+.mt.danger span{color:var(--laterite-text);}
+
+/* the powers have to be the loud thing on the screen — a bloc that moved says so */
+.mt .dlt{position:absolute;top:0;left:0;right:0;font-family:"IBM Plex Mono",monospace;
+  font-size:.78rem;font-weight:600;font-style:normal;line-height:1;
+  opacity:0;transform:translateY(7px);transition:opacity .18s ease,transform .18s ease;}
+.mt .dlt.show{opacity:1;transform:translateY(0);}
+.mt .dlt.up{color:var(--palm-text);}
+.mt .dlt.dn{color:var(--laterite-text);}
+.mt.moved .bar{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);animation:mtpulse 1.6s ease-out;}
+.mt.moved.danger .bar{border-color:var(--laterite);box-shadow:inset 0 0 0 2px var(--laterite);}
+.mt.moved span{color:var(--ink);}
+@keyframes mtpulse{0%{transform:translateY(-3px)}30%{transform:translateY(0)}100%{transform:translateY(0)}}
+.mt .bar i{transition:height .6s cubic-bezier(.34,1.4,.5,1);}
+
+.g-clock{display:flex;justify-content:space-between;gap:12px;margin-bottom:10px;}
+
+.card{border:2px solid var(--ink);background:var(--stock);padding:26px 24px;min-height:190px;
+  display:flex;flex-direction:column;justify-content:center;transition:transform .18s ease;}
+.card.tilt-l{transform:rotate(-1.6deg) translateX(-6px);}
+.card.tilt-r{transform:rotate(1.6deg) translateX(6px);}
+.card .who{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:12px;}
+.card .says{margin:0;font-family:"Bricolage Grotesque",sans-serif;font-weight:600;
+  font-size:1.22rem;line-height:1.34;letter-spacing:-.015em;}
+
+.g-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.g-choice{display:flex;align-items:center;gap:9px;background:var(--stock);border:1px solid var(--hair);
+  border-top:0;padding:15px 14px;cursor:pointer;font:inherit;color:inherit;font-size:.93rem;
+  line-height:1.38;text-align:left;min-height:74px;}
+#gR{justify-content:flex-end;text-align:right;}
+.g-choice:hover{border-color:var(--elu);background:var(--stock-2);}
+.g-choice .dir{font-family:"IBM Plex Mono",monospace;color:var(--ink-3);flex:none;font-size:.8rem;}
+.g-choice:hover .dir{color:var(--danfo);}
+
+/* ---- what you left behind ---- */
+.lg-intro{color:var(--ink-3);font-size:.86rem;line-height:1.55;margin:12px 0 18px;max-width:54ch;}
+.ledger{display:grid;grid-template-columns:repeat(auto-fit,minmax(224px,1fr));gap:0;
+  border-top:2px solid var(--ink);}
+.lg-row{padding:15px 16px 16px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);}
+.lg-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;}
+.lg-h b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.02rem;letter-spacing:-.01em;}
+.lg-d{font-family:"IBM Plex Mono",monospace;font-style:normal;font-size:1.02rem;font-weight:600;color:var(--ink-3);}
+.lg-row.up .lg-d{color:var(--palm-text);}
+.lg-row.dn .lg-d{color:var(--laterite-text);}
+.lg-track{position:relative;height:12px;background:var(--stock-2);border:1px solid var(--hair);margin:11px 0 9px;}
+.lg-fill{position:absolute;top:0;bottom:0;background:var(--ink-3);}
+.lg-row.up .lg-fill{background:var(--palm);}
+.lg-row.dn .lg-fill{background:var(--laterite);}
+/* one mark only: where you inherited it. The block's far edge is where you left it,
+   so the direction of travel is the whole reading. */
+.lg-start{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);}
+.lg-row p{margin:0;font-size:.78rem;line-height:1.45;color:var(--ink-3);}
+.lg-note{margin-top:16px;font-size:.94rem;line-height:1.6;color:var(--ink);max-width:60ch;
+  border-left:5px solid var(--danfo);padding-left:14px;}
+
+.g-flag{border-left:5px solid var(--danfo);background:var(--stock-2);padding:14px 16px;margin-top:16px;}
+.g-flag b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;display:block;font-size:.9rem;margin-bottom:5px;}
+.g-flag p{margin:0;font-size:.88rem;color:var(--ink-2);line-height:1.5;}
+
+/* the handoff out of Discover and into the game */
+.handoff{border:3px solid var(--ink);background:var(--stock);margin-top:26px;
+  padding:clamp(18px,2.6vw,26px);display:flex;gap:22px;align-items:center;flex-wrap:wrap;}
+.handoff > div{flex:1 1 320px;}
+.handoff .lab{display:block;margin-bottom:8px;}
+.handoff h3{font-size:var(--s-2);}
+.handoff p{margin:10px 0 0;color:var(--ink-2);font-size:.93rem;line-height:1.52;max-width:52ch;}
+.handoff .btn{flex:none;}
+
+.endgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0;
+  border-top:2px solid var(--ink);margin-top:24px;}
+.endgrid div{padding:15px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);}
+.endgrid b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.5rem;
+  display:block;margin-top:7px;line-height:1;}
+
+footer.site{border-top:3px solid var(--rule);padding-block:22px 40px;margin-top:56px;}
+footer.site a{color:var(--ink-3);text-decoration:none;border-bottom:1px solid var(--hair);}
+footer.site a:hover{color:var(--ink);}
+footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  font-size:var(--s--1);color:var(--ink-3);}
+
+@media (max-width:860px){.hero{grid-template-columns:1fr;} .finding{order:-1;}}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important;animation-duration:.01ms !important;}}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <button class="logo" id="home" aria-label="Manifesto.ng home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="2" y="2" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="16" y1="2" x2="16" y2="30" stroke="currentColor" stroke-width="1" opacity=".4"/>
+        <line x1="2" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="1" opacity=".4"/>
+        <circle cx="22" cy="10" r="6" fill="var(--danfo)" opacity=".3"/>
+        <circle cx="22" cy="10" r="3" fill="var(--danfo)" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+      <span class="wordmark">
+        <b>Manifesto<i>.ng</i></b>
+        <span>Find yourself in Nigerian politics</span>
+      </span>
+    </button>
+    <nav class="top" id="nav">
+      <button data-go="start">Discover</button>
+      <button data-go="ballot">Candidates</button>
+      <button data-go="play">Govern</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="view" id="view-start">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <h1>You have politics.<br>You've just never<br><em>seen them.</em></h1>
+        <p class="kick">Twenty-one questions about the arguments Nigeria is actually having. Find where you stand, and which traditions in our own history argued along the same lines.</p>
+        <div class="cta">
+          <button class="btn go" id="startBtn">Start</button>
+        </div>
+      </div>
+      <div class="plate" style="padding:18px;align-self:start">
+        <svg id="demo" viewBox="0 0 480 480" role="img" aria-label="Where a position sits on the compass"></svg>
+      </div>
+    </div>
+
+    <svg class="uli" viewBox="0 0 600 26" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M4 21 Q52 5 100 21 Q148 5 196 21 Q244 5 292 21 Q340 5 388 21 Q436 5 484 21 Q532 5 580 21"
+            fill="none" stroke="var(--elu)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+      <circle cx="52" cy="10" r="2.6" fill="var(--danfo)"/><circle cx="244" cy="10" r="2.6" fill="var(--danfo)"/>
+      <circle cx="436" cy="10" r="2.6" fill="var(--danfo)"/>
+    </svg>
+
+    <div class="measure" style="margin-top:34px">
+      <h2 style="font-size:var(--s-2)">Nigerian politics isn't driven by ideology</h2>
+      <p style="color:var(--ink-2)">That's true, and everybody says it like it settles the matter.</p>
+      <p style="color:var(--ink-2)">It doesn't follow that Nigerians have no political beliefs. We disagree constantly — about markets and the state, about what Abuja should hold and what the states should, about security and liberty, about whether a representative owes his people or a programme. What we don't have is shared language for locating those disagreements. If you can't say where you stand, you can't easily tell what is being offered to you, or notice when nobody is offering it.</p>
+      <p style="color:var(--ink-2)">Start with the demand and the supply has to follow. That begins with you knowing your own position well enough to notice when nobody is offering it.</p>
+    </div>
+
+    <div class="strip" id="steps">
+      <button class="step" data-go="start" id="step1"><span class="n">ONE</span><h4>Where you stand</h4><p>Twenty-one questions, no right answers. At the end you have a position on the arguments Nigeria is actually having.</p><span class="state"></span></button>
+      <button class="step" data-go="ballot" id="step2"><span class="n">TWO</span><h4>Who wants the job</h4><p>Eighteen people are asking to run the country in January. Who they are, and what they have said. Or not said.</p><span class="state"></span></button>
+      <button class="step" data-go="play" id="step3"><span class="n">THREE</span><h4>Govern Nigeria</h4><p>Eight years in the office. Five powers you cannot ignore and cannot feed, and six things happening to the country that nobody in the room will mention. See what your politics survives.</p><span class="state"></span></button>
+    </div>
+
+  </div>
+</section>
+
+<section class="view" id="view-quiz" hidden>
+  <div class="wrap">
+    <div class="qshell">
+      <div class="rail" id="rail" aria-hidden="true"></div>
+      <div class="qhead">
+        <span class="lab" id="qcount"></span>
+        <span class="lab" id="qaxis"></span>
+      </div>
+      <p class="qstate" id="qtext"></p>
+      <p class="qctx" id="qctx"></p>
+      <div class="likert" id="likert" role="group" aria-label="Level of agreement"></div>
+      <div class="bench" id="bench" hidden>
+        <span class="lab">Against the national sample</span>
+        <p id="benchtext"></p>
+      </div>
+      <div class="qfoot">
+        <button class="btn ghost sm" id="back">Back</button>
+        <span class="lab" id="hint">Press 1–5 to answer</span>
+      </div>
+    </div>
+  </div>
+  <aside class="live" id="live" aria-hidden="true">
+    <span class="lab">Live placement</span>
+    <svg id="mini" viewBox="0 0 120 120"></svg>
+  </aside>
+</section>
+
+<section class="view" id="view-result" hidden>
+  <div class="wrap">
+    <div class="eyebrow"><span class="lab">Your placement</span></div>
+    <div class="plate rgrid">
+      <div class="pane">
+        <svg id="compass" viewBox="0 0 480 480" role="img" aria-label="Your position on the federation and economy compass"></svg>
+        <div class="coord" id="coord"></div>
+        <p class="plain" id="plain"></p>
+      </div>
+      <div class="pane">
+        <span class="tag" id="atag"></span>
+        <h2 class="aname" id="aname"></h2>
+        <span class="afit" id="afit"></span>
+        <p class="asum" id="asum"></p>
+        <div class="eyebrow" style="margin-top:26px"><span class="lab">Seven readings</span></div>
+        <div class="bars" id="bars"></div>
+        <div class="eyebrow" style="margin-top:26px"><span class="lab">Alignment across ten traditions</span></div>
+        <div class="alist" id="alist"></div>
+      </div>
+    </div>
+
+    <div class="trad">
+      <div class="portrait"><svg id="port" viewBox="0 0 120 150" role="img" aria-label="Portrait plate"></svg>
+        <span class="cap">Illustration<br>to be commissioned</span></div>
+      <div class="tbody">
+        <div class="eyebrow"><span class="lab">A tradition that argued the same way</span></div>
+        <h3 id="fname"></h3>
+        <span class="tdates" id="fdates"></span>
+        <p id="fbody"></p>
+        <div class="twhy" id="fwhy"></div>
+        <div class="tsec" id="fsec"></div>
+      </div>
+    </div>
+
+    <div class="handoff">
+      <div>
+        <span class="lab">That is what you say</span>
+        <h3>Now find out what you do.</h3>
+        <p>You are President of Nigeria. Eight years, thirty-two decisions, and five powers that can each end you — by abandoning you or by owning you. Every time you govern against your own answers above, this will tell you.</p>
+      </div>
+      <button class="btn go" data-go="play">Take office</button>
+    </div>
+
+    <div class="eyebrow" style="margin-top:30px"><span class="lab">Where you will meet resistance</span></div>
+    <div class="measure"><p style="color:var(--ink-2);margin:0" id="tension"></p></div>
+
+    <div class="gap">
+      <div class="eyebrow"><span class="lab">The Gap</span></div>
+      <h3>You have a position. Do they?</h3>
+      <p>You have now answered twenty-one questions about how Nigeria should be governed. The people asking for your vote on 16 January have been sent the same twenty-one questions. This is what has come back.</p>
+      <div class="gapstat">
+        <div><b>—</b><span>candidates on your federal ballot</span></div>
+        <div><b>—</b><span>have recorded a position</span></div>
+        <div><b>—</b><span>invited, nothing received</span></div>
+        <div><b>—</b><span>not yet invited</span></div>
+      </div>
+      <p style="font-size:.86rem;color:var(--ink-3)">These counts fill once the directory is ingested from INEC's published list and the invitation protocol has run. Until then the Ballot shows the interface against clearly-labelled sample rows.</p>
+      <div class="share" style="margin-top:18px"><button class="btn go sm" data-go="ballot">Meet your candidates</button></div>
+    </div>
+
+    <div class="agg-panel">
+      <div id="whoForm">
+        <div class="eyebrow"><span class="lab">Make this count for more than you</span></div>
+        <p style="color:var(--ink-2);margin:0 0 16px;max-width:56ch">Two things, no name and no email. Enough to say how Kano answered differently from Lagos, and not enough to say how you did.</p>
+        <div class="who-row">
+          <label><span class="lab">Your state</span><select id="wState"></select></label>
+          <label><span class="lab">Your age</span><select id="wAge">
+            <option value="">—</option><option>Under 25</option><option>25–34</option>
+            <option>35–44</option><option>45–59</option><option>60 and over</option></select></label>
+          <button class="btn go sm" id="wSave">Add it</button>
+        </div>
+      </div>
+      <div id="whoOut" hidden>
+        <div class="eyebrow"><span class="lab">Your record · <span id="aggWho"></span></span></div>
+        <p style="color:var(--ink);margin:0 0 10px;font-size:1.02rem" id="aggMine"></p>
+        <p style="color:var(--ink-3);margin:0;font-size:.86rem" id="aggNote"></p>
+      </div>
+    </div>
+
+    <div id="civicWrap" hidden>
+      <div class="eyebrow" style="margin-top:34px"><span class="lab">Your civic profile · benchmarked against the national sample</span></div>
+      <div class="civ" id="civ"></div>
+    </div>
+
+    <div class="share">
+      <button class="btn go" data-go="play">Now go and govern with it</button>
+      <div class="secondary">
+        <button class="btn ghost sm" id="part2">Ten more questions</button>
+        <button class="btn ghost sm" id="card">Save card</button>
+        <button class="btn ghost sm" id="copy">Copy</button>
+        <button class="btn ghost sm" data-go="ballot">Candidates</button>
+        <button class="btn ghost sm" id="again">Start over</button>
+      </div>
+      <span class="toast" id="toast"></span>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="view-ballot" hidden>
+  <div class="wrap">
+    <div class="measure" style="margin-bottom:26px">
+      <h1 style="font-size:var(--s-3)">Meet your candidates</h1>
+      <p style="color:var(--ink-2)">Eighteen people are asking to be President on 16 January. Most Nigerians could name four of them.</p>
+    </div>
+
+    <div class="picker">
+      <label><span class="lab">Office</span>
+        <select id="officeSel">
+          <option value="pres">President</option>
+          <option value="sen">Senate</option>
+          <option value="rep">House of Representatives</option>
+        </select></label>
+      <label id="stateWrap" hidden><span class="lab">State</span>
+        <select id="stateSel"></select></label>
+    </div>
+
+    <div id="races"></div>
+    <div class="legend" id="legend"></div>
+  </div>
+</section>
+
+<section class="view" id="view-play" hidden>
+  <div class="wrap"><div class="g-wrap">
+
+    <div id="gameGate">
+      <h1 style="font-size:var(--s-3)">Four years. Five powers.<br>None of them can be ignored,<br>and none of them can be fed.</h1>
+      <p class="lead" style="margin-top:16px">You are President. Everyone who walks through the door wants something, and you can say yes or you can say no. That is the whole job.</p>
+      <div class="gate-blocs" id="gateBlocs"></div>
+      <p style="color:var(--ink-2);margin-top:20px">Lose any of them entirely and you are finished. Let any of them own you completely and you are finished a different way. Between those two failures is the only place governing happens.</p>
+      <p style="color:var(--ink-2);margin-top:12px">Watch the five while you play. They are the only thing anyone will tell you about. What your decisions are doing to the country itself — its prosperity, its security, whether it holds together, whether the state can do anything, whether the rules mean anything, whether Nigeria still decides for Nigeria — is measured the whole time and shown to you at the end. Nobody who walks through that door will ever raise it.</p>
+      <div class="cta" style="margin-top:22px">
+        <button class="btn go" id="gStart">Take office</button>
+        <span class="lab" id="gLinkNote"></span>
+      </div>
+    </div>
+
+    <div id="gameRun" hidden>
+      <div class="season-veil" id="gSeason" hidden>
+        <div class="sv-in"><span class="lab" id="gSeasonT"></span><p id="gSeasonS"></p></div>
+      </div>
+      <div class="meters" id="gMeters"></div>
+      <div class="g-clock"><span class="lab" id="gClock"></span><span class="lab" id="gTerm"></span></div>
+      <div class="card" id="gCard">
+        <span class="who" id="gWho"></span>
+        <p class="says" id="gSays"></p>
+      </div>
+      <div class="g-choices">
+        <button class="g-choice" id="gL"><span class="dir">◀</span><span class="txt"></span></button>
+        <button class="g-choice" id="gR"><span class="txt"></span><span class="dir">▶</span></button>
+      </div>
+      <div class="g-flag" id="gFlagBox" hidden>
+        <b id="gFlagTitle"></b><p id="gFlag"></p>
+      </div>
+    </div>
+
+    <div id="gameEnd" hidden>
+      <span class="lab" id="gEndKick"></span>
+      <h1 style="font-size:var(--s-3);margin-top:10px" id="gEndTitle"></h1>
+      <p class="lead" id="gEndBody" style="margin-top:14px"></p>
+      <figure class="overheard" id="gScene">
+        <blockquote id="gQuote"></blockquote>
+        <figcaption id="gStage"></figcaption>
+      </figure>
+
+      <div class="eyebrow" style="margin-top:34px"><span class="lab">What you left behind</span></div>
+      <p class="lg-intro">You inherited a country already low on all six. Nobody who came through that door asked you about any of them. The line marks where you found it; the block is what you moved.</p>
+      <div class="ledger" id="gLedger"></div>
+      <p class="lg-note" id="gLedgerNote"></p>
+
+      <div class="endgrid">
+        <div><span class="lab">Time in office</span><b id="gEndYears"></b></div>
+        <div><span class="lab">Decisions</span><b id="gEndCount"></b></div>
+        <div><span class="lab">Broke your own word</span><b id="gEndContra"></b></div>
+      </div>
+      <p style="color:var(--ink-2);margin-top:20px" id="gEndVerdict"></p>
+
+      <div class="eyebrow" style="margin-top:34px"><span class="lab">The record</span></div>
+      <div class="phil">
+        <div class="phil-c">
+          <svg id="gPhilC" viewBox="0 0 480 480" role="img" aria-label="Where you said you stood and where you governed"></svg>
+          <span class="phil-key" id="gPhilKey"></span>
+        </div>
+        <div class="phil-b">
+          <span class="lab">You governed as</span>
+          <h3 id="gPhilName"></h3>
+          <p id="gPhilSum"></p>
+          <div class="phil-rows" id="gPhilRows"></div>
+          <div class="chips" id="gPhilChips"></div>
+        </div>
+      </div>
+      <div class="cta" style="margin-top:22px">
+        <button class="btn go" id="gAgain">Take office again</button>
+        <button class="btn ghost sm" data-go="ballot">See who wants the job</button>
+      </div>
+    </div>
+
+  </div></div>
+</section>
+
+<section class="view" id="view-method" hidden>
+  <div class="wrap"><div class="measure prose">
+    <div class="eyebrow"><span class="lab">Methodology · v0.2</span></div>
+    <h1 style="font-size:var(--s-3)">How a position is calculated</h1>
+    <p style="color:var(--ink-2)">The method is published so it can be contested. Anyone disputing a result should be able to reconstruct it by hand.</p>
+
+    <h2>1. Seven dimensions, chosen because Nigerians disagree about them</h2>
+    <p>Nigerian politics does not fit a single left–right line, and it does not fit the imported authoritarian–libertarian square. Each dimension below names an argument that is live and unresolved.</p>
+    <div class="tblw" id="axtable"></div>
+
+    <h2>2. Weighted statements, not archetype counting</h2>
+    <p>Each statement carries signed loadings on one dimension. Agreement is recorded from −2 to +2, multiplied by the loading and summed; the total is divided by the maximum possible magnitude for that dimension, producing a score from −100 to +100.</p>
+    <div class="callout"><p><b>Why not count points per archetype?</b> Because the result would then depend on how many statements happen to mention each archetype. Add three more restructuring questions and everyone becomes a Restructurer. Normalising each dimension separately removes that artefact.</p></div>
+    <p>Loadings on each dimension sum to exactly zero. A respondent who agrees with all twenty-one statements, or disagrees with all of them, lands precisely at the origin rather than drifting toward a pole. This removes acquiescence bias, which would otherwise be read as a political position. The anchor item alternates between poles across dimensions so the instrument is not systematically keyed in one direction.</p>
+
+    <h2>3. Archetypes as regions, not bins</h2>
+    <p>Each of the ten archetypes is a fixed point in the seven-dimensional space. Your position is compared to all ten by Euclidean distance; the nearest is your primary reading. The distribution shown is a distance-weighted soft assignment, <span class="mono">exp(−d / 50)</span> normalised across the ten, so a position between two traditions is reported as between them.</p>
+    <p>The archetype set was tested by constructing, for each archetype, a respondent answering in full accordance with it. All ten recover their own archetype, and the minimum distance between any two archetypes is 87.7 units on a scale where the maximum possible separation is 529.</p>
+
+    <h2>4. Calibration against a probability sample</h2>
+    <p>The methodological literature on voting advice applications is blunt on this point: without calibration against real survey data, these instruments produce invalid results. Part 2 therefore draws seven items directly from Afrobarometer's Round 10 Nigeria instrument, fielded to 1,600 adults on a random stratified probability sample in June–July 2024, with a margin of error of ±2.5 points.</p>
+    <p>Those items come with known national distributions, so your answer is reported against what Nigerians actually said rather than against nothing.</p>
+    <div class="callout">
+      <p><b>What calibration revealed.</b> Most "good governance" attitudes in Nigeria are near-consensus and therefore useless for placing anyone: 89% want a two-term limit, 90% reject one-party rule, 86% want officials to do what voters demand, 80% want presidential spending oversight. An instrument built on those items would put everyone in the same place.</p>
+      <p>The real variance sits in regime commitment. Only 64% hold that democracy is always preferable. 27% would approve of the army governing. And 54% — a majority — say it is legitimate for the armed forces to seize power from leaders who abuse it. The same population that overwhelmingly demands term limits and oversight also, by majority, accepts a coup against an abusive government. That is not incoherence; it is a commitment to democratic procedure that is conditional on outcomes, and it is the most interesting thing in the Nigerian data.</p>
+    </div>
+
+    <h2>5. What is deliberately excluded</h2>
+    <ul>
+      <li><b>No personality typing affects scoring.</b> A temperament label appears because people enjoy it. It contributes nothing and no claim is made that it predicts political behaviour.</li>
+      <li><b>No living politician is used as a match.</b> Matching a citizen to a serving or campaigning politician is an endorsement mechanism wearing the costume of a quiz. Living figures appear only in the <button class="btn ghost sm" data-go="register" style="padding:2px 8px;font-size:.74rem">Register</button>, on documented positions.</li>
+      <li><b>No ethnic, religious or state-of-origin variable enters the score.</b> The instrument would become an ethnic classifier if it did.</li>
+    </ul>
+
+    <h2>6. Known limitations</h2>
+    <ul>
+      <li><b>The dimensions are asserted, not discovered.</b> A validated instrument would field a pool of sixty to eighty items on a pilot sample of two to three thousand Nigerians, then use factor analysis or item-response theory to find how many dimensions exist and what loads on them. That work has not been done. The item weights here are editorial judgements, not estimated parameters.</li>
+      <li><b>Regional confounding is unmeasured and dangerous.</b> Items on religion in law and on traditional authority correlate with region in Nigeria. Left untested, the instrument could reliably output "Northerners are Traditionalists" and confirm the exact essentialism it exists to defeat. The pilot must test every item for regional confounding and publish the confound where it cannot be removed.</li>
+      <li><b>Twenty-one statements cannot separate positions that differ subtly.</b> Treat the reading as the start of an argument, not a verdict.</li>
+      <li><b>Self-selected respondents are not Nigeria.</b> Aggregate figures from this tool would describe who took it, which is why the benchmarks come from a probability sample instead.</li>
+    </ul>
+
+    <h2>7. Data handling</h2>
+    <p>This prototype collects nothing. No account, no identifier, no server; every calculation happens in your browser and closing the tab destroys the result. A production deployment would add an anonymous aggregate store holding seven integers per completed response, with no key linking any record to a person.</p>
+    <p style="color:var(--ink-3);font-size:var(--s--1)">Political opinion is sensitive personal data under the Nigeria Data Protection Act. A production deployment requires a plain-language privacy notice, registration with the Nigeria Data Protection Commission where applicable, and independent methodological review before any electoral period.</p>
+  </div></div>
+</section>
+
+<section class="view" id="view-traditions" hidden>
+  <div class="wrap">
+    <div class="eyebrow"><span class="lab">The ten traditions</span></div>
+    <div class="measure">
+      <h1 style="font-size:var(--s-3)">Ten ways of arguing about Nigeria</h1>
+      <p style="color:var(--ink-2)">Every archetype is anchored to Nigerians who are no longer living and whose records are documented. The constraint is deliberate: it removes the endorsement problem, and it hands a young respondent something older and more interesting than the current field.</p>
+    </div>
+    <div class="axgrid" id="tradgrid" style="margin-top:30px"></div>
+  </div>
+</section>
+
+<section class="view" id="view-register" hidden>
+  <div class="wrap"><div class="measure prose">
+    <div class="eyebrow"><span class="lab">The Register · editorial protocol</span></div>
+    <h1 style="font-size:var(--s-3)">Putting the people who seek your vote on the record</h1>
+    <p style="color:var(--ink-2)">This is the one place where living, serving and campaigning figures appear. It is built to a different standard from the rest of the platform, because the risk is different and because this is where the platform earns its name.</p>
+
+    <h2>The mechanism</h2>
+    <p><b>The directory is published before the first invitation goes out.</b> Every candidate on INEC's final list appears in the <button class="btn ghost sm" data-go="ballot" style="padding:2px 8px;font-size:.74rem">Ballot</button> from launch, beside every rival in their own race, with one column showing whether they have stated a position. A candidate is not being asked to join something. They are being shown a gap in a public record that their opponents may fill.</p>
+    <p>Every figure then receives the same twenty-one statements that citizens answer. Their responses are published. <b>So is their non-response.</b></p>
+    <div class="callout"><p>This is the design choice that makes the register safe and makes it bite. The platform never characterises anyone's politics. It records whether a person seeking public office was willing to state a position when asked. "Invited on this date, did not respond" is a fact about them, not a claim by us — and the cost of silence becomes visible.</p></div>
+    <p>Where a figure does not respond, positions may be published only from verbatim documented statements or recorded votes, with source and date. Never a paraphrase. Never an inference from party membership.</p>
+
+    <h2>What a published row must contain</h2>
+    <div class="tblw"><table>
+      <thead><tr><th>Field</th><th>Requirement</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">figure</td><td>Full name, current office or candidacy.</td></tr>
+        <tr><td class="mono">source_type</td><td>Own response to the instrument, or documented public statement, or recorded vote.</td></tr>
+        <tr><td class="mono">statement</td><td>Which of the twenty-one items, so the comparison is like for like.</td></tr>
+        <tr><td class="mono">position</td><td>Their response, or their own words quoted exactly.</td></tr>
+        <tr><td class="mono">source</td><td>Publication or official record, with URL.</td></tr>
+        <tr><td class="mono">date</td><td>When stated. Positions older than one electoral cycle are flagged as such.</td></tr>
+        <tr><td class="mono">reviewer</td><td>Two named editors sign off. Disagreement blocks publication.</td></tr>
+        <tr><td class="mono">right_of_reply</td><td>Notice sent to the figure's office. Any correction received is published alongside.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Three layers, in order of cost</h2>
+    <ul>
+      <li><b>Stated positions.</b> The twenty-one items, answered by them or quoted from the record. Immediate, and it pairs directly with a citizen's own result.</li>
+      <li><b>Documented record.</b> Votes, budget lines, bills signed, appointments made. Harder, and this is where track record starts to bite.</li>
+      <li><b>Promises kept.</b> Did the stated thing happen. The version that matters most and a standing editorial operation. Design for it now; staff it later.</li>
+    </ul>
+
+    <h2>The doctrines register</h2>
+    <p>A separate section covers people who shape Nigerian economic thinking without seeking office — Africapitalism, industrial nationalism, developmental statism, Pan-Africanism. The unit there is a published doctrine, argued repeatedly and in writing, not a campaign promise. There is no non-response mechanism, because they are not asking for your vote. The standard is strictly their own published words.</p>
+
+    <h2>Current status</h2>
+    <div class="empty">NO POSITIONS PUBLISHED — EDITORIAL RESEARCH PASS NOT YET COMPLETE</div>
+    <p style="color:var(--ink-3);font-size:var(--s--1)">This module ships empty on purpose. Publishing placeholder or inferred positions would destroy the credibility the rest of the platform is built to protect.</p>
+
+    <h2>Institutional requirements</h2>
+    <p>A register that tracks promises and publishes non-response is an accountability instrument, and accountability instruments attract pressure and litigation. The protections are verbatim-only sourcing, published right of reply, a named editorial board rather than a single person, institutional backing from a university or established civic organisation, and legal review before launch. This is an argument for building it with a partner, not for softening it.</p>
+  </div></div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Manifesto.ng · prototype</span>
+    <span class="mono"><a href="#" data-go="method">Method</a> · <a href="#" data-go="traditions">Traditions</a> · <a href="#" data-go="register">For partners</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i);};
+
+/* ---------- dimensions ---------- */
+var AXES=[
+ {k:"econ",n:"Economy",neg:"Market-led",pos:"State-led",c:"var(--green)",
+  d:"Who sets prices, who owns the strategic assets, and how far public revenue should reach into people's lives."},
+ {k:"struct",n:"The federation",neg:"Centralist",pos:"Restructurist",c:"var(--blue)",
+  d:"Resource control, state policing, the shape of the union. Nigeria's oldest and most consequential argument."},
+ {k:"social",n:"Social order",neg:"Traditionalist",pos:"Reformist",c:"var(--red)",
+  d:"The standing of religion, custom, traditional authority, women and the young in public life."},
+ {k:"security",n:"Security and liberty",neg:"Order-first",pos:"Rights-first",c:"var(--mustard)",
+  d:"What the state may do to citizens in the name of safety, and what a citizen may do in the name of dissent."},
+ {k:"represent",n:"Representation",neg:"Community-first",pos:"Programme-first",c:"var(--ink-2)",
+  d:"Whether a representative owes their first duty to their own people or to a national programme. The transactional question, made measurable."},
+ {k:"horizon",n:"Horizon",neg:"Nigeria-first",pos:"Pan-African",c:"var(--green)",
+  d:"Whether Nigeria's job is to lead a continent or to finish its own house first."}
+];
+
+/* ---------- part 1: 21 placement statements ---------- */
+var Q=[
+ {a:"econ",w:1.0,t:"Free secondary education and primary healthcare should be guaranteed by government for every Nigerian, funded from public revenue.",c:"Universal provision against targeted or fee-paying services."},
+ {a:"econ",w:-0.5,t:"Government should sell its remaining stakes in refineries, ports and power assets to private operators.",c:"Privatisation of what the federal government still owns outright."},
+ {a:"econ",w:-0.5,t:"Cutting taxes and regulation on business will do more for jobs than any government programme.",c:"Enterprise-led employment against state-led employment."},
+
+ {a:"struct",w:-1.0,t:"Oil and mineral revenue belongs to all Nigerians and should be shared nationally, not kept where it is produced.",c:"The national-patrimony case against derivation."},
+ {a:"struct",w:0.5,t:"States should own the minerals and oil under their territory and pay tax to the centre.",c:"Resource control: the derivation argument, running since the 1950s."},
+ {a:"struct",w:0.5,t:"States should run their own police forces instead of relying on one national force.",c:"State policing — repeatedly proposed, repeatedly blocked at the centre."},
+
+ {a:"social",w:-1.0,t:"Religious teaching should shape the laws Nigeria passes.",c:"The place of religious argument in federal and state legislation."},
+ {a:"social",w:0.5,t:"A minimum share of elected and appointed offices should be reserved for women.",c:"Affirmative action — rejected by the National Assembly in the 2022 amendments."},
+ {a:"social",w:0.5,t:"Nigerians under 40 are ready to hold the highest offices now.",c:"Generational authority, and what Not Too Young To Run was asking for."},
+
+ {a:"security",w:1.0,t:"The right to protest must hold even when government says it threatens public order.",c:"The Aba women's tax revolt, the 1945 general strike, #EndSARS."},
+ {a:"security",w:-0.5,t:"Security forces should be able to act without waiting on courts when lives are at risk.",c:"Emergency powers and the limits of judicial oversight."},
+ {a:"security",w:-0.5,t:"It is better that some innocent people are detained than that dangerous people go free.",c:"The order-versus-rights trade-off, stated plainly."},
+
+ {a:"represent",w:-1.0,t:"A representative's first duty is to his own people and constituency, not to national policy.",c:"The core of the clientelist bargain, as a principle rather than an accusation."},
+ {a:"represent",w:0.5,t:"Constituency funds should build public infrastructure, not buy items handed to individuals.",c:"More than half of constituency funds currently go to private goods."},
+ {a:"represent",w:0.5,t:"You should vote on a party's programme even if the candidate from your area offers you more.",c:"Programmatic voting against the transactional offer, at the ballot."},
+
+ {a:"method",w:1.0,t:"Mass protest is a legitimate and necessary tool when institutions fail.",c:"Whether change is forced from outside the system or negotiated inside it.",ax:"method"},
+ {a:"method",w:-0.5,t:"Change should come by working inside existing parties and institutions, however slow.",c:"Reform from within against replacement from without."},
+ {a:"method",w:-0.5,t:"Experienced insiders govern better than outsiders with new ideas.",c:"Whether competence in Nigerian government is learned inside the system."},
+
+ {a:"horizon",w:-1.0,t:"Nigeria should fix its own problems before spending money or sending troops elsewhere in Africa.",c:"The cost of ECOWAS leadership against domestic need."},
+ {a:"horizon",w:0.5,t:"Nigeria should open fully to African free trade and movement, even where local firms lose out at first.",c:"AfCFTA implementation and the cost borne by protected industry."},
+ {a:"horizon",w:0.5,t:"Leading Africa is part of Nigeria's job, not a distraction from it.",c:"The Afrocentric foreign policy doctrine."}
+];
+AXES.push({k:"method",n:"Method of change",neg:"Institutional",pos:"Mobilisation",c:"var(--red)",
+  d:"Whether Nigeria is repaired from inside its parties and institutions, or from the street."});
+// keep display order sensible
+AXES = [AXES[0],AXES[1],AXES[2],AXES[3],AXES[4],AXES[6],AXES[5]];
+
+/* ---------- part 2: 10 civic statements, 7 calibrated ---------- */
+var CIVIC=[
+ {m:"demo",k:1,t:"Democracy is preferable to any other kind of government.",
+  ab:{q:"Q22",agree:64.0,dis:27.7,note:"27.7% say a non-democratic government can sometimes be preferable; 8.2% say it does not matter what kind of government Nigeria has."}},
+ {m:"demo",k:-1,t:"It is legitimate for the armed forces to take control of government when elected leaders abuse power.",
+  ab:{q:"Q31A",agree:53.7,dis:44.9,note:"This is the most evenly divided item in the national survey — and a majority sits on the side that accepts a coup against an abusive government."}},
+ {m:"demo",k:-1,t:"I would approve of the army coming in to govern the country.",
+  ab:{q:"Q21B",agree:26.9,dis:65.9,note:"Approval drops sharply when the army governing is stated plainly rather than framed as a response to abuse."}},
+ {m:"demo",k:1,t:"The President must always obey the laws and the courts, even when he thinks they are wrong.",
+  ab:{q:"Q28",agree:71.9,dis:27.2,note:"27.2% say a President should not be bound by laws or courts he considers wrong."}},
+
+ {m:"plur",k:1,t:"Many political parties are needed to give Nigerians real choice.",
+  ab:{q:"Q24",agree:59.9,dis:39.2,note:"39.2% say political parties create division and confusion and that many are unnecessary."}},
+ {m:"plur",k:-1,t:"After an election the opposition should accept defeat and cooperate with government rather than criticise it.",
+  ab:{q:"Q27",agree:71.1,dis:28.7,note:"Only 28.7% say the opposition should monitor and criticise government to hold it accountable. This is one reason programmatic opposition is weak in Nigeria."}},
+
+ {m:"acct",k:1,t:"It is more important to hold government accountable, even if that makes decisions slower.",
+  ab:{q:"Q19",agree:63.4,dis:35.6,note:"35.6% prefer a government that can get things done even if citizens have no influence over what it does."}},
+
+ {m:"imp",k:1,t:"It is wrong for an official to help his own relatives get government jobs.",ab:null},
+ {m:"eff",k:1,t:"Ordinary Nigerians like me can change the way this country is governed.",ab:null},
+ {m:"exit",k:1,t:"The best thing an ambitious young Nigerian can do now is leave.",ab:null}
+];
+var MEASURES=[
+ {k:"demo",n:"Democratic commitment",d:"How firmly you hold that democratic procedure binds, including when leaders behave badly."},
+ {k:"plur",n:"Pluralism",d:"Whether you accept adversarial, multi-party politics as useful rather than merely divisive."},
+ {k:"acct",n:"Accountability over delivery",d:"Whether you would trade speed for the ability to hold government to account."},
+ {k:"imp",n:"Impartiality",d:"Whether you reject the use of public office for private and family benefit."},
+ {k:"eff",n:"Political efficacy",d:"Whether you believe a citizen like you can change how Nigeria is governed."},
+ {k:"exit",n:"Exit pull",d:"How strongly you feel the pull to leave rather than stay and contest."}
+];
+
+var SCALE=[{v:2,l:"Strongly agree"},{v:1,l:"Agree"},{v:0,l:"Unsure or it depends"},{v:-1,l:"Disagree"},{v:-2,l:"Strongly disagree"}];
+
+/* ---------- archetypes ---------- */
+var AR=[
+ {id:"restructurer",n:"The Restructurer",p:{econ:-5,struct:80,social:35,security:30,represent:45,method:25,horizon:5},tmp:"Systemic",
+  s:"You think Nigeria's problems are structural before they are moral. Fix who holds power over land, minerals and policing, and better governance follows; leave the structure alone and the best intentions drain into it."},
+ {id:"unifier",n:"The Unifier",p:{econ:25,struct:-70,social:-10,security:-40,represent:15,method:-30,horizon:5},tmp:"Consolidating",
+  s:"You treat national cohesion as the precondition for everything else. A strong centre is not a preference but a defence — against fragmentation, against the arithmetic of six hundred competing claims, against the memory of what happened when the country came apart."},
+ {id:"changemaker",n:"The Changemaker",p:{econ:60,struct:20,social:68,security:68,represent:30,method:62,horizon:-25},tmp:"Insurgent",
+  s:"You start from who is being left out. Inequality is not a by-product of Nigeria's system but its operating logic, and it does not yield to patience — it yields to organised pressure from the people carrying the cost."},
+ {id:"traditionalist",n:"The Traditionalist",p:{econ:0,struct:25,social:-70,security:-35,represent:-55,method:-40,horizon:-30},tmp:"Custodial",
+  s:"You believe a society that discards its inherited order gets chaos, not freedom. Religion, custom and traditional authority are not obstacles to modern governance; they are the institutions most Nigerians have actually trusted."},
+ {id:"hustler",n:"The Hustler",p:{econ:-75,struct:5,social:15,security:25,represent:35,method:0,horizon:40},tmp:"Enterprising",
+  s:"You think Nigerians already know how to create wealth and are mostly being prevented. Get the state out of pricing, ownership and permission, and the energy that runs Alaba, Aba and Computer Village does the rest."},
+ {id:"patriot",n:"The Patriot",p:{econ:35,struct:-25,social:-20,security:-40,represent:-35,method:10,horizon:-70},tmp:"Sovereigntist",
+  s:"You read Nigeria's condition as a sovereignty problem. Foreign capital, foreign advice and foreign obligations have consistently cost more than they returned, and the first duty of a Nigerian government is to Nigerians."},
+ {id:"afrodreamer",n:"The Afro-Dreamer",p:{econ:15,struct:-20,social:40,security:35,represent:40,method:15,horizon:85},tmp:"Continental",
+  s:"You do not think Nigeria can be fixed as a Nigerian problem. A country this size either leads a continental project or is diminished by the absence of one — the border was drawn by other people and should not define the ambition."},
+ {id:"stabiliser",n:"The Stabiliser",p:{econ:10,struct:0,social:0,security:-20,represent:10,method:-75,horizon:0},tmp:"Gradualist",
+  s:"You have seen what abrupt change costs in Nigeria and you are not persuaded by the next grand plan. Incremental improvement inside working institutions is unglamorous, and it is the only method with a record of not making things worse."},
+ {id:"grassroots",n:"The Grassroots Builder",p:{econ:40,struct:50,social:10,security:0,represent:-45,method:20,horizon:-25},tmp:"Practical",
+  s:"You judge governance by whether the borehole works. Ideology interests you far less than delivery, and you would rather fund a functioning local government than win an argument about the constitution."},
+ {id:"technocrat",n:"The Technocrat",p:{econ:0,struct:-5,social:40,security:5,represent:70,method:-40,horizon:30},tmp:"Analytical",
+  s:"You think Nigeria's failures are largely failures of competence and measurement. Get the right people, the right data and the right institutions in place, and much of the political argument turns out to have been noise."}
+];
+
+var TR={
+ restructurer:{n:"Obafemi Awolowo",d:"1909 – 1987 · Premier, Western Region",in:"OA",
+  b:"Awolowo built the Western Region's free primary education scheme and its first television service, and argued across four decades that Nigeria could hold together only as a genuine federation of strong regions. He contested and lost three presidential-era contests, and remained the most systematic political thinker of his generation — his case for federalism was written out at book length rather than improvised on a podium.",
+  s:[{n:"Anthony Enahoro (1923–2010)",d:"Moved the 1953 motion for Nigerian independence; spent his later decades campaigning for a sovereign national conference."},
+     {n:"J. S. Tarka (1932–1980)",d:"Led the United Middle Belt Congress; argued federalism had to protect minorities, not only the three large regions."}]},
+ unifier:{n:"Abubakar Tafawa Balewa",d:"1912 – 1966 · First Prime Minister of Nigeria",in:"TB",
+  b:"Balewa governed a federation whose regions were stronger than its centre, and spent his premiership holding it together through the census disputes, the Western Region crisis and the 1964 election deadlock. His instinct was consensus and his foreign policy cautious. He was killed in the January 1966 coup, and the union he tried to preserve collapsed into civil war within eighteen months.",
+  s:[{n:"Murtala Muhammed (1938–1976)",d:"Six months as head of state; created seven new states and moved the capital project to Abuja — centralisation pursued at speed rather than by consensus."}]},
+ changemaker:{n:"Aminu Kano",d:"1920 – 1983 · Founder, NEPU and the PRP",in:"AK",
+  b:"Aminu Kano built his politics around the talakawa — the common people — and directed it at the northern aristocracy as much as at the colonial administration. He campaigned for free education, for women's enfranchisement and against the emirate tax system, lived without accumulating wealth, and remains the clearest Nigerian example of a mass movement organised on class rather than ethnic lines.",
+  s:[{n:"Funmilayo Ransome-Kuti (1900–1978)",d:"Led the Abeokuta Women's Union in the tax revolt that forced the Alake's abdication; among the first Nigerian women in national politics."},
+     {n:"Margaret Ekpo (1914–2006)",d:"Organised Aba's market women into a voting bloc and won election to the Eastern House of Assembly."}]},
+ traditionalist:{n:"Ahmadu Bello",d:"1910 – 1966 · Sardauna of Sokoto; Premier, Northern Region",in:"AB",
+  b:"Bello chose to lead the Northern Region rather than seek the federal premiership, judging regional authority the more consequential seat. He grounded his politics in the emirate system and in Islamic scholarship, pursued the Northernisation of the regional civil service, and built an institutional base in education and administration whose effects outlasted him by decades.",
+  s:[{n:"Sa'adu Zungur (1915–1958)",d:"Northern poet and radical intellectual who argued from inside the same tradition for reform of it."}]},
+ hustler:{n:"Louis Odumegwu Ojukwu",d:"1909 – 1966 · Industrialist",in:"LO",
+  b:"Ojukwu built a transport and trading business from Nnewi into one of colonial Nigeria's largest private fortunes, sat on the boards of the African Continental Bank and the Nigerian Coal Corporation, and became the first president of the Nigerian Stock Exchange. His argument, made commercially rather than rhetorically, was that Nigerians could own and run enterprise at scale without the state doing it for them.",
+  s:[{n:"Timothy Adeola Odutola (1902–1995)",d:"Built textile and rubber concerns and led the Nigerian Chamber of Commerce; an early advocate of indigenous industrial ownership."}]},
+ patriot:{n:"Herbert Macaulay",d:"1864 – 1946 · Founder, Nigerian National Democratic Party",in:"HM",
+  b:"Engineer, surveyor and journalist, Macaulay used the Lagos Daily News to fight colonial land seizures and to defend the authority of the Oba of Lagos against the administration. He founded Nigeria's first political party in 1923 and became the first president of the NCNC — a politics built on refusing to accept that Nigerians should be governed on someone else's terms.",
+  s:[{n:"Michael Imoudu (1902–2005)",d:"Led the 1945 general strike; built Nigerian labour into a force the colonial administration had to negotiate with."}]},
+ afrodreamer:{n:"Nnamdi Azikiwe",d:"1904 – 1996 · First President of Nigeria",in:"NA",
+  b:"Azikiwe founded the West African Pilot and pressed the case for African self-rule across the region rather than within Nigeria's borders alone — he was as much a figure in Gold Coast politics as in Lagos. He led the NCNC, served as Premier of the Eastern Region and then as Governor-General and President, and gave Nigerian nationalism its continental register.",
+  s:[{n:"Fela Anikulapo-Kuti (1938–1997)",d:"Made pan-African and anti-establishment argument a mass cultural form, at sustained personal cost."}]},
+ stabiliser:{n:"Shehu Shagari",d:"1925 – 2018 · First executive President of Nigeria",in:"SS",
+  b:"Shagari governed the Second Republic by coalition and consensus, expanded the Green Revolution agricultural programme, and introduced austerity measures as oil revenues collapsed. He was personally modest and institutionally cautious in a period that arguably demanded neither. His government was removed by coup in 1983, and the gradualist case has been arguing with that outcome ever since.",
+  s:[{n:"Simeon Adebo (1913–1994)",d:"Career public servant whose wages commission reshaped federal pay; the institutional temperament in its purest form."}]},
+ grassroots:{n:"Michael Okpara",d:"1920 – 1984 · Premier, Eastern Region",in:"MO",
+  b:"Okpara called his approach pragmatic socialism and built it on farm settlements, palm and rubber plantations and rural industrial estates rather than showpiece capital projects. The Eastern Region under his premiership recorded one of the fastest growth rates in the developing world at the time — an argument for development measured in what reaches a village, not in what is announced in a capital.",
+  s:[{n:"Margaret Ekpo (1914–2006)",d:"Built political power from market associations upward rather than from party structures downward."}]},
+ technocrat:{n:"Simeon Adebo",d:"1913 – 1994 · Public servant and diplomat",in:"SA",
+  b:"Adebo headed the Western Region civil service, served as Nigeria's Permanent Representative to the United Nations, and chaired the salaries and wages commission whose 1971 report restructured public pay. He belonged to the generation that believed an impartial, competent bureaucracy was the real machinery of a state, and that politics worked only as well as the institutions beneath it.",
+  s:[{n:"Pius Okigbo (1924–2000)",d:"Economist and architect of Nigeria's first National Development Plan; later chaired the panel that audited the CBN's dedicated accounts."}]}
+};
+
+var TEN={
+ restructurer:"Your strongest opponents are not centralists in the abstract — they are people who watched 1967 and read devolution as the first step toward dissolution. You will also be asked, repeatedly, why state governments that already control substantial allocations should be trusted with more.",
+ unifier:"Your difficulty is that the centre you want to strengthen is the same centre most Nigerians experience as distant and extractive. Restructurers will argue that concentration is what produced the fragility you are defending against.",
+ changemaker:"Your challenge is durability. Nigerian mass mobilisation has repeatedly produced moments — 1945, 1993, 2020 — without producing institutions. You will be asked what holds the gains after the crowd disperses.",
+ traditionalist:"You will be pressed on whose tradition counts. Nigeria contains several inherited orders that contradict each other, and constitutionalising any one of them raises the question of what happens to citizens outside it.",
+ hustler:"Your opponents will point at the sectors already deregulated and ask why the outcome was capture rather than competition. The hard question is not whether markets work but whether Nigeria currently has the regulatory capacity to keep one honest.",
+ patriot:"You will be asked what Nigeria forgoes by closing. Capital, technology and markets have costs attached, and the indigenisation decrees of the 1970s are a documented case both sides quote.",
+ afrodreamer:"The domestic objection is straightforward and hard: a country that cannot keep its own grid running has limited standing to lead a continent. You need an answer for why continental engagement is not a distraction from unfinished business.",
+ stabiliser:"Your risk is that gradualism inside a deteriorating system produces managed decline. You will be asked to name the point at which incrementalism stops being prudence.",
+ grassroots:"Delivery-focused politics runs into the ceiling of structure: a local government with no independent revenue cannot sustain what you fund. You will end up arguing about the constitution whether you wanted to or not.",
+ technocrat:"Your assumption — that most political conflict is really a competence problem — is the one most often challenged. Interests genuinely diverge, and Nigerians have repeatedly seen technically sound plans defeated by people who understood them perfectly well."
+};
+
+/* ---------- scoring ---------- */
+var KEYS=AXES.map(function(a){return a.k;});
+var MAX={};KEYS.forEach(function(k){MAX[k]=0;});
+Q.forEach(function(q){MAX[q.a]+=Math.abs(q.w)*2;});
+
+function score(ans){
+  var raw={};KEYS.forEach(function(k){raw[k]=0;});
+  ans.forEach(function(v,i){if(v===null||v===undefined)return;raw[Q[i].a]+=v*Q[i].w;});
+  var o={};KEYS.forEach(function(k){o[k]=Math.max(-100,Math.min(100,Math.round(raw[k]/MAX[k]*100)));});
+  return o;
+}
+function dist(p,q){var s=0;KEYS.forEach(function(k){var d=p[k]-q[k];s+=d*d;});return Math.sqrt(s);}
+/* The position is well measured; the label on it often is not. Changing one answer
+   of twenty-one moves the seven-axis position by ~13 points of a possible 1400 and
+   has never once flipped an axis across its centre line in testing — but it changes
+   the nearest archetype 11.5% of the time. The split is the whole story: where one
+   archetype is a clear winner the label holds (1.5% churn); where the top two are
+   within 15% — which is 56% of respondents — it churns 19.7%. Ten prototypes sit on
+   a shell around the origin and the typical respondent lands in a gap between them,
+   nearer to nothing in particular. So we report the tie rather than breaking it. */
+var TIE=1.15;
+function tied(rank){
+  var out=[rank[0]];
+  for(var i=1;i<rank.length;i++){ if(rank[i].d<=rank[0].d*TIE)out.push(rank[i]); else break; }
+  return out.slice(0,3);
+}
+function classify(p){
+  var r=AR.map(function(a){return {a:a,d:dist(p,a.p)};}).sort(function(x,y){return x.d-y.d;});
+  var s=0;r.forEach(function(x){x.w=Math.exp(-x.d/50);s+=x.w;});
+  r.forEach(function(x){x.share=x.w/s;});
+  return r;
+}
+
+/* ---------- compass ---------- */
+var P={x:70,y:60,s:360};
+function cx(e){return P.x+P.s/2+(-e/100)*(P.s/2);}
+function cy(t){return P.y+P.s/2+(-t/100)*(P.s/2);}
+
+function compass(svg,pos,opt){
+  opt=opt||{};var g=[],x=P.x,y=P.y,s=P.s,mx=x+s/2,my=y+s/2;
+  g.push('<rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" fill="var(--stock-2)" stroke="var(--ink)" stroke-width="2"/>');
+  for(var i=1;i<4;i++){
+    g.push('<line x1="'+(x+s*i/4)+'" y1="'+y+'" x2="'+(x+s*i/4)+'" y2="'+(y+s)+'" stroke="var(--hair)" stroke-width="1"/>');
+    g.push('<line x1="'+x+'" y1="'+(y+s*i/4)+'" x2="'+(x+s)+'" y2="'+(y+s*i/4)+'" stroke="var(--hair)" stroke-width="1"/>');
+  }
+  g.push('<line x1="'+mx+'" y1="'+y+'" x2="'+mx+'" y2="'+(y+s)+'" stroke="var(--ink)" stroke-width="1.6"/>');
+  g.push('<line x1="'+x+'" y1="'+my+'" x2="'+(x+s)+'" y2="'+my+'" stroke="var(--ink)" stroke-width="1.6"/>');
+  [["Developmental centre",.25,.17],["Ordered market",.75,.17],["Regional welfare",.25,.87],["Devolved enterprise",.75,.87]]
+   .forEach(function(q){
+    g.push('<text x="'+(x+s*q[1])+'" y="'+(y+s*q[2])+'" text-anchor="middle" fill="var(--ink-3)" font-family="IBM Plex Mono, monospace" font-size="10">'+q[0]+'</text>');
+  });
+  g.push('<text x="'+mx+'" y="42" text-anchor="middle" fill="var(--ink-2)" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="2">CENTRALIST</text>');
+  g.push('<text x="'+mx+'" y="446" text-anchor="middle" fill="var(--ink-2)" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="2">RESTRUCTURIST</text>');
+  g.push('<text x="32" y="'+my+'" text-anchor="middle" transform="rotate(-90 32 '+my+')" fill="var(--ink-2)" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="2">STATE-LED</text>');
+  g.push('<text x="454" y="'+my+'" text-anchor="middle" transform="rotate(90 454 '+my+')" fill="var(--ink-2)" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="2">MARKET-LED</text>');
+  if(opt.ghosts){AR.forEach(function(a){
+    g.push('<rect x="'+(cx(a.p.econ)-2.5)+'" y="'+(cy(a.p.struct)-2.5)+'" width="5" height="5" fill="var(--ink-3)" opacity="0.4"/>');});}
+  if(opt.from){
+    var fx=cx(opt.from.econ),fy=cy(opt.from.struct),tx=cx(pos.econ),ty=cy(pos.struct);
+    g.push('<line x1="'+fx+'" y1="'+fy+'" x2="'+tx+'" y2="'+ty+'" stroke="var(--elu-mark)" stroke-width="2" stroke-dasharray="5 4"/>');
+    g.push('<circle cx="'+fx+'" cy="'+fy+'" r="6" fill="none" stroke="var(--elu-mark)" stroke-width="2"/>');
+  }
+  var ux=cx(pos.econ),uy=cy(pos.struct);
+  if(opt.roam){
+    /* the dot wanders the quadrants on the landing page — it is looking for where you are */
+    var pts=[[-52,46],[38,62],[60,-40],[-64,-28],[8,74],[-30,-66],[52,18],[-30,52]];
+    var vals=pts.map(function(q){return cx(q[0])+" "+cy(q[1]);}).join(";")+";"+cx(pts[0][0])+" "+cy(pts[0][1]);
+    g.push('<g><circle cx="0" cy="0" r="17" fill="var(--danfo)" opacity="0.22"/>'+
+      '<circle cx="0" cy="0" r="8" fill="var(--danfo)" stroke="var(--ink)" stroke-width="1.6"/>'+
+      '<animateTransform attributeName="transform" type="translate" dur="19s" repeatCount="indefinite" calcMode="spline" '+
+      'keySplines="'+pts.map(function(){return ".45 0 .2 1";}).join(";")+'" '+
+      'values="'+vals+'"/></g>');
+    svg.innerHTML=g.join("");return;
+  }
+  g.push('<line x1="'+ux+'" y1="'+y+'" x2="'+ux+'" y2="'+(y+s)+'" stroke="var(--danfo)" stroke-width="1.2" stroke-dasharray="3 3"/>');
+  g.push('<line x1="'+x+'" y1="'+uy+'" x2="'+(x+s)+'" y2="'+uy+'" stroke="var(--danfo)" stroke-width="1.2" stroke-dasharray="3 3"/>');
+  g.push('<circle cx="'+ux+'" cy="'+uy+'" r="14" fill="var(--danfo)" opacity="0.25"/>');
+  g.push('<circle cx="'+ux+'" cy="'+uy+'" r="7" fill="var(--danfo)" stroke="var(--ink)" stroke-width="1.6"/>');
+  svg.innerHTML=g.join("");
+}
+function mini(svg,pos){
+  var g=['<rect x="8" y="8" width="104" height="104" fill="var(--stock-2)" stroke="var(--ink)" stroke-width="1.5"/>',
+   '<line x1="60" y1="8" x2="60" y2="112" stroke="var(--ink)" stroke-width="1"/>',
+   '<line x1="8" y1="60" x2="112" y2="60" stroke="var(--ink)" stroke-width="1"/>'];
+  var ux=60+(-pos.econ/100)*52,uy=60+(-pos.struct/100)*52;
+  g.push('<circle cx="'+ux+'" cy="'+uy+'" r="9" fill="var(--danfo)" opacity="0.28"/>');
+  g.push('<circle cx="'+ux+'" cy="'+uy+'" r="4.5" fill="var(--danfo)" stroke="var(--ink)" stroke-width="1"/>');
+  svg.innerHTML=g.join("");
+}
+function portrait(svg,initials){
+  svg.innerHTML=
+   '<rect x="2" y="2" width="116" height="146" fill="var(--stock)" stroke="var(--ink)" stroke-width="2"/>'+
+   '<rect x="12" y="12" width="96" height="96" fill="var(--bronze)" opacity="0.2"/>'+
+   '<circle cx="60" cy="52" r="24" fill="none" stroke="var(--ink)" stroke-width="2"/>'+
+   '<path d="M 24 108 Q 60 74 96 108" fill="none" stroke="var(--ink)" stroke-width="2"/>'+
+   '<text x="60" y="134" text-anchor="middle" fill="var(--ink)" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="22">'+initials+'</text>';
+}
+
+/* ---------- state ---------- */
+var st={part:1,i:0,a:new Array(Q.length).fill(null),ca:new Array(CIVIC.length).fill(null),r:null,who:null};
+var VIEWS=["start","quiz","result","ballot","play","method","traditions","register"];
+function show(n){
+  VIEWS.forEach(function(v){var e=$("view-"+v);if(e)e.hidden=(v!==n);});
+  Array.prototype.forEach.call(document.querySelectorAll("nav.top button"),function(btn){
+    btn.setAttribute("aria-current",btn.dataset.go===n?"true":"false");});
+  $("live").style.display=(n==="quiz"&&st.part===1)?"":"none";
+  window.scrollTo({top:0,behavior:"instant"});
+}
+document.addEventListener("click",function(e){
+  var t=e.target.closest("[data-go]");
+  if(t){e.preventDefault();show(t.dataset.go);
+    if(t.dataset.go==="traditions")renderTrad();
+    if(t.dataset.go==="ballot")renderBallot();
+    if(t.dataset.go==="play")startGame();}
+});
+$("home").addEventListener("click",function(){show("start");});
+
+/* ---------- your own record, kept on this device only ---------- */
+var LS="manifesto.history";
+function history_(){try{return JSON.parse(localStorage.getItem(LS)||"[]");}catch(e){return [];}}
+function remember(rec){try{var h=history_();h.push(rec);localStorage.setItem(LS,JSON.stringify(h.slice(-24)));}catch(e){}}
+
+/* ---------- landing ---------- */
+function steps(){
+  var done1=!!st.r||history_().length>0, played=!!(typeof G!=="undefined"&&G.day>0);
+  var cfg=[
+    {id:"step1",done:done1,now:!done1,txt:done1?"Done":"Start here"},
+    {id:"step2",done:false,now:done1,txt:"Open"},
+    {id:"step3",done:played,now:done1,txt:played?"Played":"Open"}
+  ];
+  cfg.forEach(function(c){
+    var el=$(c.id);if(!el)return;
+    el.className="step"+(c.done?" done":"")+(c.now&&!c.done?" now":"")+((!done1&&c.id!=="step1")?" locked":"");
+    el.querySelector(".state").textContent=c.txt;
+  });
+}
+function landing(){
+  steps();
+  compass($("demo"),{econ:-30,struct:52},{ghosts:true,roam:true});
+  var rows=AXES.map(function(a){
+    return '<tr><td><b>'+a.n+'</b></td><td class="mono">'+a.neg+' ↔ '+a.pos+'</td><td>'+a.d+'</td></tr>';}).join("");
+  $("axtable").innerHTML='<table><thead><tr><th>Dimension</th><th>Poles (−100 / +100)</th><th>What it measures</th></tr></thead><tbody>'+rows+'</tbody></table>';
+}
+
+/* ---------- quiz ---------- */
+function cur(){return st.part===1?Q[st.i]:CIVIC[st.i];}
+function total(){return st.part===1?Q.length:CIVIC.length;}
+function ansArr(){return st.part===1?st.a:st.ca;}
+function renderQ(){
+  var q=cur(),n=total();
+  $("qcount").textContent=(st.part===1?"Question ":"Part 2 · question ")+(st.i+1)+" of "+n;
+  $("qaxis").textContent=st.part===1?AXES.filter(function(a){return a.k===q.a;})[0].n:"";
+  $("qtext").textContent=q.t;
+  $("qctx").textContent=q.c||"";
+  $("qctx").style.display=q.c?"":"none";
+  $("rail").innerHTML=Array.from({length:n},function(_,i){
+    return '<i class="'+(i<st.i?"done":(i===st.i?"now":""))+'"></i>';}).join("");
+  var ans=ansArr();
+  $("likert").innerHTML=SCALE.map(function(sc,i){
+    return '<button type="button" id="lk'+i+'" data-v="'+sc.v+'" aria-pressed="'+(ans[st.i]===sc.v)+'"><kbd>'+(i+1)+'</kbd><span>'+sc.l+'</span></button>';
+  }).join("");
+  $("bench").hidden=true;
+  $("back").style.visibility=st.i===0?"hidden":"visible";
+  if(st.part===1)mini($("mini"),score(st.a));
+}
+function pick(v){
+  var ans=ansArr();ans[st.i]=v;
+  Array.prototype.forEach.call($("likert").children,function(btn){
+    btn.setAttribute("aria-pressed",String(Number(btn.dataset.v)===v));});
+  if(st.part===1){mini($("mini"),score(st.a));advance(180);return;}
+  var q=CIVIC[st.i];
+  if(q.ab&&v!==0){
+    var agreed=v>0,pct=agreed?q.ab.agree:q.ab.dis;
+    $("benchtext").innerHTML='You '+(agreed?"agreed":"disagreed")+'. So did <b>'+pct.toFixed(1)+'%</b> of Nigerians in the last national survey. '+q.ab.note;
+    $("bench").hidden=false;advance(2600);
+  } else advance(200);
+}
+function advance(ms){
+  setTimeout(function(){
+    if(st.i<total()-1){st.i++;renderQ();}
+    else if(st.part===1){finish();}
+    else {renderCivic();show("result");}
+  },ms);
+}
+$("likert").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-v]");if(b)pick(Number(b.dataset.v));});
+$("back").addEventListener("click",function(){if(st.i>0){st.i--;renderQ();}});
+document.addEventListener("keydown",function(e){
+  if($("view-quiz").hidden)return;
+  var n=parseInt(e.key,10);
+  if(n>=1&&n<=5){e.preventDefault();pick(SCALE[n-1].v);}
+  if(e.key==="Backspace"&&st.i>0){e.preventDefault();st.i--;renderQ();}
+});
+function reset(){st.part=1;st.i=0;st.a.fill(null);st.ca.fill(null);st.r=null;
+  $("civicWrap").hidden=true;$("part2").hidden=false;}
+$("startBtn").addEventListener("click",function(){reset();show("quiz");renderQ();});
+$("again").addEventListener("click",function(){reset();show("quiz");renderQ();});
+$("part2").addEventListener("click",function(){st.part=2;st.i=0;show("quiz");renderQ();});
+
+/* ---------- result ---------- */
+function fmt(v){return (v>0?"+":"")+v;}
+function finish(){
+  var pos=score(st.a);
+  st.r={pos:pos,ranked:classify(pos)};
+  remember({t:Date.now(),pos:pos,a:st.r.ranked[0].a.id});
+  steps();
+  renderResult();renderWho();show("result");
+}
+/* A tester asked why the dimensions aren't socialist / capitalist / nationalist. They
+   aren't, because those are imported and they do not name the arguments Nigeria has.
+   But "ECONOMY +38" does not teach anyone that. This says the coordinates in English. */
+var PLAIN={
+ econ:{pos:["lean toward the state doing the providing","government should guarantee the basics and hold the strategic assets"],
+       neg:["lean toward the market doing the providing","government should get out of pricing, ownership and permission"],
+       mid:["are split on how much the state should own and provide",""]},
+ struct:{pos:["want power moved out of Abuja","the states should hold their own resources and their own policing"],
+         neg:["want a strong centre held together","devolution is the road to coming apart"],
+         mid:["are undecided about where power should sit",""]},
+ social:{pos:["would open public life up","religion, custom and seniority should not decide who gets a say"],
+         neg:["would keep the inherited order","religion, custom and traditional authority still hold the country together"],
+         mid:["are balanced between custom and reform",""]},
+ security:{pos:["put the citizen's rights first","that holds even when the state says safety is at stake"],
+           neg:["put order first","the state should be able to act before the courts catch up"],
+           mid:["weigh order and rights about equally",""]},
+ represent:{pos:["want a representative bound to a programme","not to whoever sent him"],
+            neg:["want a representative bound to his own people","before any national programme"],
+            mid:["are torn between the constituency and the programme",""]},
+ method:{pos:["expect change to be forced from outside","organised pressure moves Nigeria faster than patience does"],
+         neg:["expect change from inside the institutions","however slow that turns out to be"],
+         mid:["have no settled view on how change actually arrives",""]},
+ horizon:{pos:["think leading the continent is part of Nigeria's job",""],
+          neg:["think Nigeria should finish its own house first",""],
+          mid:["are undecided about Nigeria's role beyond its borders",""]}
+};
+function readout(pos){
+  var ranked=KEYS.slice().sort(function(a,b){return Math.abs(pos[b])-Math.abs(pos[a]);});
+  var parts=ranked.slice(0,2).map(function(k){
+    var v=pos[k],p=PLAIN[k],e=Math.abs(v)<20?p.mid:(v>0?p.pos:p.neg);
+    var strength=Math.abs(v)>=60?"strongly ":(Math.abs(v)>=30?"":"mildly ");
+    /* "strongly would keep" is wrong; the intensifier goes after a modal */
+    var head=/^would /.test(e[0]) ? e[0].replace(/^would /,"would "+strength) : strength+e[0];
+    return head+(e[1]?" — "+e[1]:"");
+  });
+  var flat=ranked.filter(function(k){return Math.abs(pos[k])<20;});
+  var tail=flat.length>=3
+    ? " You sat near the centre on "+flat.length+" of the seven, which is common and is not the same as having no view."
+    : "";
+  return "In plain terms: you "+parts.join(". You ")+"."+tail;
+}
+function renderResult(){
+  var pos=st.r.pos,rk=st.r.ranked,top=rk[0].a;
+  compass($("compass"),pos,{ghosts:true});
+  /* the raw signed number next to a pole name reads as a contradiction — "-37" beside
+     "MARKET-LED 37" — so the axis label carries the sign instead */
+  function axLab(k){var a=AXES.filter(function(x){return x.k===k;})[0],v=pos[k];
+    return '<span>'+a.n.toUpperCase()+' <b>'+(v===0?"BALANCED":(v>0?a.pos:a.neg).toUpperCase()+" "+Math.abs(v))+'</b></span>';}
+  $("coord").innerHTML=axLab("econ")+axLab("struct");
+  $("plain").innerHTML=readout(pos);
+  var tie=tied(rk),multi=tie.length>1;
+  $("atag").textContent = multi ? "No single match" : "Clear match";
+  $("aname").textContent = multi
+    ? tie.map(function(r){return r.a.n.replace("The ","");}).join(" / ")
+    : top.n;
+  $("afit").textContent = multi
+    ? (tie.length+" TRADITIONS, TOO CLOSE TO SEPARATE")
+    : (Math.round(rk[0].share*100)+"% ALIGNMENT · CLEAREST OF TEN");
+  var spread=KEYS.reduce(function(m,k){return Math.max(m,Math.abs(pos[k]));},0);
+  var note = multi
+    ? "Your answers put you almost exactly the same distance from "+
+      (tie.length===2?"both":"all "+tie.length)+" of these, so naming one would be inventing a precision the instrument does not have. "+
+      (tie.length===2?"You are between them":"You are somewhere among them")+", and that is a real finding rather than a failure to decide — most Nigerians land in the gaps between these traditions rather than inside one."
+    : "Of the ten traditions this one is distinctly nearest to where you landed, which is not true for most people who take this.";
+  $("asum").innerHTML='<span style="display:block;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--hair);color:var(--ink-3);font-size:.87rem">'+note+'</span>'
+    + tie.map(function(r){return multi?('<b>'+r.a.n+'.</b> '+r.a.s):r.a.s;}).join("<br><br>")
+    + (spread<22?'<span style="display:block;margin-top:12px;padding-top:12px;border-top:1px solid var(--hair);color:var(--ink-3);font-size:.87rem">You also sat near the middle on every dimension. That usually means you are unconvinced by both sides rather than undecided.</span>':'');
+  $("bars").innerHTML=AXES.map(function(a){
+    var v=pos[a.k],w=Math.abs(v)/2,side=v>=0?'left:50%;width:'+w+'%':'right:50%;width:'+w+'%';
+    var edge=v===0?'var(--ink-3)':(v>0?'var(--pole-warm)':'var(--pole-cool)');
+    return '<div class="brow" style="--edge:'+edge+'"><div class="bl"><span>'+a.n+'</span><b>'+
+      (v===0?"Balanced":(v>0?a.pos:a.neg))+' '+Math.abs(v)+'</b></div><div class="track"><i style="'+side+'"></i></div></div>';
+  }).join("");
+  $("alist").innerHTML=rk.map(function(r,i){
+    return '<div class="arow'+(i===0?" top":"")+'"><span>'+r.a.n.replace("The ","")+'</span>'+
+      '<div class="t"><i style="width:'+Math.max(2,r.share/rk[0].share*100)+'%"></i></div>'+
+      '<div class="v">'+Math.round(r.share*100)+'%</div></div>';}).join("");
+  var t=TR[top.id];
+  portrait($("port"),t.in);
+  $("fname").textContent=t.n;$("fdates").textContent=t.d;$("fbody").textContent=t.b;
+  var srt=AXES.slice().sort(function(x,y){return Math.abs(pos[y.k])-Math.abs(pos[x.k]);});
+  $("fwhy").innerHTML='<b>Why here:</b> your readings on '+
+    srt.slice(0,2).map(function(a){return (pos[a.k]>=0?a.pos:a.neg).toLowerCase()+' ('+fmt(pos[a.k])+')';}).join(" and ")+
+    ' argue along the same lines this figure argued along. It is a resemblance of argument, not of biography, and it is not a claim about how you would have governed — the '+
+    '<a href="#" data-go="play">game</a> exists because stated positions and governing behaviour come apart.'+
+    (multi?' Because your reading is between '+tie.length+' traditions, the figures below are the ones behind the nearest of them — the other'+(tie.length>2?'s':'')+' would give you '+
+      tie.slice(1).map(function(r){return TR[r.a.id].n;}).join(" and ")+'.':'');
+  $("fsec").innerHTML=t.s.map(function(x){return '<div><b>'+x.n+'</b><span>'+x.d+'</span></div>';}).join("");
+  $("tension").textContent=TEN[top.id];
+}
+function renderCivic(){
+  $("civ").innerHTML=MEASURES.map(function(m){
+    var items=CIVIC.map(function(c,i){return {c:c,v:st.ca[i]};}).filter(function(x){return x.c.m===m.k;});
+    var sum=0,n=0;
+    items.forEach(function(x){if(x.v===null)return;sum+=x.v*x.c.k;n++;});
+    var pct=n?Math.round((sum/(n*2)+1)/2*100):50;
+    return '<div class="civcard"><span class="lab">'+m.n+'</span><div class="val">'+pct+'</div>'+
+      '<div class="meter"><i style="width:'+pct+'%"></i></div><p>'+m.d+'</p></div>';
+  }).join("");
+  $("civicWrap").hidden=false;$("part2").hidden=true;
+}
+
+/* ---------- who you are, and the aggregate ---------- */
+function renderWho(){
+  var saved=null;try{saved=JSON.parse(localStorage.getItem("manifesto.who")||"null");}catch(e){}
+  st.who=saved;
+  $("whoForm").hidden=!!saved;
+  $("whoOut").hidden=!saved;
+  if(saved)renderAgg();
+}
+function saveWho(){
+  var w={s:$("wState").value,a:$("wAge").value};
+  if(!w.s||!w.a)return;
+  st.who=w;try{localStorage.setItem("manifesto.who",JSON.stringify(w));}catch(e){}
+  $("whoForm").hidden=true;$("whoOut").hidden=false;renderAgg();
+}
+function renderAgg(){
+  var h=history_(),w=st.who||{};
+  var line=h.length>1
+    ? "You have taken this "+h.length+" times. Your last reading moved "+
+      KEYS.reduce(function(t,k){return t+Math.abs(h[h.length-1].pos[k]-h[h.length-2].pos[k]);},0)+
+      " points from the one before."
+    : "This is your first reading. Take it again in a few months and this will show you what moved.";
+  $("aggMine").textContent=line;
+  $("aggWho").textContent=(w.a||"")+" · "+(w.s||"");
+  $("aggNote").textContent="Once enough people from "+(w.s||"your state")+
+    " have taken this, your answers will sit against theirs here. Nothing is sent anywhere yet — this reading lives on this device only.";
+}
+
+/* ---------- traditions ---------- */
+function renderTrad(){
+  $("tradgrid").innerHTML=AR.map(function(a){
+    var t=TR[a.id];
+    return '<div class="axcard"><h4><i>'+a.n+'</i></h4><p style="margin-top:6px">'+a.s+'</p>'+
+      '<div class="poles" style="flex-direction:column;align-items:flex-start;gap:2px">'+
+      '<span style="color:var(--ink)">'+t.n+'</span><span>'+t.d+'</span></div></div>';}).join("");
+}
+
+/* ---------- share ---------- */
+function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");
+  clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("on");},2400);}
+function resultText(){
+  var pos=st.r.pos,top=st.r.ranked[0];
+  return "I came out "+top.a.n+" on Manifesto.ng ("+Math.round(top.share*100)+"% alignment).\n\n"+
+    AXES.map(function(a){return a.n+": "+fmt(pos[a.k])+" ("+(pos[a.k]>=0?a.pos:a.neg)+")";}).join("\n")+
+    "\n\nClosest Nigerian tradition: "+TR[top.a.id].n+"\n\nFind yours: "+location.href;
+}
+$("copy").addEventListener("click",function(){
+  navigator.clipboard.writeText(resultText()).then(function(){toast("Copied");},
+    function(){toast("Your browser blocked the copy");});});
+function buildCard(){
+  var W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;
+  var x=c.getContext("2d");
+  var C={bg:"#1B2A4A",st:"rgba(255,255,255,0.07)",ink:"#F3F4F0",i2:"#C6CEE2",
+         i3:"#9FAAC6",hair:"rgba(255,255,255,0.20)",red:"#F0B323"};
+  var pos=st.r.pos,top=st.r.ranked[0];
+  x.fillStyle=C.bg;x.fillRect(0,0,W,H);
+  x.strokeStyle=C.hair;x.lineWidth=6;x.strokeRect(34,34,W-68,H-68);
+  x.fillStyle=C.i3;x.font='500 22px "IBM Plex Mono", monospace';x.fillText("MANIFESTO.NG",80,112);
+  x.fillStyle=C.ink;x.font='800 78px "Bricolage Grotesque", sans-serif';
+  x.fillText(top.a.n,80,208);
+  x.fillStyle=C.red;x.font='600 24px "IBM Plex Mono", monospace';
+  x.fillText(Math.round(top.share*100)+"% ALIGNMENT",80,252);
+  var S=500,X=80,Y=320;
+  x.fillStyle="rgba(255,255,255,0.06)";x.fillRect(X,Y,S,S);
+  x.strokeStyle=C.hair;x.lineWidth=3;x.strokeRect(X,Y,S,S);
+  x.lineWidth=1;
+  for(var i=1;i<4;i++){x.beginPath();x.moveTo(X+S*i/4,Y);x.lineTo(X+S*i/4,Y+S);x.stroke();
+    x.beginPath();x.moveTo(X,Y+S*i/4);x.lineTo(X+S,Y+S*i/4);x.stroke();}
+  var ux=X+S/2+(-pos.econ/100)*(S/2),uy=Y+S/2+(-pos.struct/100)*(S/2);
+  x.fillStyle=C.red;x.globalAlpha=.25;x.beginPath();x.arc(ux,uy,32,0,6.3);x.fill();x.globalAlpha=1;
+  x.beginPath();x.arc(ux,uy,14,0,6.3);x.fill();
+  x.fillStyle=C.i3;x.font='500 16px "IBM Plex Mono", monospace';x.textAlign="center";
+  x.fillText("CENTRALIST",X+S/2,Y-16);x.fillText("RESTRUCTURIST",X+S/2,Y+S+30);x.textAlign="left";
+  var RX=X+S+52,RY=Y+16;
+  AXES.forEach(function(a,i){
+    var yy=RY+i*74;
+    x.fillStyle=C.i3;x.font='500 16px "IBM Plex Mono", monospace';x.fillText(a.n.toUpperCase(),RX,yy);
+    x.fillStyle=C.ink;x.font='800 28px "Bricolage Grotesque", sans-serif';
+    x.fillText(fmt(pos[a.k])+"  "+(pos[a.k]>=0?a.pos:a.neg).toUpperCase(),RX,yy+34);
+    x.strokeStyle=C.hair;x.lineWidth=1;x.beginPath();x.moveTo(RX,yy+48);x.lineTo(W-80,yy+48);x.stroke();});
+  x.fillStyle=C.i2;x.font='400 26px "Literata", serif';
+  x.fillText("Closest Nigerian tradition",80,Y+S+96);
+  x.fillStyle=C.ink;x.font='800 44px "Bricolage Grotesque", sans-serif';
+  x.fillText(TR[top.a.id].n,80,Y+S+152);
+  x.fillStyle=C.i3;x.font='500 19px "IBM Plex Mono", monospace';
+  x.fillText(TR[top.a.id].d,80,Y+S+186);
+  x.fillText("FIND YOURS AT MANIFESTO.NG",80,H-88);
+  return c;
+}
+$("card").addEventListener("click",function(){
+  var c=buildCard();
+  c.toBlob(function(b){
+    if(!b){toast("Could not render the card");return;}
+    var url=URL.createObjectURL(b);
+    var a=document.createElement("a");
+    a.href=url;
+    a.download="manifesto-"+st.r.ranked[0].a.id+".png";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    toast("Saved");
+  },"image/png");
+});
+
+/* ---------- candidates ---------- */
+var STATES=["Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River",
+ "Delta","Ebonyi","Edo","Ekiti","Enugu","FCT — Abuja","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina",
+ "Kebbi","Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers",
+ "Sokoto","Taraba","Yobe","Zamfara"];
+
+var PCOL={APC:"#1E6F3C",ADC:"#1B4F8A",NDC:"#7A3E8F",LP:"#8A1F1F",PDP:"#B02A2A",AAC:"#2B6B6B",
+ PRP:"#8A5A16",SDP:"#1F5E8A",APM:"#4A5A2E",AA:"#5A4A7A",ADP:"#7A4A2E",APP:"#2E5A4A",
+ BP:"#6A3A5A",DLA:"#3A4A6A",NDP:"#5A5A2E",NRM:"#2E4A6A",YPP:"#7A2E4A",ZLP:"#2E6A5A"};
+
+/* INEC final presidential list, 12 September 2026. Biographical notes are limited to
+   uncontested public record; where none is held the field is simply absent. */
+var PRESIDENTIAL=[
+ {p:"APC",n:"Bola Tinubu",r:"Kashim Shettima",
+  b:"President of Nigeria since 2023. Governor of Lagos State from 1999 to 2007, where he built the internally generated revenue system that later became the state's fiscal base. Running mate Kashim Shettima was Governor of Borno State from 2011 to 2019."},
+ {p:"ADC",n:"Atiku Abubakar",r:"Chibuike Rotimi Amaechi",
+  b:"Vice-President of Nigeria from 1999 to 2007 and a presidential candidate in every cycle since. Career began in the Nigeria Customs Service. Running mate Rotimi Amaechi was Governor of Rivers State and later Minister of Transportation."},
+ {p:"NDC",n:"Peter Gregory Obi",r:"Musa Mohammed Rabiu Kwankwaso",
+  b:"Governor of Anambra State from 2006 to 2014, with a record built on fiscal conservatism and savings. Ran third in 2023 on the Labour Party ticket. Running mate Rabiu Kwankwaso was Governor of Kano State twice and Minister of Defence."},
+ {p:"AAC",n:"Omoyele Sowore",r:"Haruna Garba Magashi",
+  b:"Publisher of Sahara Reporters and a student union leader during the pro-democracy struggle of the 1990s. Convener of the #RevolutionNow protests. Has contested the presidency in previous cycles."},
+ {p:"PRP",n:"Donald Duke",r:"Kabiru Rabiu",
+  b:"Governor of Cross River State from 1999 to 2007, associated with the Tinapa development and Calabar's urban renewal programme."},
+ {p:"SDP",n:"Adewole Ebenezer Adebayo",r:"Usman Muhammed Bugaje",
+  b:"Lawyer and businessman who contested the 2023 presidential election on the same platform."},
+ {p:"PDP",n:"Sandy Ojang Onor",r:"Umaru Babangida"},
+ {p:"LP",n:"Sunday Chibuzo Okereke",r:"Hajja Bintu Konto"},
+ {p:"APM",n:"Oluseyi Abiodun Makinde",r:"Musa Lawal Daura"},
+ {p:"AA",n:"Rufai Adekunle Omo-Aje",r:"Shehu Hussaini"},
+ {p:"ADP",n:"Aliyu Abbas-Bin",r:"Chinazam Ike"},
+ {p:"APP",n:"Kabiru Yusuf",r:"Peace Egobia Ofordile"},
+ {p:"BP",n:"Sunday Adenuga",r:"Usman Turaki Mustapha"},
+ {p:"DLA",n:"Moses Olusoji Adebisi",r:"Nafisat Usaku Abubakar"},
+ {p:"NDP",n:"Ada Elizabeth Fredrick Okwori",r:"Uchenna Anthony Chukwuemeka"},
+ {p:"NRM",n:"Nkem Esther Okereke",r:"Nasir Muhammed Sulaiman"},
+ {p:"YPP",n:"Peter Ada Agada",r:"Patience Ndidi Key"},
+ {p:"ZLP",n:"Daniel Daberechukwu Nwanyanwu",r:"Hassan Khalid"}
+];
+
+var STATUS={
+ none:{l:"No positions yet",c:"var(--st-wait)",d:"We have written to them. Nothing has come back."},
+ recorded:{l:"Answered",c:"var(--st-recorded)",d:"They completed the same twenty-one questions you did. Their answers are published in full."},
+ sourced:{l:"From the record",c:"var(--elu-mark)",d:"Positions taken from things they have said publicly, quoted exactly, with the source and the date."}
+};
+
+function candRow(c,i){
+  var col=PCOL[c.p]||"#555";
+  return '<button class="cand" type="button" data-i="'+i+'" aria-expanded="false">'+
+    '<span class="flag" style="background:'+col+'">'+c.p+'</span>'+
+    '<span class="nm">'+c.n+'<small>with '+c.r+'</small></span>'+
+    '<span class="pty">'+(c.b?'Profile':'')+'</span>'+
+    '<span class="chev">+</span></button>'+
+    '<div class="detail" id="d'+i+'" hidden>'+
+      (c.b?'<p>'+c.b+'</p>':'')+
+      '<div class="pos" style="--e:var(--st-wait)"><b>Positions</b><span>None recorded yet. They have been sent the twenty-one questions.</span></div>'+
+    '</div>';
+}
+function renderBallot(){
+  var office=$("officeSel").value;
+  $("stateWrap").hidden=(office==="pres");
+  if(office!=="pres"){
+    $("races").innerHTML='<div class="soon">We are working through the National Assembly field. '+
+      'The presidential race is live now.</div>';
+    $("legend").innerHTML="";
+    return;
+  }
+  $("races").innerHTML='<div class="race"><div class="race-head">'+
+    '<h3>President of the Federal Republic</h3><span>16 JANUARY 2027</span></div>'+
+    PRESIDENTIAL.map(candRow).join("")+'</div>';
+  $("legend").innerHTML='<span class="lab">What the labels mean</span>'+
+    Object.keys(STATUS).map(function(k){var t=STATUS[k];
+      return '<div class="lrow" style="--edge:'+t.c+'"><b>'+t.l+'</b><span>'+t.d+'</span></div>';}).join("");
+}
+document.addEventListener("click",function(e){
+  var b=e.target.closest(".cand");
+  if(!b)return;
+  var d=$("d"+b.dataset.i),open=b.getAttribute("aria-expanded")==="true";
+  b.setAttribute("aria-expanded",String(!open));
+  b.querySelector(".chev").textContent=open?"+":"−";
+  d.hidden=open;
+});
+
+/* ---------- the game ---------- */
+/* Reigns' structure: binary choice, and a bloc kills you when it empties AND when it fills.
+   Democracy's substance: prosperity is a separate number nobody in the room argues for. */
+var BLOCS=[
+ {k:"street", n:"The Street", c:"var(--laterite)",
+  d:"Youth, labour, the market, the road.",
+  zero:"The country stopped obeying you. It did not need a coup; it simply stopped.",
+  full:"You governed by crowd. Every decision became a poll and the hard ones never got taken."},
+ {k:"palace", n:"The Palace", c:"var(--bronze)",
+  d:"Traditional rulers and the pulpit.",
+  zero:"You lost the authority that reaches further into most Nigerian lives than yours does.",
+  full:"The constitution became a courtesy. Nothing passed that the emirs and the bishops had not already blessed."},
+ {k:"barracks", n:"The Barracks", c:"var(--elu)",
+  d:"The armed forces and the services.",
+  zero:"They came at four in the morning. They always come at four in the morning.",
+  full:"You kept them close and woke up as their spokesman. The uniform governs; you announce."},
+ {k:"purse", n:"The Purse", c:"var(--palm)",
+  d:"Treasury, oil receipts, the business houses.",
+  zero:"Salaries did not go out. Everything else followed within the month.",
+  full:"The accounts were magnificent and the country rotted around them."},
+ {k:"gov", n:"The Governors", c:"var(--elu-mark)",
+  d:"The thirty-six and the federation.",
+  zero:"The federating units stopped pretending. What you had left was a capital city.",
+  full:"Abuja became ceremonial. You presided over a country that had quietly stopped needing a president."}
+];
+
+/* The six things a government can do to a country. Prosperity is one of them.
+   The deck is scored on all six; none of them is shown while you play. */
+var VALUES=[
+ {k:"pro",n:"Prosperity",d:"Money in the country, and whether ordinary people can reach it.",s:35},
+ {k:"sec",n:"Security",d:"Whether Nigerians can sleep, travel and farm without being killed for it.",s:30},
+ {k:"coh",n:"Cohesion",d:"Whether the country still wants to be one country.",s:40},
+ {k:"cap",n:"Capability",d:"Whether the state can do things: schools, power, courts that work.",s:30},
+ {k:"int",n:"Integrity",d:"Whether the rules are the same for everyone, including you.",s:28},
+ {k:"sov",n:"Sovereignty",d:"Whether Nigeria's decisions are taken in Nigeria.",s:45}
+];
+var VKEYS=VALUES.map(function(v){return v.k;});
+
+/* who / what they want / two answers. m = bloc moves, v = what it does to the country
+   on six measures, ax = which stated position this choice acts against, f = sets a flag,
+   req = only appears if flag held */
+var DECK=[
+ {w:"The Finance Minister",s:"Fuel subsidy is a fifth of what we spend. I can end it on Monday, or you can find the money somewhere else.",
+  l:{t:"End it Monday.",m:{purse:16,street:-18,gov:4},v:{pro:7,cap:6,int:5,coh:-4,sov:3,sec:-3},ax:{econ:-1},f:"subsidy_gone"},
+  r:{t:"Find it elsewhere.",m:{purse:-16,street:10},v:{pro:-6,cap:-5,int:-4,coh:3,sov:-2,sec:2},ax:{econ:1}}},
+
+ {w:"The National Security Adviser",s:"They have held the Lekki road four days. Lagos business is losing billions. We can open it tonight.",
+  l:{t:"Open the road.",m:{barracks:14,street:-26,palace:4},v:{pro:-9,sec:4,coh:-10,int:-12},ax:{security:-1},f:"crackdown"},
+  r:{t:"Go and talk to them.",m:{street:16,barracks:-12},v:{pro:5,sec:-3,coh:8,int:7},ax:{security:1}}},
+
+ {w:"A Governor from the North West",s:"My people are being killed while your federal police sit in Abuja. Let me raise and arm my own force.",
+  l:{t:"Raise it.",m:{gov:18,barracks:-16,street:6},v:{pro:6,sec:9,cap:5,coh:-7,int:-5},ax:{struct:1},f:"state_police"},
+  r:{t:"The centre keeps the guns.",m:{barracks:14,gov:-18},v:{pro:-5,sec:-7,cap:-3,coh:4,int:3},ax:{struct:-1}}},
+
+ {w:"A council of traditional rulers",s:"We want our role written into the constitution. We deliver peace in places your government has never reached.",
+  l:{t:"Write them in.",m:{palace:20,street:-8,gov:6},v:{pro:-6,sec:6,coh:6,cap:-4,int:-9},ax:{social:-1}},
+  r:{t:"Advice, not authority.",m:{palace:-18,street:8},v:{pro:5,sec:-4,coh:-4,cap:4,int:8},ax:{social:1}}},
+
+ {w:"A licensed trader",s:"The allocation is routine. It has been done this way under every administration, including the ones people remember fondly.",
+  l:{t:"Sign it.",m:{purse:14,palace:6},v:{pro:-14,int:-17,cap:-6,coh:-3},ax:{represent:-1},f:"dirty"},
+  r:{t:"Send it to open tender.",m:{purse:-10,street:8},v:{pro:9,int:15,cap:7,coh:2},ax:{represent:1}}},
+
+ {w:"The President of the Labour Congress",s:"The new wage or the country stops on Monday. We have done it before and you know we can do it again.",
+  l:{t:"Meet the wage.",m:{street:20,purse:-18},v:{pro:4,coh:8,sec:3,cap:-5,int:2},ax:{econ:1}},
+  r:{t:"No work, no pay.",m:{barracks:8,street:-20,purse:12},v:{pro:-5,coh:-9,sec:-4,cap:3,int:-2},ax:{econ:-1}}},
+
+ {w:"The Central Bank Governor",s:"The official rate and the street rate have not spoken in months. Every importer in the country is lying on a form.",
+  l:{t:"Float it.",m:{purse:16,street:-20},v:{pro:10,int:9,cap:3,coh:-6,sov:-5,sec:-4},ax:{econ:-1},f:"floated"},
+  r:{t:"Hold the rate.",m:{street:10,purse:-16},v:{pro:-11,int:-8,cap:-3,coh:4,sov:5,sec:2},ax:{econ:1}}},
+
+ {w:"Your Party Chairman",s:"The Minister is from home. The file against him is thick. If you move on him, we lose the state in four years.",
+  l:{t:"Suspend him.",m:{street:18,palace:-14,gov:-6},v:{pro:8,int:16,cap:4,coh:-5},ax:{represent:1}},
+  r:{t:"The file can wait.",m:{palace:14,street:-18},v:{pro:-11,int:-16,cap:-4,coh:3},ax:{represent:-1},f:"dirty"}},
+
+ {w:"The ASUU President",s:"Nine months out and the universities are shut again. Fund the agreement your predecessors signed, or explain to a generation why not.",
+  l:{t:"Fund it.",m:{street:16,purse:-18},v:{pro:14,cap:17,coh:5,int:3,sec:5},ax:{econ:1}},
+  r:{t:"Renegotiate downward.",m:{purse:12,street:-16},v:{pro:-12,cap:-15,coh:-5,int:-3,sec:-5},ax:{econ:-1}}},
+
+ {w:"The Chief of Army Staff",s:"ECOWAS wants Nigerian troops after the coup next door. If we do not go, the bloc is finished as an idea.",
+  l:{t:"Send them.",m:{barracks:16,purse:-14,street:-6},v:{pro:-3,sec:4,sov:13,cap:-4,coh:-3},ax:{horizon:1}},
+  r:{t:"Sanctions, not soldiers.",m:{barracks:-14,purse:8},v:{pro:2,sec:-2,sov:-9,cap:2},ax:{horizon:-1}}},
+
+ {w:"The Chief Justice",s:"The court has ruled against your administration. My registrar tells me the ministry is drafting reasons to delay compliance.",
+  l:{t:"Comply this week.",m:{street:16,barracks:-8,gov:6},v:{pro:15,int:19,cap:9,coh:4,sec:5},ax:{security:1}},
+  r:{t:"We will appeal it forever.",m:{barracks:10,street:-22},v:{pro:-16,int:-19,cap:-9,coh:-4,sec:-6},ax:{security:-1},f:"dirty"}},
+
+ {w:"The Comptroller of Customs",s:"Close the land borders and local rice wins. Leave them open and the smugglers do.",
+  l:{t:"Close them.",m:{purse:12,palace:10,street:-16},v:{pro:-10,sov:11,sec:4,coh:-4,cap:-3},ax:{horizon:-1}},
+  r:{t:"Keep them open.",m:{street:12,purse:-8},v:{pro:7,sov:-6,sec:-3,coh:4,cap:2},ax:{horizon:1}}},
+
+ {w:"The Minister of Power",s:"The tariff has not covered the cost of a unit of electricity in twenty years. That is why there is no electricity.",
+  l:{t:"Cost-reflective tariff.",m:{purse:14,street:-20},v:{pro:16,cap:15,int:5,coh:-6,sec:4},ax:{econ:-1}},
+  r:{t:"Hold the tariff.",m:{street:14,purse:-14},v:{pro:-13,cap:-13,int:-4,coh:5,sec:-4},ax:{econ:1}}},
+
+ {w:"A foreign lender",s:"Twelve billion, fifteen years, our contractors. The rail will be built and it will be built quickly.",
+  l:{t:"Take the money.",m:{purse:16,gov:6},v:{pro:9,cap:11,sov:-15,int:-4,sec:3},ax:{horizon:1},f:"debt"},
+  r:{t:"We will build it slower.",m:{purse:-10},v:{pro:-3,cap:-4,sov:11,int:3,sec:-2},ax:{horizon:-1}}},
+
+ {w:"The Accountant-General",req:"debt",s:"Debt service is now larger than revenue. The loans you took are being repaid with loans.",
+  l:{t:"Borrow to cover it.",m:{purse:10,street:4},v:{pro:-15,sov:-13,cap:-4,int:-5,coh:3},ax:{econ:1}},
+  r:{t:"Austerity budget.",m:{purse:-6,street:-16,gov:-10},v:{pro:6,sov:9,int:5,cap:-6,coh:-9},ax:{econ:-1}}},
+
+ {w:"The Governors' Forum",s:"VAT is collected in our states and spent from Abuja. We are going to court, unless you would rather talk.",
+  l:{t:"Concede collection.",m:{gov:20,purse:-16},v:{pro:5,coh:4,int:4,cap:-7},ax:{struct:1}},
+  r:{t:"See you in court.",m:{gov:-18,purse:12},v:{pro:-4,coh:-7,int:2,cap:6},ax:{struct:-1}}},
+
+ {w:"The Chairman of the anti-graft commission",s:"We have enough on a sitting Governor's closest man. He delivered three states for the party.",
+  l:{t:"Charge him.",m:{street:18,gov:-18},v:{pro:11,int:19,cap:5,coh:-5},ax:{represent:1}},
+  r:{t:"Not this year.",m:{gov:14,street:-16},v:{pro:-12,int:-17,cap:-4,coh:3},ax:{represent:-1},f:"dirty"}},
+
+ {w:"The Minister of Communications",req:"crackdown",s:"They are organising on the apps. We can take the networks down in an hour, the way other governments do.",
+  l:{t:"Shut it down.",m:{barracks:14,street:-28},v:{pro:-14,int:-17,sec:3,coh:-8,cap:-5},ax:{security:-1}},
+  r:{t:"Leave it on.",m:{street:16,barracks:-14},v:{pro:8,int:15,sec:-2,coh:6,cap:3},ax:{security:1}}},
+
+ {w:"A delegation of young Nigerians",s:"You promised us the room, not the photograph. There is not one person under forty in your cabinet.",
+  l:{t:"Appoint them.",m:{street:18,palace:-12},v:{pro:8,coh:11,cap:6,int:5,sec:5},ax:{social:1}},
+  r:{t:"Experience first.",m:{palace:10,street:-14},v:{pro:-5,coh:-9,cap:-3,int:-3,sec:-5},ax:{social:-1}}},
+
+ {w:"The Attorney-General",s:"Local government funds pass through the states and mostly stop there. The constitution says otherwise. You can enforce it.",
+  l:{t:"Enforce autonomy.",m:{gov:-20,street:16},v:{pro:14,cap:13,int:13,coh:-5,sec:6},ax:{method:1}},
+  r:{t:"Do not start that fight.",m:{gov:16,street:-8},v:{pro:-9,cap:-10,int:-11,coh:4,sec:-6},ax:{method:-1}}},
+
+ {w:"The Sponsor of the Seats Bill",s:"Reserved seats for women. It failed in 2022. It fails again next week without you standing up in public.",
+  l:{t:"Stand up for it.",m:{street:14,palace:-18},v:{pro:9,coh:11,int:10,cap:4},ax:{method:1}},
+  r:{t:"Let the chamber decide.",m:{palace:12,street:-10},v:{pro:-6,coh:-8,int:-7},ax:{method:-1}}},
+
+ {w:"A Niger Delta leader",s:"The amnesty stipends have kept the creeks quiet for fifteen years. The budget office wants them cut.",
+  l:{t:"Keep paying.",m:{purse:-14,street:6},v:{pro:-7,sec:9,int:-10,coh:3,cap:-4},ax:{represent:-1}},
+  r:{t:"End the programme.",m:{purse:14,barracks:-8},v:{pro:4,sec:-11,int:10,coh:-4,cap:3},ax:{represent:1},f:"creeks"}},
+
+ {w:"The Chief of Defence Staff",req:"creeks",s:"Production is down four hundred thousand barrels a day. The creeks are not quiet any more.",
+  l:{t:"Send in the military.",m:{barracks:16,street:-14,purse:-8},v:{pro:-10,sec:3,coh:-11,int:-6},ax:{security:-1}},
+  r:{t:"Reopen negotiations.",m:{street:10,barracks:-10,purse:-10},v:{pro:3,sec:6,coh:8,int:-4},ax:{security:1}}},
+
+ {w:"The Minister of Trade",s:"AfCFTA means opening properly. Our manufacturers will lose the first three years and gain the next twenty.",
+  l:{t:"Open the borders.",m:{purse:-8,street:-8,gov:6},v:{pro:15,cap:6,sov:-9,coh:-3},ax:{horizon:1}},
+  r:{t:"Protect them.",m:{purse:10,street:10},v:{pro:-11,cap:-5,sov:10,coh:3},ax:{horizon:-1}}},
+
+ {w:"A group of state governors",s:"Herders and farmers are killing each other across the middle of the country. We want a national ranching law.",
+  l:{t:"Federal ranching law.",m:{gov:-12,palace:-10},v:{pro:12,coh:13,sec:11,cap:5},ax:{struct:-1}},
+  r:{t:"Each state decides.",m:{gov:16,palace:8},v:{pro:-8,coh:-10,sec:-9,cap:-4},ax:{struct:1}}},
+
+ {w:"The INEC Chairman",s:"The election budget has been cut by a third. I can run a cheaper election. I cannot run a cheaper credible one.",
+  l:{t:"Fund it fully.",m:{street:16,purse:-14},v:{pro:10,int:19,coh:6,cap:5,sec:6},ax:{represent:1}},
+  r:{t:"Run the cheap one.",m:{purse:12,street:-20},v:{pro:-14,int:-19,coh:-8,cap:-4,sec:-8},ax:{represent:-1},f:"dirty"}},
+
+ {w:"A General",s:"The procurement is classified. That is the nature of defence procurement. You are asking questions your predecessors did not.",
+  l:{t:"Open the books.",m:{barracks:-18,street:14},v:{pro:11,int:17,cap:6,sec:-4},ax:{represent:1}},
+  r:{t:"Sign it blind.",m:{barracks:16,purse:-12},v:{pro:-13,int:-17,cap:-5,sec:5},ax:{represent:-1},f:"dirty"}},
+
+ {w:"The Diaspora Commission",s:"Twenty billion dollars a year comes home from them and they cannot vote. They have noticed.",
+  l:{t:"Give them the vote.",m:{street:12,purse:-6},v:{pro:7,coh:9,int:9,sov:4,cap:-3},ax:{horizon:1}},
+  r:{t:"Not this cycle.",m:{palace:8,street:-10},v:{pro:-4,coh:-6,int:-6,sov:-2},ax:{horizon:-1}}},
+
+ {w:"An oil major",s:"We are divesting onshore. Either you approve the sale to a local buyer, or we simply stop spending and let the fields decline.",
+  l:{t:"Approve the sale.",m:{purse:12,gov:-6},v:{pro:-5,sov:7,cap:-3,int:-5},ax:{econ:-1}},
+  r:{t:"Block it pending review.",m:{purse:-12,street:6},v:{pro:4,sov:-3,cap:3,int:6},ax:{econ:1}}},
+
+ {w:"The Minister of Education",s:"Twenty million children are not in any school. Fixing it costs more than one term and pays out after three.",
+  l:{t:"Fund it anyway.",m:{purse:-20,palace:-6},v:{pro:20,cap:21,coh:8,sec:6},ax:{econ:1}},
+  r:{t:"Not affordable now.",m:{purse:14},v:{pro:-15,cap:-19,coh:-6,sec:-5},ax:{econ:-1}}},
+
+ {w:"The IMF mission chief",s:"The programme comes with conditions. You know what the conditions are. Everyone in this building knows what they are.",
+  l:{t:"Accept the programme.",m:{purse:18,street:-18},v:{pro:6,sov:-17,cap:5,int:4,coh:-5,sec:-5},ax:{horizon:1}},
+  r:{t:"We will manage alone.",m:{street:14,purse:-16},v:{pro:-6,sov:15,cap:-4,coh:4,sec:2},ax:{horizon:-1}}},
+
+ {w:"Your Chief of Staff",req:"dirty",s:"A reporter has most of it. Not all of it, but most of it. We can make the story difficult for her.",
+  l:{t:"Make it difficult.",m:{barracks:8,street:-24},v:{pro:-12,int:-19,coh:-6,sec:-4},ax:{security:-1}},
+  r:{t:"Let her publish.",m:{street:18,palace:-8},v:{pro:10,int:17,coh:5,sec:3},ax:{security:1}}}
+];
+
+var G={live:false,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,queue:[]};
+
+function blocOf(k){return BLOCS.filter(function(b){return b.k===k;})[0];}
+function valOf(k){return VALUES.filter(function(v){return v.k===k;})[0];}
+/* the country, read as one number: the six weighted equally */
+function national(){
+  return VKEYS.reduce(function(t,k){return t+G.v[k];},0)/VKEYS.length;
+}
+/* what you bought and what you paid for it. A drift of three points is noise on a
+   measure that only twenty of sixty-four choices touch — four is the floor for a claim. */
+function swing(){
+  var s=VALUES.slice().sort(function(x,y){return (G.v[y.k]-y.s)-(G.v[x.k]-x.s);});
+  var b=s[0],w=s[s.length-1],bd=Math.round(G.v[b.k]-b.s),wd=Math.round(G.v[w.k]-w.s);
+  return {best:b,worst:w,bd:bd,wd:wd,gained:bd>=4,paid:wd<=-4};
+}
+
+function renderGate(){
+  $("gateBlocs").innerHTML=BLOCS.map(function(b){
+    return '<div><h4 style="color:'+b.c+'">'+b.n+'</h4><p>'+b.d+'</p></div>';}).join("");
+  $("gLinkNote").innerHTML = st.r
+    ? "Your answers are loaded. We will tell you when you contradict them."
+    : 'You can play now. <a href="#" data-go="start">Answer the twenty-one questions</a> first and the game will hold you to your own words.';
+}
+
+/* Build once, then only move the fills — rebuilding innerHTML every turn was
+   killing the height transition, which is why the powers read as inert. */
+function buildMeters(){
+  $("gMeters").innerHTML=BLOCS.map(function(b){
+    return '<div class="mt" data-k="'+b.k+'"><em class="dlt"></em>'+
+      '<div class="bar" style="--mc:'+b.c+'"><i style="height:50%"></i></div>'+
+      '<span>'+b.n.replace("The ","")+'</span></div>';}).join("");
+}
+var mtTimers={};
+function renderMeters(d){
+  BLOCS.forEach(function(b){
+    var el=$("gMeters").querySelector('[data-k="'+b.k+'"]');
+    if(!el)return;
+    var v=G.m[b.k];
+    el.classList.toggle("danger",v<=20||v>=80);
+    el.querySelector(".bar i").style.height=v+"%";
+    var dl=el.querySelector(".dlt"),n=d?Math.round(d[b.k]||0):0;
+    if(n){
+      dl.textContent=(n>0?"+":"−")+Math.abs(n);
+      dl.className="dlt show "+(n>0?"up":"dn");
+      el.classList.remove("moved");void el.offsetWidth;el.classList.add("moved");
+      clearTimeout(mtTimers[b.k]);
+      mtTimers[b.k]=setTimeout(function(){dl.className="dlt";el.classList.remove("moved");},1700);
+    }
+  });
+}
+
+function eligible(){
+  return DECK.filter(function(c,i){
+    if(G.seen.indexOf(i)>=0)return false;
+    if(c.req && !G.flags[c.req])return false;
+    return true;
+  }).map(function(c){return DECK.indexOf(c);});
+}
+function nextCard(){
+  if(G.day>=26&&!G.third&&G.limit===BASE_LIMIT){
+    G.cur="third";
+    $("gWho").textContent=THIRD.w;
+    $("gSays").textContent="“"+THIRD.s+"”";
+    $("gL").querySelector(".txt").textContent=THIRD.l.t;
+    $("gR").querySelector(".txt").textContent=THIRD.r.t;
+    $("gFlagBox").hidden=true;
+    $("gCard").classList.remove("tilt-l","tilt-r");
+    return;
+  }
+  var pool=eligible();
+  if(!pool.length){G.seen=[];pool=eligible();}
+  /* chained cards jump the queue — they are the consequence arriving */
+  var forced=pool.filter(function(i){return DECK[i].req;});
+  var pick=forced.length?forced[0]:pool[Math.floor(Math.random()*pool.length)];
+  G.cur=pick;G.seen.push(pick);
+  var c=DECK[pick];
+  $("gWho").textContent=c.w;
+  $("gSays").textContent="“"+c.s+"”";
+  $("gL").querySelector(".txt").textContent=c.l.t;
+  $("gR").querySelector(".txt").textContent=c.r.t;
+  $("gFlagBox").hidden=true;
+  $("gCard").classList.remove("tilt-l","tilt-r");
+}
+
+function contradiction(ch){
+  if(!st.r||!ch.ax)return null;
+  var k=Object.keys(ch.ax)[0],dir=ch.ax[k],said=st.r.pos[k];
+  if(Math.abs(said)<25)return null;
+  if((said>0)===(dir>0))return null;
+  var ax=AXES.filter(function(a){return a.k===k;})[0];
+  return "You answered "+(said>0?ax.pos:ax.neg).toLowerCase()+" at "+(said>0?"+":"")+said+
+    " on "+ax.n.toLowerCase()+". You just governed the other way.";
+}
+
+var PER_YEAR=4,PER_TERM=16,BASE_LIMIT=32;
+/* Obasanjo put a third term to the National Assembly in 2006 and it died on the floor.
+   Whether yours passes depends on whether you have the Palace, the Barracks and the
+   Governors — which is roughly what it depended on then. */
+var THIRD={w:"The Senate President",
+ s:"There is a way to amend the constitution. It was tried once before and it died on the floor. My people tell me the arithmetic is different this time.",
+ l:{t:"Put it to the Assembly.",third:true},
+ r:{t:"Two terms. Then I go.",m:{street:15,gov:9},v:{pro:5,int:20,coh:8},f:"went_quietly"}};
+function applyV(o,scale){
+  if(!o)return;
+  for(var k in o){ if(G.v[k]===undefined)continue;
+    G.v[k]=Math.max(0,Math.min(100,G.v[k]+o[k]*(scale===undefined?0.55:scale))); }
+}
+function play(side){
+  if(!G.live)return;
+  var c=(G.cur==="third")?THIRD:DECK[G.cur],ch=side==="l"?c.l:c.r;
+  if(ch.third){
+    var support=(G.m.palace+G.m.barracks+G.m.gov)/3;
+    G.day++;
+    if(support>=58){
+      G.third="passed";G.limit=48;G.term=3;season();
+      G.m.street=Math.max(0,G.m.street-30);G.m.gov=Math.max(0,G.m.gov-12);
+      applyV({pro:-8,int:-26,coh:-12,cap:-5},1);
+      renderMeters({street:-30,gov:-12});
+      $("gFlagTitle").textContent="The amendment passed.";
+      $("gFlag").textContent="You have four more years and the country knows exactly how you got them. Nobody who votes for you again will be voting for the same thing.";
+    } else {
+      G.third="failed";
+      G.m.street=Math.max(0,G.m.street-22);G.m.palace=Math.max(0,G.m.palace-12);
+      G.m.gov=Math.max(0,G.m.gov-12);
+      applyV({pro:-6,int:-9,coh:-5},1);
+      renderMeters({street:-22,palace:-12,gov:-12});
+      $("gFlagTitle").textContent="It died on the floor.";
+      $("gFlag").textContent="The Assembly threw it out, in public, the way it did in 2006. You are still leaving at the end of the term — you have simply told everyone you did not want to.";
+    }
+    $("gFlagBox").hidden=false;
+    updateClock();
+    var dead0=BLOCS.filter(function(b){return G.m[b.k]<=0||G.m[b.k]>=100;})[0];
+    if(dead0){setTimeout(function(){endGame(dead0);},900);return;}
+    setTimeout(nextCard,2600);return;
+  }
+  var deltas={};
+  BLOCS.forEach(function(b){
+    var before=G.m[b.k],d=(ch.m[b.k]||0)*0.75;
+    G.m[b.k]=Math.max(0,Math.min(100,before+d));
+    deltas[b.k]=G.m[b.k]-before;
+  });
+  /* every choice is also a position — this is what you governed as, not what you said */
+  if(ch.ax){for(var ak in ch.ax){G.gax[ak]+=ch.ax[ak];G.gn[ak]++;}}
+  var pv=(ch.v&&ch.v.pro)||0;
+  if(pv>=8)G.brave++; else if(pv<=-8)G.safe++;
+  applyV(ch.v);
+  /* a poor country turns on you whatever the blocs think — this is what stops
+     pure bloc-balancing from being a winning strategy */
+  var sb=G.m.street;
+  if(G.v.pro<40) G.m.street=Math.max(0,G.m.street-(40-G.v.pro)*0.06);
+  else if(G.v.pro>65) G.m.street=Math.min(100,G.m.street+(G.v.pro-65)*0.042);
+  deltas.street+=(G.m.street-sb);
+  if(ch.f)G.flags[ch.f]=true;
+  G.day++;G.year=Math.floor((G.day-1)/PER_YEAR);
+  var msg=contradiction(ch);
+  if(msg){G.contra++;$("gFlagTitle").textContent="That is not what you told us.";
+    $("gFlag").textContent=msg;$("gFlagBox").hidden=false;}
+  renderMeters(deltas);
+  var dead=BLOCS.filter(function(b){return G.m[b.k]<=0||G.m[b.k]>=100;})[0];
+  if(dead){setTimeout(function(){endGame(dead);},1000);return;}
+  if(G.day>=G.limit){setTimeout(function(){endGame(null,"legacy");},1000);return;}
+  if(G.day%PER_TERM===0){setTimeout(election,1000);return;}
+  setTimeout(nextCard,msg?1700:800);
+}
+
+function election(){
+  /* the country you are asking them to re-elect you on: mostly what it costs
+     at the market, but not only that */
+  var felt=G.v.pro*0.55+G.v.sec*0.25+G.v.cap*0.20;
+  var mandate=(G.m.street*0.5+felt*0.5);
+  if(mandate<38){endGame(null,"lost");return;}
+  G.term++;season();
+  interstitial(G.term===2?"Harmattan":"The long dry",
+    G.term===2?"Term two. The wind turns, the dust comes down, and nothing you promised has got easier."
+              :"The amended term. Nobody is pretending any more.");
+  $("gWho").textContent="The Returning Officer";
+  $("gSays").textContent="“You have been returned for a second term. Four more years, and then the constitution says you go. The blocs reset nothing. Neither does the country.”";
+  $("gL").querySelector(".txt").textContent="Continue.";
+  $("gR").querySelector(".txt").textContent="Continue.";
+  G.cur=-1;
+  $("gL").onclick=$("gR").onclick=function(){
+    $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
+    nextCard();updateClock();
+  };
+  updateClock();
+}
+function updateClock(){
+  var span=G.limit/PER_YEAR,yr=Math.min(span,Math.floor(G.day/PER_YEAR)+1);
+  $("gClock").textContent="Year "+yr+" of "+span+" · Term "+G.term;
+  $("gTerm").textContent=(G.limit-G.day)+" decisions left in office";
+}
+
+function endGame(bloc,why){
+  G.live=false;
+  $("gameRun").hidden=true;$("gameEnd").hidden=false;
+  var kick,title,body;
+  if(why==="lost"){
+    kick="YOU LOST THE ELECTION";
+    title="They voted you out.";
+    body="You survived every bloc in the room and lost the only vote that was ever counted. The street was "+
+      Math.round(G.m.street)+" and people could not feel the difference in the market, on the road, or in a classroom. Nigerians have removed a sitting president before and the arithmetic was not complicated then either.";
+  } else if(bloc){
+    var full=G.m[bloc.k]>=100;
+    kick=full?("CAPTURED BY "+bloc.n.toUpperCase()):("ABANDONED BY "+bloc.n.toUpperCase());
+    title=full?"They owned you.":"They left you.";
+    body=full?bloc.full:bloc.zero;
+  } else if(why==="legacy"){
+    var p0=national(),lean=BLOCS.slice().sort(function(x,y){return G.m[y.k]-G.m[x.k];})[0];
+    var sw=swing();
+    var span=G.limit/PER_YEAR,spanW=(span===12?"twelve":"eight");
+    kick="TWO TERMS SERVED · EIGHT YEARS";
+    title = p0>=55 ? "They will name things after you."
+      : (p0>=42 ? "You left it better than you found it."
+      : (p0>=32 ? "You held the line." : "You left it worse."));
+    body = (p0>=55
+      ? (span===12?"Twelve years":"Eight years, the constitutional limit")+", and a country measurably better at the end than at the start on almost every measure anyone keeps. Nigeria has not often had that."
+      : (p0>=42
+      ? "You survived the full "+spanW+" and moved the country forward, not dramatically, but forward. That is a narrower achievement than it sounds and a rarer one."
+      : (p0>=32
+      ? "You served "+spanW+" years and handed over a country in roughly the condition you received it. Every bloc got something. Nobody got very much."
+      : "You lasted the full "+spanW+" years by keeping the room satisfied, and the country is worse than when you walked in. This is the most common way a Nigerian government ends and nobody in the room will tell you it was a failure.")))
+      + " You leaned hardest on " + lean.n.toLowerCase() + ", which finished at " + Math.round(G.m[lean.k]) + "."
+      + " " + (sw.gained
+         ? "What you actually bought the country was "+sw.best.n.toLowerCase()+"."
+         : "You did not raise a single one of the six.")
+      + (sw.paid ? " What you spent to get it was "+sw.worst.n.toLowerCase()+"." : "");
+    if(G.third==="passed") body += " And you changed the constitution to stay. That is the first line of every obituary you will ever get.";
+    else if(G.third==="failed") body += " You also asked for a third term and were refused in public, which is the part people will remember.";
+    if(G.third==="passed") kick="TWELVE YEARS · THE LIMIT WAS AMENDED";
+  } else { kick="TERM COMPLETE";title="You finished.";body="You served out the time."; }
+  $("gEndKick").textContent=kick;
+  $("gEndTitle").textContent=title;
+  $("gEndBody").textContent=body;
+  var yrs=Math.floor(G.day/PER_YEAR),mos=Math.round((G.day%PER_YEAR)*(12/PER_YEAR));
+  $("gEndYears").textContent=yrs+"y "+mos+"m";
+  $("gEndCount").textContent=G.day;
+  $("gEndContra").textContent=st.r?G.contra:"—";
+  postMortem(bloc);
+  ledger();
+  philosophy();
+  var p=national();
+  $("gEndVerdict").textContent = p>=50
+    ? "You left the country better than you found it on the measures above. Almost nobody in the room ever asked you to."
+    : (p>=33
+      ? "The country is roughly where you found it. You spent the time surviving, which is what the job mostly is, and that is the complaint."
+      : "You stayed in the room and the country went backwards while you did. Every bloc was satisfied at some point. None of them was the country.");
+}
+
+/* ---------- what you left behind ----------
+   Six measures, none of them shown while you played. You inherit a country that is
+   already low on all of them; the only question the game asks at the end is which
+   ones you spent and which ones you bought. */
+function ledger(){
+  var rows=VALUES.map(function(v){
+    var end=Math.round(G.v[v.k]),d=end-v.s,dir=d>1?"up":(d<-1?"dn":"flat");
+    var lo=Math.min(v.s,end),hi=Math.max(v.s,end);
+    return '<div class="lg-row '+dir+'">'+
+      '<div class="lg-h"><b>'+v.n+'</b>'+
+        '<em class="lg-d">'+(d>0?"+":(d<0?"−":"±"))+Math.abs(d)+'</em></div>'+
+      '<div class="lg-track">'+
+        '<i class="lg-fill" style="left:'+lo+'%;width:'+(hi-lo)+'%"></i>'+
+        '<u class="lg-start" style="left:'+v.s+'%"></u>'+
+      '</div>'+
+      '<p>'+v.d+'</p></div>';
+  }).join("");
+  $("gLedger").innerHTML=rows;
+  var sw=swing();
+  $("gLedgerNote").textContent = !sw.gained
+    ? (sw.paid
+      ? "You raised nothing. Every decision you took and the country is where you found it or behind it on all six — and "+sw.worst.n.toLowerCase()+" fell "+Math.abs(sw.wd)+" points while you were busy. Being in the room is not the same as governing."
+      : "Nothing moved. You held the room, the room held you, and the country ended the term where it started it. This is the most common Nigerian presidency and nobody in the room will call it a failure.")
+    : (!sw.paid
+      ? "You raised "+sw.best.n.toLowerCase()+" by "+sw.bd+" and gave up nothing measurable to do it. Check whether you were governing or being governed — that trade usually has a price attached."
+      : "You bought "+sw.bd+" points of "+sw.best.n.toLowerCase()+" and paid "+Math.abs(sw.wd)+" points of "+sw.worst.n.toLowerCase()+" for it. Nobody who came through that door priced that trade for you. Nobody in that room ever does.");
+}
+
+/* ---------- the post-mortem ----------
+   One line, overheard in whichever room you moved furthest. The dialogue these were
+   cut from is gone; each of these is the line that carried its scene. First pass is
+   mine and wants a Nigerian ear before it ships. */
+var SCENES={
+ street:{
+  served:{q:"My sister's school got teachers. Real ones, two years running.",
+          at:"Overheard at a vendor's stand in Ogba"},
+  failed:{q:"He met darkness. He left darkness. In between he was very busy.",
+          at:"Overheard at Alhaji's place, Surulere"}},
+ palace:{
+  served:{q:"Quiet. That is what we gave him. It is not a small thing and he knew it.",
+          at:"Overheard in the anteroom, after the Friday crowd had gone"},
+  failed:{q:"The old men are not finished. The old men simply wait.",
+          at:"Overheard after the service, before the cars left"}},
+ barracks:{
+  served:{q:"He gave us everything we asked for and nothing we needed. The boots still leak.",
+          at:"Overheard in the officers' mess"},
+  failed:{q:"So we let him. Say it properly. We let him.",
+          at:"Overheard in the officers' mess"}},
+ purse:{
+  served:{q:"And the country? The country is not my portfolio.",
+          at:"Overheard in a boardroom on Kingsway Road"},
+  failed:{q:"He was protecting them with money he did not have, and they paid for it at the market anyway.",
+          at:"Overheard in a boardroom on Kingsway Road"}},
+ gov:{
+  served:{q:"Abuja cannot move now without asking thirty-six people first. It is what we wanted.",
+          at:"Overheard at the Forum, after the cameras"},
+  failed:{q:"He was not wrong. He was alone. That is the only difference that matters.",
+          at:"Overheard at the Forum, briefing the next man"}}
+};
+
+/* the third term is the biggest thing about a presidency that tried it —
+   it takes the line rather than sharing it */
+var THIRD_LINE={
+ passed:{q:"Any man would have wanted it. Not any man did it.",
+         at:"Overheard on the floor of the National Assembly"},
+ failed:{q:"He asked them, and they refused him in public, like a child.",
+         at:"Overheard on the floor of the National Assembly"}
+};
+
+function postMortem(dead){
+  var line;
+  if(G.third&&THIRD_LINE[G.third]){ line=THIRD_LINE[G.third]; }
+  else{
+    var pick,tone;
+    if(dead){ pick=dead.k; tone=(G.m[dead.k]>=100)?"served":"failed"; }
+    else{
+      var far=BLOCS.slice().sort(function(x,y){
+        return Math.abs(G.m[y.k]-50)-Math.abs(G.m[x.k]-50);})[0];
+      pick=far.k; tone=(G.m[far.k]>=50)?"served":"failed";
+    }
+    line=SCENES[pick][tone];
+  }
+  $("gQuote").textContent="“"+line.q+"”";
+  $("gStage").textContent=line.at;
+}
+
+/* Turn the run into a position. Each choice carried an axis; the average of what you
+   actually chose is how you governed, which is not always what you said. */
+function governedPos(){
+  var g={};
+  KEYS.forEach(function(k){
+    g[k] = G.gn[k] ? Math.max(-100,Math.min(100,Math.round((G.gax[k]/G.gn[k])*100))) : 0;
+  });
+  return g;
+}
+function plural(n,w){return n+" "+w+(n===1?"":"s");}
+function philosophy(){
+  var gp=governedPos(),rank=classify(gp),top=rank[0].a;
+  var said=st.r?st.r.pos:null;
+
+  compass($("gPhilC"),gp,{ghosts:true,from:said||undefined});
+  $("gPhilKey").innerHTML = said
+    ? "● how you governed &nbsp;&nbsp; ○ what you said you believed"
+    : "● how you governed &nbsp;&nbsp; take the questions to see the gap";
+
+  $("gPhilName").textContent=top.n;
+  $("gPhilSum").innerHTML = (G.day<6
+    ? '<span style="display:block;color:var(--ink-3);font-size:.88rem;margin-bottom:10px">Only '+plural(G.day,"decision")+' — too few to read much into. Govern longer and this sharpens.</span>'
+    : "") + top.s;
+
+  /* the instrument you reached for */
+  var order=BLOCS.slice().sort(function(x,y){return G.m[y.k]-G.m[x.k];});
+  var lean=order[0],starved=order[order.length-1];
+
+  /* the axes you governed hardest on */
+  function poleName(x){ return /^(Nigeria|Pan-)/.test(x) ? x : x.charAt(0).toLowerCase()+x.slice(1); }
+  var strong=KEYS.filter(function(k){return G.gn[k]>=2;})
+    .sort(function(a,b){return Math.abs(gp[b])-Math.abs(gp[a]);}).slice(0,2)
+    .map(function(k){var ax=AXES.filter(function(a){return a.k===k;})[0];
+      return poleName(gp[k]>=0?ax.pos:ax.neg)+" on "+ax.n.toLowerCase();});
+
+  var rows=[
+    ["Instrument","You governed through "+lean.n.toLowerCase()+", which finished at "+
+      Math.round(G.m[lean.k])+". You spent "+starved.n.toLowerCase()+" down to "+Math.round(G.m[starved.k])+"."],
+    ["Pattern", strong.length?("Most consistently "+strong.join(", and "))+"." : "No consistent pattern — you took each decision on its own."],
+    ["Appetite", G.brave>G.safe
+      ? "You took the expensive, long-payoff option "+plural(G.brave,"time")+" against "+plural(G.safe,"safe call")+". Brave, and it is usually why governments fall."
+      : (G.safe>G.brave
+        ? "You took the safe option "+plural(G.safe,"time")+" against "+plural(G.brave,"costly one")+". Survivable, and it is how prosperity ended up where it ended up."
+        : "You split evenly between the costly option and the safe one.")]
+  ];
+  if(said){
+    var gap=KEYS.reduce(function(t,k){return t+Math.abs(gp[k]-said[k]);},0);
+    /* a position inside ±25 on every axis is not a position the game can hold you to */
+    var committed=KEYS.filter(function(k){return Math.abs(said[k])>=25;}).length;
+    rows.push(["The gap", committed===0
+      ? "There was nothing to hold you to. Every one of your seven answers came back near the centre, so no decision here could contradict you. That is its own finding, and it is the one most people get."
+      : (gap<120
+        ? "You governed close to what you said you believed. Across "+plural(G.day,"decision")+" you broke your own word "+plural(G.contra,"time")+"."
+        : (G.contra===0
+          ? "You governed a long way from what you said you believed, without once contradicting yourself outright — the drift was on the "+(7-committed)+" dimensions where you had not committed to anything. That is how positions move in office."
+          : "You governed a long way from what you said you believed — "+plural(G.contra,"outright contradiction")+" across "+plural(G.day,"decision")+". That is what the office does, and it is the whole reason to have written the answers down first."))]);
+  }
+  $("gPhilRows").innerHTML=rows.map(function(r){
+    return '<div><b>'+r[0]+'</b><span>'+r[1]+'</span></div>';}).join("");
+
+  /* what the record will say */
+  var chips=[];
+  if(G.flags.dirty)chips.push(["Scandal survived","hot"]);
+  if(G.flags.crackdown)chips.push(["Cleared the road","hot"]);
+  if(G.flags.debt)chips.push(["Borrowed abroad",""]);
+  if(G.flags.subsidy_gone)chips.push(["Ended the subsidy",""]);
+  if(G.flags.floated)chips.push(["Floated the naira",""]);
+  if(G.flags.state_police)chips.push(["Allowed state police",""]);
+  if(G.flags.creeks)chips.push(["Ended the amnesty",""]);
+  if(G.flags.went_quietly)chips.push(["Left when the constitution said","good"]);
+  if(G.third==="passed")chips.push(["Amended the constitution","hot"]);
+  if(G.third==="failed")chips.push(["Sought a third term and lost","hot"]);
+  var gain=VALUES.filter(function(v){return G.v[v.k]-v.s>=8;})
+    .sort(function(x,y){return (G.v[y.k]-y.s)-(G.v[x.k]-x.s);});
+  var loss=VALUES.filter(function(v){return G.v[v.k]-v.s<=-8;})
+    .sort(function(x,y){return (G.v[x.k]-x.s)-(G.v[y.k]-y.s);});
+  gain.slice(0,2).forEach(function(v){chips.push(["Raised "+v.n.toLowerCase(),"good"]);});
+  loss.slice(0,2).forEach(function(v){chips.push(["Spent "+v.n.toLowerCase(),"hot"]);});
+  if(!chips.length)chips.push(["An uneventful presidency",""]);
+  $("gPhilChips").innerHTML=chips.map(function(c){
+    return '<i class="'+c[1]+'">'+c[0]+'</i>';}).join("");
+}
+
+function startGame(){
+  renderGate();
+  $("gameGate").hidden=false;$("gameRun").hidden=true;$("gameEnd").hidden=true;
+}
+function season(){
+  var t=G.term,n=(t===1?"rains":(t===2?"harmattan":"latedry"));
+  $("view-play").setAttribute("data-season",n);
+}
+function interstitial(title,sub,after){
+  var el=$("gSeason");
+  $("gSeasonT").textContent=title;
+  $("gSeasonS").textContent=sub;
+  el.hidden=false;el.classList.remove("out");
+  setTimeout(function(){el.classList.add("out");
+    setTimeout(function(){el.hidden=true;if(after)after();},700);},2700);
+}
+function beginRun(){
+  G={live:true,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,cur:0,
+     limit:BASE_LIMIT,third:null,gax:{},gn:{},brave:0,safe:0};
+  KEYS.forEach(function(k){G.gax[k]=0;G.gn[k]=0;});
+  BLOCS.forEach(function(b){G.m[b.k]=50;});
+  VALUES.forEach(function(v){G.v[v.k]=v.s;});
+  $("gameGate").hidden=true;$("gameEnd").hidden=true;$("gameRun").hidden=false;
+  $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
+  season();buildMeters();renderMeters();updateClock();nextCard();
+  interstitial("The rains","Term one. You arrive with everything still possible.");
+}
+$("gStart").addEventListener("click",beginRun);
+$("gAgain").addEventListener("click",beginRun);
+$("gL").addEventListener("mouseenter",function(){$("gCard").classList.add("tilt-l");});
+$("gR").addEventListener("mouseenter",function(){$("gCard").classList.add("tilt-r");});
+$("gL").addEventListener("mouseleave",function(){$("gCard").classList.remove("tilt-l");});
+$("gR").addEventListener("mouseleave",function(){$("gCard").classList.remove("tilt-r");});
+document.addEventListener("keydown",function(e){
+  if($("view-play").hidden||!G.live)return;
+  if(e.key==="ArrowLeft"){e.preventDefault();$("gL").click();}
+  if(e.key==="ArrowRight"){e.preventDefault();$("gR").click();}
+});
+
+/* ---------- boot ---------- */
+function start(){
+  var opts=STATES.map(function(x){return '<option>'+x+'</option>';}).join("");
+  $("stateSel").innerHTML=opts;
+  $("stateSel").value="Lagos";
+  $("wState").innerHTML='<option value="">—</option>'+opts;
+  $("stateSel").addEventListener("change",renderBallot);
+  $("officeSel").addEventListener("change",renderBallot);
+  $("wSave").addEventListener("click",saveWho);
+  renderBallot();landing();renderTrad();show("start");
+}
+if(window.claude&&window.claude.hot){
+  window.claude.hot.snapshot(function(){return {part:st.part,i:st.i,a:st.a,ca:st.ca};});
+  window.claude.hot.ready?window.claude.hot.ready(function(d){
+    if(d&&d.a){st.part=d.part||1;st.i=d.i||0;st.a=d.a;st.ca=d.ca||st.ca;}
+    start();
+  }):start();
+}else{start();}
+})();
+</script>
+
+</body></html>
