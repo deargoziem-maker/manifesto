@@ -941,10 +941,55 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 </footer>
 
 <script>
+/* PostHog project API key — this is a public, client-safe identifier (not a
+   secret), unlike the Supabase service role key which never appears in this
+   file. Paste your project key below to turn on funnel/product analytics;
+   leave it blank and this whole block is a no-op. */
+var POSTHOG_KEY="";
+if(POSTHOG_KEY){
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  posthog.init(POSTHOG_KEY,{api_host:"https://us.i.posthog.com",person_profiles:"identified_only",
+    /* political-response content stays in our own DB (see /api/track); PostHog only
+       ever receives funnel event names + the small properties we pass explicitly. */
+    autocapture:false,capture_pageview:false});
+}
+</script>
+
+<script>
 (function(){
 "use strict";
 var $=function(i){return document.getElementById(i);};
 var QVERSION="v1"; /* bump when question/card wording changes meaningfully; codes above stay stable */
+
+/* ---------- anonymous tracking ----------
+   No accounts. One anonymous_id persisted in localStorage identifies a
+   participant across visits; per-experience session ids are generated fresh
+   each time someone starts the quiz or the game. Every call is fire-and-
+   forget — a network failure here must never block or break the product. */
+function uuid(){
+  if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
+    var r=Math.random()*16|0,v=c==="x"?r:(r&0x3|0x8);return v.toString(16);});
+}
+function pid(){
+  var v=null;try{v=localStorage.getItem("manifesto.pid");}catch(e){}
+  if(!v){v=uuid();try{localStorage.setItem("manifesto.pid",v);}catch(e){}}
+  return v;
+}
+var CUR={compassSessionId:null,presidentSessionId:null,qStartTs:0,cardStartTs:0};
+function track(type,payload){
+  try{
+    var body=Object.assign({type:type,anonymous_id:pid()},payload||{});
+    fetch("/api/track",{method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify(body),keepalive:true}).catch(function(){});
+  }catch(e){}
+}
+function evt(name,props){
+  if(window.posthog&&posthog.capture)posthog.capture(name,props||{});
+  track("event",{event_name:name,properties:props||{},
+    session_id:(props&&props.session_id)||null});
+}
+function likertCode(v){return {"2":"A","1":"B","0":"C","-1":"D","-2":"E"}[String(v)];}
 
 /* ---------- dimensions ---------- */
 var AXES=[
@@ -1252,6 +1297,7 @@ function cur(){return st.part===1?Q[st.i]:CIVIC[st.i];}
 function total(){return st.part===1?Q.length:CIVIC.length;}
 function ansArr(){return st.part===1?st.a:st.ca;}
 function renderQ(){
+  CUR.qStartTs=Date.now();
   var q=cur(),n=total();
   $("qcount").textContent=(st.part===1?"Question ":"Part 2 · question ")+(st.i+1)+" of "+n;
   $("qaxis").textContent=st.part===1?AXES.filter(function(a){return a.k===q.a;})[0].n:"";
@@ -1269,7 +1315,13 @@ function renderQ(){
   if(st.part===1)mini($("mini"),score(st.a));
 }
 function pick(v){
-  var ans=ansArr();ans[st.i]=v;
+  var ans=ansArr();
+  var q0=cur(),wasAnswered=ans[st.i]!=null;
+  ans[st.i]=v;
+  track("response",{session_id:CUR.compassSessionId,question_code:q0.code,
+    answer_code:q0.code+"_"+likertCode(v),
+    response_time_ms:Date.now()-(CUR.qStartTs||Date.now()),answer_changed:wasAnswered});
+  evt("question_answered",{session_id:CUR.compassSessionId,question_code:q0.code,part:st.part});
   Array.prototype.forEach.call($("likert").children,function(btn){
     btn.setAttribute("aria-pressed",String(Number(btn.dataset.v)===v));});
   if(st.part===1){mini($("mini"),score(st.a));advance(180);return;}
@@ -1298,8 +1350,15 @@ document.addEventListener("keydown",function(e){
 });
 function reset(){st.part=1;st.i=0;st.a.fill(null);st.ca.fill(null);st.r=null;
   $("civicWrap").hidden=true;$("part2").hidden=false;}
-$("startBtn").addEventListener("click",function(){reset();show("quiz");renderQ();});
-$("again").addEventListener("click",function(){reset();show("quiz");renderQ();});
+function beginCompass(){
+  reset();
+  CUR.compassSessionId=uuid();
+  track("session_start",{session_id:CUR.compassSessionId,experience_type:"compass"});
+  evt("compass_started",{session_id:CUR.compassSessionId});
+  show("quiz");renderQ();
+}
+$("startBtn").addEventListener("click",beginCompass);
+$("again").addEventListener("click",beginCompass);
 $("part2").addEventListener("click",function(){st.part=2;st.i=0;show("quiz");renderQ();});
 
 /* ---------- result ---------- */
@@ -1309,7 +1368,14 @@ function finish(){
   st.r={pos:pos,ranked:classify(pos)};
   remember({t:Date.now(),pos:pos,a:st.r.ranked[0].a.id});
   steps();
+  var tie=tied(st.r.ranked);
+  track("session_complete",{session_id:CUR.compassSessionId,completion_status:"completed"});
+  track("compass_result",{session_id:CUR.compassSessionId,archetype:st.r.ranked[0].a.id,
+    archetype_share:st.r.ranked[0].share,tied_archetypes:tie.map(function(r){return r.a.id;}),
+    final_dimension_scores:pos,question_version:QVERSION});
+  evt("compass_completed",{session_id:CUR.compassSessionId,archetype:st.r.ranked[0].a.id});
   renderResult();renderWho();show("result");
+  evt("result_viewed",{session_id:CUR.compassSessionId,archetype:st.r.ranked[0].a.id});
 }
 /* A tester asked why the dimensions aren't socialist / capitalist / nationalist. They
    aren't, because those are imported and they do not name the arguments Nigeria has.
@@ -1459,6 +1525,7 @@ function resultText(){
     "\n\nClosest Nigerian tradition: "+TR[top.a.id].n+"\n\nFind yours: "+location.href;
 }
 $("copy").addEventListener("click",function(){
+  evt("result_shared",{session_id:CUR.compassSessionId,method:"copy"});
   navigator.clipboard.writeText(resultText()).then(function(){toast("Copied");},
     function(){toast("Your browser blocked the copy");});});
 function buildCard(){
@@ -1502,6 +1569,7 @@ function buildCard(){
   return c;
 }
 $("card").addEventListener("click",function(){
+  evt("result_shared",{session_id:CUR.compassSessionId,method:"card"});
   var c=buildCard();
   c.toBlob(function(b){
     if(!b){toast("Could not render the card");return;}
@@ -1829,6 +1897,7 @@ function eligible(){
   }).map(function(c){return DECK.indexOf(c);});
 }
 function nextCard(){
+  CUR.cardStartTs=Date.now();
   if(G.day>=26&&!G.third&&G.limit===BASE_LIMIT){
     G.cur="third";
     $("gWho").textContent=THIRD.w;
@@ -1880,6 +1949,10 @@ function applyV(o,scale){
 function play(side){
   if(!G.live)return;
   var c=(G.cur==="third")?THIRD:DECK[G.cur],ch=side==="l"?c.l:c.r;
+  track("response",{session_id:CUR.presidentSessionId,question_code:c.code,
+    answer_code:c.code+"_"+(side==="l"?"L":"R"),
+    response_time_ms:Date.now()-(CUR.cardStartTs||Date.now()),answer_changed:false});
+  evt("president_decision",{session_id:CUR.presidentSessionId,question_code:c.code,side:side});
   if(ch.third){
     var support=(G.m.palace+G.m.barracks+G.m.gov)/3;
     G.day++;
@@ -1965,6 +2038,19 @@ function updateClock(){
 function endGame(bloc,why){
   G.live=false;
   $("gameRun").hidden=true;$("gameEnd").hidden=false;
+  var outcome = why==="lost" ? "lost_election"
+    : bloc ? ((G.m[bloc.k]>=100?"captured_by_":"abandoned_by_")+bloc.k)
+    : why==="legacy" ? "served_full_term" : "term_complete";
+  track("session_complete",{session_id:CUR.presidentSessionId,completion_status:"completed"});
+  track("president_result",{session_id:CUR.presidentSessionId,
+    final_score:national(),final_outcome:outcome,outcome_reason:why||null,
+    ending_bloc:bloc?bloc.k:null,decisions_count:G.day,
+    years_served:+(G.day/PER_YEAR).toFixed(2),contradictions:G.contra,
+    governed_dimension_scores:governedPos(),
+    final_value_scores:JSON.parse(JSON.stringify(G.v)),
+    final_bloc_scores:JSON.parse(JSON.stringify(G.m)),
+    question_version:QVERSION});
+  evt("president_completed",{session_id:CUR.presidentSessionId,final_outcome:outcome});
   var kick,title,body;
   if(why==="lost"){
     kick="YOU LOST THE ELECTION";
@@ -2204,6 +2290,9 @@ function interstitial(title,sub,after){
     setTimeout(function(){el.hidden=true;if(after)after();},700);},2700);
 }
 function beginRun(){
+  CUR.presidentSessionId=uuid();
+  track("session_start",{session_id:CUR.presidentSessionId,experience_type:"president"});
+  evt("president_started",{session_id:CUR.presidentSessionId});
   G={live:true,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,cur:0,
      limit:BASE_LIMIT,third:null,gax:{},gn:{},brave:0,safe:0};
   KEYS.forEach(function(k){G.gax[k]=0;G.gn[k]=0;});
@@ -2236,6 +2325,14 @@ function start(){
   $("officeSel").addEventListener("change",renderBallot);
   $("wSave").addEventListener("click",saveWho);
   renderBallot();landing();renderTrad();show("start");
+  var qp=new URLSearchParams(location.search);
+  track("participant_seen",{
+    referrer:document.referrer||null,
+    utm_source:qp.get("utm_source"),utm_medium:qp.get("utm_medium"),utm_campaign:qp.get("utm_campaign"),
+    device_type:/Tablet|iPad/i.test(navigator.userAgent)?"tablet":
+      (/Mobi|Android/i.test(navigator.userAgent)?"mobile":"desktop")
+  });
+  evt("landing_viewed",{});
 }
 if(window.claude&&window.claude.hot){
   window.claude.hot.snapshot(function(){return {part:st.part,i:st.i,a:st.a,ca:st.ca};});

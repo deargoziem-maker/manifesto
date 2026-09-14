@@ -1,0 +1,9 @@
+{
+  "name": "manifesto-ng",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Manifesto.ng — static frontend (index.html) plus Vercel serverless functions (/api) for participant tracking and research data capture.",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  }
+}
