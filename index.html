@@ -561,6 +561,21 @@ tr:last-child td{border-bottom:0;}
 .mt .bar::after{content:"";position:absolute;left:0;right:0;top:20%;height:1px;background:var(--hair);}
 .mt .bar::before{content:"";position:absolute;left:0;right:0;bottom:20%;height:1px;background:var(--hair);}
 .mt.danger .bar{border-color:var(--laterite);box-shadow:inset 0 0 0 1px var(--laterite);}
+.mt .st{display:block;font-family:"IBM Plex Mono",monospace;font-size:.68rem;font-weight:600;
+  font-style:normal;letter-spacing:.055em;text-transform:uppercase;line-height:1.15;margin-top:7px;
+  color:var(--ink-3);transition:color .3s ease;min-height:2.35em;}
+.mt[data-s="loyal"] .st,.mt[data-s="warming"] .st{color:var(--palm-text);}
+.mt[data-s="restless"] .st{color:var(--bronze-text,var(--ink-2));}
+.mt[data-s="sliding"] .st{color:var(--laterite-text);}
+.mt[data-s="hostile"] .st,.mt[data-s="plotting"] .st{color:var(--laterite-text);}
+.mt[data-s="plotting"] .st{letter-spacing:.12em;}
+.mt[data-s="captured"] .st{color:var(--bronze-text,var(--ink));font-style:italic;}
+.mt[data-s="plotting"] .bar,.mt[data-s="hostile"] .bar{border-color:var(--laterite);}
+.mt[data-s="captured"] .bar{border-color:var(--bronze);box-shadow:inset 0 0 0 1px var(--bronze);}
+.mt.turned{animation:mtturn .9s ease-out;}
+@media(max-width:560px){.mt .st{font-size:.6rem;letter-spacing:.02em;min-height:2.6em;}
+  .mt[data-s="plotting"] .st{letter-spacing:.05em;}}
+@keyframes mtturn{0%{opacity:.25}20%{opacity:1}40%{opacity:.35}100%{opacity:1}}
 .mt span{display:block;font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.08em;
   text-transform:uppercase;color:var(--ink-3);margin-top:6px;line-height:1.3;}
 .mt.danger span{color:var(--laterite-text);}
@@ -578,6 +593,25 @@ tr:last-child td{border-bottom:0;}
 @keyframes mtpulse{0%{transform:translateY(-3px)}30%{transform:translateY(0)}100%{transform:translateY(0)}}
 .mt .bar i{transition:height .6s cubic-bezier(.34,1.4,.5,1);}
 
+/* A bloc that changes its mind announces it — once, briefly, over the board and then
+   gone. It floats rather than sitting in the flow, so nothing reflows when it comes
+   and goes, and it is not a record you can scroll back to. Word reaches you in that
+   job while you are already deciding the next thing, or it does not reach you. */
+.mwrap{position:relative;margin-bottom:18px;}
+.meters{margin-bottom:0;}
+.shift{position:absolute;top:100%;left:0;right:0;z-index:6;margin-top:5px;
+  border:1px solid var(--ink);border-left:4px solid var(--laterite);
+  background:var(--stock-2);padding:10px 14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.14);
+  opacity:0;transform:translateY(-7px);
+  transition:opacity .42s ease,transform .42s ease;
+  pointer-events:none;}
+.shift.on{opacity:1;transform:none;transition:opacity .14s ease,transform .18s cubic-bezier(.34,1.5,.5,1);}
+.shift.good{border-left-color:var(--palm);}
+.shift b{display:block;font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--laterite-text);margin-bottom:4px;}
+.shift.good b{color:var(--palm-text);}
+.shift p{margin:0;font-size:.92rem;line-height:1.5;color:var(--ink);}
 .g-clock{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;}
 .sndbtn{background:none;border:1px solid var(--hair);color:var(--ink-3);cursor:pointer;
   padding:3px 8px;font-family:inherit;}
@@ -801,9 +835,10 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     </svg>
 
     <div class="measure" style="margin-top:34px">
-      <h2 style="font-size:var(--s-2)">Nigerian politics isn't driven by ideology</h2>
-      <p style="color:var(--ink-2)">True, and everybody says it like it settles the matter. It doesn't follow that Nigerians have no political beliefs — only that we have never had shared language for them.</p>
-      <p style="color:var(--ink-2)">And politics is one thing; governing is another. So this asks you both. Most people are not the same person in both halves.</p>
+      <h2 style="font-size:var(--s-2)">Nigerian politics isn't driven by ideology.</h2>
+      <p style="color:var(--ink-2)">True. But that doesn't mean Nigerians don't have political beliefs. We just haven't had much of a shared language for them.</p>
+      <p style="color:var(--ink-2)">And what you believe is not always how you govern.</p>
+      <p class="beat">If Na You asks you both.</p>
     </div>
 
     <div class="strip" id="steps">
@@ -991,10 +1026,9 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <h1 style="font-size:var(--s-3)">If na you,<br>wetin you go do?</h1>
       <p class="lead" style="margin-top:16px">You are President of Nigeria. Everybody who walks through that door wants something, and you can say yes or you can say no. That is the whole job. Five powers. None of them can be ignored, and none of them can be fed.</p>
       <div class="gate-blocs" id="gateBlocs"></div>
-      <p style="color:var(--ink-2);margin-top:20px">Lose any of them entirely and you are finished. Let any of them own you completely and you are finished a different way. Between those two failures is the only place governing happens — and most presidencies here do not last four years.</p>
+      <p style="color:var(--ink-2);margin-top:20px">Lose any of them entirely and you are finished. Let any of them own you completely and you are finished a different way. Between those two failures is the only place governing happens.</p>
       <div class="cta" style="margin-top:22px">
         <button class="btn go" id="gStart">Take office</button>
-        <span class="lab">Eight years · 32 decisions · most people do not finish</span>
         <span class="lab" id="gLinkNote"></span>
       </div>
     </div>
@@ -1003,7 +1037,10 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <div class="season-veil" id="gSeason" hidden>
         <div class="sv-in"><span class="lab" id="gSeasonT"></span><p id="gSeasonS"></p></div>
       </div>
-      <div class="meters" id="gMeters"></div>
+      <div class="mwrap">
+        <div class="meters" id="gMeters"></div>
+        <div class="shift" id="gShift" hidden><b id="gShiftT"></b><p id="gShiftP"></p></div>
+      </div>
       <div class="g-clock"><span class="lab" id="gClock"></span>
         <button class="sndbtn lab" id="gSnd" aria-pressed="false">Sound off</button>
         <span class="lab" id="gTerm"></span></div>
@@ -2069,6 +2106,43 @@ document.addEventListener("click",function(e){
 /* ---------- the game ---------- */
 /* Reigns' structure: binary choice, and a bloc kills you when it empties AND when it fills.
    Democracy's substance: prosperity is a separate number nobody in the room argues for. */
+var STATE_CARDS=[
+ {req:"st_barracks_plotting",now:true,w:"The Director of Military Intelligence",
+  s:"Sir, I am obliged to report a conversation. Three officers, one of them a general. Nothing actionable. I can arrest them tonight or I can leave them where I can hear them.",
+  l:{t:"Arrest them tonight.",m:{barracks:-10,palace:6,street:-6,gov:4},v:{sec:6,int:-10,coh:-6,cap:-3},ax:{security:-1},f:"purge"},
+  r:{t:"Leave them where you can hear them.",m:{barracks:12,purse:-6},v:{sec:-8,int:4,coh:2},ax:{security:1}}},
+
+ {req:"st_purse_hostile",now:true,w:"The Accountant-General",
+  s:"There is not enough for salaries this month. I can pay the federal workforce and default on the states, or pay everyone at seventy per cent and call it a phased release.",
+  l:{t:"Pay Abuja in full.",m:{purse:8,gov:-20,street:-8},v:{pro:-4,coh:-9,int:-6,cap:2},ax:{struct:-1}},
+  r:{t:"Seventy per cent, everybody.",m:{purse:-4,street:-12,gov:8,barracks:-10},v:{pro:-6,coh:4,int:5,cap:-4},ax:{struct:1},f:"phased_release"}},
+
+ {req:"st_gov_plotting",now:true,w:"The Chairman of the Governors' Forum",
+  s:"Twenty-two of us met in Enugu without you and we are not going to pretend otherwise. We want the VAT formula and the state police bill, or we stop remitting and let you explain it.",
+  l:{t:"Give them the formula.",m:{gov:22,purse:-16,barracks:-6},v:{pro:3,coh:7,cap:-4,sov:-3,int:4},ax:{struct:1},f:"vat_conceded"},
+  r:{t:"Let them try it.",m:{gov:-16,barracks:10,purse:6},v:{pro:-5,coh:-11,sec:-4,int:-2},ax:{struct:-1}}},
+
+ {req:"st_street_hostile",now:true,w:"A woman outside the gate, on live television",
+  s:"We are not going home. You can send them to move us or you can come out here yourself, but we are not going home.",
+  l:{t:"Go out to the gate.",m:{street:20,barracks:-12,palace:-6},v:{coh:9,int:11,sec:-5,pro:2},ax:{represent:1},f:"went_out"},
+  r:{t:"Send them to move you.",m:{street:-24,barracks:12,purse:6},v:{coh:-12,int:-14,sec:3,pro:-3},ax:{represent:-1},f:"crackdown"}},
+
+ {req:"st_palace_plotting",now:true,w:"The Sultan's representative, unannounced",
+  s:"My principal has not been invited to anything for eleven months. He is not asking for an invitation. He is telling you that the next time there is trouble in a place your police do not go, nobody will be calling him on your behalf.",
+  l:{t:"Go to Sokoto yourself.",m:{palace:20,street:-6,gov:4},v:{coh:8,sec:5,int:-4},ax:{social:1},f:"went_to_sokoto"},
+  r:{t:"The state does not court thrones.",m:{palace:-14,street:8,barracks:4},v:{coh:-7,sec:-6,int:7,cap:3},ax:{social:-1}}},
+
+ {req:"st_barracks_captured",now:true,w:"The Chief of Defence Staff, without knocking",
+  s:"We have prepared the national security bill. It gives us the ports, the pipelines and the power to detain for ninety days. I have brought it for signature rather than debate, which I think we both understand is a courtesy.",
+  l:{t:"Sign it.",m:{barracks:8,street:-18,gov:-10,palace:-6},v:{sec:9,int:-22,coh:-9,sov:4,cap:-5},ax:{method:-1},f:"security_bill"},
+  r:{t:"It goes to the Assembly like anything else.",m:{barracks:-20,street:14,gov:8},v:{sec:-6,int:14,coh:5},ax:{method:1}}},
+
+ {req:"st_purse_captured",now:true,w:"Three men who funded the campaign",
+  s:"We are not asking for contracts. We are asking that the new tax law goes out for stakeholder consultation, and that the stakeholders are us. You would not be in that chair without this room.",
+  l:{t:"Send it for consultation.",m:{purse:6,street:-14,gov:-6},v:{pro:-4,int:-18,coh:-6,cap:-4},ax:{econ:-1},f:"captured_tax"},
+  r:{t:"It goes out as drafted.",m:{purse:-22,street:12,barracks:4},v:{pro:5,int:15,cap:6,coh:3},ax:{econ:1}}}
+];
+
 var BLOCS=[
  {k:"street", n:"The Street", c:"var(--laterite)",
   d:"Youth, labour, the market, the road.",
@@ -2107,6 +2181,9 @@ var VKEYS=VALUES.map(function(v){return v.k;});
 /* who / what they want / two answers. m = bloc moves, v = what it does to the country
    on six measures, ax = which stated position this choice acts against, f = sets a flag,
    req = only appears if flag held */
+/* The state cards below are appended to the deck after it is declared — they only
+   ever become eligible when a power has actually changed posture, so a run in which
+   nobody is ever pushed to the edge never sees them at all. */
 var DECK=[
  {w:"The Finance Minister",s:"Fuel subsidy is a fifth of what we spend. I can end it on Monday, or you can find the money somewhere else.",
   l:{t:"End it Monday.",m:{purse:16,street:-18,gov:4},v:{pro:7,cap:6,int:5,coh:-4,sov:3,sec:-3},ax:{econ:-1},f:"subsidy_gone"},
@@ -2236,10 +2313,128 @@ var DECK=[
   l:{t:"Make it difficult.",m:{barracks:8,street:-24},v:{pro:-12,int:-19,coh:-6,sec:-4},ax:{security:-1}},
   r:{t:"Let her publish.",m:{street:18,palace:-8},v:{pro:10,int:17,coh:5,sec:3},ax:{security:1}}}
 ];
+Array.prototype.push.apply(DECK,STATE_CARDS);
+
 
 var G={live:false,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,queue:[]};
 
 function blocOf(k){return BLOCS.filter(function(b){return b.k===k;})[0];}
+
+/* ---------- the five powers as actors, not as five bars ----------
+   A level alone is a resource. What makes a bloc a political actor is that its
+   posture depends on three things at once: where it stands, which way it is moving,
+   and how long you have gone without addressing it at all. A Barracks at 60 that
+   you have cut twenty points in three decisions is a more dangerous object than a
+   Barracks sitting quietly at 45, and no gauge can say that.
+   Every state below is reachable from every level, which is the point. */
+var STATE_ORDER=["captured","plotting","hostile","sliding","loyal","warming","restless","holding"];
+var SEV={captured:5,plotting:5,hostile:4,sliding:3,restless:2,holding:1,warming:1,loyal:0};
+/* Announce only the four postures that change what you can do, plus the one piece
+   of good news. Sliding is carried by the meter's own colour; announcing that too
+   put a banner on screen every other decision, which is how an alarm becomes wallpaper. */
+var LOUD={captured:1,plotting:1,hostile:1,loyal:1};
+var SHIFT_GAP=2;
+var POSTURE={
+ street:{captured:"Your mob",plotting:"Organising",hostile:"On the street",sliding:"Turning",
+   loyal:"Behind you",warming:"Hopeful",restless:"Murmuring",holding:"Watching"},
+ palace:{captured:"Your clergy",plotting:"Withholding",hostile:"Cold",sliding:"Pulling back",
+   loyal:"Blessing you",warming:"Softening",restless:"Unconsulted",holding:"Listening"},
+ barracks:{captured:"The real government",plotting:"Plotting",hostile:"Mutinous",sliding:"Restive",
+   loyal:"Loyal",warming:"Settling",restless:"Unpaid",holding:"In barracks"},
+ purse:{captured:"Your owners",plotting:"Capital flight",hostile:"Broke",sliding:"Tightening",
+   loyal:"Flush",warming:"Easing",restless:"Cautious",holding:"Solvent"},
+ gov:{captured:"The real power",plotting:"In revolt",hostile:"Defiant",sliding:"Breaking ranks",
+   loyal:"With you",warming:"Coming round",restless:"Bargaining",holding:"In line"}
+};
+/* What the shift actually means, in the room. Written per bloc because a Purse that
+   has stopped lending is not the same event as a Barracks that has stopped saluting. */
+var SHIFTWORD={
+ street:{captured:"Nothing passes now unless the crowd has already agreed to it. You have a mandate and no room to use it.",
+   plotting:"The organising has moved off the road and into rooms. Nobody is negotiating with you any more.",
+   hostile:"They are on the road. Lagos, Ibadan, Kano — not a protest with a permit, the other kind.",
+   sliding:"The mood has turned quickly. Whatever you did last, they felt it before your ministers did.",
+   loyal:"They will absorb a hard decision from you now. That is the only window you get."},
+ palace:{captured:"Nothing reaches the country without a blessing first. You govern by permission.",
+   plotting:"The pulpits and the palaces have gone quiet about you, and quiet from that quarter is not neutral.",
+   hostile:"They will not appear with you. The authority that reaches further than yours has withdrawn it.",
+   sliding:"You have stopped consulting them and they have noticed, which is the only thing they ever really ask.",
+   loyal:"They are speaking for you on Fridays and Sundays, which is more reach than any ministry you control."},
+ barracks:{captured:"You keep them close and the uniform has begun to govern. You announce.",
+   plotting:"The rumours have reached the point where your own security people are reporting them to you.",
+   hostile:"Officers are talking openly. This is how every one of them started, and they always come at four.",
+   sliding:"Something you did landed badly in the mess. They have not said anything, which is worse.",
+   loyal:"They are yours. That buys you decisions nobody else could survive taking."},
+ purse:{captured:"The business houses write the policy now and your ministers read it out.",
+   plotting:"The money is leaving. Not loudly — through invoices, through Dubai, through accounts you cannot see.",
+   hostile:"There is no money. Salaries are the first thing to go and everything else follows within the month.",
+   sliding:"Confidence is going. Borrowing costs move before anybody announces anything.",
+   loyal:"You can pay for what you decide. Almost no Nigerian president has been able to say that."},
+ gov:{captured:"Abuja is ceremonial. The thirty-six run the country and invite you to the photograph.",
+   plotting:"They have stopped pretending to consult you and started coordinating with each other.",
+   hostile:"The federating units are openly defying the centre. What you have left is a capital city.",
+   sliding:"The coalition is loosening. It always starts with one or two and it is never only one or two.",
+   loyal:"The states are with you, which means anything you decide can actually reach a village."}
+};
+function trendOf(k){
+  var h=G.hist[k]||[],t=0;
+  for(var i=Math.max(0,h.length-3);i<h.length;i++)t+=h[i];
+  return t;
+}
+function stateOf(k){
+  var v=G.m[k],tr=trendOf(k),cold=G.cold[k]||0;
+  if(v>=88)return "captured";
+  if(v<=22&&tr<=0)return "plotting";
+  if(v<=32)return "hostile";
+  if(tr<=-11)return "sliding";
+  if(v>=70)return "loyal";
+  if(tr>=11)return "warming";
+  if(v<45||cold>=6)return "restless";
+  return "holding";
+}
+/* One shift per decision, the loudest. Five announcements at once is noise, and
+   noise is the thing that made the powers easy to ignore in the first place. */
+function updateStates(){
+  var loudest=null;
+  BLOCS.forEach(function(b){
+    var ns=stateOf(b.k),os=G.stNow[b.k];
+    G.stT[b.k][ns]=(G.stT[b.k][ns]||0)+1;
+    if(ns!==os){
+      G.stNow[b.k]=ns;
+      G.turned[b.k]=true;
+      if(LOUD[ns]&&(!loudest||SEV[ns]>SEV[loudest.s]||(SEV[ns]===SEV[loudest.s]&&ns==="captured")))
+        loudest={b:b,s:ns};
+      if(LOUD[ns])G.flags["st_"+b.k+"_"+ns]=true;
+      if(ns==="sliding")G.flags["st_"+b.k+"_sliding"]=true;
+    } else G.turned[b.k]=false;
+  });
+  if(loudest){
+    if(G.lastShift!==undefined&&G.day-G.lastShift<SHIFT_GAP)return null;
+    G.lastShift=G.day;
+  }
+  return loudest;
+}
+var shiftT=null;
+function clearShift(){
+  var box=$("gShift");
+  clearTimeout(shiftT);shiftT=null;
+  box.classList.remove("on");box.hidden=true;
+}
+/* Long enough to read if you are watching the board, gone if you were reading the
+   card instead. There is deliberately no way back to it. */
+var SHIFT_MS=3400;
+function announceShift(sh){
+  var box=$("gShift");
+  if(!sh)return;
+  $("gShiftT").textContent=sh.b.n+" — "+POSTURE[sh.b.k][sh.s];
+  $("gShiftP").textContent=SHIFTWORD[sh.b.k][sh.s];
+  box.classList.toggle("good",sh.s==="loyal");
+  clearTimeout(shiftT);
+  box.hidden=false;void box.offsetWidth;box.classList.add("on");
+  shiftT=setTimeout(function(){
+    box.classList.remove("on");
+    shiftT=setTimeout(function(){box.hidden=true;shiftT=null;},480);
+  },SHIFT_MS);
+}
 function valOf(k){return VALUES.filter(function(v){return v.k===k;})[0];}
 /* the country, read as one number: the six weighted equally */
 function national(){
@@ -2265,9 +2460,9 @@ function renderGate(){
    killing the height transition, which is why the powers read as inert. */
 function buildMeters(){
   $("gMeters").innerHTML=BLOCS.map(function(b){
-    return '<div class="mt" data-k="'+b.k+'"><em class="dlt"></em>'+
+    return '<div class="mt" data-k="'+b.k+'" data-s="holding"><em class="dlt"></em>'+
       '<div class="bar" style="--mc:'+b.c+'"><i style="height:50%"></i></div>'+
-      '<span>'+b.n.replace("The ","")+'</span></div>';}).join("");
+      '<span>'+b.n.replace("The ","")+'</span><b class="st"></b></div>';}).join("");
 }
 var mtTimers={};
 function renderMeters(d){
@@ -2277,6 +2472,10 @@ function renderMeters(d){
     var v=G.m[b.k];
     el.classList.toggle("danger",v<=20||v>=80);
     el.querySelector(".bar i").style.height=v+"%";
+    var sk=G.stNow[b.k]||"holding";
+    el.setAttribute("data-s",sk);
+    el.querySelector(".st").textContent=POSTURE[b.k][sk];
+    if(G.turned[b.k]){el.classList.remove("turned");void el.offsetWidth;el.classList.add("turned");}
     var dl=el.querySelector(".dlt"),n=d?Math.round(d[b.k]||0):0;
     if(n){
       dl.textContent=(n>0?"+":"−")+Math.abs(n);
@@ -2309,7 +2508,11 @@ function nextCard(){
   var pool=eligible();
   if(!pool.length){G.seen=[];pool=eligible();}
   /* chained cards jump the queue — they are the consequence arriving */
-  var forced=pool.filter(function(i){return DECK[i].req;});
+  var forced=pool.filter(function(i){return DECK[i].req&&!DECK[i].now;});
+  /* A mutiny is not a delayed consequence. When a power changes posture, the next
+     person through the door is that power. */
+  var urgent=(G.lastUrgent!==undefined&&G.day-G.lastUrgent<2)?[]
+    :pool.filter(function(i){return DECK[i].now;});
   /* Deal toward the arguments this run has not had yet. Dealing uniformly at random
      meant custom and method never came up in four runs out of ten, which left the
      end-of-term reading with nothing to say about them and made the gap unmeasurable. */
@@ -2317,7 +2520,8 @@ function nextCard(){
   /* a chained card is the consequence arriving — it should arrive later, not next */
   forced.forEach(function(i){ if(G.owed[i]===undefined)G.owed[i]=G.day; });
   var ripe=forced.filter(function(i){return (G.day-G.owed[i])>=3;});
-  if(ripe.length) pick=ripe[0];
+  if(urgent.length){pick=urgent[0];G.lastUrgent=G.day;}
+  else if(ripe.length) pick=ripe[0];
   else {
     var bestI=pool[0],bestN=1e9;
     pool.forEach(function(i){
@@ -2337,6 +2541,21 @@ function nextCard(){
   $("gCard").classList.remove("tilt-l","tilt-r");
 }
 
+/* The levels are where the blocs ended. This is what living under you was like for
+   them on the way there, which is a different and more honest question. */
+function heldBy(){
+  var worst=null;
+  BLOCS.forEach(function(b){
+    var t=G.stT[b.k]||{},bad=(t.plotting||0)+(t.hostile||0),cap=t.captured||0;
+    if(bad>=3&&(!worst||bad>worst.n))worst={b:b,n:bad,kind:"bad"};
+    if(cap>=3&&(!worst||cap>worst.n))worst={b:b,n:cap,kind:"cap"};
+  });
+  if(!worst)return "";
+  var totalMo=G.limit*3, mo=Math.min(totalMo,Math.round(worst.n*3));
+  var totalW=(totalMo>=144?"one hundred and forty-four":"ninety-six");
+  return " For "+mo+" of your "+totalW+" months "+worst.b.n.toLowerCase()+
+    (worst.kind==="cap"?" effectively governed alongside you.":" wanted you gone.");
+}
 function contradiction(ch){
   if(!st.r||!ch.ax)return null;
   var k=Object.keys(ch.ax)[0],dir=ch.ax[k],said=st.r.pos[k];
@@ -2373,7 +2592,9 @@ function play(side){
       G.third="passed";G.limit=48;G.term=3;season();
       G.m.street=Math.max(0,G.m.street-30);G.m.gov=Math.max(0,G.m.gov-12);
       applyV({pro:-8,int:-26,coh:-12,cap:-5},1);
-      renderMeters({street:-30,gov:-12});
+      BLOCS.forEach(function(b){G.hist[b.k].push(0);G.cold[b.k]++;});
+      G.hist.street[G.hist.street.length-1]=-30;G.hist.gov[G.hist.gov.length-1]=-12;
+      announceShift(updateStates());renderMeters({street:-30,gov:-12});
       $("gFlagTitle").textContent="The amendment passed.";
       $("gFlag").textContent="You have four more years and the country knows exactly how you got them. Nobody who votes for you again will be voting for the same thing.";
     } else {
@@ -2381,7 +2602,10 @@ function play(side){
       G.m.street=Math.max(0,G.m.street-22);G.m.palace=Math.max(0,G.m.palace-12);
       G.m.gov=Math.max(0,G.m.gov-12);
       applyV({pro:-6,int:-9,coh:-5},1);
-      renderMeters({street:-22,palace:-12,gov:-12});
+      BLOCS.forEach(function(b){G.hist[b.k].push(0);G.cold[b.k]++;});
+      G.hist.street[G.hist.street.length-1]=-22;G.hist.palace[G.hist.palace.length-1]=-12;
+      G.hist.gov[G.hist.gov.length-1]=-12;
+      announceShift(updateStates());renderMeters({street:-22,palace:-12,gov:-12});
       $("gFlagTitle").textContent="It died on the floor.";
       $("gFlag").textContent="The Assembly threw it out, in public, the way it did in 2006. You are still leaving at the end of the term — you have simply told everyone you did not want to.";
     }
@@ -2433,6 +2657,15 @@ function play(side){
   if(G.v.pro<40) G.m.street=Math.max(0,G.m.street-(40-G.v.pro)*0.06);
   else if(G.v.pro>65) G.m.street=Math.min(100,G.m.street+(G.v.pro-65)*0.042);
   deltas.street+=(G.m.street-sb);
+  /* Trajectory and neglect are what make a posture, so both are recorded here:
+     what the decision did to each bloc, and whether it addressed them at all.
+     A bloc nobody has spoken to in six decisions becomes restless on its own. */
+  BLOCS.forEach(function(b){
+    G.hist[b.k].push(deltas[b.k]||0);
+    if(G.hist[b.k].length>6)G.hist[b.k].shift();
+    if(ch.m&&ch.m[b.k])G.cold[b.k]=0; else G.cold[b.k]++;
+  });
+  var shift=updateStates();
   if(ch.f)G.flags[ch.f]=true;
   G.day++;G.year=Math.floor((G.day-1)/PER_YEAR);
   var msg=contradiction(ch);
@@ -2440,6 +2673,8 @@ function play(side){
     $("gFlag").textContent=msg;$("gFlagBox").hidden=false;}
   SFX.decide();
   renderMeters(deltas);
+  announceShift(shift);
+  if(shift&&SEV[shift.s]>=4)SFX.danger();
   if(BLOCS.some(function(b){return G.m[b.k]<=20||G.m[b.k]>=80;}))SFX.danger();
   var dead=BLOCS.filter(function(b){return G.m[b.k]<=0||G.m[b.k]>=100;})[0];
   if(dead){setTimeout(function(){endGame(dead);},1000);return;}
@@ -2550,6 +2785,7 @@ function presidencyName(bloc,why){
 function endGame(bloc,why){
   SFX.over();
   G.live=false;
+  clearShift();
   $("gameRun").hidden=true;$("gameEnd").hidden=false;
   (function(){
     var outcome = why==="lost" ? "lost_election"
@@ -2593,6 +2829,7 @@ function endGame(bloc,why){
       ? "You served "+spanW+" years and handed over a country in roughly the condition you received it. Every bloc got something. Nobody got very much."
       : "You lasted the full "+spanW+" years by keeping the room satisfied, and the country is worse than when you walked in. This is the most common way a Nigerian government ends and nobody in the room will tell you it was a failure.")))
       + " You leaned hardest on " + lean.n.toLowerCase() + ", which finished at " + Math.round(G.m[lean.k]) + "."
+      + heldBy()
       + " " + (sw.gained
          ? "What you actually bought the country was "+sw.best.n.toLowerCase()+"."
          : "You did not raise a single one of the six.")
@@ -2622,7 +2859,7 @@ function endGame(bloc,why){
     ? "You left the country better than you found it on the measures above. Almost nobody in the room ever asked you to."
     : (p>=33
       ? "The country is roughly where you found it. You spent the time surviving, which is what the job mostly is, and that is the complaint."
-      : "You stayed in the room and the country went backwards while you did. Every bloc was satisfied at some point. None of them was the country.");
+      : "You stayed in the room and the country went backwards while you did. Every power in that room got something out of you at some point. The measures above are what it cost.");
 }
 
 /* ---------- what you left behind ----------
@@ -2878,13 +3115,16 @@ function beginRun(){
   track("session_start",{session_id:CUR.presidentSessionId,experience_type:"president"});
   evt("president_started",{session_id:CUR.presidentSessionId});
   G={live:true,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,cur:0,
-     limit:BASE_LIMIT,third:null,gax:{},gn:{},gtest:{},gwith:{},brave:0,safe:0,ex:{},owed:{},cause:{}};
+     limit:BASE_LIMIT,third:null,gax:{},gn:{},gtest:{},gwith:{},brave:0,safe:0,ex:{},owed:{},cause:{},
+     hist:{},cold:{},stNow:{},stT:{},turned:{},lastShift:undefined,lastUrgent:undefined};
   KEYS.forEach(function(k){G.gax[k]=0;G.gn[k]=0;G.gtest[k]=0;G.gwith[k]=0;});
-  BLOCS.forEach(function(b){G.m[b.k]=50;});
+  BLOCS.forEach(function(b){G.m[b.k]=50;G.hist[b.k]=[];G.cold[b.k]=0;
+    G.stNow[b.k]="holding";G.stT[b.k]={};G.turned[b.k]=false;});
   VALUES.forEach(function(v){G.v[v.k]=v.s;});
   $("gameGate").hidden=true;$("gameEnd").hidden=true;$("gameRun").hidden=false;
   $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
-  season();buildMeters();renderMeters();updateClock();nextCard();
+  season();buildMeters();clearShift();
+  renderMeters();updateClock();nextCard();
   interstitial("The rains","Term one. You arrive with everything still possible.");
 }
 $("gSnd").addEventListener("click",sndToggle);
