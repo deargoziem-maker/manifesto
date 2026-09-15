@@ -1,5 +1,5 @@
 const { supabaseAdmin } = require("./_lib/supabaseAdmin");
-const { isUuid, isPlausibleAnonId, clientIp, geo, deviceTypeFromUA, sendJson } = require("./_lib/util");
+const { isUuid, isPlausibleAnonId, geo, deviceTypeFromUA, sendJson } = require("./_lib/util");
 
 const EXPERIENCE_TYPES = new Set(["compass", "president"]);
 const COMPLETION_STATUSES = new Set(["in_progress", "completed", "abandoned"]);
@@ -84,7 +84,6 @@ async function handleSessionStart(supabase, body, req) {
       id: body.session_id,
       participant_id: participantId,
       experience_type: body.experience_type,
-      experiment_variant: body.experiment_variant || null,
     },
     { onConflict: "id" }
   );
@@ -102,53 +101,15 @@ async function handleSessionComplete(supabase, body) {
     .update({
       completion_status: status,
       completed_at: new Date().toISOString(),
-      duration_seconds:
-        typeof body.duration_seconds === "number" ? body.duration_seconds : null,
     })
     .eq("id", body.session_id);
   if (error) throw error;
   return { ok: true };
 }
 
-async function handleResponse(supabase, body) {
-  if (!isUuid(body.session_id)) throw httpError(400, "session_id must be a uuid");
-  if (!body.question_code || !body.answer_code)
-    throw httpError(400, "question_code and answer_code are required");
-
-  const participantId = await ensureParticipant(supabase, body.anonymous_id, {});
-
-  const [{ data: q, error: qErr }, { data: a, error: aErr }] = await Promise.all([
-    supabase
-      .from("questions")
-      .select("id,question_version")
-      .eq("stable_question_code", body.question_code)
-      .single(),
-    supabase
-      .from("answers")
-      .select("id")
-      .eq("stable_answer_code", body.answer_code)
-      .single(),
-  ]);
-  if (qErr) throw httpError(400, "unknown question_code: " + body.question_code);
-  if (aErr) throw httpError(400, "unknown answer_code: " + body.answer_code);
-
-  const { error } = await supabase.from("responses").insert({
-    participant_id: participantId,
-    session_id: body.session_id,
-    question_id: q.id,
-    answer_id: a.id,
-    question_version: q.question_version,
-    response_time_ms:
-      typeof body.response_time_ms === "number" ? body.response_time_ms : null,
-    answer_changed: !!body.answer_changed,
-    experiment_variant: body.experiment_variant || null,
-  });
-  if (error) throw error;
-  return { ok: true };
-}
-
 async function handleCompassResult(supabase, body) {
   if (!isUuid(body.session_id)) throw httpError(400, "session_id must be a uuid");
+  if (!body.archetype) throw httpError(400, "archetype is required");
   const participantId = await ensureParticipant(supabase, body.anonymous_id, {});
 
   const { error } = await supabase.from("compass_results").upsert(
@@ -159,7 +120,6 @@ async function handleCompassResult(supabase, body) {
       archetype_share: body.archetype_share ?? null,
       tied_archetypes: body.tied_archetypes ?? null,
       final_dimension_scores: body.final_dimension_scores ?? {},
-      question_version: body.question_version || "v1",
     },
     { onConflict: "session_id" }
   );
@@ -169,44 +129,26 @@ async function handleCompassResult(supabase, body) {
 
 async function handlePresidentResult(supabase, body) {
   if (!isUuid(body.session_id)) throw httpError(400, "session_id must be a uuid");
+  if (!body.final_outcome) throw httpError(400, "final_outcome is required");
   const participantId = await ensureParticipant(supabase, body.anonymous_id, {});
 
   const { error } = await supabase.from("president_results").upsert(
     {
       participant_id: participantId,
       session_id: body.session_id,
-      final_score: body.final_score ?? null,
       final_outcome: body.final_outcome,
       outcome_reason: body.outcome_reason ?? null,
       ending_bloc: body.ending_bloc ?? null,
       decisions_count: body.decisions_count ?? null,
       years_served: body.years_served ?? null,
       contradictions: body.contradictions ?? null,
+      fidelity_tested: body.fidelity_tested ?? null,
+      fidelity_kept: body.fidelity_kept ?? null,
       governed_dimension_scores: body.governed_dimension_scores ?? {},
       final_value_scores: body.final_value_scores ?? {},
       final_bloc_scores: body.final_bloc_scores ?? {},
-      question_version: body.question_version || "v1",
     },
     { onConflict: "session_id" }
-  );
-  if (error) throw error;
-  return { ok: true };
-}
-
-async function handleDemographics(supabase, body) {
-  const participantId = await ensureParticipant(supabase, body.anonymous_id, {});
-  const { error } = await supabase.from("demographics").upsert(
-    {
-      participant_id: participantId,
-      age_range: body.age_range ?? null,
-      gender: body.gender ?? null,
-      state: body.state ?? null,
-      geopolitical_zone: body.geopolitical_zone ?? null,
-      residency: body.residency ?? null,
-      education_band: body.education_band ?? null,
-      employment_band: body.employment_band ?? null,
-    },
-    { onConflict: "participant_id" }
   );
   if (error) throw error;
   return { ok: true };
@@ -238,10 +180,8 @@ const HANDLERS = {
   participant_seen: handleParticipantSeen,
   session_start: handleSessionStart,
   session_complete: handleSessionComplete,
-  response: handleResponse,
   compass_result: handleCompassResult,
   president_result: handlePresidentResult,
-  demographics: handleDemographics,
   event: handleEvent,
 };
 

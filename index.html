@@ -1091,6 +1091,37 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 "use strict";
 var $=function(i){return document.getElementById(i);};
 
+/* ---------- anonymous tracking ----------
+   No accounts. One anonymous_id persisted in localStorage identifies a
+   participant across visits; per-experience session ids are generated fresh
+   each time someone starts the quiz or the game. Every call is fire-and-
+   forget — a network failure here must never block or break the product.
+   Only outcomes are recorded (archetype/dimensions, president result) — not
+   every individual answer or decision. */
+function uuid(){
+  if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
+    var r=Math.random()*16|0,v=c==="x"?r:(r&0x3|0x8);return v.toString(16);});
+}
+function pid(){
+  var v=null;try{v=localStorage.getItem("manifesto.pid");}catch(e){}
+  if(!v){v=uuid();try{localStorage.setItem("manifesto.pid",v);}catch(e){}}
+  return v;
+}
+var CUR={compassSessionId:null,presidentSessionId:null};
+function track(type,payload){
+  try{
+    var body=Object.assign({type:type,anonymous_id:pid()},payload||{});
+    fetch("/api/track",{method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify(body),keepalive:true}).catch(function(){});
+  }catch(e){}
+}
+function evt(name,props){
+  if(window.posthog&&posthog.capture)posthog.capture(name,props||{});
+  track("event",{event_name:name,properties:props||{},
+    session_id:(props&&props.session_id)||null});
+}
+
 /* ---------- dimensions ---------- */
 var AXES=[
  {k:"econ",n:"Economy",neg:"Market-led",pos:"State-led",c:"var(--green)",
@@ -1527,8 +1558,15 @@ document.addEventListener("keydown",function(e){
 });
 function reset(){st.part=1;st.i=0;st.a.fill(null);st.ca.fill(null);st.r=null;
   $("civicWrap").hidden=true;$("part2").hidden=false;}
-$("startBtn").addEventListener("click",function(){reset();show("quiz");renderQ();});
-$("again").addEventListener("click",function(){reset();show("quiz");renderQ();});
+function beginCompass(){
+  reset();
+  CUR.compassSessionId=uuid();
+  track("session_start",{session_id:CUR.compassSessionId,experience_type:"compass"});
+  evt("compass_started",{session_id:CUR.compassSessionId});
+  show("quiz");renderQ();
+}
+$("startBtn").addEventListener("click",beginCompass);
+$("again").addEventListener("click",beginCompass);
 $("part2").addEventListener("click",function(){st.part=2;st.i=0;show("quiz");renderQ();});
 
 /* ---------- result ---------- */
@@ -1538,7 +1576,14 @@ function finish(){
   st.r={pos:pos,ranked:classify(pos)};
   remember({t:Date.now(),pos:pos,a:st.r.ranked[0].a.id});
   steps();
+  var tie=tied(st.r.ranked);
+  track("session_complete",{session_id:CUR.compassSessionId,completion_status:"completed"});
+  track("compass_result",{session_id:CUR.compassSessionId,archetype:st.r.ranked[0].a.id,
+    archetype_share:st.r.ranked[0].share,tied_archetypes:tie.map(function(r){return r.a.id;}),
+    final_dimension_scores:pos});
+  evt("compass_completed",{session_id:CUR.compassSessionId,archetype:st.r.ranked[0].a.id});
   renderResult();renderWho();renderCompare();show("result");
+  evt("result_viewed",{session_id:CUR.compassSessionId,archetype:st.r.ranked[0].a.id});
 }
 /* A tester asked why the dimensions aren't socialist / capitalist / nationalist. They
    aren't, because those are imported and they do not name the arguments Nigeria has.
@@ -1794,6 +1839,7 @@ function resultText(){
     "\n\nIf na you? See where we disagree:\n"+shareLink();
 }
 $("copy").addEventListener("click",function(){
+  evt("result_shared",{session_id:CUR.compassSessionId,method:"copy"});
   navigator.clipboard.writeText(resultText()).then(function(){toast("Copied");},
     function(){toast("Your browser blocked the copy");});});
 function buildCard(){
@@ -1859,6 +1905,7 @@ function saveCard(canvas,name,say){
   },"image/png");
 }
 $("card").addEventListener("click",function(){
+  evt("result_shared",{session_id:CUR.compassSessionId,method:"card"});
   saveCard(buildCard(),"ifnayou-"+st.r.ranked[0].a.id+".png",toast);
 });
 
@@ -2489,6 +2536,21 @@ function endGame(bloc,why){
   SFX.over();
   G.live=false;
   $("gameRun").hidden=true;$("gameEnd").hidden=false;
+  (function(){
+    var outcome = why==="lost" ? "lost_election"
+      : bloc ? ((G.m[bloc.k]>=100?"captured_by_":"abandoned_by_")+bloc.k)
+      : why==="legacy" ? "served_full_term" : "term_complete";
+    var f=fidelity();
+    track("session_complete",{session_id:CUR.presidentSessionId,completion_status:"completed"});
+    track("president_result",{session_id:CUR.presidentSessionId,
+      final_outcome:outcome,outcome_reason:why||null,ending_bloc:bloc?bloc.k:null,
+      decisions_count:G.day,years_served:+(G.day/PER_YEAR).toFixed(2),contradictions:G.contra,
+      fidelity_tested:f.tested,fidelity_kept:f.with_,
+      governed_dimension_scores:governedPos(),
+      final_value_scores:JSON.parse(JSON.stringify(G.v)),
+      final_bloc_scores:JSON.parse(JSON.stringify(G.m))});
+    evt("president_completed",{session_id:CUR.presidentSessionId,final_outcome:outcome});
+  })();
   var kick,title,body;
   if(why==="lost"){
     kick="YOU LOST THE ELECTION";
@@ -2797,6 +2859,9 @@ function interstitial(title,sub,after){
     setTimeout(function(){el.hidden=true;if(after)after();},700);},2700);
 }
 function beginRun(){
+  CUR.presidentSessionId=uuid();
+  track("session_start",{session_id:CUR.presidentSessionId,experience_type:"president"});
+  evt("president_started",{session_id:CUR.presidentSessionId});
   G={live:true,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,cur:0,
      limit:BASE_LIMIT,third:null,gax:{},gn:{},gtest:{},gwith:{},brave:0,safe:0,ex:{},owed:{},cause:{}};
   KEYS.forEach(function(k){G.gax[k]=0;G.gn[k]=0;G.gtest[k]=0;G.gwith[k]=0;});
@@ -2812,9 +2877,11 @@ $("gSnd").addEventListener("click",sndToggle);
 function gtoast(m){var t=$("gToast");t.textContent=m;t.classList.add("on");
   clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("on");},2400);}
 $("gPresCard").addEventListener("click",function(){
+  evt("result_shared",{session_id:CUR.presidentSessionId,method:"presidency_card"});
   saveCard(buildPresCard(),"ifnayou-presidency.png",gtoast);
 });
 $("gChallenge").addEventListener("click",function(){
+  evt("result_shared",{session_id:CUR.presidentSessionId,method:"presidency_challenge"});
   var yrs=Math.floor(G.day/PER_YEAR),mos=Math.round((G.day%PER_YEAR)*(12/PER_YEAR));
   var f=fidelity(),kept=f.tested?Math.round(f.with_/f.tested*100)+"% of my own manifesto":"nothing I had committed to";
   var t="I was "+$("gEndKick").textContent.toLowerCase()+".\n\n"+
@@ -2846,6 +2913,14 @@ function start(){
   $("wSave").addEventListener("click",saveWho);
   st.cmp=readInvite();
   renderBallot();landing();renderInvite();show("start");
+  var qp=new URLSearchParams(location.search);
+  track("participant_seen",{
+    referrer:document.referrer||null,
+    utm_source:qp.get("utm_source"),utm_medium:qp.get("utm_medium"),utm_campaign:qp.get("utm_campaign"),
+    device_type:/Tablet|iPad/i.test(navigator.userAgent)?"tablet":
+      (/Mobi|Android/i.test(navigator.userAgent)?"mobile":"desktop")
+  });
+  evt("landing_viewed",{});
 }
 if(window.claude&&window.claude.hot){
   window.claude.hot.snapshot(function(){return {part:st.part,i:st.i,a:st.a,ca:st.ca};});

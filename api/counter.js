@@ -19,7 +19,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const supabase = supabaseAdmin();
-    const [compass, president, decisions] = await Promise.all([
+    const [compass, president] = await Promise.all([
       supabase
         .from("sessions")
         .select("id", { count: "exact", head: true })
@@ -30,11 +30,9 @@ module.exports = async function handler(req, res) {
         .select("id", { count: "exact", head: true })
         .eq("experience_type", "president")
         .eq("completion_status", "completed"),
-      supabase.from("responses").select("id", { count: "exact", head: true }),
     ]);
     if (compass.error) throw compass.error;
     if (president.error) throw president.error;
-    if (decisions.error) throw decisions.error;
 
     const compassCompleted = compass.count || 0;
     const presidentCompleted = president.count || 0;
@@ -45,7 +43,6 @@ module.exports = async function handler(req, res) {
       compass_completed: compassCompleted,
       president_completed: presidentCompleted,
       total_completed_experiences: compassCompleted + presidentCompleted,
-      total_decisions_recorded: decisions.count || 0,
     });
   } catch (err) {
     console.error("counter error", err);
