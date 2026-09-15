@@ -1,11 +1,14 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Manifesto.ng</title>
+<title>If Na You</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
 
 <style>
-/* ===== HARMATTAN AND RAINS — Manifesto.ng identity v1 ===== */
+/* ===== HARMATTAN AND RAINS — If Na You identity v2 =====
+   The name is a Pidgin question, so the wordmark is set as one: sentence case, and
+   the question mark carries the same danfo yellow as the dot in the mark. The type
+   and the craft hold the seriousness; the name carries the warmth. */
 :root{
   /* grounds */
   --paper:#EFEFE8; --stock:#F8F8F3; --stock-2:#E2E2D8;
@@ -118,10 +121,13 @@ a{color:var(--elu-mark);text-underline-offset:3px;}
 .logo .wordmark{display:block;}
 /* uli — the curvilinear line with punctuating dots, used as a section rule */
 .uli{display:block;width:100%;height:26px;margin-block:22px;opacity:.5;}
-.logo b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.32rem;letter-spacing:-.035em;
-  text-transform:uppercase;display:block;line-height:.95;}
-.logo b i{font-style:normal;color:var(--palm-text);}
-.logo span{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.22em;
+/* Sentence case on purpose: the name is a question somebody asks you, not a shout.
+   (The wrapper is a <span>, so the old .logo span rule was silently uppercasing it.) */
+.logo b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:-.04em;
+  display:block;line-height:.95;text-transform:none;}
+.logo b i{font-style:normal;color:var(--danfo);font-size:1.18em;line-height:0;
+  margin-left:.04em;-webkit-text-stroke:.6px var(--ink);}
+.logo .wordmark > span{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.22em;
   text-transform:uppercase;color:var(--ink-3);display:block;margin-top:3px;}
 nav.top{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap;}
 nav.top button{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.06em;
@@ -645,7 +651,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 
 <header class="mast">
   <div class="wrap">
-    <button class="logo" id="home" aria-label="Manifesto.ng home">
+    <button class="logo" id="home" aria-label="If Na You home">
       <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
         <rect x="2" y="2" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"/>
         <line x1="16" y1="2" x2="16" y2="30" stroke="currentColor" stroke-width="1" opacity=".4"/>
@@ -654,13 +660,13 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
         <circle cx="22" cy="10" r="3" fill="var(--danfo)" stroke="currentColor" stroke-width="1.2"/>
       </svg>
       <span class="wordmark">
-        <b>Manifesto<i>.ng</i></b>
-        <span>Find yourself in Nigerian politics</span>
+        <b>If na you<i>?</i></b>
+        <span>See what you believe</span>
       </span>
     </button>
     <nav class="top" id="nav">
       <button data-go="start">Your politics</button>
-      <button data-go="play">If na you</button>
+      <button data-go="play">Take office</button>
     </nav>
   </div>
 </header>
@@ -677,7 +683,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     <div class="hero">
       <div>
         <h1>You have politics.<br>You've just never<br><em>seen them.</em></h1>
-        <p class="kick">Find out what you actually believe about how Nigeria should work — and which traditions in our own history argued the same way.</p>
+        <p class="kick">Twenty-one questions about how this country should be run. Then the office itself, to find out whether you would actually do it.</p>
         <div class="cta">
           <button class="btn go" id="startBtn">Find my politics</button>
           <span class="lab">About 3 minutes · no right answers · no signup</span>
@@ -698,14 +704,13 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 
     <div class="measure" style="margin-top:34px">
       <h2 style="font-size:var(--s-2)">Nigerian politics isn't driven by ideology</h2>
-      <p style="color:var(--ink-2)">True, and everybody says it like it settles the matter.</p>
-      <p style="color:var(--ink-2)">It doesn't follow that Nigerians have no political beliefs. We disagree constantly — about markets and the state, about what Abuja should hold and what the states should, about security and liberty, about whether a representative owes his people or a programme. What we don't have is shared language for locating those disagreements. If you can't say where you stand, you can't easily tell what is being offered to you, or notice when nobody is offering it.</p>
-      <p style="color:var(--ink-2)">Start with the demand and the supply has to follow. That begins with you knowing your own position well enough to notice when nobody is offering it.</p>
+      <p style="color:var(--ink-2)">True, and everybody says it like it settles the matter. It doesn't follow that Nigerians have no political beliefs — only that we have never had shared language for them.</p>
+      <p style="color:var(--ink-2)">And politics is one thing; governing is another. So this asks you both. Most people are not the same person in both halves.</p>
     </div>
 
     <div class="strip" id="steps">
       <button class="step" data-go="start" id="step1"><span class="n">ONE</span><h4>Where you stand</h4><p>Twenty-one questions, no right answers. At the end you have a position on the arguments Nigeria is actually having.</p><span class="state"></span></button>
-      <button class="step" data-go="play" id="step3"><span class="n">TWO</span><h4>If na you?</h4><p>Everybody knows how Nigeria should be run. Take the office and find out whether you meant it — eight years, five powers that can each end you, and every decision costing something you said you cared about.</p><span class="state"></span></button>
+      <button class="step" data-go="play" id="step3"><span class="n">TWO</span><h4>Take office</h4><p>Everybody knows how Nigeria should be run. Take the office and find out whether you meant it — eight years, five powers that can each end you, and every decision costing something you said you cared about.</p><span class="state"></span></button>
       <button class="step" data-go="ballot" id="step2"><span class="n">THEN</span><h4>Who wants the real job</h4><p>Eighteen people are asking to run the country in January. What they have said. And what they have not.</p><span class="state"></span></button>
     </div>
 
@@ -834,7 +839,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     <div class="handoff">
       <div>
         <span class="lab">That is what you say</span>
-        <h3>Now find out what you do.</h3>
+        <h3>If na you, wetin you go do?</h3>
         <p>You are President of Nigeria. Eight years, thirty-two decisions, and five powers that can each end you — by abandoning you or by owning you. Every time you govern against your own answers above, this will tell you.</p>
       </div>
       <button class="btn go" data-go="play">Take office</button>
@@ -1001,7 +1006,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 
 <footer class="site">
   <div class="wrap">
-    <span>Manifesto.ng · prototype</span>
+    <span>If Na You · ifnayou.com · prototype</span>
     <span class="mono"><a href="#" data-go="ballot">The ballot</a> · <a href="#" data-go="register">For partners</a></span>
   </div>
 </footer>
@@ -1583,8 +1588,8 @@ function partings(a,b){
 function renderInvite(){
   if(!st.cmp){$("invite").hidden=true;return;}
   $("invite").hidden=false;
-  $("inviteBody").innerHTML='Somebody sent you their politics. They came out <b>'+
-    st.cmp.a.n+'</b>. Answer the same twenty-one and you will see exactly where the two of you part company.';
+  $("inviteBody").innerHTML='Somebody has answered these twenty-one questions and come out <b>'+
+    st.cmp.a.n+'</b>. They think you would not. Answer the same twenty-one and find out exactly where the two of you part company.';
 }
 function renderCompare(){
   if(!st.cmp||!st.r){$("compare").hidden=true;return;}
@@ -1664,7 +1669,7 @@ function resultText(){
     : "I came out "+top.a.n+".";
   return who+"\n\n"+
     AXES.map(function(a){return a.n+": "+(pos[a.k]>=0?a.pos:a.neg)+" "+Math.abs(pos[a.k]);}).join("\n")+
-    "\n\nThink you are different? See how much we actually agree:\n"+shareLink();
+    "\n\nIf na you? See where we disagree:\n"+shareLink();
 }
 $("copy").addEventListener("click",function(){
   navigator.clipboard.writeText(resultText()).then(function(){toast("Copied");},
@@ -1677,7 +1682,7 @@ function buildCard(){
   var pos=st.r.pos,top=st.r.ranked[0];
   x.fillStyle=C.bg;x.fillRect(0,0,W,H);
   x.strokeStyle=C.hair;x.lineWidth=6;x.strokeRect(34,34,W-68,H-68);
-  x.fillStyle=C.i3;x.font='500 22px "IBM Plex Mono", monospace';x.fillText("MANIFESTO.NG",80,112);
+  x.fillStyle=C.i3;x.font='500 22px "IBM Plex Mono", monospace';x.fillText("IF NA YOU?",80,112);
   x.fillStyle=C.ink;x.font='800 78px "Bricolage Grotesque", sans-serif';
   x.fillText(top.a.n,80,208);
   x.fillStyle=C.red;x.font='600 24px "IBM Plex Mono", monospace';
@@ -1706,7 +1711,7 @@ function buildCard(){
   x.fillText(TR[top.a.id].n,80,Y+S+152);
   x.fillStyle=C.i3;x.font='500 19px "IBM Plex Mono", monospace';
   x.fillText(TR[top.a.id].d,80,Y+S+186);
-  x.fillText("FIND YOURS AT MANIFESTO.NG",80,H-88);
+  x.fillText("FIND YOUR OWN AT IFNAYOU.COM",80,H-88);
   return c;
 }
 function saveCard(canvas,name,say){
@@ -1723,7 +1728,7 @@ function saveCard(canvas,name,say){
   },"image/png");
 }
 $("card").addEventListener("click",function(){
-  saveCard(buildCard(),"manifesto-"+st.r.ranked[0].a.id+".png",toast);
+  saveCard(buildCard(),"ifnayou-"+st.r.ranked[0].a.id+".png",toast);
 });
 
 /* ---------- the presidency card ----------
@@ -1737,7 +1742,7 @@ function buildPresCard(){
   x.fillStyle=C.bg;x.fillRect(0,0,W,H);
   x.strokeStyle=C.hair;x.lineWidth=6;x.strokeRect(34,34,W-68,H-68);
   x.fillStyle=C.i3;x.font='500 22px "IBM Plex Mono", monospace';
-  x.fillText("MANIFESTO.NG · THE PRESIDENCY",80,112);
+  x.fillText("IF NA YOU? · THE PRESIDENCY",80,112);
 
   var kick=$("gEndKick").textContent;
   x.fillStyle=C.gold;x.font='600 26px "IBM Plex Mono", monospace';
@@ -1782,7 +1787,7 @@ function buildPresCard(){
     x.fillText("I never said what I believed first.",80,fy+48);
   }
   x.fillStyle=C.i3;x.font='500 19px "IBM Plex Mono", monospace';
-  x.fillText("THINK YOU WOULD DO BETTER? MANIFESTO.NG",80,H-88);
+  x.fillText("IF NA YOU? \u00b7 IFNAYOU.COM",80,H-88);
   return c;
 }
 
@@ -2662,14 +2667,14 @@ $("gSnd").addEventListener("click",sndToggle);
 function gtoast(m){var t=$("gToast");t.textContent=m;t.classList.add("on");
   clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("on");},2400);}
 $("gPresCard").addEventListener("click",function(){
-  saveCard(buildPresCard(),"manifesto-presidency.png",gtoast);
+  saveCard(buildPresCard(),"ifnayou-presidency.png",gtoast);
 });
 $("gChallenge").addEventListener("click",function(){
   var yrs=Math.floor(G.day/PER_YEAR),mos=Math.round((G.day%PER_YEAR)*(12/PER_YEAR));
   var f=fidelity(),kept=f.tested?Math.round(f.with_/f.tested*100)+"% of my own manifesto":"nothing I had committed to";
   var t="I was "+$("gEndKick").textContent.toLowerCase()+".\n\n"+
     yrs+"y "+mos+"m in office, "+G.day+" decisions, and I kept "+kept+".\n\n"+
-    "Think you would do better? "+location.href;
+    "If na you, wetin you for do?\n"+location.href.split("#")[0];
   navigator.clipboard.writeText(t).then(function(){gtoast("Challenge copied");},
     function(){gtoast("Your browser blocked the copy");});
 });
