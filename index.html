@@ -195,6 +195,8 @@ nav.top button[aria-current="true"]{border-color:var(--rule);background:var(--in
   vector-effect:non-scaling-stroke;transition:fill .3s ease,stroke .3s ease;}
 .rail .ud.done{fill:var(--palm);stroke:var(--palm);}
 .rail .ud.now{fill:var(--danfo);stroke:var(--ink);stroke-width:1.5;}
+.rail .ud.done{animation:inked .5s ease both;}
+@keyframes inked{from{r:1.2;opacity:.4}to{opacity:1}}
 .qhead{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:16px;}
 .qstate{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:var(--s-3);line-height:1.04;
   letter-spacing:-.02em;text-transform:none;margin:0 0 10px;max-width:20ch;}
@@ -204,11 +206,38 @@ nav.top button[aria-current="true"]{border-color:var(--rule);background:var(--in
   background:var(--stock);border:1px solid var(--hair);padding:13px 16px;cursor:pointer;
   font-family:"Literata",serif;font-size:1.01rem;color:var(--ink);}
 .likert button:hover{border-color:var(--ink);}
-.likert button[aria-pressed="true"]{border-color:var(--elu);background:var(--elu);color:var(--on-elu);}
+.likert button{transition:background .16s ease,border-color .16s ease,transform .16s ease;}
+.likert button[aria-pressed="true"]{border-color:var(--elu);background:var(--elu);color:var(--on-elu);
+  animation:tookIt .34s cubic-bezier(.34,1.5,.5,1);}
+@keyframes tookIt{0%{transform:scale(1)}38%{transform:scale(1.022)}100%{transform:scale(1)}}
 .likert button[aria-pressed="true"] kbd{border-color:var(--on-elu-2);color:var(--on-elu);}
 .likert kbd{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--ink-3);
   border:1px solid var(--hair);padding:2px 7px;flex:none;}
 .qfoot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:24px;flex-wrap:wrap;}
+
+
+/* the reading, forming */
+.forming{margin-top:18px;max-width:600px;border-top:1px solid var(--hair);padding-top:13px;
+  animation:fmIn .3s ease both;}
+@keyframes fmIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.fm-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:7px;}
+.fm-read{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.06em;
+  color:var(--ink-3);transition:color .3s ease;}
+.fm-read b{font-weight:600;letter-spacing:.02em;}
+.fm-read.warm b{color:var(--pole-warm);}
+.fm-read.cool b{color:var(--pole-cool);}
+.fm-track{position:relative;height:10px;background:var(--stock-2);border:1px solid var(--hair);}
+.fm-track::before{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:2px;
+  background:var(--ink);}
+.fm-track i{position:absolute;top:0;bottom:0;background:var(--ink-3);
+  transition:width .42s cubic-bezier(.34,1.2,.5,1),left .42s cubic-bezier(.34,1.2,.5,1),
+             right .42s cubic-bezier(.34,1.2,.5,1),background .3s ease;}
+.forming:has(.fm-read.warm) .fm-track i{background:var(--pole-warm);}
+.forming:has(.fm-read.cool) .fm-track i{background:var(--pole-cool);}
+.fm-pips{display:flex;gap:5px;margin-top:8px;}
+.fm-pips i{width:7px;height:7px;border-radius:50%;background:var(--stock-2);
+  border:1px solid var(--hair);transition:background .25s ease,border-color .25s ease,transform .25s ease;}
+.fm-pips i.on{background:var(--danfo);border-color:var(--ink);transform:scale(1.15);}
 
 .bench{border-left:4px solid var(--bronze);background:var(--stock);padding:14px 16px;margin-top:18px;max-width:600px;}
 .bench .lab{display:block;margin-bottom:6px;}
@@ -217,9 +246,16 @@ nav.top button[aria-current="true"]{border-color:var(--rule);background:var(--in
 
 .live{position:fixed;right:20px;bottom:20px;z-index:30;background:var(--stock);
   border:2px solid var(--rule);padding:9px;width:132px;}
+.live .lab{line-height:1.4;}
 .live .lab{font-size:.54rem;margin-bottom:5px;display:block;}
 .live svg{display:block;width:100%;height:auto;}
-@media (max-width:780px){.live{display:none;}}
+@media (max-width:780px){
+  /* was display:none — twenty-one answers and nothing to show for them on a phone */
+  .live{position:static;width:auto;margin:20px auto 0;max-width:600px;
+    display:flex;align-items:center;gap:13px;padding:11px 13px;}
+  .live .lab{margin-bottom:0;flex:none;}
+  .live svg{width:62px;height:62px;flex:none;}
+}
 
 /* results */
 .plate{border:3px solid var(--rule);background:var(--stock);}
@@ -390,6 +426,23 @@ tr:last-child td{border-bottom:0;}
   text-transform:uppercase;color:var(--e,var(--ink-3));min-width:132px;}
 .detail .pos span{font-size:.86rem;color:var(--ink-2);}
 .soon{padding:34px 20px;text-align:center;color:var(--ink-3);font-size:.92rem;border:1px dashed var(--hair);}
+
+/* the sentence the whole project argues with, and the question it answers */
+.argued{margin:18px 0 22px;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+  font-size:clamp(1.5rem,1.15rem + 1.6vw,2.2rem);line-height:1.18;letter-spacing:-.03em;
+  color:var(--ink-3);border-left:5px solid var(--hair);padding-left:18px;max-width:22ch;}
+.beat{margin:18px 0 18px !important;font-family:"Bricolage Grotesque",sans-serif;
+  font-weight:800;font-size:clamp(1.25rem,1.05rem + .9vw,1.6rem);letter-spacing:-.025em;
+  color:var(--ink);}
+.askedq{margin:16px 0 22px;font-family:"Bricolage Grotesque",sans-serif;font-weight:600;
+  font-size:clamp(1.3rem,1.05rem + 1.2vw,1.85rem);line-height:1.26;letter-spacing:-.025em;
+  color:var(--ink);border-left:5px solid var(--danfo);padding-left:18px;}
+
+.aboutlink{margin-top:26px;padding-top:18px;border-top:2px solid var(--rule);}
+.aboutlink a{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;
+  text-transform:uppercase;text-decoration:none;border-bottom:2px solid var(--danfo);
+  padding-bottom:2px;color:var(--ink);}
+.aboutlink a:hover{background:var(--danfo);color:#141821;}
 
 .agg-panel{border:2px solid var(--ink);background:var(--stock);padding:clamp(18px,2.6vw,26px);margin-top:26px;}
 .who-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;}
@@ -633,6 +686,36 @@ tr:last-child td{border-bottom:0;}
 .rest i.up{color:var(--palm-text);}
 .rest i.dn{color:var(--laterite-text);}
 
+
+/* the payoff, up front and large */
+.tally{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;
+  border-top:3px solid var(--rule);border-bottom:1px solid var(--hair);margin-top:26px;}
+.tally div{padding:18px 16px 20px;border-right:1px solid var(--hair);}
+.tally div:last-child{border-right:0;}
+.tally b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+  font-size:clamp(2.2rem,1.6rem + 2.6vw,3.2rem);line-height:.92;display:block;
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums;}
+.tally span{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);display:block;margin-top:10px;line-height:1.4;}
+
+/* the turn — which of your own positions survived the office */
+.turn{margin-top:30px;}
+.turn-line{margin:0 0 4px;font-size:1.02rem;line-height:1.55;color:var(--ink);max-width:60ch;}
+.turn-rows{display:grid;gap:0;border-top:1px solid var(--hair);margin-top:14px;}
+.turn-rows div{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) auto;
+  gap:12px;padding:10px 0;border-bottom:1px solid var(--hair);align-items:baseline;}
+.turn-rows b{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:.95rem;}
+.turn-rows span{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--ink-3);letter-spacing:.03em;}
+.turn-rows i{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.7rem;
+  letter-spacing:.08em;text-transform:uppercase;text-align:right;}
+.turn-rows .held i{color:var(--palm-text);}
+.turn-rows .broke i{color:var(--laterite-text);}
+.turn-rows .broke b{color:var(--laterite-text);}
+@media (max-width:540px){
+  .turn-rows div{grid-template-columns:minmax(0,1fr) auto;}
+  .turn-rows span{grid-column:1/-1;}
+}
+
 .endgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0;
   border-top:2px solid var(--ink);margin-top:24px;}
 .endgrid div{padding:15px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);}
@@ -728,20 +811,26 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <p class="qstate" id="qtext"></p>
       <p class="qctx" id="qctx"></p>
       <div class="likert" id="likert" role="group" aria-label="Level of agreement"></div>
+      <div class="forming" id="forming" hidden aria-live="polite">
+        <div class="fm-h"><span class="lab" id="fmName"></span><span class="fm-read" id="fmRead"></span></div>
+        <div class="fm-track"><i id="fmFill"></i></div>
+        <div class="fm-pips" id="fmPips"></div>
+      </div>
       <div class="bench" id="bench" hidden>
         <span class="lab" id="benchLab">Against the national sample</span>
         <p id="benchtext"></p>
       </div>
+      <aside class="live" id="live" aria-hidden="true">
+        <span class="lab">Where you are<br>so far</span>
+        <svg id="mini" viewBox="0 0 120 120"></svg>
+      </aside>
       <div class="qfoot">
         <button class="btn ghost sm" id="back">Back</button>
         <span class="lab" id="hint">Press 1–5 to answer</span>
       </div>
     </div>
   </div>
-  <aside class="live" id="live" aria-hidden="true">
-    <span class="lab">Live placement</span>
-    <svg id="mini" viewBox="0 0 120 120"></svg>
-  </aside>
+
 </section>
 
 <section class="view" id="view-result" hidden>
@@ -921,28 +1010,30 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <span class="lab" id="gEndKick"></span>
       <h1 style="font-size:var(--s-3);margin-top:10px" id="gEndTitle"></h1>
       <p class="lead" id="gEndBody" style="margin-top:14px"></p>
+
+      <div class="tally">
+        <div><b id="gEndYears"></b><span>in office</span></div>
+        <div><b id="gEndCount"></b><span>decisions</span></div>
+        <div><b id="gEndContra"></b><span>of your own manifesto kept</span></div>
+      </div>
+
+      <div class="turn" id="gWordBox" hidden>
+        <div class="eyebrow"><span class="lab">You said, and then you did</span></div>
+        <p class="turn-line" id="gWordLine"></p>
+        <div class="turn-rows" id="gTurnRows"></div>
+      </div>
+
+      <div class="eyebrow" style="margin-top:30px"><span class="lab">The country, meanwhile</span></div>
+      <div class="reveal" id="gReveal"></div>
+      <div class="rest" id="gRest"></div>
+
+      <p style="color:var(--ink-2);margin-top:20px" id="gEndVerdict"></p>
+      <div class="chips" id="gPhilChips" style="margin-top:18px"></div>
+
       <figure class="overheard" id="gScene">
         <blockquote id="gQuote"></blockquote>
         <figcaption id="gStage"></figcaption>
       </figure>
-
-      <div class="eyebrow" style="margin-top:32px"><span class="lab">Nobody in that room mentioned the country</span></div>
-      <div class="reveal" id="gReveal"></div>
-      <div class="rest" id="gRest"></div>
-
-      <div class="endgrid">
-        <div><span class="lab">Time in office</span><b id="gEndYears"></b></div>
-        <div><span class="lab">Decisions</span><b id="gEndCount"></b></div>
-        <div><span class="lab">Kept your own word</span><b id="gEndContra"></b></div>
-      </div>
-
-      <div class="word" id="gWordBox" hidden>
-        <span class="lab">You said, and then you did</span>
-        <p id="gWordLine"></p>
-      </div>
-
-      <p style="color:var(--ink-2);margin-top:20px" id="gEndVerdict"></p>
-      <div class="chips" id="gPhilChips" style="margin-top:18px"></div>
 
       <div class="cta" style="margin-top:22px">
         <button class="btn go" id="gAgain">Take office again</button>
@@ -956,49 +1047,33 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
   </div></div>
 </section>
 
-<section class="view" id="view-register" hidden>
+
+
+<section class="view" id="view-about" hidden>
   <div class="wrap"><div class="measure prose">
-    <div class="eyebrow"><span class="lab">The Register · editorial protocol</span></div>
-    <h1 style="font-size:var(--s-3)">Putting the people who seek your vote on the record</h1>
-    <p style="color:var(--ink-2)">This is the one place where living, serving and campaigning figures appear. It is built to a different standard from the rest of the platform, because the risk is different and because this is where the platform earns its name.</p>
+    <div class="eyebrow"><span class="lab">Why this exists</span></div>
+    <h1 style="font-size:var(--s-3)">Why If Na You exists</h1>
 
-    <h2>The mechanism</h2>
-    <p><b>The directory is published before the first invitation goes out.</b> Every candidate on INEC's final list appears in the <button class="btn ghost sm" data-go="ballot" style="padding:2px 8px;font-size:.74rem">Ballot</button> from launch, beside every rival in their own race, with one column showing whether they have stated a position. A candidate is not being asked to join something. They are being shown a gap in a public record that their opponents may fill.</p>
-    <p>Every figure then receives the same twenty-one statements that citizens answer. Their responses are published. <b>So is their non-response.</b></p>
-    <div class="callout"><p>This is the design choice that makes the register safe and makes it bite. The platform never characterises anyone's politics. It records whether a person seeking public office was willing to state a position when asked. "Invited on this date, did not respond" is a fact about them, not a claim by us — and the cost of silence becomes visible.</p></div>
-    <p>Where a figure does not respond, positions may be published only from verbatim documented statements or recorded votes, with source and date. Never a paraphrase. Never an inference from party membership.</p>
+    <p style="color:var(--ink-2);font-size:var(--s-1);line-height:1.45;margin-top:22px">There is a sentence I have been arguing with for years:</p>
+    <p class="argued">Nigerian politics isn't driven by ideology.</p>
+    <p>Usually, it is offered as the end of the conversation. I think it is where a more interesting one begins.</p>
 
-    <h2>What a published row must contain</h2>
-    <div class="tblw"><table>
-      <thead><tr><th>Field</th><th>Requirement</th></tr></thead>
-      <tbody>
-        <tr><td class="mono">figure</td><td>Full name, current office or candidacy.</td></tr>
-        <tr><td class="mono">source_type</td><td>Own response to the instrument, or documented public statement, or recorded vote.</td></tr>
-        <tr><td class="mono">statement</td><td>Which of the twenty-one items, so the comparison is like for like.</td></tr>
-        <tr><td class="mono">position</td><td>Their response, or their own words quoted exactly.</td></tr>
-        <tr><td class="mono">source</td><td>Publication or official record, with URL.</td></tr>
-        <tr><td class="mono">date</td><td>When stated. Positions older than one electoral cycle are flagged as such.</td></tr>
-        <tr><td class="mono">reviewer</td><td>Two named editors sign off. Disagreement blocks publication.</td></tr>
-        <tr><td class="mono">right_of_reply</td><td>Notice sent to the figure's office. Any correction received is published alongside.</td></tr>
-      </tbody>
-    </table></div>
+    <p>If you wanted to raise the quality of Nigerian political argument over twenty years, I don't think you would start with candidates, parties or manifestos.</p>
+    <p class="beat">You would start with language.</p>
+    <p>People cannot hold anyone to a position they have no words for. And it is difficult to understand what we disagree about when our political vocabulary doesn't describe the choices we are actually making.</p>
 
-    <h2>Three layers, in order of cost</h2>
-    <ul>
-      <li><b>Stated positions.</b> The twenty-one items, answered by them or quoted from the record. Immediate, and it pairs directly with a citizen's own result.</li>
-      <li><b>Documented record.</b> Votes, budget lines, bills signed, appointments made. Harder, and this is where track record starts to bite.</li>
-      <li><b>Promises kept.</b> Did the stated thing happen. The version that matters most and a standing editorial operation. Design for it now; staff it later.</li>
-    </ul>
+    <p style="margin-top:26px">So the question behind If Na You is:</p>
+    <p class="askedq">What would a Nigerian political spectrum look like if we derived it from our own history rather than importing left and right?</p>
+    <p>If Na You is one attempt at an answer.</p>
 
-    <h2>The doctrines register</h2>
-    <p>A separate section covers people who shape Nigerian economic thinking without seeking office — Africapitalism, industrial nationalism, developmental statism, Pan-Africanism. The unit there is a published doctrine, argued repeatedly and in writing, not a campaign promise. There is no non-response mechanism, because they are not asking for your vote. The standard is strictly their own published words.</p>
+    <p>It isn't designed to tell you what to believe or who to vote for. It is a way to examine your own political instincts, confront the trade-offs behind them, and understand where they sit within Nigeria's political traditions.</p>
+    <p>The framework is an argument, not a discovery. The <a href="https://claude.ai/artifact/5cMdYHVrkWwvpAkeRDZ18N" target="_blank" rel="noopener noreferrer">methodology is public</a> so you can examine it, challenge it, and decide for yourself where it gets things wrong.</p>
 
-    <h2>Current status</h2>
-    <div class="empty">NO POSITIONS PUBLISHED — EDITORIAL RESEARCH PASS NOT YET COMPLETE</div>
-    <p style="color:var(--ink-3);font-size:var(--s--1)">This module ships empty on purpose. Publishing placeholder or inferred positions would destroy the credibility the rest of the platform is built to protect.</p>
-
-    <h2>Institutional requirements</h2>
-    <p>A register that tracks promises and publishes non-response is an accountability instrument, and accountability instruments attract pressure and litigation. The protections are verbatim-only sourcing, published right of reply, a named editorial board rather than a single person, institutional backing from a university or established civic organisation, and legal review before launch. This is an argument for building it with a partner, not for softening it.</p>
+    <h2 style="margin-top:44px">Who made it</h2>
+    <p>I'm Goziem, a Nigerian development economist based in Lagos. I like building things that help people understand the world a little better and do something with that understanding.</p>
+    <p>I also write and make music.</p>
+    <p>I built If Na You independently.</p>
+    <p class="aboutlink"><a href="https://linktr.ee/deargoziem" target="_blank" rel="noopener noreferrer">Find me elsewhere</a></p>
   </div></div>
 </section>
 
@@ -1006,8 +1081,8 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 
 <footer class="site">
   <div class="wrap">
-    <span>If Na You · ifnayou.com · prototype</span>
-    <span class="mono"><a href="#" data-go="ballot">The ballot</a> · <a href="#" data-go="register">For partners</a></span>
+    <span>If Na You · ifnayou.com</span>
+    <span class="mono"><a href="#" data-go="ballot">The ballot</a> · <a href="#" data-go="about">Why this exists</a></span>
   </div>
 </footer>
 
@@ -1273,7 +1348,7 @@ function portrait(svg,initials){
 
 /* ---------- state ---------- */
 var st={part:1,i:0,a:new Array(Q.length).fill(null),ca:new Array(CIVIC.length).fill(null),r:null,who:null,cmp:null};
-var VIEWS=["start","quiz","result","ballot","play","register"];
+var VIEWS=["start","quiz","result","ballot","play","about"];
 function show(n){
   VIEWS.forEach(function(v){var e=$("view-"+v);if(e)e.hidden=(v!==n);});
   Array.prototype.forEach.call(document.querySelectorAll("nav.top button"),function(btn){
@@ -1346,8 +1421,18 @@ function uliRail(el,n,cur,group){
 
 function renderQ(){
   var q=cur(),n=total();
-  $("qcount").textContent=(st.part===1?"Question ":"Part 2 · question ")+(st.i+1)+" of "+n;
-  $("qaxis").textContent=st.part===1?AXES.filter(function(a){return a.k===q.a;})[0].n:"";
+  /* "Question 7 of 21" restates the size of the task on every screen. The instrument
+     is built in sevens of three, so say that instead: nobody is daunted by three
+     questions about the economy. The rail still shows all twenty-one at a glance. */
+  if(st.part===1){
+    var ax=AXES.filter(function(a){return a.k===q.a;})[0];
+    var di=KEYS.indexOf(q.a), inDim=(st.i%3)+1;
+    $("qcount").textContent=ax.n+" · "+inDim+" of 3";
+    $("qaxis").textContent="Dimension "+(di+1)+" of 7";
+  } else {
+    $("qcount").textContent="Part two · "+(st.i+1)+" of "+n;
+    $("qaxis").textContent="";
+  }
   $("qtext").textContent=q.t;
   $("qctx").textContent=q.c||"";
   $("qctx").style.display=q.c?"":"none";
@@ -1357,15 +1442,48 @@ function renderQ(){
     return '<button type="button" id="lk'+i+'" data-v="'+sc.v+'" aria-pressed="'+(ans[st.i]===sc.v)+'"><kbd>'+(i+1)+'</kbd><span>'+sc.l+'</span></button>';
   }).join("");
   $("bench").hidden=true;
+  forming();
   $("back").style.visibility=st.i===0?"hidden":"visible";
   if(st.part===1)mini($("mini"),score(st.a));
 }
+
+/* ---------- the reading, forming ----------
+   Two of every three answers used to disappear into nothing: you clicked, the next
+   question arrived, and the instrument gave you no sign it had heard you. This is
+   the sign. It shows the dimension currently being decided moving under your own
+   answers, so the "settled" reveal on the third is earned rather than sudden — and
+   it is the literal thing the tagline promises. Partial scores only; no claim is
+   made until the dimension closes. */
+function forming(){
+  if(st.part!==1){$("forming").hidden=true;return;}
+  var k=Q[st.i].a, ax=AXES.filter(function(a){return a.k===k;})[0];
+  var idx=[]; Q.forEach(function(q,i){if(q.a===k)idx.push(i);});
+  var answered=idx.filter(function(i){return st.a[i]!==null;});
+  if(!answered.length){$("forming").hidden=true;return;}
+  var raw=0; answered.forEach(function(i){raw+=st.a[i]*Q[i].w;});
+  var v=Math.max(-100,Math.min(100,Math.round(raw/MAX[k]*100)));
+  var pole=v===0?"balanced":(v>0?ax.pos:ax.neg);
+  $("forming").hidden=false;
+  $("fmName").textContent=ax.n;
+  $("fmRead").innerHTML=(v===0)
+    ? '<b>Balanced</b> so far'
+    : '<b>'+pole+'</b> '+Math.abs(v)+(answered.length<idx.length?' so far':'');
+  $("fmRead").className="fm-read "+(v>0?"warm":(v<0?"cool":"mid"));
+  var half=Math.abs(v)/2;
+  $("fmFill").style.cssText = v===0
+    ? "left:50%;width:0"
+    : (v>0 ? "left:50%;width:"+half+"%" : "right:50%;width:"+half+"%");
+  $("fmPips").innerHTML=idx.map(function(i){
+    return '<i class="'+(st.a[i]!==null?"on":"")+'"></i>';}).join("");
+}
+
 function pick(v){
   var ans=ansArr();ans[st.i]=v;
   Array.prototype.forEach.call($("likert").children,function(btn){
     btn.setAttribute("aria-pressed",String(Number(btn.dataset.v)===v));});
   if(st.part===1){
     mini($("mini"),score(st.a));
+    forming();
     /* Q is grouped three-per-dimension, so every third answer closes one out. */
     var done=(st.i+1)%3===0, ak=Q[st.i].a;
     if(done&&st.i<Q.length-1){
@@ -1373,11 +1491,15 @@ function pick(v){
       $("benchtext").innerHTML='<b>'+ax.n+'</b> — settled. You read '+
         (v===0?'<b>balanced</b>, dead centre'
              :'<b>'+(v>0?ax.pos:ax.neg)+'</b> at '+(v>0?'+':'')+v)+
-        '. '+(7-((st.i+1)/3))+' to go.';
+        '. '+(function(left){
+          return left===0?"That is all seven."
+               :(left===1?"One dimension left."
+               :(left===2?"Two left."
+               :left+" to go."));})(7-((st.i+1)/3));
       $("benchLab").textContent="Dimension closed";
       $("bench").hidden=false;advance(1500);return;
     }
-    advance(180);return;
+    advance(560);return;
   }
   var q=CIVIC[st.i];
   if(q.ab&&v!==0){
@@ -1683,10 +1805,19 @@ function buildCard(){
   x.fillStyle=C.bg;x.fillRect(0,0,W,H);
   x.strokeStyle=C.hair;x.lineWidth=6;x.strokeRect(34,34,W-68,H-68);
   x.fillStyle=C.i3;x.font='500 22px "IBM Plex Mono", monospace';x.fillText("IF NA YOU?",80,112);
-  x.fillStyle=C.ink;x.font='800 78px "Bricolage Grotesque", sans-serif';
-  x.fillText(top.a.n,80,208);
+  /* The card is the object that travels, so it has to say what the page says. It was
+     printing one archetype and an alignment figure for everybody — which contradicts
+     the result screen for the 56% whose top two are too close to separate. */
+  var tieC=tied(st.r.ranked), multi=tieC.length>1;
+  var names=multi?tieC.map(function(r){return r.a.n.replace("The ","");}):[top.a.n];
+  x.fillStyle=C.ink;
+  var size=multi?(names.length>2?54:62):78, yy=208-(multi?26:0);
+  x.font='800 '+size+'px "Bricolage Grotesque", sans-serif';
+  names.forEach(function(n,i){ x.fillText(n,80,yy+i*(size+8)); });
+  var afterY=yy+(names.length-1)*(size+8)+44;
   x.fillStyle=C.red;x.font='600 24px "IBM Plex Mono", monospace';
-  x.fillText(Math.round(top.share*100)+"% ALIGNMENT",80,252);
+  x.fillText(multi?(names.length+" TRADITIONS, TOO CLOSE TO SEPARATE")
+                  :(Math.round(top.share*100)+"% ALIGNMENT"),80,afterY);
   var S=500,X=80,Y=320;
   x.fillStyle="rgba(255,255,255,0.06)";x.fillRect(X,Y,S,S);
   x.strokeStyle=C.hair;x.lineWidth=3;x.strokeRect(X,Y,S,S);
@@ -1706,7 +1837,7 @@ function buildCard(){
     x.fillText(fmt(pos[a.k])+"  "+(pos[a.k]>=0?a.pos:a.neg).toUpperCase(),RX,yy+34);
     x.strokeStyle=C.hair;x.lineWidth=1;x.beginPath();x.moveTo(RX,yy+48);x.lineTo(W-80,yy+48);x.stroke();});
   x.fillStyle=C.i2;x.font='400 26px "Literata", serif';
-  x.fillText("Closest Nigerian tradition",80,Y+S+96);
+  x.fillText(multi?"Nearest of the traditions":"Closest Nigerian tradition",80,Y+S+96);
   x.fillStyle=C.ink;x.font='800 44px "Bricolage Grotesque", sans-serif';
   x.fillText(TR[top.a.id].n,80,Y+S+152);
   x.fillStyle=C.i3;x.font='500 19px "IBM Plex Mono", monospace';
@@ -2574,6 +2705,20 @@ function philosophy(){
       line+=" Asked to account for it, you said “"+et+"” "+plural(n,"time")+".";
     }
     $("gWordLine").textContent=line;
+    /* Which of your own positions survived the office. This is the honest version of
+       "you governed as an archetype" — that label ties 67% of the time and returns
+       eight different answers for one consistent style, because a governed axis from
+       two observations can only be −100, 0 or +100. Direction survives; the label
+       does not. So name the positions, not a second archetype. */
+    var rows=f.per.slice().sort(function(x,y){return x.rate-y.rate;});
+    $("gTurnRows").innerHTML=rows.map(function(r){
+      var ax=axOf(r.k),said=st.r.pos[r.k],held=r.w>=Math.ceil(r.n/2);
+      var pn=function(x){return /^(Nigeria|Pan-)/.test(x)?x:x.toLowerCase();};
+      return '<div class="'+(held?"held":"broke")+'">'+
+        '<b>'+ax.n+'</b>'+
+        '<span>you said '+pn(said>0?ax.pos:ax.neg)+' '+Math.abs(said)+'</span>'+
+        '<i>'+(r.w===r.n?"held all "+r.n:(r.w===0?"broke all "+r.n:"held "+r.w+" of "+r.n))+'</i>'+
+        '</div>';}).join("");
     $("gWordBox").hidden=false;
   } else {
     $("gWordBox").hidden=true;
