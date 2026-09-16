@@ -1,18 +1,18 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>If Na You</title>
-<meta name="description" content="Everybody knows how Nigeria should be run. Take the office and find out if you meant it. Twenty-one questions, then eight years in office.">
+<meta name="description" content="What do you actually believe? And what would you do with power? Twenty-one questions, then eight years running Nigeria.">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ifnayou.com/">
 <meta property="og:title" content="If na you?">
-<meta property="og:description" content="Everybody knows how Nigeria should be run. Take the office and find out if you meant it.">
+<meta property="og:description" content="What do you actually believe? And what would you do with power? Twenty-one questions, then eight years running Nigeria.">
 <meta property="og:image" content="https://ifnayou.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="If na you?">
-<meta name="twitter:description" content="Everybody knows how Nigeria should be run. Take the office and find out if you meant it.">
+<meta name="twitter:description" content="What do you actually believe? And what would you do with power? Twenty-one questions, then eight years running Nigeria.">
 <meta name="twitter:image" content="https://ifnayou.com/og.png">
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,6 +150,15 @@ nav.top button{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spac
   padding:6px 10px;cursor:pointer;}
 nav.top button:hover{background:var(--stock-2);color:var(--ink);}
 nav.top button[aria-current="true"]{border-color:var(--rule);background:var(--ink);color:var(--paper);}
+/* The two halves are numbered wherever you are on the site, and the numeral becomes a
+   tick when you have done that half. This is the whole "there are two things here"
+   problem solved in twenty pixels, with no bar and no onboarding. */
+nav.top button .pip{font-style:normal;display:inline-block;min-width:1.5em;margin-right:7px;
+  text-align:center;border:1px solid var(--hair);color:var(--ink-3);
+  font-size:.64rem;line-height:1.45;}
+nav.top button.stepdone .pip{border-color:var(--palm);background:var(--palm);color:#F3F4F0;}
+nav.top button[aria-current="true"] .pip{border-color:var(--paper);color:var(--paper);}
+nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-color:var(--palm);}
 
 .view[hidden]{display:none !important;}
 .view{padding-block:clamp(30px,5vw,60px) 80px;}
@@ -453,6 +462,9 @@ tr:last-child td{border-bottom:0;}
   font-size:clamp(1.3rem,1.05rem + 1.2vw,1.85rem);line-height:1.26;letter-spacing:-.025em;
   color:var(--ink);border-left:5px solid var(--danfo);padding-left:18px;}
 
+/* The two halves answer different questions; doing both answers a third. Saying that
+   once, under the doors, is what stops the game reading as bonus content. */
+.pairline{margin:16px 0 0;max-width:58ch;font-size:.95rem;line-height:1.5;color:var(--ink-2);}
 .aboutlink{margin-top:26px;padding-top:18px;border-top:2px solid var(--rule);}
 .aboutlink a{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;
   text-transform:uppercase;text-decoration:none;border-bottom:2px solid var(--danfo);
@@ -797,8 +809,8 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       </span>
     </button>
     <nav class="top" id="nav">
-      <button data-go="start">Your politics</button>
-      <button data-go="play">Take office</button>
+      <button data-go="start"><i class="pip">1</i>Your politics</button>
+      <button data-go="play"><i class="pip">2</i>Take office</button>
     </nav>
   </div>
 </header>
@@ -810,6 +822,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     <div class="invite" id="invite" hidden>
       <span class="lab">A challenge</span>
       <p id="inviteBody"></p>
+      <div class="cta" style="margin-top:14px" id="inviteGo"></div>
     </div>
 
     <div class="hero">
@@ -846,6 +859,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <button class="step" data-go="play" id="step3"><span class="n">TWO</span><h4>Take office</h4><p>Everybody knows how Nigeria should be run. Take the office and find out whether you meant it — eight years, five powers that can each end you, and every decision costing something you said you cared about.</p><span class="state"></span></button>
       <button class="step" data-go="ballot" id="step2"><span class="n">THEN</span><h4>Who wants the real job</h4><p>Eighteen people are asking to run the country in January. What they have said. And what they have not.</p><span class="state"></span></button>
     </div>
+    <p class="pairline">Either one works on its own. Do both and you find out whether the person who answered and the person who governed are the same person.</p>
 
   </div>
 </section>
@@ -978,8 +992,8 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     <div class="handoff">
       <div>
         <span class="lab">That is what you say</span>
-        <h3>If na you, wetin you go do?</h3>
-        <p>You are President of Nigeria. Eight years, thirty-two decisions, and five powers that can each end you — by abandoning you or by owning you. Every time you govern against your own answers above, this will tell you.</p>
+        <h3>Would you do it?</h3>
+        <p>Twenty-one answers do not survive contact with a budget, a general and a crowd on the road. Take the office and find out which of yours do.</p>
       </div>
       <button class="btn go" data-go="play">Take office</button>
     </div>
@@ -987,7 +1001,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     <div class="share">
       <button class="btn go" id="card">Save my card</button>
       <div class="secondary">
-        <button class="btn ghost sm" id="copy">Copy as text</button>
+        <button class="btn ghost sm" id="copy">Challenge someone</button>
         <button class="btn ghost sm" id="part2">Ten more questions</button>
         <button class="btn ghost sm" id="again">Start over</button>
       </div>
@@ -1069,6 +1083,8 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
         <div><b id="gEndContra"></b><span>of your own manifesto kept</span></div>
       </div>
 
+      <p class="turn-line" id="gVersus" hidden style="margin-top:20px;border-left:5px solid var(--danfo);padding-left:14px"></p>
+
       <div class="turn" id="gWordBox" hidden>
         <div class="eyebrow"><span class="lab">You said, and then you did</span></div>
         <p class="turn-line" id="gWordLine"></p>
@@ -1086,6 +1102,15 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
         <blockquote id="gQuote"></blockquote>
         <figcaption id="gStage"></figcaption>
       </figure>
+
+      <div class="handoff" id="gReturn" hidden>
+        <div>
+          <span class="lab">The other half</span>
+          <h3 id="gReturnH"></h3>
+          <p id="gReturnP"></p>
+        </div>
+        <button class="btn go" id="gReturnBtn"></button>
+      </div>
 
       <div class="cta" style="margin-top:22px">
         <button class="btn go" id="gAgain">Take office again</button>
@@ -1437,6 +1462,7 @@ function show(n){
   Array.prototype.forEach.call(document.querySelectorAll("nav.top button"),function(btn){
     btn.setAttribute("aria-current",btn.dataset.go===n?"true":"false");});
   $("live").style.display=(n==="quiz"&&st.part===1)?"":"none";
+  marks();
   window.scrollTo({top:0,behavior:"instant"});
 }
 document.addEventListener("click",function(e){
@@ -1451,10 +1477,27 @@ $("home").addEventListener("click",function(){show("start");});
 var LS="manifesto.history";
 function history_(){try{return JSON.parse(localStorage.getItem(LS)||"[]");}catch(e){return [];}}
 function remember(rec){try{var h=history_();h.push(rec);localStorage.setItem(LS,JSON.stringify(h.slice(-24)));}catch(e){}}
+/* The game half was only ever remembered in memory, so a reload put the site back to
+   claiming you had never taken office. Both halves persist the same way now. */
+var LSP="ifnayou.played";
+function played_(){try{return JSON.parse(localStorage.getItem(LSP)||"[]");}catch(e){return [];}}
+function notePlayed(rec){try{var h=played_();h.push(rec);localStorage.setItem(LSP,JSON.stringify(h.slice(-24)));}catch(e){}}
+function didQuiz(){return !!st.r||history_().length>0;}
+function didPlay(){return played_().length>0||(typeof G!=="undefined"&&G.day>0);}
+/* The numeral in the masthead becomes a tick. This is the two-part progress device:
+   present on every view, costs one character, and needs no bar of its own. */
+function marks(){
+  [["start",didQuiz(),"1"],["play",didPlay(),"2"]].forEach(function(x){
+    var b=document.querySelector('nav.top button[data-go="'+x[0]+'"]');
+    if(!b)return;
+    b.classList.toggle("stepdone",x[1]);
+    var pip=b.querySelector(".pip"); if(pip)pip.textContent=x[1]?"\u2713":x[2];
+  });
+}
 
 /* ---------- landing ---------- */
 function steps(){
-  var done1=!!st.r||history_().length>0, played=!!(typeof G!=="undefined"&&G.day>0);
+  var done1=didQuiz(), played=didPlay();
   var cfg=[
     {id:"step1",done:done1,now:!done1,txt:done1?"Done":"Start here"},
     {id:"step3",done:played,now:done1,txt:played?"Played":"Open"},
@@ -1627,7 +1670,7 @@ function finish(){
   var pos=score(st.a);
   st.r={pos:pos,ranked:classify(pos)};
   remember({t:Date.now(),pos:pos,a:st.r.ranked[0].a.id});
-  steps();
+  steps();marks();
   var tie=tied(st.r.ranked);
   track("session_complete",{session_id:CUR.compassSessionId,completion_status:"completed"});
   track("compass_result",{session_id:CUR.compassSessionId,archetype:st.r.ranked[0].a.id,
@@ -1789,12 +1832,47 @@ function shareLink(){
   if(!st.r)return location.href.split("#")[0];
   return location.href.split("#")[0]+"#c="+encodePos(st.r.pos)+"~"+st.r.ranked[0].a.id;
 }
+/* A shared run is a claim about a person, so the link carries only what the claim
+   needs: a position, an archetype, a length, a fidelity figure and an ending code.
+   Fragments are never sent to a server and none of this names anybody. */
 function readInvite(){
-  var h=location.hash||""; var m=h.match(/^#c=([-0-9.]+)~([a-z]+)$/);
-  if(!m)return null;
-  var pos=decodePos(m[1]); if(!pos)return null;
-  var ar=AR.filter(function(a){return a.id===m[2];})[0]; if(!ar)return null;
-  return {pos:pos,a:ar};
+  var h=(location.hash||"").replace(/^#/,"");
+  if(!h)return null;
+  var out=null;
+  h.split("&").forEach(function(part){
+    var m=part.match(/^c=([-0-9.]+)~([a-z]+)$/);
+    if(m){
+      var pos=decodePos(m[1]); if(!pos)return;
+      var ar=AR.filter(function(a){return a.id===m[2];})[0]; if(!ar)return;
+      out=out||{}; out.pos=pos; out.a=ar;
+      return;
+    }
+    var g=part.match(/^g=([0-9]{1,3})\.([0-9]{1,3}|x)\.([a-z_]+)(?:\.([a-z]+))?$/);
+    if(g){
+      if(!PN[g[3]])return;
+      var d=parseInt(g[1],10); if(isNaN(d)||d<1||d>60)return;
+      out=out||{};
+      out.g={d:d,kept:(g[2]==="x"?null:Math.min(100,parseInt(g[2],10))),c:g[3],a:g[4]||null};
+    }
+  });
+  if(out&&!out.pos)delete out.pos;
+  return out;
+}
+/* A length, said the way a person would say it. */
+function spanWords(d){
+  var y=Math.floor(d/PER_YEAR), m=Math.round((d%PER_YEAR)*(12/PER_YEAR));
+  var p=[];
+  if(y)p.push(y+" year"+(y===1?"":"s"));
+  if(m)p.push(m+" month"+(m===1?"":"s"));
+  return p.length?p.join(", "):"less than a month";
+}
+function gameLink(){
+  var base=location.href.split("#")[0];
+  var f=fidelity(), kept=(st.r&&f.tested)?Math.round(f.with_/f.tested*100):"x";
+  var pn=G.pn||{c:"caretaker"};
+  var g="g="+G.day+"."+kept+"."+pn.c+(pn.a?"."+pn.a:"");
+  var c=st.r?("c="+encodePos(st.r.pos)+"~"+st.r.ranked[0].a.id):null;
+  return base+"#"+(c?c+"&":"")+g;
 }
 /* A single agreement percentage compressed every pair into the sixties-to-eighties —
    a number that says the same thing to everyone is not worth showing. Counting the
@@ -1804,14 +1882,36 @@ var SPLIT=40;
 function partings(a,b){
   return KEYS.filter(function(k){return Math.abs(a[k]-b[k])>=SPLIT;}).length;
 }
+/* Three different people can send you this link: one who only answered, one who only
+   governed, and one who did both. The third is the interesting one, so it gets the
+   sentence the whole product is about. */
 function renderInvite(){
-  if(!st.cmp){$("invite").hidden=true;return;}
+  var c=st.cmp;
+  if(!c||(!c.pos&&!c.g)){$("invite").hidden=true;return;}
+  var body,go;
+  if(c.pos&&c.g){
+    body='Somebody answered the twenty-one and came out <b>'+c.a.n+'</b>. Then they took the office, lasted <b>'+
+      spanWords(c.g.d)+'</b> and left as <b>'+pname(c.g.c,c.g.a).toLowerCase()+'</b>'+
+      (c.g.kept!==null?', keeping <b>'+c.g.kept+'%</b> of what they said they believed':'')+
+      '. They do not think you would do better.';
+    go='<button class="btn go sm" data-go="start">Find my politics</button>'+
+       '<button class="btn ghost sm" data-go="play">Or go straight to the office</button>';
+  } else if(c.g){
+    body='Somebody took the office, lasted <b>'+spanWords(c.g.d)+'</b> and left as <b>'+
+      pname(c.g.c,c.g.a).toLowerCase()+'</b>. They do not think you would last.';
+    go='<button class="btn go sm" data-go="play">Take office</button>'+
+       '<button class="btn ghost sm" data-go="start">Answer the twenty-one first</button>';
+  } else {
+    body='Somebody has answered these twenty-one questions and come out <b>'+c.a.n+
+      '</b>. They think you would not. Answer the same twenty-one and find out exactly where the two of you part company.';
+    go='<button class="btn go sm" data-go="start">Find my politics</button>';
+  }
   $("invite").hidden=false;
-  $("inviteBody").innerHTML='Somebody has answered these twenty-one questions and come out <b>'+
-    st.cmp.a.n+'</b>. They think you would not. Answer the same twenty-one and find out exactly where the two of you part company.';
+  $("inviteBody").innerHTML=body;
+  $("inviteGo").innerHTML=go;
 }
 function renderCompare(){
-  if(!st.cmp||!st.r){$("compare").hidden=true;return;}
+  if(!st.cmp||!st.cmp.pos||!st.r){$("compare").hidden=true;return;}
   var mine=st.r.pos,theirs=st.cmp.pos,n=partings(mine,theirs);
   var rows=AXES.slice().sort(function(x,y){
     return Math.abs(theirs[y.k]-mine[y.k])-Math.abs(theirs[x.k]-mine[x.k]);});
@@ -1851,9 +1951,13 @@ function renderCivic(){
 function renderWho(){
   var saved=null;try{saved=JSON.parse(localStorage.getItem("manifesto.who")||"null");}catch(e){}
   st.who=saved;
+  /* The "your last reading moved N points" line was locked behind the state-and-age
+     form, so a returning player who skipped it was promised a comparison and shown
+     nothing. The reading is theirs either way. */
+  var show=!!saved||history_().length>1;
   $("whoForm").hidden=!!saved;
-  $("whoOut").hidden=!saved;
-  if(saved)renderAgg();
+  $("whoOut").hidden=!show;
+  if(show)renderAgg();
 }
 function saveWho(){
   var w={s:$("wState").value,a:$("wAge").value};
@@ -1869,9 +1973,10 @@ function renderAgg(){
       " points from the one before."
     : "This is your first reading. Take it again in a few months and this will show you what moved.";
   $("aggMine").textContent=line;
-  $("aggWho").textContent=(w.a||"")+" · "+(w.s||"");
-  $("aggNote").textContent="Once enough people from "+(w.s||"your state")+
-    " have taken this, your answers will sit against theirs here. Nothing is sent anywhere yet — this reading lives on this device only.";
+  $("aggWho").textContent=(w.a&&w.s)?(w.a+" · "+w.s):"On this device";
+  $("aggNote").textContent = (w.s
+    ? "Once enough people from "+w.s+" have taken this, your answers will sit against theirs here. "
+    : "")+"Nothing is sent anywhere. This reading lives on this device only.";
 }
 
 /* ---------- traditions ---------- */
@@ -1892,7 +1997,7 @@ function resultText(){
 }
 $("copy").addEventListener("click",function(){
   evt("result_shared",{session_id:CUR.compassSessionId,method:"copy"});
-  navigator.clipboard.writeText(resultText()).then(function(){toast("Copied");},
+  navigator.clipboard.writeText(resultText()).then(function(){toast("Challenge copied");},
     function(){toast("Your browser blocked the copy");});});
 function buildCard(){
   var W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;
@@ -2744,7 +2849,40 @@ function updateClock(){
 /* Name the presidency. Every branch reads off something the run actually recorded:
    how long you lasted, how the six moved, which power finished you, whether you kept
    your own word. No branch fires on anything the game did not measure. */
-function presidencyName(bloc,why){
+/* Every ending has a code as well as a line, because a presidency now has to survive
+   a trip through somebody else's WhatsApp. The code is the only thing in the link;
+   the sentence is rebuilt on the other side from this one table. */
+var PN={
+ third_passed:"THE ONE WHO CHANGED THE RULE TO STAY",
+ third_failed:"THE ONE WHO ASKED AND WAS REFUSED",
+ went:"THE ONE WHO WENT WHEN THE TIME CAME",
+ owned:"THE PRESIDENT {B} OWNED",
+ street_loyal:"THE ONE WHO MEANT IT AND WAS LEFT ANYWAY",
+ street:"THE ONE THE COUNTRY STOPPED OBEYING",
+ barracks:"THE ONE WHO WOKE UP AT FOUR IN THE MORNING",
+ purse:"THE ONE WHO RAN OUT OF MONEY",
+ palace:"THE ONE THE OLD MEN STOPPED BLESSING",
+ gov:"THE ONE THE THIRTY-SIX WALKED AWAY FROM",
+ lost_saint:"THE ONE-TERM SAINT",
+ lost_fixed:"THE ONE WHO FIXED IT AND LOST ANYWAY",
+ lost_nobody:"THE ONE WHO PLEASED NOBODY",
+ lost:"THE ONE THEY DID NOT RENEW",
+ right_wrong:"THE ONE WHO WAS RIGHT FOR THE WRONG REASONS",
+ blinked:"THE REFORMER WHO BLINKED",
+ meant:"THE ONE WHO MEANT IT",
+ kept_lost:"THE ONE WHO KEPT FAITH AND LOST THE COUNTRY",
+ survivor:"THE SURVIVOR",
+ paid:"THE ONE WHO PAID FOR IT IN {V}",
+ better:"THE ONE WHO LEFT IT BETTER",
+ caretaker:"THE CARETAKER"
+};
+function pname(c,a){
+  var t=PN[c]; if(!t)return "";
+  if(t.indexOf("{B}")>=0){var b=blocOf(a);return t.replace("{B}",b?b.n.toUpperCase():"THE ROOM");}
+  if(t.indexOf("{V}")>=0){var v=valOf(a);return t.replace("{V}",v?v.n.toUpperCase():"SOMETHING");}
+  return t;
+}
+function presidencyCode(bloc,why){
   var f=fidelity(), kept=f.tested?f.with_/f.tested:null;
   var loyal=(kept!==null&&f.tested>=4&&kept>=0.75);
   var faithless=(kept!==null&&f.tested>=4&&kept<=0.4);
@@ -2752,34 +2890,33 @@ function presidencyName(bloc,why){
   var better=nat>start+3, worse=nat<start-3;
   var sw=swing();
 
-  if(G.third==="passed") return "THE ONE WHO CHANGED THE RULE TO STAY";
-  if(G.third==="failed") return "THE ONE WHO ASKED AND WAS REFUSED";
-  if(G.third==="declined"&&why==="legacy") return "THE ONE WHO WENT WHEN THE TIME CAME";
+  if(G.third==="passed") return {c:"third_passed"};
+  if(G.third==="failed") return {c:"third_failed"};
+  if(G.third==="declined"&&why==="legacy") return {c:"went"};
 
   if(bloc){
-    var full=G.m[bloc.k]>=100;
-    if(full) return "THE PRESIDENT "+bloc.n.toUpperCase()+" OWNED";
-    if(bloc.k==="street")   return loyal?"THE ONE WHO MEANT IT AND WAS LEFT ANYWAY":"THE ONE THE COUNTRY STOPPED OBEYING";
-    if(bloc.k==="barracks") return "THE ONE WHO WOKE UP AT FOUR IN THE MORNING";
-    if(bloc.k==="purse")    return "THE ONE WHO RAN OUT OF MONEY";
-    if(bloc.k==="palace")   return "THE ONE THE OLD MEN STOPPED BLESSING";
-    return "THE ONE THE THIRTY-SIX WALKED AWAY FROM";
+    if(G.m[bloc.k]>=100) return {c:"owned",a:bloc.k};
+    if(bloc.k==="street")   return {c:loyal?"street_loyal":"street"};
+    if(bloc.k==="barracks") return {c:"barracks"};
+    if(bloc.k==="purse")    return {c:"purse"};
+    if(bloc.k==="palace")   return {c:"palace"};
+    return {c:"gov"};
   }
   if(why==="lost"){
-    if(better&&loyal) return "THE ONE-TERM SAINT";
-    if(better)        return "THE ONE WHO FIXED IT AND LOST ANYWAY";
-    if(faithless)     return "THE ONE WHO PLEASED NOBODY";
-    return "THE ONE THEY DID NOT RENEW";
+    if(better&&loyal) return {c:"lost_saint"};
+    if(better)        return {c:"lost_fixed"};
+    if(faithless)     return {c:"lost_nobody"};
+    return {c:"lost"};
   }
   /* served the full span */
-  if(faithless&&better)  return "THE ONE WHO WAS RIGHT FOR THE WRONG REASONS";
-  if(faithless)          return "THE REFORMER WHO BLINKED";
-  if(loyal&&better)      return "THE ONE WHO MEANT IT";
-  if(loyal&&worse)       return "THE ONE WHO KEPT FAITH AND LOST THE COUNTRY";
-  if(worse)              return "THE SURVIVOR";
-  if(better&&sw.paid)    return "THE ONE WHO PAID FOR IT IN "+sw.worst.n.toUpperCase();
-  if(better)             return "THE ONE WHO LEFT IT BETTER";
-  return "THE CARETAKER";
+  if(faithless&&better)  return {c:"right_wrong"};
+  if(faithless)          return {c:"blinked"};
+  if(loyal&&better)      return {c:"meant"};
+  if(loyal&&worse)       return {c:"kept_lost"};
+  if(worse)              return {c:"survivor"};
+  if(better&&sw.paid)    return {c:"paid",a:sw.worst.k};
+  if(better)             return {c:"better"};
+  return {c:"caretaker"};
 }
 
 function endGame(bloc,why){
@@ -2840,7 +2977,8 @@ function endGame(bloc,why){
   } else { kick="TERM COMPLETE";title="You finished.";body="You served out the time."; }
   /* A score is not a story, and stories are what travel. Everything below is derived
      from the run — nothing is invented for effect. */
-  $("gEndKick").textContent=presidencyName(bloc,why)||kick;
+  G.pn=presidencyCode(bloc,why);
+  $("gEndKick").textContent=pname(G.pn.c,G.pn.a)||kick;
   $("gEndTitle").textContent=title;
   $("gEndBody").textContent=body;
   var yrs=Math.floor(G.day/PER_YEAR),mos=Math.round((G.day%PER_YEAR)*(12/PER_YEAR));
@@ -2855,11 +2993,49 @@ function endGame(bloc,why){
   ledger();
   philosophy();
   var p=national();
+  versus();
+  notePlayed({t:Date.now(),d:G.day,k:$("gEndKick").textContent});
+  steps();marks();returnLeg();
   $("gEndVerdict").textContent = p>=50
     ? "You left the country better than you found it on the measures above. Almost nobody in the room ever asked you to."
     : (p>=33
       ? "The country is roughly where you found it. You spent the time surviving, which is what the job mostly is, and that is the complaint."
       : "You stayed in the room and the country went backwards while you did. Every power in that room got something out of you at some point. The measures above are what it cost.");
+}
+
+/* Somebody dared you here. Answer them with the only two figures that are comparable
+   between two runs: how long you lasted, and whether you kept your own word. */
+function versus(){
+  var el=$("gVersus"); if(!el)return;
+  var g=st.cmp&&st.cmp.g;
+  if(!g){el.hidden=true;return;}
+  var f=fidelity(), mine=(st.r&&f.tested)?Math.round(f.with_/f.tested*100):null;
+  var t="The person who sent you here lasted "+spanWords(g.d)+" and left as "+
+    pname(g.c,g.a).toLowerCase()+". You lasted "+spanWords(G.day)+
+    (G.day>g.d?" — longer." : (G.day<g.d?" — not as long." : ", to the month."));
+  if(g.kept!==null&&mine!==null){
+    t+=" They kept "+g.kept+"% of their own manifesto. You kept "+mine+"%.";
+  } else if(g.kept!==null&&mine===null){
+    t+=" They kept "+g.kept+"% of their own manifesto. You never said what yours was.";
+  }
+  el.textContent=t;el.hidden=false;
+}
+
+/* The loop only closes if the game sends you back. Somebody who governed without ever
+   stating a position got no reading at all, and the site said nothing about it — which
+   is exactly the run where the missing half matters most. */
+function returnLeg(){
+  var box=$("gReturn"); if(!box)return;
+  if(st.r){
+    $("gReturnH").textContent="Did the office move you?";
+    $("gReturnP").textContent="You answered the twenty-one before you governed. Answer them again and see what the office moved.";
+    $("gReturnBtn").textContent="Answer them again";
+  } else {
+    $("gReturnH").textContent="You never said what you believed.";
+    $("gReturnP").textContent="So nothing you did in there could contradict you. Answer the twenty-one and take office again — the second run is the one that tells you something.";
+    $("gReturnBtn").textContent="Find my politics";
+  }
+  box.hidden=false;
 }
 
 /* ---------- what you left behind ----------
@@ -3137,14 +3313,16 @@ $("gPresCard").addEventListener("click",function(){
 });
 $("gChallenge").addEventListener("click",function(){
   evt("result_shared",{session_id:CUR.presidentSessionId,method:"presidency_challenge"});
-  var yrs=Math.floor(G.day/PER_YEAR),mos=Math.round((G.day%PER_YEAR)*(12/PER_YEAR));
-  var f=fidelity(),kept=f.tested?Math.round(f.with_/f.tested*100)+"% of my own manifesto":"nothing I had committed to";
+  var f=fidelity();
+  var kept=(st.r&&f.tested)?"kept "+Math.round(f.with_/f.tested*100)+"% of my own manifesto"
+                           :"never said what I believed first";
   var t="I was "+$("gEndKick").textContent.toLowerCase()+".\n\n"+
-    yrs+"y "+mos+"m in office, "+G.day+" decisions, and I kept "+kept+".\n\n"+
-    "If na you, wetin you for do?\n"+location.href.split("#")[0];
+    spanWords(G.day)+" in office, "+G.day+" decisions, and I "+kept+".\n\n"+
+    "If na you, wetin you for do?\n"+gameLink();
   navigator.clipboard.writeText(t).then(function(){gtoast("Challenge copied");},
     function(){gtoast("Your browser blocked the copy");});
 });
+$("gReturnBtn").addEventListener("click",beginCompass);
 $("gStart").addEventListener("click",beginRun);
 $("gAgain").addEventListener("click",beginRun);
 $("gL").addEventListener("mouseenter",function(){$("gCard").classList.add("tilt-l");});
@@ -3167,7 +3345,7 @@ function start(){
   $("officeSel").addEventListener("change",renderBallot);
   $("wSave").addEventListener("click",saveWho);
   st.cmp=readInvite();
-  renderBallot();landing();renderInvite();show("start");
+  renderBallot();landing();renderInvite();show("start");marks();
   var qp=new URLSearchParams(location.search);
   track("participant_seen",{
     referrer:document.referrer||null,
