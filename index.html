@@ -1,23 +1,21 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>If Na You</title>
-<meta name="description" content="What do you actually believe? And what would you do with power? Twenty-one questions, then eight years running Nigeria.">
-<link rel="icon" href="/favicon.png" type="image/png">
+<meta name="description" content="A civic engagement tool and strategy game for Nigerian politics: a positioning quiz, a candidate directory, and an 8-year govern-Nigeria decision game.">
+<link rel="icon" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://ifnayou.com/">
-<meta property="og:title" content="If na you?">
-<meta property="og:description" content="What do you actually believe? And what would you do with power? Twenty-one questions, then eight years running Nigeria.">
+<meta property="og:title" content="If Na You">
+<meta property="og:description" content="A civic engagement tool and strategy game for Nigerian politics: a positioning quiz, a candidate directory, and an 8-year govern-Nigeria decision game.">
 <meta property="og:image" content="https://ifnayou.com/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://ifnayou.com">
+<meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="If na you?">
-<meta name="twitter:description" content="What do you actually believe? And what would you do with power? Twenty-one questions, then eight years running Nigeria.">
+<meta name="twitter:title" content="If Na You">
+<meta name="twitter:description" content="A civic engagement tool and strategy game for Nigerian politics: a positioning quiz, a candidate directory, and an 8-year govern-Nigeria decision game.">
 <meta name="twitter:image" content="https://ifnayou.com/og.png">
-<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 
 <style>
 /* ===== HARMATTAN AND RAINS — If Na You identity v2 =====
@@ -223,7 +221,7 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 @keyframes inked{from{r:1.2;opacity:.4}to{opacity:1}}
 .qhead{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:16px;}
 .qstate{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:var(--s-3);line-height:1.04;
-  letter-spacing:-.02em;text-transform:none;margin:0 0 10px;max-width:20ch;}
+  letter-spacing:-.02em;text-transform:none;margin:0 0 30px;max-width:22ch;}
 .qctx{color:var(--ink-2);font-size:var(--s--1);margin:0 0 28px;max-width:56ch;font-style:italic;}
 .likert{display:grid;gap:6px;max-width:600px;}
 .likert button{display:flex;align-items:center;gap:14px;width:100%;text-align:left;
@@ -238,6 +236,9 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 .likert kbd{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--ink-3);
   border:1px solid var(--hair);padding:2px 7px;flex:none;}
 .qfoot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:24px;flex-wrap:wrap;}
+/* the compass is pinned bottom-right on desktop, so the footer has to stay out from
+   under it — the keyboard hint was sitting behind the plate */
+@media (min-width:781px){.qfoot{padding-right:168px;}}
 
 
 /* the reading, forming */
@@ -274,11 +275,12 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 .live .lab{font-size:.54rem;margin-bottom:5px;display:block;}
 .live svg{display:block;width:100%;height:auto;}
 @media (max-width:780px){
-  /* was display:none — twenty-one answers and nothing to show for them on a phone */
-  .live{position:static;width:auto;margin:20px auto 0;max-width:600px;
-    display:flex;align-items:center;gap:13px;padding:11px 13px;}
-  .live .lab{margin-bottom:0;flex:none;}
-  .live svg{width:62px;height:62px;flex:none;}
+  /* was display:none — twenty-one answers and nothing to show for them on a phone.
+     With the caption gone the box has nothing to stretch around, so it shrinks to
+     the compass instead of being a wide empty plate. */
+  .live{position:static;width:-moz-fit-content;width:fit-content;margin:22px auto 0;
+    padding:10px;display:block;}
+  .live svg{width:88px;height:88px;display:block;}
 }
 
 /* results */
@@ -321,12 +323,24 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 .arow .v{font-family:"IBM Plex Mono",monospace;font-size:.67rem;color:var(--ink-3);text-align:right;}
 
 .trad{border:3px solid var(--rule);background:var(--stock);margin-top:22px;
-  display:grid;grid-template-columns:150px minmax(0,1fr);}
+  display:grid;grid-template-columns:190px minmax(0,1fr);}
 @media (max-width:640px){.trad{grid-template-columns:1fr;}}
 .portrait{border-right:1px solid var(--hair);padding:20px;display:flex;flex-direction:column;
   align-items:center;justify-content:flex-start;gap:10px;background:var(--stock-2);}
 @media (max-width:640px){.portrait{border-right:0;border-bottom:1px solid var(--hair);}}
 .portrait svg{width:100%;max-width:110px;height:auto;display:block;}
+/* the portrait sits on the indigo ground with the resist field showing through it,
+   so an illustration that arrived as a cut-out still reads as part of the page */
+.portrait{background:var(--elu);position:relative;overflow:hidden;padding:0;justify-content:flex-end;}
+.portrait::before{content:"";position:absolute;inset:0;opacity:.14;
+  background-image:var(--adire-a),var(--adire-b);
+  background-size:52px 52px,61px 61px;background-position:0 0,19px 31px;
+  filter:invert(1) brightness(3);}
+.portrait .pimg{position:relative;z-index:1;width:100%;height:auto;display:block;
+  margin-top:auto;filter:drop-shadow(0 2px 10px rgba(0,0,0,.35));}
+.portrait svg{position:relative;z-index:1;margin:20px auto;}
+.portrait .cap{position:relative;z-index:2;color:var(--on-elu-2);padding:0 10px 12px;
+  background:linear-gradient(to top,var(--elu) 55%,transparent);margin-top:-30px;padding-top:22px;}
 .portrait .cap{font-family:"IBM Plex Mono",monospace;font-size:.52rem;letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink-3);text-align:center;line-height:1.5;}
 .tbody{padding:clamp(18px,2.6vw,26px);}
@@ -336,6 +350,10 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 .twhy{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);font-size:.89rem;color:var(--ink-2);}
 .tsec{display:grid;gap:12px;margin-top:16px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));}
 .tsec div{border-left:3px solid var(--bronze);padding-left:12px;}
+/* the people behind a tradition, at the size of a stamp */
+.tsec div.withpic{display:grid;grid-template-columns:54px minmax(0,1fr);gap:11px;align-items:start;}
+.tsec .sface{grid-row:1 / span 2;width:54px;height:54px;object-fit:cover;object-position:top center;
+  background:var(--elu);display:block;}
 .tsec b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:.8rem;display:block;text-transform:none;}
 .tsec span{font-size:.83rem;color:var(--ink-2);line-height:1.46;display:block;margin-top:4px;}
 
@@ -601,6 +619,10 @@ tr:last-child td{border-bottom:0;}
   box-shadow:inset 0 0 0 2px var(--laterite);}
 .mt[data-s="abandoned"] .bar{background:repeating-linear-gradient(45deg,
   var(--stock-2) 0 5px,var(--laterite) 5px 7px);}
+/* a deadline you can watch burn down */
+.mt.fused .st{animation:fusepulse 1.6s ease-in-out infinite;}
+@keyframes fusepulse{0%,100%{opacity:1}50%{opacity:.55}}
+@media (prefers-reduced-motion:reduce){.mt.fused .st{animation:none;}}
 .mt.turned{animation:mtturn .9s ease-out;}
 @media(max-width:560px){.mt .st{font-size:.6rem;letter-spacing:.02em;min-height:2.6em;}
   .mt[data-s="plotting"] .st{letter-spacing:.05em;}}
@@ -910,12 +932,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
   <div class="wrap">
     <div class="qshell">
       <div class="rail" id="rail" aria-hidden="true"></div>
-      <div class="qhead">
-        <span class="lab" id="qcount"></span>
-        <span class="lab" id="qaxis"></span>
-      </div>
       <p class="qstate" id="qtext"></p>
-      <p class="qctx" id="qctx"></p>
       <div class="likert" id="likert" role="group" aria-label="Level of agreement"></div>
       <div class="forming" id="forming" hidden aria-live="polite">
         <div class="fm-h"><span class="lab" id="fmName"></span><span class="fm-read" id="fmRead"></span></div>
@@ -927,7 +944,6 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
         <p id="benchtext"></p>
       </div>
       <aside class="live" id="live" aria-hidden="true">
-        <span class="lab">Where you are<br>so far</span>
         <svg id="mini" viewBox="0 0 120 120"></svg>
       </aside>
       <div class="qfoot">
@@ -1217,36 +1233,28 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 "use strict";
 var $=function(i){return document.getElementById(i);};
 
-/* ---------- anonymous tracking ----------
-   No accounts. One anonymous_id persisted in localStorage identifies a
-   participant across visits; per-experience session ids are generated fresh
-   each time someone starts the quiz or the game. Every call is fire-and-
-   forget — a network failure here must never block or break the product.
-   Only outcomes are recorded (archetype/dimensions, president result) — not
-   every individual answer or decision. */
+/* ---------- anonymous tracking (outcome-only; fails silently) ---------- */
 function uuid(){
   if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
-    var r=Math.random()*16|0,v=c==="x"?r:(r&0x3|0x8);return v.toString(16);});
+    var r=Math.random()*16|0,v=c=="x"?r:(r&0x3|0x8);return v.toString(16);});
 }
 function pid(){
-  var v=null;try{v=localStorage.getItem("manifesto.pid");}catch(e){}
-  if(!v){v=uuid();try{localStorage.setItem("manifesto.pid",v);}catch(e){}}
-  return v;
+  try{
+    var id=localStorage.getItem("ify_pid");
+    if(!id){id=uuid();localStorage.setItem("ify_pid",id);}
+    return id;
+  }catch(e){return uuid();}
 }
 var CUR={compassSessionId:null,presidentSessionId:null};
-function track(type,payload){
+function track(type,data){
   try{
-    var body=Object.assign({type:type,anonymous_id:pid()},payload||{});
-    fetch("/api/track",{method:"POST",headers:{"content-type":"application/json"},
-      body:JSON.stringify(body),keepalive:true}).catch(function(){});
+    var payload=Object.assign({type:type,participant_id:pid()},data||{});
+    fetch("/api/track",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload),keepalive:true}).catch(function(){});
   }catch(e){}
 }
-function evt(name,props){
-  if(window.posthog&&posthog.capture)posthog.capture(name,props||{});
-  track("event",{event_name:name,properties:props||{},
-    session_id:(props&&props.session_id)||null});
-}
+function evt(name,data){track("event",Object.assign({event_name:name},data||{}));}
 
 /* ---------- dimensions ---------- */
 var AXES=[
@@ -1358,38 +1366,38 @@ var AR=[
 ];
 
 var TR={
- restructurer:{n:"Obafemi Awolowo",d:"1909 – 1987 · Premier, Western Region",in:"OA",
+ restructurer:{n:"Obafemi Awolowo",d:"1909 – 1987 · Premier, Western Region",in:"OA",img:"awolowo",
   b:"Awolowo built the Western Region's free primary education scheme and its first television service, and argued across four decades that Nigeria could hold together only as a genuine federation of strong regions. He contested and lost three presidential-era contests, and remained the most systematic political thinker of his generation — his case for federalism was written out at book length rather than improvised on a podium.",
   s:[{n:"Anthony Enahoro (1923–2010)",d:"Moved the 1953 motion for Nigerian independence; spent his later decades campaigning for a sovereign national conference."},
-     {n:"J. S. Tarka (1932–1980)",d:"Led the United Middle Belt Congress; argued federalism had to protect minorities, not only the three large regions."}]},
- unifier:{n:"Abubakar Tafawa Balewa",d:"1912 – 1966 · First Prime Minister of Nigeria",in:"TB",
+     {img:"tarka",n:"J. S. Tarka (1932–1980)",d:"Led the United Middle Belt Congress; argued federalism had to protect minorities, not only the three large regions."}]},
+ unifier:{n:"Abubakar Tafawa Balewa",d:"1912 – 1966 · First Prime Minister of Nigeria",in:"TB",img:"balewa",
   b:"Balewa governed a federation whose regions were stronger than its centre, and spent his premiership holding it together through the census disputes, the Western Region crisis and the 1964 election deadlock. His instinct was consensus and his foreign policy cautious. He was killed in the January 1966 coup, and the union he tried to preserve collapsed into civil war within eighteen months.",
   s:[{n:"Murtala Muhammed (1938–1976)",d:"Six months as head of state; created seven new states and moved the capital project to Abuja — centralisation pursued at speed rather than by consensus."}]},
- changemaker:{n:"Aminu Kano",d:"1920 – 1983 · Founder, NEPU and the PRP",in:"AK",
+ changemaker:{n:"Aminu Kano",d:"1920 – 1983 · Founder, NEPU and the PRP",in:"AK",img:"aminu-kano",
   b:"Aminu Kano built his politics around the talakawa — the common people — and directed it at the northern aristocracy as much as at the colonial administration. He campaigned for free education, for women's enfranchisement and against the emirate tax system, lived without accumulating wealth, and remains the clearest Nigerian example of a mass movement organised on class rather than ethnic lines.",
-  s:[{n:"Funmilayo Ransome-Kuti (1900–1978)",d:"Led the Abeokuta Women's Union in the tax revolt that forced the Alake's abdication; among the first Nigerian women in national politics."},
-     {n:"Margaret Ekpo (1914–2006)",d:"Organised Aba's market women into a voting bloc and won election to the Eastern House of Assembly."}]},
- traditionalist:{n:"Ahmadu Bello",d:"1910 – 1966 · Sardauna of Sokoto; Premier, Northern Region",in:"AB",
+  s:[{img:"ransome-kuti",n:"Funmilayo Ransome-Kuti (1900–1978)",d:"Led the Abeokuta Women's Union in the tax revolt that forced the Alake's abdication; among the first Nigerian women in national politics."},
+     {img:"ekpo",n:"Margaret Ekpo (1914–2006)",d:"Organised Aba's market women into a voting bloc and won election to the Eastern House of Assembly."}]},
+ traditionalist:{n:"Ahmadu Bello",d:"1910 – 1966 · Sardauna of Sokoto; Premier, Northern Region",in:"AB",img:"ahmadu-bello",
   b:"Bello chose to lead the Northern Region rather than seek the federal premiership, judging regional authority the more consequential seat. He grounded his politics in the emirate system and in Islamic scholarship, pursued the Northernisation of the regional civil service, and built an institutional base in education and administration whose effects outlasted him by decades.",
-  s:[{n:"Sa'adu Zungur (1915–1958)",d:"Northern poet and radical intellectual who argued from inside the same tradition for reform of it."}]},
- hustler:{n:"Louis Odumegwu Ojukwu",d:"1909 – 1966 · Industrialist",in:"LO",
+  s:[{img:"zungur",n:"Sa'adu Zungur (1915–1958)",d:"Northern poet and radical intellectual who argued from inside the same tradition for reform of it."}]},
+ hustler:{n:"Louis Odumegwu Ojukwu",d:"1909 – 1966 · Industrialist",in:"LO",img:"ojukwu-snr",
   b:"Ojukwu built a transport and trading business from Nnewi into one of colonial Nigeria's largest private fortunes, sat on the boards of the African Continental Bank and the Nigerian Coal Corporation, and became the first president of the Nigerian Stock Exchange. His argument, made commercially rather than rhetorically, was that Nigerians could own and run enterprise at scale without the state doing it for them.",
-  s:[{n:"Timothy Adeola Odutola (1902–1995)",d:"Built textile and rubber concerns and led the Nigerian Chamber of Commerce; an early advocate of indigenous industrial ownership."}]},
- patriot:{n:"Herbert Macaulay",d:"1864 – 1946 · Founder, Nigerian National Democratic Party",in:"HM",
+  s:[{img:"odutola",n:"Timothy Adeola Odutola (1902–1995)",d:"Built textile and rubber concerns and led the Nigerian Chamber of Commerce; an early advocate of indigenous industrial ownership."}]},
+ patriot:{n:"Herbert Macaulay",d:"1864 – 1946 · Founder, Nigerian National Democratic Party",in:"HM",img:"macaulay",
   b:"Engineer, surveyor and journalist, Macaulay used the Lagos Daily News to fight colonial land seizures and to defend the authority of the Oba of Lagos against the administration. He founded Nigeria's first political party in 1923 and became the first president of the NCNC — a politics built on refusing to accept that Nigerians should be governed on someone else's terms.",
-  s:[{n:"Michael Imoudu (1902–2005)",d:"Led the 1945 general strike; built Nigerian labour into a force the colonial administration had to negotiate with."}]},
- afrodreamer:{n:"Nnamdi Azikiwe",d:"1904 – 1996 · First President of Nigeria",in:"NA",
+  s:[{img:"imoudu",n:"Michael Imoudu (1902–2005)",d:"Led the 1945 general strike; built Nigerian labour into a force the colonial administration had to negotiate with."}]},
+ afrodreamer:{n:"Nnamdi Azikiwe",d:"1904 – 1996 · First President of Nigeria",in:"NA",img:"azikiwe",
   b:"Azikiwe founded the West African Pilot and pressed the case for African self-rule across the region rather than within Nigeria's borders alone — he was as much a figure in Gold Coast politics as in Lagos. He led the NCNC, served as Premier of the Eastern Region and then as Governor-General and President, and gave Nigerian nationalism its continental register.",
   s:[{n:"Fela Anikulapo-Kuti (1938–1997)",d:"Made pan-African and anti-establishment argument a mass cultural form, at sustained personal cost."}]},
- stabiliser:{n:"Shehu Shagari",d:"1925 – 2018 · First executive President of Nigeria",in:"SS",
+ stabiliser:{n:"Shehu Shagari",d:"1925 – 2018 · First executive President of Nigeria",in:"SS",img:"shagari",
   b:"Shagari governed the Second Republic by coalition and consensus, expanded the Green Revolution agricultural programme, and introduced austerity measures as oil revenues collapsed. He was personally modest and institutionally cautious in a period that arguably demanded neither. His government was removed by coup in 1983, and the gradualist case has been arguing with that outcome ever since.",
-  s:[{n:"Simeon Adebo (1913–1994)",d:"Career public servant whose wages commission reshaped federal pay; the institutional temperament in its purest form."}]},
- grassroots:{n:"Michael Okpara",d:"1920 – 1984 · Premier, Eastern Region",in:"MO",
+  s:[{img:"adebo",n:"Simeon Adebo (1913–1994)",d:"Career public servant whose wages commission reshaped federal pay; the institutional temperament in its purest form."}]},
+ grassroots:{n:"Michael Okpara",d:"1920 – 1984 · Premier, Eastern Region",in:"MO",img:"okpara",
   b:"Okpara called his approach pragmatic socialism and built it on farm settlements, palm and rubber plantations and rural industrial estates rather than showpiece capital projects. The Eastern Region under his premiership recorded one of the fastest growth rates in the developing world at the time — an argument for development measured in what reaches a village, not in what is announced in a capital.",
-  s:[{n:"Margaret Ekpo (1914–2006)",d:"Built political power from market associations upward rather than from party structures downward."}]},
- technocrat:{n:"Simeon Adebo",d:"1913 – 1994 · Public servant and diplomat",in:"SA",
+  s:[{img:"ekpo",n:"Margaret Ekpo (1914–2006)",d:"Built political power from market associations upward rather than from party structures downward."}]},
+ technocrat:{n:"Simeon Adebo",d:"1913 – 1994 · Public servant and diplomat",in:"SA",img:"adebo",
   b:"Adebo headed the Western Region civil service, served as Nigeria's Permanent Representative to the United Nations, and chaired the salaries and wages commission whose 1971 report restructured public pay. He belonged to the generation that believed an impartial, competent bureaucracy was the real machinery of a state, and that politics worked only as well as the institutions beneath it.",
-  s:[{n:"Pius Okigbo (1924–2000)",d:"Economist and architect of Nigeria's first National Development Plan; later chaired the panel that audited the CBN's dedicated accounts."}]}
+  s:[{img:"okigbo",n:"Pius Okigbo (1924–2000)",d:"Economist and architect of Nigeria's first National Development Plan; later chaired the panel that audited the CBN's dedicated accounts."}]}
 };
 
 var TEN={
@@ -1493,6 +1501,21 @@ function mini(svg,pos){
   g.push('<circle cx="'+ux+'" cy="'+uy+'" r="9" fill="var(--danfo)" opacity="0.28"/>');
   g.push('<circle cx="'+ux+'" cy="'+uy+'" r="4.5" fill="var(--danfo)" stroke="var(--ink)" stroke-width="1"/>');
   svg.innerHTML=g.join("");
+}
+/* The traditions now have faces. The file is named for the person, the archetype
+   points at it, and if the image is missing or slow the drawn plate with initials is
+   still what renders — nothing on this page depends on a picture arriving. */
+function portraitSrc(id){ var t=TR[id]; return t&&t.img?("portraits/"+t.img+".png"):null; }
+function renderPortrait(id){
+  var box=$("port").parentNode, src=portraitSrc(id);
+  var old=box.querySelector(".pimg"); if(old)old.remove();
+  if(!src){ $("port").style.display=""; return; }
+  var img=new Image();
+  img.className="pimg"; img.alt=""; img.decoding="async"; img.loading="lazy";
+  img.onload=function(){ $("port").style.display="none"; };
+  img.onerror=function(){ img.remove(); $("port").style.display=""; };
+  img.src=src;
+  box.insertBefore(img,$("port"));
 }
 function portrait(svg,initials){
   svg.innerHTML=
@@ -1599,18 +1622,7 @@ function renderQ(){
   /* "Question 7 of 21" restates the size of the task on every screen. The instrument
      is built in sevens of three, so say that instead: nobody is daunted by three
      questions about the economy. The rail still shows all twenty-one at a glance. */
-  if(st.part===1){
-    var ax=AXES.filter(function(a){return a.k===q.a;})[0];
-    var di=KEYS.indexOf(q.a), inDim=(st.i%3)+1;
-    $("qcount").textContent=ax.n+" · "+inDim+" of 3";
-    $("qaxis").textContent="Dimension "+(di+1)+" of 7";
-  } else {
-    $("qcount").textContent="Part two · "+(st.i+1)+" of "+n;
-    $("qaxis").textContent="";
-  }
   $("qtext").textContent=q.t;
-  $("qctx").textContent=q.c||"";
-  $("qctx").style.display=q.c?"":"none";
   uliRail($("rail"),n,st.i,st.part===1?3:5);
   var ans=ansArr();
   $("likert").innerHTML=SCALE.map(function(sc,i){
@@ -1642,7 +1654,7 @@ function forming(){
   $("fmName").textContent=ax.n;
   $("fmRead").innerHTML=(v===0)
     ? '<b>Balanced</b> so far'
-    : '<b>'+pole+'</b> '+Math.abs(v)+(answered.length<idx.length?' so far':'');
+    : '<b>'+pole+'</b> '+Math.abs(v);
   $("fmRead").className="fm-read "+(v>0?"warm":(v<0?"cool":"mid"));
   var half=Math.abs(v)/2;
   $("fmFill").style.cssText = v===0
@@ -1703,14 +1715,13 @@ document.addEventListener("keydown",function(e){
 function reset(){st.part=1;st.i=0;st.a.fill(null);st.ca.fill(null);st.r=null;
   $("civicWrap").hidden=true;$("part2").hidden=false;}
 function beginCompass(){
-  reset();
   CUR.compassSessionId=uuid();
-  track("session_start",{session_id:CUR.compassSessionId,experience_type:"compass"});
+  CUR.compassResultSent=false;
+  track("session_start",{session_id:CUR.compassSessionId,session_type:"compass"});
   evt("compass_started",{session_id:CUR.compassSessionId});
-  show("quiz");renderQ();
 }
-$("startBtn").addEventListener("click",beginCompass);
-$("again").addEventListener("click",beginCompass);
+$("startBtn").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
+$("again").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
 $("part2").addEventListener("click",function(){st.part=2;st.i=0;show("quiz");renderQ();});
 
 /* ---------- result ---------- */
@@ -1720,14 +1731,15 @@ function finish(){
   st.r={pos:pos,ranked:classify(pos)};
   remember({t:Date.now(),pos:pos,a:st.r.ranked[0].a.id});
   steps();marks();
-  var tie=tied(st.r.ranked);
-  track("session_complete",{session_id:CUR.compassSessionId,completion_status:"completed"});
-  track("compass_result",{session_id:CUR.compassSessionId,archetype:st.r.ranked[0].a.id,
-    archetype_share:st.r.ranked[0].share,tied_archetypes:tie.map(function(r){return r.a.id;}),
-    final_dimension_scores:pos});
-  evt("compass_completed",{session_id:CUR.compassSessionId,archetype:st.r.ranked[0].a.id});
+  if(!CUR.compassResultSent){
+    CUR.compassResultSent=true;
+    track("session_complete",{session_id:CUR.compassSessionId,completion_status:"completed"});
+    track("compass_result",{session_id:CUR.compassSessionId,
+      archetype:st.r.ranked[0].a.id,dimension_scores:JSON.parse(JSON.stringify(pos))});
+    evt("compass_completed",{session_id:CUR.compassSessionId});
+  }
   renderResult();renderWho();renderCompare();show("result");
-  evt("result_viewed",{session_id:CUR.compassSessionId,archetype:st.r.ranked[0].a.id});
+  evt("result_viewed",{session_id:CUR.compassSessionId});
 }
 /* A tester asked why the dimensions aren't socialist / capitalist / nationalist. They
    aren't, because those are imported and they do not name the arguments Nigeria has.
@@ -1827,8 +1839,7 @@ function renderResult(){
       (tie.length===2?"both":"all "+tie.length)+" of these, so naming one would be inventing a precision the instrument does not have. "+
       (tie.length===2?"You are between them":"You are somewhere among them")+", and that is a real finding rather than a failure to decide — most Nigerians land in the gaps between these traditions rather than inside one."
     : "Of the ten traditions this one is distinctly nearest to where you landed, which is not true for most people who take this.";
-  $("asum").innerHTML='<span style="display:block;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--hair);color:var(--ink-3);font-size:.87rem">'+note+'</span>'
-    + tie.map(function(r){return multi?('<b>'+r.a.n+'.</b> '+r.a.s):r.a.s;}).join("<br><br>")
+  $("asum").innerHTML=tie.map(function(r){return multi?('<b>'+r.a.n+'.</b> '+r.a.s):r.a.s;}).join("<br><br>")
     + (spread<22?'<span style="display:block;margin-top:12px;padding-top:12px;border-top:1px solid var(--hair);color:var(--ink-3);font-size:.87rem">You also sat near the middle on every dimension. That usually means you are unconvinced by both sides rather than undecided.</span>':'');
   $("bars").innerHTML=AXES.map(function(a){
     var v=pos[a.k],w=Math.abs(v)/2,side=v>=0?'left:50%;width:'+w+'%':'right:50%;width:'+w+'%';
@@ -1853,6 +1864,7 @@ function renderResult(){
 
   var t=TR[top.id];
   portrait($("port"),t.in);
+  renderPortrait(top.id);
   $("portCap").textContent=(t.d.split("·")[1]||"").trim();
   $("fname").textContent=t.n;$("fdates").textContent=t.d;$("fbody").textContent=t.b;
   var srt=AXES.slice().sort(function(x,y){return Math.abs(pos[y.k])-Math.abs(pos[x.k]);});
@@ -1862,7 +1874,10 @@ function renderResult(){
     '<a href="#" data-go="play">game</a> exists because stated positions and governing behaviour come apart.'+
     (multi?' Because your reading is between '+tie.length+' traditions, the figures below are the ones behind the nearest of them — the other'+(tie.length>2?'s':'')+' would give you '+
       tie.slice(1).map(function(r){return TR[r.a.id].n;}).join(" and ")+'.':'');
-  $("fsec").innerHTML=t.s.map(function(x){return '<div><b>'+x.n+'</b><span>'+x.d+'</span></div>';}).join("");
+  $("fsec").innerHTML=t.s.map(function(x){
+    return '<div'+(x.img?' class="withpic"':'')+'>'+
+      (x.img?'<img class="sface" src="portraits/sm/'+x.img+'.png" alt="" loading="lazy" decoding="async" onerror="this.remove()">':'')+
+      '<b>'+x.n+'</b><span>'+x.d+'</span></div>';}).join("");
   $("tension").textContent=TEN[top.id];
 }
 
@@ -2045,10 +2060,23 @@ function resultText(){
     "\n\nIf na you? See where we disagree:\n"+shareLink();
 }
 $("copy").addEventListener("click",function(){
-  evt("result_shared",{session_id:CUR.compassSessionId,method:"copy"});
-  navigator.clipboard.writeText(resultText()).then(function(){toast("Challenge copied");},
+  navigator.clipboard.writeText(resultText()).then(function(){toast("Challenge copied");
+    evt("result_shared",{session_id:CUR.compassSessionId,method:"copy"});},
     function(){toast("Your browser blocked the copy");});});
-function buildCard(){
+/* The card is the only thing that leaves the site, so it is the only place the
+   wordmark has to work — which is why the portrait goes here and nowhere else gets
+   a watermark. Loads first, falls back to the card exactly as it was if it does not
+   arrive, and never hangs: two and a half seconds and it saves without. */
+function withPortrait(src,fn){
+  if(!src){fn(null);return;}
+  var done=false, go=function(im){ if(done)return; done=true; fn(im); };
+  var im=new Image();
+  im.onload=function(){go(im);};
+  im.onerror=function(){go(null);};
+  im.src=src;
+  setTimeout(function(){go(im.complete&&im.naturalWidth?im:null);},2500);
+}
+function buildCard(face){
   var W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;
   var x=c.getContext("2d");
   var C={bg:"#1B2A4A",st:"rgba(255,255,255,0.07)",ink:"#F3F4F0",i2:"#C6CEE2",
@@ -2070,7 +2098,10 @@ function buildCard(){
   x.fillStyle=C.red;x.font='600 24px "IBM Plex Mono", monospace';
   x.fillText(multi?(names.length+" TRADITIONS, TOO CLOSE TO SEPARATE")
                   :(Math.round(top.share*100)+"% ALIGNMENT"),80,afterY);
-  var S=500,X=80,Y=320;
+  /* Three tied traditions stack three names, and the block was running straight
+     through the plot square. The square starts under whatever the name block
+     actually needed, and everything keyed off Y follows it down. */
+  var S=500,X=80,Y=Math.max(320,afterY+56);
   x.fillStyle="rgba(255,255,255,0.06)";x.fillRect(X,Y,S,S);
   x.strokeStyle=C.hair;x.lineWidth=3;x.strokeRect(X,Y,S,S);
   x.lineWidth=1;
@@ -2094,25 +2125,43 @@ function buildCard(){
   x.fillText(TR[top.a.id].n,80,Y+S+152);
   x.fillStyle=C.i3;x.font='500 19px "IBM Plex Mono", monospace';
   x.fillText(TR[top.a.id].d,80,Y+S+186);
+  if(face&&face.naturalWidth){
+    /* Fit to the band rather than crop into it — a tie pushes the square down and
+       the old clip took the top off the head. */
+    var bTop=Y+S+40, bBot=H-118, bH=bBot-bTop;
+    var fw=330, fh=face.naturalHeight*(fw/face.naturalWidth);
+    if(fh>bH){ fh=bH; fw=face.naturalWidth*(fh/face.naturalHeight); }
+    x.drawImage(face,W-80-fw,bBot-fh,fw,fh);
+  }
+  x.fillStyle=C.i3;x.font='500 19px "IBM Plex Mono", monospace';
   x.fillText("FIND YOUR OWN AT IFNAYOU.COM",80,H-88);
   return c;
 }
 function saveCard(canvas,name,say){
+  try{ canvasToBlob(canvas,name,say); }catch(e){ say("Could not render the card"); }
+}
+function canvasToBlob(canvas,name,say){
   canvas.toBlob(function(b){
     if(!b){say("Could not render the card");return;}
     var url=URL.createObjectURL(b);
     var a=document.createElement("a");
-    a.href=url;a.download=name;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    a.href=url;a.download=name;document.body.appendChild(a);a.click();
+    document.body.removeChild(a);
     setTimeout(function(){URL.revokeObjectURL(url);},1000);
     say("Saved");
   },"image/png");
 }
+/* If the portrait ever taints the canvas — a CDN move, a redirect off-origin — the
+   save must not die with it. Draw it, try to export, and if the export refuses,
+   redraw the card without the face and save that. The wordmark line is what the
+   card is for; the portrait is the ornament. */
 $("card").addEventListener("click",function(){
+  var id=st.r.ranked[0].a.id, nm="ifnayou-"+id+".png";
   evt("result_shared",{session_id:CUR.compassSessionId,method:"card"});
-  saveCard(buildCard(),"ifnayou-"+st.r.ranked[0].a.id+".png",toast);
+  withPortrait(portraitSrc(id),function(face){
+    try{ canvasToBlob(buildCard(face),nm,toast); }
+    catch(e){ saveCard(buildCard(null),nm,toast); }
+  });
 });
 
 /* ---------- the presidency card ----------
@@ -2383,6 +2432,11 @@ var CRISIS_CARDS=[
   s:"Every decision this month has been taken to the crowd first. The ministries have stopped sending you anything difficult because they already know the answer. You are very popular and you are not governing.",
   l:{t:"Take one decision they will hate.",m:{street:-30,purse:14,barracks:8},v:{pro:9,cap:10,int:8,coh:-5},ax:{method:-1},f:"broke_the_spell"},
   r:{t:"Popularity is a mandate.",m:{street:-4,gov:-10,purse:-8},v:{pro:-8,cap:-9,int:-6,coh:4},ax:{method:1}}},
+
+ {req:"st_barracks_abandoned",now:true,w:"The Chief of Defence Staff, who did not salute",
+  s:"Two formations did not deploy this week and nobody has been disciplined for it, because I am not certain the order would be obeyed. The allowances are nine months behind. I am telling you this while it is still something I can tell you.",
+  l:{t:"Pay the arrears tonight.",m:{barracks:34,purse:-24,street:-8},v:{sec:8,pro:-6,int:-4,cap:-4},ax:{security:-1},f:"paid_arrears"},
+  r:{t:"Retire the two commanders.",m:{barracks:-6,street:10,palace:6},v:{sec:-9,int:8,coh:-4},ax:{security:1},f:"retired_them"}},
 
  {req:"st_purse_abandoned",now:true,w:"The Central Bank Governor and the Accountant-General together",
   s:"Salaries did not go out. We can print what is owed and take the inflation, or we can sell the assets we swore we would never sell. There is no third page in this file.",
@@ -2658,16 +2712,50 @@ var SHIFTWORD={
    sliding:"The coalition is loosening. It always starts with one or two and it is never only one or two.",
    loyal:"The states are with you, which means anything you decide can actually reach a village."}
 };
+/* ---------- which abandonments are terminal ----------
+   The test is whether the state stops performing its function, not whether a
+   constituency is unhappy. Officers who will not take orders is how every Nigerian
+   coup began. A treasury that cannot pay the army, the police and the civil service
+   for a year is not a government. A federation whose units have stopped remitting and
+   started saying referendum out loud is dissolving, slowly.
+   The Street and the Palace are deliberately absent. Occupy Nigeria lasted eight days;
+   no president here has been removed by a strike, and none has fallen because the
+   emirs and the bishops went cold. Those two can cost you an election. They cannot
+   end your government — which is the point at which the five powers finally stop
+   being five identical bars. */
+var FUSE={barracks:3,purse:4,gov:6};
+var FUSE_WARN={
+ barracks:"Officers have stopped taking orders. Every coup this country has had began exactly here. You have three decisions to give them a reason to stay.",
+ purse:"Salaries have stopped. A federal government that cannot pay the army, the police and the civil service is not one for long. You have four decisions.",
+ gov:"They have stopped remitting and they have started saying referendum out loud. A federation comes apart slowly, but it comes apart. You have six decisions."
+};
+function fuseLeft(k){
+  if(G.fuseAt[k]===undefined)return null;
+  return Math.max(0,FUSE[k]-(G.day-G.fuseAt[k]));
+}
 /* A power at nought or at a hundred is a political condition with a name, a cost and
    a way out — not the end of a presidency. Three of them at once is the end, because
    at that point there is no state left to preside over. */
 function edgeCheck(){
   BLOCS.forEach(function(b){
     var v=G.m[b.k], had=G.crisis[b.k];
-    if(v<=0&&!had){G.crisis[b.k]="abandoned";G.everCrisis[b.k]=true;}
+    if(v<=0&&!had){
+      G.crisis[b.k]="abandoned";G.everCrisis[b.k]=true;
+      /* the fuse is lit during a decision whose day has not been counted yet, so it
+         starts on the next one — otherwise the meter shows one fewer than the warning
+         promised, and the promise is the whole point. */
+      if(FUSE[b.k]!==undefined){G.fuseAt[b.k]=G.day+1;G.fuseLit++;}
+    }
     else if(v>=100&&!had){G.crisis[b.k]="owned";G.everCrisis[b.k]=true;}
-    else if(had&&v>10&&v<90){delete G.crisis[b.k];G.recovered++;G.lifted={b:b,k:had};}
+    else if(had&&v>10&&v<90){
+      delete G.crisis[b.k];G.recovered++;G.lifted={b:b,k:had};
+      if(G.fuseAt[b.k]!==undefined){delete G.fuseAt[b.k];G.fuseMet++;}
+    }
   });
+  /* the deadline, checked before anything else it might have caused */
+  for(var fk in G.fuseAt){
+    if(G.day-G.fuseAt[fk]>=FUSE[fk]){G.burnt=fk;}
+  }
   var n=0;for(var k in G.crisis)n++;
   G.prevN=G.crisisN||0; G.crisisN=n;
   if(n){
@@ -2760,8 +2848,9 @@ function announceShift(sh){
   var box=$("gShift");
   if(!sh)return;
   var lift=(sh.s==="lifted");
+  var fused=(sh.s==="abandoned"&&FUSE[sh.b.k]!==undefined);
   $("gShiftT").textContent=sh.b.n+" — "+(lift?"Back from the edge":POSTURE[sh.b.k][sh.s]);
-  $("gShiftP").textContent=lift?LIFTED[sh.b.k]:SHIFTWORD[sh.b.k][sh.s];
+  $("gShiftP").textContent=lift?LIFTED[sh.b.k]:(fused?FUSE_WARN[sh.b.k]:SHIFTWORD[sh.b.k][sh.s]);
   box.classList.toggle("good",sh.s==="loyal"||lift);
   clearTimeout(shiftT);
   box.hidden=false;void box.offsetWidth;box.classList.add("on");
@@ -2809,7 +2898,9 @@ function renderMeters(d){
     el.querySelector(".bar i").style.height=v+"%";
     var sk=G.stNow[b.k]||"holding";
     el.setAttribute("data-s",sk);
-    el.querySelector(".st").textContent=POSTURE[b.k][sk];
+    var left=fuseLeft(b.k);
+    el.querySelector(".st").textContent=POSTURE[b.k][sk]+(left!==null?" · "+left:"");
+    el.classList.toggle("fused",left!==null);
     if(G.turned[b.k]){el.classList.remove("turned");void el.offsetWidth;el.classList.add("turned");}
     var dl=el.querySelector(".dlt"),n=d?Math.round(d[b.k]||0):0;
     if(n){
@@ -2867,12 +2958,13 @@ function dealShock(sk){
   $("gL").parentNode.classList.add("one");
   $("gWho").textContent=sk.w;
   $("gSays").textContent="“"+sk.s+"”";
-  $("gL").querySelector(".txt").textContent="Nobody asked you.";
-  $("gR").querySelector(".txt").textContent="Nobody asked you.";
+  $("gL").querySelector(".txt").textContent="Continue.";
+  $("gR").querySelector(".txt").textContent="Continue.";
   $("gFlagBox").hidden=true;
   $("gL").onclick=$("gR").onclick=function(){
     $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
     $("gL").parentNode.classList.remove("one");
+    if(G.burnt){endGame(null,"fuse");return;}
     if(G.crisisN>=3&&G.prevN>=3){endGame(null,"collapse");return;}
     if(G.day>=G.limit){endGame(null,"legacy");return;}
     if(G.day%PER_TERM===0){election();return;}
@@ -3000,6 +3092,7 @@ function play(side){
     }
     $("gFlagBox").hidden=false;
     updateClock();
+    if(G.burnt){setTimeout(function(){endGame(null,"fuse");},1100);return;}
     if(G.crisisN>=3&&G.prevN>=3){setTimeout(function(){endGame(null,"collapse");},1100);return;}
     if(G.crisisN>=3&&G.prevN<3)brink();
     setTimeout(nextCard,2600);return;
@@ -3067,6 +3160,7 @@ function play(side){
     if(shift&&SEV[shift.s]>=4)SFX.danger();
   }
   if(BLOCS.some(function(b){return G.m[b.k]<=20||G.m[b.k]>=80;}))SFX.danger();
+  if(G.burnt){setTimeout(function(){endGame(null,"fuse");},1200);return;}
   if(G.crisisN>=3&&G.prevN>=3){setTimeout(function(){endGame(null,"collapse");},1200);return;}
   if(G.crisisN>=3&&G.prevN<3)brink();
   if(G.day>=G.limit){setTimeout(function(){endGame(null,"legacy");},1000);return;}
@@ -3124,14 +3218,8 @@ function election(){
   updateClock();
 }
 function updateClock(){
-  var span=G.limit/PER_YEAR,yr=Math.min(span,Math.floor(G.day/PER_YEAR)+1);
-  $("gClock").textContent="Year "+yr+" of "+span+" · Term "+G.term;
-  /* "32 decisions left" advertised a length most presidencies never reach and framed
-     the game as a queue. The goal is the next election. */
-  var toElection=(Math.floor(G.day/PER_TERM)+1)*PER_TERM-G.day;
-  $("gTerm").textContent = (G.day>=G.limit-PER_TERM&&G.term>1)
-    ? (G.limit-G.day)+" until you hand over"
-    : toElection+" until they vote";
+  $("gClock").textContent="Term "+G.term;
+  $("gTerm").textContent="";
 }
 
 /* Name the presidency. Every branch reads off something the run actually recorded:
@@ -3141,6 +3229,10 @@ function updateClock(){
    a trip through somebody else's WhatsApp. The code is the only thing in the link;
    the sentence is rebuilt on the other side from this one table. */
 var PN={
+ fuse_barracks:"THE ONE THE ARMY STOPPED OBEYING",
+ fuse_purse:"THE ONE WHO BANKRUPTED THE COUNTRY",
+ fuse_gov:"THE ONE THE FEDERATION LEFT",
+ met_it:"THE ONE WHO MET THE DEADLINE",
  collapse:"THE ONE IT CAME APART UNDER",
  held_together:"THE ONE WHO HELD IT TOGETHER",
  lost_crisis:"THE ONE REMOVED WITH THE HOUSE ON FIRE",
@@ -3182,6 +3274,7 @@ function presidencyCode(bloc,why){
   var sw=swing();
 
   var everN=0;for(var ck in G.everCrisis)everN++;
+  if(why==="fuse") return {c:"fuse_"+G.burnt};
   if(why==="collapse") return {c:"collapse"};
   if(G.third==="passed") return {c:"third_passed"};
   if(G.third==="failed") return {c:"third_failed"};
@@ -3203,6 +3296,7 @@ function presidencyCode(bloc,why){
     return {c:"lost"};
   }
   /* served the full span */
+  if(G.fuseMet>=1&&!worse) return {c:"met_it"};
   if(everN>=2&&!worse)   return {c:"held_together"};
   if(faithless&&better)  return {c:"right_wrong"};
   if(faithless)          return {c:"blinked"};
@@ -3215,17 +3309,19 @@ function presidencyCode(bloc,why){
 }
 
 function endGame(bloc,why){
+  var already=!G.live;
   SFX.over();
   G.live=false;
   clearShift();
   $("gameRun").hidden=true;$("gameEnd").hidden=false;
-  (function(){
+  if(!already)(function(){
     var crisisBlocs=Object.keys(G.crisis||{});
-    var outcome = why==="collapse" ? "collapsed_three_crises"
+    var outcome = why==="fuse" ? ("fuse_"+G.burnt)
+      : why==="collapse" ? "collapsed_three_crises"
       : why==="lost" ? "lost_election"
       : bloc ? ((G.m[bloc.k]>=100?"captured_by_":"abandoned_by_")+bloc.k)
       : why==="legacy" ? "served_full_term" : "term_complete";
-    var endingBloc = crisisBlocs.length ? crisisBlocs.join(",") : (bloc?bloc.k:null);
+    var endingBloc = why==="fuse" ? G.burnt : (crisisBlocs.length ? crisisBlocs.join(",") : (bloc?bloc.k:null));
     var f=fidelity();
     track("session_complete",{session_id:CUR.presidentSessionId,completion_status:"completed"});
     track("president_result",{session_id:CUR.presidentSessionId,
@@ -3238,7 +3334,19 @@ function endGame(bloc,why){
     evt("president_completed",{session_id:CUR.presidentSessionId,final_outcome:outcome});
   })();
   var kick,title,body;
-  if(why==="collapse"){
+  if(why==="fuse"){
+    var fb=blocOf(G.burnt);
+    kick=({barracks:"THE ARMY STOPPED TAKING ORDERS",
+           purse:"THE MONEY RAN OUT",
+           gov:"THE FEDERATION STOPPED PRETENDING"})[G.burnt];
+    title=({barracks:"They came at four in the morning.",
+            purse:"You bankrupted the country.",
+            gov:"It came apart at the seams."})[G.burnt];
+    body=({barracks:"Nine months of officers who would not deploy, allowances nobody paid and rumours nobody stopped. You were told what was happening and you were told how long you had. Every coup this country has had began in exactly this condition, and this one ended the way they all do.",
+           purse:"Twelve months without salaries. Not the ministers — the soldiers, the police, the teachers, the nurses. A government that cannot pay the people who carry out its decisions has stopped being a government, and the rest followed within the month.",
+           gov:"Eighteen months of states that would not remit and would not attend, and a word nobody was correcting in public. Federations do not end in a single afternoon. They end like this, slowly, with everybody watching and nobody moving."})[G.burnt];
+    bloc=fb;
+  } else if(why==="collapse"){
     var live=[];for(var ck in G.crisis)live.push(blocOf(ck).n.toLowerCase());
     kick="THE STATE STOPPED FUNCTIONING";
     title="It came apart.";
@@ -3380,7 +3488,9 @@ function dossier(){
     var everList=[];for(var ek in G.everCrisis)everList.push(blocOf(ek).n.toLowerCase());
     rows.push({c:"hot",t:"You governed through "+plural(everList.length,"open emergency")+" — "+
       everList.join(", ")+" — for "+Math.min(mo,G.crisisTurns*3)+" of your "+mo+" months."});
-    if(G.recovered)rows.push({c:"good",t:"You pulled the country back from the edge "+plural(G.recovered,"time")+"."});
+    if(G.fuseMet)rows.push({c:"good",t:"You were told the government had months left "+plural(G.fuseMet,"time")+
+      ", and you found the money or the men before the clock ran out."});
+    else if(G.recovered)rows.push({c:"good",t:"You pulled the country back from the edge "+plural(G.recovered,"time")+"."});
   }
   /* what it did to the country */
   var up=0,dn=0;
@@ -3692,13 +3802,14 @@ function interstitial(title,sub,after){
 }
 function beginRun(){
   CUR.presidentSessionId=uuid();
-  track("session_start",{session_id:CUR.presidentSessionId,experience_type:"president"});
+  track("session_start",{session_id:CUR.presidentSessionId,session_type:"president"});
   evt("president_started",{session_id:CUR.presidentSessionId});
   G={live:true,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,cur:0,
      limit:BASE_LIMIT,third:null,gax:{},gn:{},gtest:{},gwith:{},brave:0,safe:0,ex:{},owed:{},cause:{},
      hist:{},cold:{},stNow:{},stT:{},turned:{},lastShift:undefined,lastUrgent:undefined,
      crisis:{},crisisN:0,prevN:0,crisisTurns:0,recovered:0,lifted:null,everCrisis:{},
-     shocks:{},shockN:0,shockLog:[],lastShock:undefined};
+     shocks:{},shockN:0,shockLog:[],lastShock:undefined,
+     fuseAt:{},fuseLit:0,fuseMet:0,burnt:null};
   KEYS.forEach(function(k){G.gax[k]=0;G.gn[k]=0;G.gtest[k]=0;G.gwith[k]=0;});
   BLOCS.forEach(function(b){G.m[b.k]=50;G.hist[b.k]=[];G.cold[b.k]=0;
     G.stNow[b.k]="holding";G.stT[b.k]={};G.turned[b.k]=false;});
@@ -3714,21 +3825,21 @@ $("gSnd").addEventListener("click",sndToggle);
 function gtoast(m){var t=$("gToast");t.textContent=m;t.classList.add("on");
   clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("on");},2400);}
 $("gPresCard").addEventListener("click",function(){
-  evt("result_shared",{session_id:CUR.presidentSessionId,method:"presidency_card"});
+  evt("result_shared",{session_id:CUR.presidentSessionId,method:"card"});
   saveCard(buildPresCard(),"ifnayou-presidency.png",gtoast);
 });
 $("gChallenge").addEventListener("click",function(){
-  evt("result_shared",{session_id:CUR.presidentSessionId,method:"presidency_challenge"});
   var f=fidelity();
   var kept=(st.r&&f.tested)?"kept "+Math.round(f.with_/f.tested*100)+"% of my own manifesto"
                            :"never said what I believed first";
   var t="I was "+$("gEndKick").textContent.toLowerCase()+".\n\n"+
     spanWords(G.day)+" in office, "+G.day+" decisions, and I "+kept+".\n\n"+
     "If na you, wetin you for do?\n"+gameLink();
-  navigator.clipboard.writeText(t).then(function(){gtoast("Challenge copied");},
+  navigator.clipboard.writeText(t).then(function(){gtoast("Challenge copied");
+    evt("result_shared",{session_id:CUR.presidentSessionId,method:"copy"});},
     function(){gtoast("Your browser blocked the copy");});
 });
-$("gReturnBtn").addEventListener("click",beginCompass);
+$("gReturnBtn").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
 $("gStart").addEventListener("click",beginRun);
 $("gAgain").addEventListener("click",beginRun);
 $("gL").addEventListener("mouseenter",function(){$("gCard").classList.add("tilt-l");});
@@ -3752,13 +3863,7 @@ function start(){
   $("wSave").addEventListener("click",saveWho);
   st.cmp=readInvite();
   renderBallot();landing();renderInvite();show("start");marks();
-  var qp=new URLSearchParams(location.search);
-  track("participant_seen",{
-    referrer:document.referrer||null,
-    utm_source:qp.get("utm_source"),utm_medium:qp.get("utm_medium"),utm_campaign:qp.get("utm_campaign"),
-    device_type:/Tablet|iPad/i.test(navigator.userAgent)?"tablet":
-      (/Mobi|Android/i.test(navigator.userAgent)?"mobile":"desktop")
-  });
+  track("participant_seen",{});
   evt("landing_viewed",{});
 }
 if(window.claude&&window.claude.hot){
