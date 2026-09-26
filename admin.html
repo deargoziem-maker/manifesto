@@ -107,9 +107,10 @@ var TOKEN_KEY="ify_admin_token";
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
 
-function barRows(obj,total){
-  var entries=Object.keys(obj).map(function(k){return [k,obj[k]];})
-    .sort(function(a,b){return b[1]-a[1];});
+/* entries: array of [label,count] pairs, in the order they should render.
+   Sorting (or not) is the caller's decision — a day-bucketed series must
+   stay in date order, not get silently re-sorted by count. */
+function barRowsOrdered(entries,total){
   if(!entries.length)return '<div class="empty">No data yet</div>';
   var max=Math.max.apply(null,entries.map(function(e){return e[1];}));
   return '<div class="bars">'+entries.map(function(e){
@@ -118,6 +119,15 @@ function barRows(obj,total){
       '<div class="t"><i style="width:'+Math.max(2,pct)+'%"></i></div>'+
       '<span class="n">'+e[1]+(total?' ('+Math.round(e[1]/total*100)+'%)':'')+'</span></div>';
   }).join("")+'</div>';
+}
+function barRows(obj,total){
+  var entries=Object.keys(obj).map(function(k){return [k,obj[k]];})
+    .sort(function(a,b){return b[1]-a[1];});
+  return barRowsOrdered(entries,total);
+}
+function note(text){
+  return '<p style="font-family:\'IBM Plex Mono\',monospace;font-size:.7rem;'+
+    'color:var(--ink-3);line-height:1.6;margin:10px 0 0;max-width:70ch">'+esc(text)+'</p>';
 }
 
 function fmtPct(n){return n===null||n===undefined?"—":Math.round(n*100)+"%";}
@@ -137,13 +147,15 @@ function render(data){
     '<div class="stat"><b>'+compassCompleted+' / '+compassStarted+'</b><span>Quiz completed / started</span></div>'+
     '<div class="stat"><b>'+presCompleted+' / '+presStarted+'</b><span>Presidency completed / started</span></div>'+
     '</div>';
+  if(p.note)html+=note(p.note);
 
   html+='<section><h2>Participants — by device</h2>'+barRows(p.by_device)+'</section>';
   html+='<section><h2>Participants — by country</h2>'+barRows(p.by_country)+'</section>';
   html+='<section><h2>Participants — first-touch acquisition source</h2>'+barRows(p.by_acquisition_source)+'</section>';
-  html+='<section><h2>Signups by day (most recent first)</h2>'+barRows(p.signups_by_day)+'</section>';
+  html+='<section><h2>Signups by day (most recent first)</h2>'+barRowsOrdered(p.signups_by_day||[])+'</section>';
 
-  html+='<section><h2>Compass — archetype distribution ('+c.completed_total+' completed, '+c.multi_way_ties+' multi-way ties)</h2>'+barRows(c.archetypes,c.completed_total)+'</section>';
+  html+='<section><h2>Compass — archetype distribution ('+c.completed_total+' completed, '+c.multi_way_ties+' multi-way ties)</h2>'+
+    barRows(c.archetypes,c.completed_total)+(c.note?note(c.note):'')+'</section>';
 
   html+='<section><h2>Presidency — outcomes ('+pr.completed_total+' completed)</h2>'+barRows(pr.outcomes,pr.completed_total)+
     '<div class="grid" style="margin-top:14px">'+
@@ -151,9 +163,13 @@ function render(data){
     '<div class="stat"><b>'+fmtNum(pr.avg_years_served,1)+'</b><span>Avg years served</span></div>'+
     '<div class="stat"><b>'+fmtNum(pr.avg_contradictions,1)+'</b><span>Avg contradictions</span></div>'+
     '<div class="stat"><b>'+fmtPct(pr.avg_fidelity_rate)+'</b><span>Avg fidelity to stated positions</span></div>'+
-    '</div></section>';
+    '</div>'+(pr.note?note(pr.note):'')+'</section>';
 
-  html+='<section><h2>Events — funnel counts (last 500 events)</h2>'+barRows(ev.by_name)+'</section>';
+  html+='<section><h2>Result shared — by method</h2>'+barRows(ev.share_methods||{})+
+    note('"Copied" and "downloaded a card" are recorded separately because neither is evidence the result was actually sent to anyone.')+'</section>';
+
+  html+='<section><h2>Raw event counts (last 500 rows)</h2>'+barRows(ev.by_name)+
+    (ev.window_note?note(ev.window_note):'')+'</section>';
 
   html+='<section><h2>Recent events</h2>';
   if(!ev.recent.length){
