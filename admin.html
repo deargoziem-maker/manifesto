@@ -1,0 +1,223 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>If Na You — Admin</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:wght@400;600&display=swap">
+<style>
+:root{
+  --paper:#EFEFE8; --stock:#F8F8F3; --stock-2:#E2E2D8;
+  --ink:#141821; --ink-2:#474D58; --ink-3:#6B7079; --hair:#C9C9BE;
+  --elu:#1B2A4A; --elu-mark:#2E5AA8; --danfo:#F0B323;
+  --palm:#18915C; --palm-text:#0E7A4B; --laterite:#B84A2B; --laterite-text:#A63E24;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#10151F; --stock:#181F2C; --stock-2:#222A38;
+    --ink:#EDEDE4; --ink-2:#AEB3BC; --ink-3:#8A9099; --hair:#333B49;
+    --elu:#8FA6D8; --elu-mark:#6E93E0; --danfo:#FFC93F;
+    --palm:#35B47C; --palm-text:#4ED79A; --laterite:#E8836A; --laterite-text:#E8836A;
+  }
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 "Literata",Georgia,serif;}
+h1,h2,.mono{font-family:"IBM Plex Mono",monospace;}
+h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.4rem;margin:0;}
+h2{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:500;margin:0 0 12px;}
+.wrap{max-width:1040px;margin:0 auto;padding:24px 20px 80px;}
+.mast{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  border-bottom:3px solid var(--ink);padding-bottom:16px;margin-bottom:28px;flex-wrap:wrap;}
+.mast .sub{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--ink-3);
+  letter-spacing:.06em;margin-top:4px;}
+button{font:inherit;cursor:pointer;}
+.btn{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.06em;
+  background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:8px 14px;}
+.btn:hover{background:var(--elu-mark);border-color:var(--elu-mark);}
+.btn.ghost{background:none;color:var(--ink);}
+.btn.ghost:hover{background:var(--stock-2);}
+
+#gate{max-width:420px;margin:80px auto;text-align:center;}
+#gate input{width:100%;font-family:"IBM Plex Mono",monospace;font-size:.9rem;
+  background:var(--stock);color:var(--ink);border:2px solid var(--ink);padding:12px;
+  margin:16px 0;border-radius:0;}
+#gate .err{color:var(--laterite-text);font-family:"IBM Plex Mono",monospace;
+  font-size:.76rem;margin-top:10px;min-height:1.2em;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;
+  border:2px solid var(--ink);margin-bottom:28px;}
+.stat{padding:18px 20px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  background:var(--stock);}
+.stat b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+  font-size:1.7rem;line-height:1;}
+.stat span{display:block;font-family:"IBM Plex Mono",monospace;font-size:.62rem;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;}
+
+section{margin-bottom:32px;}
+.bars{display:grid;gap:8px;}
+.brow{display:grid;grid-template-columns:minmax(140px,220px) minmax(0,1fr) 46px;gap:12px;
+  align-items:center;font-size:.86rem;}
+.brow .t{height:10px;background:var(--stock-2);border:1px solid var(--hair);position:relative;}
+.brow .t i{display:block;height:100%;background:var(--elu-mark);}
+.brow .n{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--ink-3);text-align:right;}
+
+table{border-collapse:collapse;width:100%;background:var(--stock);border:2px solid var(--ink);}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--hair);font-size:.82rem;}
+th{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.08em;
+  text-transform:uppercase;background:var(--ink);color:var(--paper);font-weight:500;}
+tr:last-child td{border-bottom:0;}
+td.mono{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--ink-2);}
+.empty{padding:20px;text-align:center;color:var(--ink-3);font-family:"IBM Plex Mono",monospace;
+  font-size:.72rem;border:1px dashed var(--hair);}
+#loading,#err{font-family:"IBM Plex Mono",monospace;font-size:.8rem;color:var(--ink-3);
+  padding:40px 0;text-align:center;}
+#err{color:var(--laterite-text);}
+</style></head><body>
+
+<div id="gate">
+  <h1>If Na You — Admin</h1>
+  <p style="color:var(--ink-2);margin-top:10px">Paste the admin token to view analytics.</p>
+  <input type="password" id="tokenInput" placeholder="Admin token" autocomplete="off">
+  <button class="btn" id="enterBtn" style="width:100%">Enter</button>
+  <div class="err" id="gateErr"></div>
+</div>
+
+<div class="wrap" id="dash" hidden>
+  <div class="mast">
+    <div>
+      <h1>If Na You — Admin</h1>
+      <div class="sub" id="genAt"></div>
+    </div>
+    <div>
+      <button class="btn ghost" id="refreshBtn">Refresh</button>
+      <button class="btn ghost" id="signOutBtn">Sign out</button>
+    </div>
+  </div>
+  <div id="loading">Loading…</div>
+  <div id="err" hidden></div>
+  <div id="content" hidden></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i);};
+var TOKEN_KEY="ify_admin_token";
+
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+function barRows(obj,total){
+  var entries=Object.keys(obj).map(function(k){return [k,obj[k]];})
+    .sort(function(a,b){return b[1]-a[1];});
+  if(!entries.length)return '<div class="empty">No data yet</div>';
+  var max=Math.max.apply(null,entries.map(function(e){return e[1];}));
+  return '<div class="bars">'+entries.map(function(e){
+    var pct=max?Math.round(e[1]/max*100):0;
+    return '<div class="brow"><span>'+esc(e[0])+'</span>'+
+      '<div class="t"><i style="width:'+Math.max(2,pct)+'%"></i></div>'+
+      '<span class="n">'+e[1]+(total?' ('+Math.round(e[1]/total*100)+'%)':'')+'</span></div>';
+  }).join("")+'</div>';
+}
+
+function fmtPct(n){return n===null||n===undefined?"—":Math.round(n*100)+"%";}
+function fmtNum(n,d){return n===null||n===undefined?"—":(d?n.toFixed(d):Math.round(n));}
+
+function render(data){
+  var p=data.participants,s=data.sessions,c=data.compass,pr=data.president,ev=data.events;
+  var compassCompleted=(s.compass&&s.compass.completed)||0;
+  var compassStarted=Object.keys(s.compass||{}).reduce(function(a,k){return a+s.compass[k];},0);
+  var presCompleted=(s.president&&s.president.completed)||0;
+  var presStarted=Object.keys(s.president||{}).reduce(function(a,k){return a+s.president[k];},0);
+
+  var html='';
+  html+='<div class="grid">'+
+    '<div class="stat"><b>'+p.total+'</b><span>Participants</span></div>'+
+    '<div class="stat"><b>'+s.total+'</b><span>Sessions started</span></div>'+
+    '<div class="stat"><b>'+compassCompleted+' / '+compassStarted+'</b><span>Quiz completed / started</span></div>'+
+    '<div class="stat"><b>'+presCompleted+' / '+presStarted+'</b><span>Presidency completed / started</span></div>'+
+    '</div>';
+
+  html+='<section><h2>Participants — by device</h2>'+barRows(p.by_device)+'</section>';
+  html+='<section><h2>Participants — by country</h2>'+barRows(p.by_country)+'</section>';
+  html+='<section><h2>Participants — first-touch acquisition source</h2>'+barRows(p.by_acquisition_source)+'</section>';
+  html+='<section><h2>Signups by day (most recent first)</h2>'+barRows(p.signups_by_day)+'</section>';
+
+  html+='<section><h2>Compass — archetype distribution ('+c.completed_total+' completed, '+c.multi_way_ties+' multi-way ties)</h2>'+barRows(c.archetypes,c.completed_total)+'</section>';
+
+  html+='<section><h2>Presidency — outcomes ('+pr.completed_total+' completed)</h2>'+barRows(pr.outcomes,pr.completed_total)+
+    '<div class="grid" style="margin-top:14px">'+
+    '<div class="stat"><b>'+fmtNum(pr.avg_decisions,1)+'</b><span>Avg decisions per run</span></div>'+
+    '<div class="stat"><b>'+fmtNum(pr.avg_years_served,1)+'</b><span>Avg years served</span></div>'+
+    '<div class="stat"><b>'+fmtNum(pr.avg_contradictions,1)+'</b><span>Avg contradictions</span></div>'+
+    '<div class="stat"><b>'+fmtPct(pr.avg_fidelity_rate)+'</b><span>Avg fidelity to stated positions</span></div>'+
+    '</div></section>';
+
+  html+='<section><h2>Events — funnel counts (last 500 events)</h2>'+barRows(ev.by_name)+'</section>';
+
+  html+='<section><h2>Recent events</h2>';
+  if(!ev.recent.length){
+    html+='<div class="empty">No events yet</div>';
+  } else {
+    html+='<table><thead><tr><th>When</th><th>Event</th><th>Properties</th></tr></thead><tbody>'+
+      ev.recent.map(function(e){
+        return '<tr><td class="mono">'+esc((e.occurred_at||"").replace("T"," ").replace(/\..*/,""))+'</td>'+
+          '<td>'+esc(e.event_name)+'</td>'+
+          '<td class="mono">'+esc(JSON.stringify(e.properties||{}))+'</td></tr>';
+      }).join("")+'</tbody></table>';
+  }
+  html+='</section>';
+
+  $("content").innerHTML=html;
+  $("genAt").textContent="Generated "+new Date(data.generated_at).toLocaleString();
+}
+
+function load(){
+  var token=sessionStorage.getItem(TOKEN_KEY);
+  if(!token){ showGate(); return; }
+  $("loading").hidden=false; $("err").hidden=true; $("content").hidden=true;
+  fetch("/api/admin/stats",{headers:{Authorization:"Bearer "+token}})
+    .then(function(r){
+      if(r.status===401){ sessionStorage.removeItem(TOKEN_KEY); showGate("That token was rejected."); throw new Error("unauthorized"); }
+      if(!r.ok) throw new Error("Request failed ("+r.status+")");
+      return r.json();
+    })
+    .then(function(data){
+      $("loading").hidden=true; $("content").hidden=false;
+      render(data);
+    })
+    .catch(function(e){
+      if(e.message==="unauthorized")return;
+      $("loading").hidden=true; $("err").hidden=false;
+      $("err").textContent="Could not load analytics: "+e.message;
+    });
+}
+
+function showGate(msg){
+  $("gate").hidden=false; $("dash").hidden=true;
+  $("gateErr").textContent=msg||"";
+  $("tokenInput").focus();
+}
+function enter(){
+  var v=$("tokenInput").value.trim();
+  if(!v)return;
+  sessionStorage.setItem(TOKEN_KEY,v);
+  $("gate").hidden=true; $("dash").hidden=false;
+  load();
+}
+$("enterBtn").addEventListener("click",enter);
+$("tokenInput").addEventListener("keydown",function(e){if(e.key==="Enter")enter();});
+$("refreshBtn").addEventListener("click",load);
+$("signOutBtn").addEventListener("click",function(){
+  sessionStorage.removeItem(TOKEN_KEY);
+  showGate();
+});
+
+if(sessionStorage.getItem(TOKEN_KEY)){
+  $("gate").hidden=true; $("dash").hidden=false; load();
+} else {
+  showGate();
+}
+})();
+</script>
+</body></html>
