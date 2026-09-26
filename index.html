@@ -1305,7 +1305,16 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 "use strict";
 var $=function(i){return document.getElementById(i);};
 
-/* ---------- anonymous tracking (outcome-only; fails silently) ---------- */
+/* ---------- anonymous tracking (outcome-only; fails silently) ----------
+   CONTENT_VERSION tags every result row with the build that produced it.
+   Quiz wording, scoring weights and archetype definitions all change
+   between ships, so an apparent shift in outcome distributions could be
+   the instrument changing under readers rather than readers changing —
+   bump this string on any ship that touches Q[], CIVIC[], scoring, AR[],
+   or the President deck/values. Date-based, not semver: ships aren't
+   backward compatible with each other in a way that makes semver meaningful
+   here, and the date is what you'd want to know anyway. */
+var CONTENT_VERSION="2026-09-26.1";
 function uuid(){
   if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
@@ -1872,6 +1881,7 @@ function finish(){
     CUR.compassResultSent=true;
     track("session_complete",{session_id:CUR.compassSessionId,completion_status:"completed"});
     track("compass_result",{session_id:CUR.compassSessionId,
+      content_version:CONTENT_VERSION,
       archetype:st.r.ranked[0].a.id,
       archetype_share:st.r.ranked[0].share,
       tied_archetypes:tied(st.r.ranked).map(function(r){return r.a.id;}),
@@ -3975,6 +3985,7 @@ function endGame(bloc,why){
     var f=fidelity();
     track("session_complete",{session_id:CUR.presidentSessionId,completion_status:"completed"});
     track("president_result",{session_id:CUR.presidentSessionId,
+      content_version:CONTENT_VERSION,
       final_outcome:outcome,outcome_reason:why||null,ending_bloc:endingBloc,
       decisions_count:G.day,years_served:+(G.day/PER_YEAR).toFixed(2),contradictions:G.contra,
       fidelity_tested:f.tested,fidelity_kept:f.with_,

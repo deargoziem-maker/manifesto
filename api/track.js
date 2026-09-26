@@ -116,6 +116,7 @@ async function handleCompassResult(supabase, body) {
     {
       participant_id: participantId,
       session_id: body.session_id,
+      content_version: body.content_version ?? null,
       archetype: body.archetype,
       archetype_share: body.archetype_share ?? null,
       tied_archetypes: body.tied_archetypes ?? null,
@@ -136,6 +137,7 @@ async function handlePresidentResult(supabase, body) {
     {
       participant_id: participantId,
       session_id: body.session_id,
+      content_version: body.content_version ?? null,
       final_outcome: body.final_outcome,
       outcome_reason: body.outcome_reason ?? null,
       ending_bloc: body.ending_bloc ?? null,
