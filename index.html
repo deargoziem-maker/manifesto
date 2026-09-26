@@ -663,6 +663,68 @@ tr:last-child td{border-bottom:0;}
   letter-spacing:.11em;text-transform:uppercase;color:var(--laterite-text);margin-bottom:4px;}
 .shift.good b{color:var(--palm-text);}
 .shift p{margin:0;font-size:.92rem;line-height:1.5;color:var(--ink);}
+.shift .att{display:block;margin-top:7px;font-family:"IBM Plex Mono",monospace;
+  font-size:.68rem;letter-spacing:.06em;color:var(--ink-3);}
+.shift .why{display:block;margin-top:9px;font-size:.84rem;line-height:1.45;color:var(--ink-2);}
+.shift .clk{display:block;margin-top:7px;padding-top:7px;border-top:1px solid var(--hair);
+  font-size:.82rem;line-height:1.45;color:var(--ink-2);}
+#view-play .card.imp{border-color:var(--laterite);background:
+  linear-gradient(0deg,color-mix(in srgb,var(--laterite) 7%,transparent),
+  color-mix(in srgb,var(--laterite) 7%,transparent));}
+.qcount{display:block;margin-bottom:10px;color:var(--ink-3);}
+.obs{margin-top:26px;max-width:64ch;}
+.ob{padding:20px 0;border-top:1px solid var(--hair);}
+.ob:last-child{border-bottom:1px solid var(--hair);}
+.ob .lab{display:block;color:var(--ink-3);}
+.ob-say{margin:8px 0 0;font-family:Literata,Georgia,serif;font-size:1.12rem;line-height:1.5;color:var(--ink);}
+.ob details{margin-top:12px;}
+.ob summary{cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:.72rem;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);}
+.ob summary:hover{color:var(--ink);}
+.ob ul.ev{list-style:none;margin:14px 0 0;padding:0;}
+.ob ul.ev li{display:flex;gap:16px;justify-content:space-between;align-items:baseline;
+  padding:9px 0;border-top:1px solid var(--hair);}
+.ob ul.ev li span{font-size:.92rem;line-height:1.45;color:var(--ink-2);}
+.ob ul.ev li b{flex:none;font-family:"IBM Plex Mono",monospace;font-size:.68rem;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);}
+.ob ul.ev li.un b{color:var(--ink-3);}
+.ob-con{margin:14px 0 0;font-size:.9rem;line-height:1.55;color:var(--ink-2);}
+.ob-con b{color:var(--ink);}
+.ob-dep{margin:14px 0 0;font-size:.9rem;line-height:1.55;color:var(--ink-2);}
+.ob-dep b{color:var(--ink);}
+.ob-not,.ob-next{margin:14px 0 0;font-size:.9rem;line-height:1.55;color:var(--ink-2);}
+.ob-not b,.ob-next b{color:var(--ink);}
+.openq{margin-top:26px;padding:18px 20px;border-left:3px solid var(--danfo);
+  background:color-mix(in srgb,var(--danfo) 7%,transparent);max-width:64ch;}
+.openq .lab{display:block;color:var(--ink-3);margin-bottom:7px;}
+.openq p{margin:0;font-size:.98rem;line-height:1.55;color:var(--ink);}
+.detail{margin-top:30px;border-top:1px solid var(--hair);padding-top:16px;}
+.detail summary{cursor:pointer;color:var(--ink-3);}
+.detail summary:hover{color:var(--ink);}
+.detail .dwrap{max-width:60ch;margin-top:18px;}
+.detail svg{width:100%;height:auto;max-width:420px;}
+.brow.un .bl b{color:var(--ink-3);font-weight:500;}
+.brow .bl .part{display:block;font-style:normal;font-family:"IBM Plex Mono",monospace;
+  font-size:.66rem;letter-spacing:.06em;color:var(--ink-3);margin-top:2px;}
+.rvlist{list-style:none;margin:22px 0 0;padding:0;max-width:60ch;}
+.rvlist li{padding:14px 0;border-top:1px solid var(--hair);}
+.rvlist li:last-child{border-bottom:1px solid var(--hair);}
+.rvlist p{margin:0 0 7px;font-size:.95rem;line-height:1.45;color:var(--ink);}
+.rvlist .rv-a{display:flex;align-items:baseline;justify-content:space-between;gap:14px;}
+.rvlist .rv-a b{font-family:"IBM Plex Mono",monospace;font-size:.76rem;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);}
+.rvlist li.un .rv-a b{color:var(--ink-3);}
+.rvlist .rv-a button{background:none;border:0;padding:0;cursor:pointer;
+  color:var(--ink-3);border-bottom:1px solid var(--hair);}
+.rvlist .rv-a button:hover{color:var(--ink);border-color:var(--danfo);}
+.exbtn.rej{opacity:.78;}
+.aside-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.aside-row button{font:inherit;font-size:.85rem;padding:7px 12px;border:1px solid var(--hair);
+  border-radius:2px;background:transparent;color:var(--ink-3);cursor:pointer;
+  transition:border-color .14s ease,color .14s ease;}
+.aside-row button:hover,.aside-row button:focus-visible{border-color:var(--danfo);color:var(--ink);}
+.aside-row button[aria-checked="true"]{border-color:var(--danfo);color:var(--ink);}
+.aside-row kbd{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--ink-3);margin-right:7px;}
 .g-clock{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;}
 .sndbtn{background:none;border:1px solid var(--hair);color:var(--ink-3);cursor:pointer;
   padding:3px 8px;font-family:inherit;}
@@ -873,8 +935,8 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       </span>
     </button>
     <nav class="top" id="nav">
-      <button data-go="start"><i class="pip">1</i>Your politics</button>
-      <button data-go="play"><i class="pip">2</i>Take office</button>
+      <button data-go="play"><i class="pip">1</i>Take office</button>
+      <button data-go="quiz"><i class="pip">2</i>Your politics</button>
     </nav>
   </div>
 </header>
@@ -891,16 +953,16 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 
     <div class="hero">
       <div>
-        <h1>You have politics.<br>You've just never<br><em>seen them.</em></h1>
-        <p class="kick">Twenty-one questions about how this country should be run. Then the office itself, to find out whether you would actually do it.</p>
+        <h1>If na you,<br>wetin you go <em>do?</em></h1>
+        <p class="kick">You are President of Nigeria. Eight years, and everybody who walks through that door wants something.</p>
         <div class="cta">
-          <button class="btn go" id="startBtn">Find my politics</button>
-          <span class="lab">About 3 minutes · no right answers · no signup</span>
+          <button class="btn go" data-go="play">Take office</button>
+          <button class="btn ghost" id="startBtn">Or start with what you believe</button>
         </div>
-
+        <p class="note">No signup. Either one works on its own.</p>
       </div>
       <div class="plate" style="padding:18px;align-self:start">
-        <svg id="demo" viewBox="0 0 480 480" role="img" aria-label="Where a position sits on the compass"></svg>
+        <svg id="demo" viewBox="0 0 480 424" role="img" aria-label="The five powers a Nigerian president has to keep in balance"></svg>
       </div>
     </div>
 
@@ -919,11 +981,11 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     </div>
 
     <div class="strip" id="steps">
-      <button class="step" data-go="start" id="step1"><span class="n">ONE</span><h4>Where you stand</h4><p>Twenty-one questions, no right answers. At the end you have a position on the arguments Nigeria is actually having.</p><span class="state"></span></button>
-      <button class="step" data-go="play" id="step3"><span class="n">TWO</span><h4>Take office</h4><p>Everybody knows how Nigeria should be run. Take the office and find out whether you meant it — eight years, five powers that can each end you, and every decision costing something you said you cared about.</p><span class="state"></span></button>
+      <button class="step" data-go="play" id="step3"><span class="n">ONE</span><h4>Take office</h4><p>Eight years, five powers with their own interests, and every decision costing something. Proposals arrive and you answer them one at a time.</p><span class="state"></span></button>
+      <button class="step" data-go="start" id="step1"><span class="n">TWO</span><h4>Where you stand</h4><p>Twenty-one questions, no right answers. At the end you have a position on the arguments Nigeria is actually having.</p><span class="state"></span></button>
       <button class="step" data-go="ballot" id="step2"><span class="n">THEN</span><h4>Who wants the real job</h4><p>Eighteen people are asking to run the country in January. What they have said. And what they have not.</p><span class="state"></span></button>
     </div>
-    <p class="pairline">Either one works on its own. Do both and you find out whether the person who answered and the person who governed are the same person.</p>
+    <p class="pairline">Either one works on its own. Do both and you see your own answers meet a budget, a general and a crowd on the road.</p>
 
   </div>
 </section>
@@ -932,57 +994,73 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
   <div class="wrap">
     <div class="qshell">
       <div class="rail" id="rail" aria-hidden="true"></div>
+      <span class="lab qcount" id="qcount"></span>
       <p class="qstate" id="qtext"></p>
-      <div class="likert" id="likert" role="group" aria-label="Level of agreement"></div>
-      <div class="forming" id="forming" hidden aria-live="polite">
-        <div class="fm-h"><span class="lab" id="fmName"></span><span class="fm-read" id="fmRead"></span></div>
-        <div class="fm-track"><i id="fmFill"></i></div>
-        <div class="fm-pips" id="fmPips"></div>
-      </div>
+      <div class="likert" id="likert" role="radiogroup" aria-labelledby="qtext"></div>
+      <div class="aside-row" id="asideRow" role="radiogroup" aria-label="Other answers"></div>
       <div class="bench" id="bench" hidden>
         <span class="lab" id="benchLab">Against the national sample</span>
         <p id="benchtext"></p>
       </div>
-      <aside class="live" id="live" aria-hidden="true">
-        <svg id="mini" viewBox="0 0 120 120"></svg>
-      </aside>
       <div class="qfoot">
         <button class="btn ghost sm" id="back">Back</button>
-        <span class="lab" id="hint">Press 1–5 to answer</span>
+        <span class="lab" id="hint">Press 1–5 to answer, 6 if it depends, 7 to skip</span>
       </div>
     </div>
   </div>
 
 </section>
 
+<section class="view" id="view-review" hidden>
+  <div class="wrap">
+    <div class="measure">
+      <div class="eyebrow"><span class="lab">Before you see anything</span></div>
+      <h1 style="font-size:var(--s-3)">These are your twenty-one answers</h1>
+      <p style="color:var(--ink-2);margin-top:12px">Nothing has been scored or named yet. Change any of them, or go on.</p>
+    </div>
+    <ol class="rvlist" id="rvList"></ol>
+    <div class="cta" style="margin-top:24px">
+      <button class="btn go" id="rvGo">See what this says</button>
+      <span class="lab" id="rvNote"></span>
+    </div>
+  </div>
+</section>
+
 <section class="view" id="view-result" hidden>
   <div class="wrap">
-    <div class="eyebrow"><span class="lab">Your placement</span></div>
+    <div class="measure">
+      <h1 style="font-size:var(--s-3)">Your politics, in your own answers</h1>
+      <p style="color:var(--ink-2);margin-top:12px">These are patterns in what you answered. They are not a complete account of your politics, and nothing here is a score.</p>
+    </div>
+    <div class="obs" id="obs"></div>
+    <div class="cta" style="margin-top:20px">
+      <button class="btn go" id="exploreBtn">Explore one of your views</button>
+      <button class="btn ghost sm" id="backToAns">Review my answers</button>
+    </div>
+    <div class="openq" id="strainBox" hidden>
+      <span class="lab">A question your answers leave open</span>
+      <p id="strainText"></p>
+    </div>
+
+    <div class="eyebrow" style="margin-top:34px"><span class="lab">An argument with a history</span></div>
     <div class="plate rgrid">
-      <div class="pane">
-        <svg id="compass" viewBox="0 0 480 480" role="img" aria-label="Your position on the federation and economy compass"></svg>
-        <div class="coord" id="coord"></div>
-        <p class="plain" id="plain"></p>
-        <div class="strain" id="strainBox" hidden>
-          <span class="lab">Where your own answers disagree</span>
-          <p id="strainText"></p>
-        </div>
-      </div>
       <div class="pane">
         <span class="tag" id="atag"></span>
         <h2 class="aname" id="aname"></h2>
         <span class="afit" id="afit"></span>
         <p class="asum" id="asum"></p>
-        <div class="eyebrow" style="margin-top:26px"><span class="lab">Seven readings</span></div>
+      </div>
+      <div class="pane">
+        <div class="eyebrow"><span class="lab">Seven readings</span></div>
         <div class="bars" id="bars"></div>
-        <div class="eyebrow" style="margin-top:26px"><span class="lab">Alignment across ten traditions</span></div>
+        <div class="eyebrow" style="margin-top:26px"><span class="lab">The ten, in order of closeness</span></div>
         <div class="alist" id="alist"></div>
       </div>
     </div>
 
     <div class="nextup">
-      <p>That is what you say. <b>Beliefs are cheap when nobody has to live with them.</b></p>
-      <button class="btn go" data-go="play">Now go and govern</button>
+      <p><b>What happens when these priorities compete?</b> Stating a position and holding it under pressure are different things.</p>
+      <button class="btn go" data-go="play">Try a governing scenario</button>
     </div>
 
     <div class="trad">
@@ -994,40 +1072,41 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
         <span class="tdates" id="fdates"></span>
         <p id="fbody"></p>
         <div class="twhy" id="fwhy"></div>
+        <div class="twhy" id="fsec2" hidden></div>
         <div class="tsec" id="fsec"></div>
       </div>
     </div>
 
 
 
-    <div class="eyebrow" style="margin-top:30px"><span class="lab">Where you will meet resistance</span></div>
+    <div class="eyebrow" style="margin-top:30px"><span class="lab">Where this argument gets pushed back on</span></div>
     <div class="measure"><p style="color:var(--ink-2);margin:0" id="tension"></p></div>
+
+    <details class="detail">
+      <summary><span class="lab">The chart, and how this was worked out</span></summary>
+      <div class="dwrap">
+        <svg id="compass" viewBox="0 0 480 480" role="img" aria-label="Your position on the federation and economy compass"></svg>
+        <div class="coord" id="coord"></div>
+        <p class="plain" id="plain"></p>
+        <p style="color:var(--ink-3);font-size:.88rem;margin-top:12px">The square plots two of the seven dimensions — the federation and the economy — because they are the two Nigerian politics argues about most. It is not the whole reading, and the other five are above. <a href="methodology.html">How the instrument works</a>.</p>
+      </div>
+    </details>
+
 
     <div class="gap">
       <div class="eyebrow"><span class="lab">The Gap</span></div>
       <h3>You have a position. Do they?</h3>
       <p>You have just answered twenty-one questions about how Nigeria should be governed. Here is where the people asking for your vote on 16 January stand on the same twenty-one.</p>
-      <div class="gapstat" id="gapstat"></div>
-      <p style="font-size:.86rem;color:var(--ink-3)">Every name on that ballot comes from INEC's final list. The positions column is empty because nobody has filled it, and it will stay visibly empty next to anyone who declines. That is the mechanism, not a gap in the build.</p>
+      <p style="font-size:.86rem;color:var(--ink-3)">Every name comes from INEC's final list, published on 12 September 2026. None of them has published a position on these questions — not because any of them was asked and refused. The register is its own page.</p>
       <div class="share" style="margin-top:18px"><button class="btn go sm" data-go="ballot">Meet your candidates</button></div>
     </div>
 
     <div class="agg-panel">
-      <div id="whoForm">
-        <div class="eyebrow"><span class="lab">Help build Nigeria's political map</span></div>
-        <p style="color:var(--ink-2);margin:0 0 16px;max-width:56ch">Two things, no name and no email. Enough to say how Kano answered differently from Lagos, and not enough to say how you did.</p>
-        <div class="who-row">
-          <label><span class="lab">Your state</span><select id="wState"></select></label>
-          <label><span class="lab">Your age</span><select id="wAge">
-            <option value="">—</option><option>Under 25</option><option>25–34</option>
-            <option>35–44</option><option>45–59</option><option>60 and over</option></select></label>
-          <button class="btn go sm" id="wSave">Add me to the map</button>
-        </div>
-      </div>
       <div id="whoOut" hidden>
         <div class="eyebrow"><span class="lab">Your record · <span id="aggWho"></span></span></div>
         <p style="color:var(--ink);margin:0 0 10px;font-size:1.02rem" id="aggMine"></p>
         <p style="color:var(--ink-3);margin:0;font-size:.86rem" id="aggNote"></p>
+        <button class="btn ghost sm" id="wWipe" style="margin-top:14px">Clear what is stored on this device</button>
       </div>
     </div>
 
@@ -1052,15 +1131,6 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <circle cx="424.3" cy="10" r="2.6" fill="var(--danfo)"/>
     </svg>
 
-    <div class="handoff">
-      <div>
-        <span class="lab">That is what you say</span>
-        <h3>Would you do it?</h3>
-        <p>Twenty-one answers do not survive contact with a budget, a general and a crowd on the road. Take the office and find out which of yours do.</p>
-      </div>
-      <button class="btn go" data-go="play">Take office</button>
-    </div>
-
     <div class="share">
       <button class="btn go" id="card">Save my card</button>
       <div class="secondary">
@@ -1078,6 +1148,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     <div class="measure" style="margin-bottom:26px">
       <h1 style="font-size:var(--s-3)">Meet your candidates</h1>
       <p style="color:var(--ink-2)">Eighteen people are asking to be President on 16 January. Most Nigerians could name four of them.</p>
+      <p style="font-size:.86rem;color:var(--ink-3);margin-top:10px">This is INEC's final list of 12 September 2026. Several suits affecting party registration and candidate eligibility were pending on that date, so the field may yet change.</p>
     </div>
 
     <div class="picker">
@@ -1100,12 +1171,13 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
   <div class="wrap"><div class="g-wrap">
 
     <div id="gameGate">
-      <h1 style="font-size:var(--s-3)">If na you,<br>wetin you go do?</h1>
-      <p class="lead" style="margin-top:16px">You are President of Nigeria. Everybody who walks through that door wants something, and you can say yes or you can say no. That is the whole job. Five powers. None of them can be ignored, and none of them can be fed.</p>
+      <h1 style="font-size:var(--s-3)">Eight years in office.<br>If you can manage it.</h1>
+      <p class="lead" style="margin-top:16px">You will receive proposals and choose between two responses. Your decisions change the balance between the Street, the Palace, the Barracks, the Purse and the Governors.</p>
       <div class="gate-blocs" id="gateBlocs"></div>
-      <p style="color:var(--ink-2);margin-top:20px">Lose any of them entirely and you are finished. Let any of them own you completely and you are finished a different way. Between those two failures is the only place governing happens.</p>
+      <p style="color:var(--ink-2);margin-top:20px">Keep all five away from either extreme. Drive one to nothing and you are governing a crisis — and some of those crises end presidencies. Let one own you completely and you keep the office but lose the room to use it.</p>
+      <p style="margin-top:16px">Your first proposal is waiting.</p>
       <div class="cta" style="margin-top:22px">
-        <button class="btn go" id="gStart">Take office</button>
+        <button class="btn go" id="gStart">Make my first decision →</button>
         <span class="lab" id="gLinkNote"></span>
       </div>
     </div>
@@ -1116,7 +1188,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       </div>
       <div class="mwrap">
         <div class="meters" id="gMeters"></div>
-        <div class="shift" id="gShift" hidden><b id="gShiftT"></b><p id="gShiftP"></p></div>
+        <div class="shift" id="gShift" hidden><b id="gShiftT"></b><p id="gShiftP"></p><span class="att" id="gShiftA" hidden></span><span class="why" id="gShiftW" hidden></span><span class="clk" id="gShiftC" hidden></span></div>
       </div>
       <div class="g-clock"><span class="lab" id="gClock"></span>
         <button class="sndbtn lab" id="gSnd" aria-pressed="false">Sound off</button>
@@ -1143,7 +1215,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <div class="tally">
         <div><b id="gEndYears"></b><span>in office</span></div>
         <div><b id="gEndCount"></b><span>decisions</span></div>
-        <div><b id="gEndContra"></b><span>of your own manifesto kept</span></div>
+        <div><b id="gEndContra"></b><span id="gEndContraLab">decisions matched what you said</span></div>
       </div>
 
       <ul class="dossier" id="gDossier"></ul>
@@ -1249,12 +1321,12 @@ function pid(){
 var CUR={compassSessionId:null,presidentSessionId:null};
 function track(type,data){
   try{
-    var payload=Object.assign({type:type,participant_id:pid()},data||{});
+    var payload=Object.assign({type:type,anonymous_id:pid()},data||{});
     fetch("/api/track",{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify(payload),keepalive:true}).catch(function(){});
   }catch(e){}
 }
-function evt(name,data){track("event",Object.assign({event_name:name},data||{}));}
+function evt(name,data){track("event",{event_name:name,properties:data||{}});}
 
 /* ---------- dimensions ---------- */
 var AXES=[
@@ -1290,11 +1362,11 @@ var Q=[
  {a:"security",w:-0.5,t:"Security forces should be able to act without waiting on courts when lives are at risk.",c:"Emergency powers and the limits of judicial oversight."},
  {a:"security",w:-0.5,t:"It is better that some innocent people are detained than that dangerous people go free.",c:"The order-versus-rights trade-off, stated plainly."},
 
- {a:"represent",w:-1.0,t:"A representative's first duty is to his own people and constituency, not to national policy.",c:"The core of the clientelist bargain, as a principle rather than an accusation."},
+ {a:"represent",w:-1.0,t:"A representative's first duty is to the people of the constituency that elected him, not to national policy.",c:"The core of the clientelist bargain, as a principle rather than an accusation."},
  {a:"represent",w:0.5,t:"Constituency funds should build public infrastructure, not buy items handed to individuals.",c:"More than half of constituency funds currently go to private goods."},
  {a:"represent",w:0.5,t:"You should vote on a party's programme even if the candidate from your area offers you more.",c:"Programmatic voting against the transactional offer, at the ballot."},
 
- {a:"method",w:1.0,t:"Mass protest is a legitimate and necessary tool when institutions fail.",c:"Whether change is forced from outside the system or negotiated inside it.",ax:"method"},
+ {a:"method",w:1.0,t:"When institutions fail, mass protest is a legitimate way to force change.",c:"Whether change is forced from outside the system or negotiated inside it.",ax:"method"},
  {a:"method",w:-0.5,t:"Change should come by working inside existing parties and institutions, however slow.",c:"Reform from within against replacement from without."},
  {a:"method",w:-0.5,t:"Experienced insiders govern better than outsiders with new ideas.",c:"Whether competence in Nigerian government is learned inside the system."},
 
@@ -1339,65 +1411,79 @@ var MEASURES=[
  {k:"exit",n:"Exit pull",d:"How strongly you feel the pull to leave rather than stay and contest."}
 ];
 
-var SCALE=[{v:2,l:"Strongly agree"},{v:1,l:"Agree"},{v:0,l:"Unsure or it depends"},{v:-1,l:"Disagree"},{v:-2,l:"Strongly disagree"}];
+/* The middle of this scale used to read "Unsure or it depends", which made one button
+   carry three different things: a settled middle position, a conditional answer, and
+   not knowing. All three then scored zero, so the instrument turned uncertainty into a
+   measured centrism. The scale below is five substantive positions; the other three
+   states are separate, and none of them is scored. */
+var SCALE=[{v:2,l:"Strongly agree"},{v:1,l:"Agree"},{v:0,l:"Neither agree nor disagree"},{v:-1,l:"Disagree"},{v:-2,l:"Strongly disagree"}];
+/* Two, not three. "I am not sure" and "Rather not say" were separate buttons that
+   behaved identically to each other and to a skip everywhere in the code — the same
+   exclusion from the reading, the same mark on the review, the same dimmed row in the
+   evidence. A distinction the product never acts on is not a distinction. "It depends"
+   stays separate because it is the one that says something: the person has a view and
+   it is conditional, which the results now report rather than swallow. */
+var ASIDE=[{k:"depends",l:"It depends"},{k:"skip",l:"Skip this one"}];
+var ASIDE_L={depends:"It depends",skip:"Skipped"};
+function scored(v){return typeof v==="number";}
 
 /* ---------- archetypes ---------- */
 var AR=[
  {id:"restructurer",n:"The Restructurer",p:{econ:-5,struct:80,social:35,security:30,represent:45,method:25,horizon:5},tmp:"Systemic",
-  s:"You think Nigeria's problems are structural before they are moral. Fix who holds power over land, minerals and policing, and better governance follows; leave the structure alone and the best intentions drain into it."},
+  s:"This tradition holds that Nigeria's problems are structural before they are moral. Fix who holds power over land, minerals and policing and better governance follows; leave the structure alone and the best intentions drain into it."},
  {id:"unifier",n:"The Unifier",p:{econ:25,struct:-70,social:-10,security:-40,represent:15,method:-30,horizon:5},tmp:"Consolidating",
-  s:"You treat national cohesion as the precondition for everything else. A strong centre is not a preference but a defence — against fragmentation, against the arithmetic of six hundred competing claims, against the memory of what happened when the country came apart."},
+  s:"This tradition treats national cohesion as the precondition for everything else. A strong centre is not a preference but a defence — against fragmentation, against the arithmetic of six hundred competing claims, against the memory of what happened when the country came apart."},
  {id:"changemaker",n:"The Changemaker",p:{econ:60,struct:20,social:68,security:68,represent:30,method:62,horizon:-25},tmp:"Insurgent",
-  s:"You start from who is being left out. Inequality is not a by-product of Nigeria's system but its operating logic, and it does not yield to patience — it yields to organised pressure from the people carrying the cost."},
+  s:"This tradition starts from who is being left out. It holds that inequality is not a by-product of Nigeria's system but its operating logic, and that it does not yield to patience — it yields to organised pressure from the people carrying the cost."},
  {id:"traditionalist",n:"The Traditionalist",p:{econ:0,struct:25,social:-70,security:-35,represent:-55,method:-40,horizon:-30},tmp:"Custodial",
-  s:"You believe a society that discards its inherited order gets chaos, not freedom. Religion, custom and traditional authority are not obstacles to modern governance; they are the institutions most Nigerians have actually trusted."},
+  s:"This tradition holds that a society which discards its inherited order gets chaos, not freedom. Religion, custom and traditional authority are not obstacles to modern governance; they are the institutions most Nigerians have actually trusted."},
  {id:"hustler",n:"The Hustler",p:{econ:-75,struct:5,social:15,security:25,represent:35,method:0,horizon:40},tmp:"Enterprising",
-  s:"You think Nigerians already know how to create wealth and are mostly being prevented. Get the state out of pricing, ownership and permission, and the energy that runs Alaba, Aba and Computer Village does the rest."},
+  s:"This tradition holds that Nigerians already know how to create wealth and are mostly being prevented. Get the state out of pricing, ownership and permission, and the energy that runs Alaba, Aba and Computer Village does the rest."},
  {id:"patriot",n:"The Patriot",p:{econ:35,struct:-25,social:-20,security:-40,represent:-35,method:10,horizon:-70},tmp:"Sovereigntist",
-  s:"You read Nigeria's condition as a sovereignty problem. Foreign capital, foreign advice and foreign obligations have consistently cost more than they returned, and the first duty of a Nigerian government is to Nigerians."},
+  s:"This tradition reads Nigeria's condition as a sovereignty problem. It holds that foreign capital, foreign advice and foreign obligations have consistently cost more than they returned, and that the first duty of a Nigerian government is to Nigerians."},
  {id:"afrodreamer",n:"The Afro-Dreamer",p:{econ:15,struct:-20,social:40,security:35,represent:40,method:15,horizon:85},tmp:"Continental",
-  s:"You do not think Nigeria can be fixed as a Nigerian problem. A country this size either leads a continental project or is diminished by the absence of one — the border was drawn by other people and should not define the ambition."},
+  s:"This tradition holds that Nigeria cannot be fixed as a Nigerian problem. A country this size either leads a continental project or is diminished by the absence of one — the border was drawn by other people and should not define the ambition."},
  {id:"stabiliser",n:"The Stabiliser",p:{econ:10,struct:0,social:0,security:-20,represent:10,method:-75,horizon:0},tmp:"Gradualist",
-  s:"You have seen what abrupt change costs in Nigeria and you are not persuaded by the next grand plan. Incremental improvement inside working institutions is unglamorous, and it is the only method with a record of not making things worse."},
+  s:"This tradition has seen what abrupt change costs in Nigeria and is not persuaded by the next grand plan. Incremental improvement inside working institutions is unglamorous, and it is the only method with a record of not making things worse."},
  {id:"grassroots",n:"The Grassroots Builder",p:{econ:40,struct:50,social:10,security:0,represent:-45,method:20,horizon:-25},tmp:"Practical",
-  s:"You judge governance by whether the borehole works. Ideology interests you far less than delivery, and you would rather fund a functioning local government than win an argument about the constitution."},
+  s:"This tradition judges governance by whether the borehole works. Ideology interests it far less than delivery, and it would rather fund a functioning local government than win an argument about the constitution."},
  {id:"technocrat",n:"The Technocrat",p:{econ:0,struct:-5,social:40,security:5,represent:70,method:-40,horizon:30},tmp:"Analytical",
-  s:"You think Nigeria's failures are largely failures of competence and measurement. Get the right people, the right data and the right institutions in place, and much of the political argument turns out to have been noise."}
+  s:"This tradition holds that most of what looks like political disagreement is really a competence problem, and that the people who can actually run the machinery should be left to run it."}
 ];
 
 var TR={
  restructurer:{n:"Obafemi Awolowo",d:"1909 – 1987 · Premier, Western Region",in:"OA",img:"awolowo",
-  b:"Awolowo built the Western Region's free primary education scheme and its first television service, and argued across four decades that Nigeria could hold together only as a genuine federation of strong regions. He contested and lost three presidential-era contests, and remained the most systematic political thinker of his generation — his case for federalism was written out at book length rather than improvised on a podium.",
-  s:[{n:"Anthony Enahoro (1923–2010)",d:"Moved the 1953 motion for Nigerian independence; spent his later decades campaigning for a sovereign national conference."},
+  b:"Awolowo's government launched free primary education across the Western Region in 1955 and Nigeria's first television service in 1959, and he argued across four decades that Nigeria could hold together only as a genuine federation of strong regions. He was three times a contender for the country's highest office — in 1959, 1979 and 1983 — and never took it, and remained the most systematic political thinker of his generation: his case for federalism was written out at book length rather than improvised on a podium.",
+  s:[{img:"enahoro",n:"Anthony Enahoro (1923–2010)",d:"Moved the 1953 motion for self-government in 1956, which split the House and was followed by the Kano riots; spent his later decades campaigning for a sovereign national conference."},
      {img:"tarka",n:"J. S. Tarka (1932–1980)",d:"Led the United Middle Belt Congress; argued federalism had to protect minorities, not only the three large regions."}]},
  unifier:{n:"Abubakar Tafawa Balewa",d:"1912 – 1966 · First Prime Minister of Nigeria",in:"TB",img:"balewa",
   b:"Balewa governed a federation whose regions were stronger than its centre, and spent his premiership holding it together through the census disputes, the Western Region crisis and the 1964 election deadlock. His instinct was consensus and his foreign policy cautious. He was killed in the January 1966 coup, and the union he tried to preserve collapsed into civil war within eighteen months.",
-  s:[{n:"Murtala Muhammed (1938–1976)",d:"Six months as head of state; created seven new states and moved the capital project to Abuja — centralisation pursued at speed rather than by consensus."}]},
- changemaker:{n:"Aminu Kano",d:"1920 – 1983 · Founder, NEPU and the PRP",in:"AK",img:"aminu-kano",
-  b:"Aminu Kano built his politics around the talakawa — the common people — and directed it at the northern aristocracy as much as at the colonial administration. He campaigned for free education, for women's enfranchisement and against the emirate tax system, lived without accumulating wealth, and remains the clearest Nigerian example of a mass movement organised on class rather than ethnic lines.",
-  s:[{img:"ransome-kuti",n:"Funmilayo Ransome-Kuti (1900–1978)",d:"Led the Abeokuta Women's Union in the tax revolt that forced the Alake's abdication; among the first Nigerian women in national politics."},
-     {img:"ekpo",n:"Margaret Ekpo (1914–2006)",d:"Organised Aba's market women into a voting bloc and won election to the Eastern House of Assembly."}]},
+  s:[{img:"murtala",n:"Murtala Muhammed (1938–1976)",d:"Two hundred days as head of state; created seven new states and chose Abuja as the new capital, both announced on the same day in February 1976 — centralisation pursued at speed rather than by consensus."}]},
+ changemaker:{n:"Aminu Kano",d:"1920 – 1983 · Leader, NEPU and the PRP",in:"AK",img:"aminu-kano",
+  b:"Aminu Kano built his politics around the talakawa — the common people — and directed it at the northern aristocracy as much as at the colonial administration. He campaigned for free education, against the emirate tax system, and for a vote for women that northern women did not get until 1979, twenty-five years after women in the South. He lived without accumulating wealth, and remains the clearest Nigerian example of a mass movement organised on class rather than ethnic lines.",
+  s:[{img:"ransome-kuti",n:"Funmilayo Ransome-Kuti (1900–1978)",d:"Led the Abeokuta Women's Union in the tax revolt that drove the Alake from the throne in 1949, though he returned the year after; among the first Nigerian women in national politics."},
+     {img:"ekpo",n:"Margaret Ekpo (1914–2006)",d:"Organised Aba's market women into a voting bloc and won the Aba Urban North seat in the Eastern House of Assembly in 1961."}]},
  traditionalist:{n:"Ahmadu Bello",d:"1910 – 1966 · Sardauna of Sokoto; Premier, Northern Region",in:"AB",img:"ahmadu-bello",
-  b:"Bello chose to lead the Northern Region rather than seek the federal premiership, judging regional authority the more consequential seat. He grounded his politics in the emirate system and in Islamic scholarship, pursued the Northernisation of the regional civil service, and built an institutional base in education and administration whose effects outlasted him by decades.",
-  s:[{img:"zungur",n:"Sa'adu Zungur (1915–1958)",d:"Northern poet and radical intellectual who argued from inside the same tradition for reform of it."}]},
+  b:"Bello chose to lead the Northern Region rather than seek the federal premiership, judging regional authority the more consequential seat. He grounded his politics in the emirate system and in Islamic scholarship, pursued Northernisation, which reserved posts in the regional civil service for northerners and shut out southern Nigerians as well as Europeans, and built an institutional base in education and administration whose effects outlasted him by decades.",
+  s:[{img:"zungur",n:"Sa'adu Zungur (c. 1914–1958)",d:"Northern poet and radical intellectual who argued from inside the same tradition for reform of it."}]},
  hustler:{n:"Louis Odumegwu Ojukwu",d:"1909 – 1966 · Industrialist",in:"LO",img:"ojukwu-snr",
-  b:"Ojukwu built a transport and trading business from Nnewi into one of colonial Nigeria's largest private fortunes, sat on the boards of the African Continental Bank and the Nigerian Coal Corporation, and became the first president of the Nigerian Stock Exchange. His argument, made commercially rather than rhetorically, was that Nigerians could own and run enterprise at scale without the state doing it for them.",
-  s:[{img:"odutola",n:"Timothy Adeola Odutola (1902–1995)",d:"Built textile and rubber concerns and led the Nigerian Chamber of Commerce; an early advocate of indigenous industrial ownership."}]},
+  b:"Nnewi-born, Ojukwu built a transport and trading business out of Onitsha and Lagos into one of colonial Nigeria's largest private fortunes, chaired the African Continental Bank, sat on the board of the Nigerian Coal Corporation, and was among the founding subscribers to the Lagos Stock Exchange in 1960 — the body that became the Nigerian Stock Exchange eleven years after his death. His argument, made commercially rather than rhetorically, was that Nigerians could own and run enterprise at scale without the state doing it for them.",
+  s:[{img:"odutola",n:"Timothy Adeola Odutola (1902–1995)",d:"Built rubber and tyre manufacturing among other concerns and was the first president of the Manufacturers Association of Nigeria; an early advocate of indigenous industrial ownership."}]},
  patriot:{n:"Herbert Macaulay",d:"1864 – 1946 · Founder, Nigerian National Democratic Party",in:"HM",img:"macaulay",
-  b:"Engineer, surveyor and journalist, Macaulay used the Lagos Daily News to fight colonial land seizures and to defend the authority of the Oba of Lagos against the administration. He founded Nigeria's first political party in 1923 and became the first president of the NCNC — a politics built on refusing to accept that Nigerians should be governed on someone else's terms.",
-  s:[{img:"imoudu",n:"Michael Imoudu (1902–2005)",d:"Led the 1945 general strike; built Nigerian labour into a force the colonial administration had to negotiate with."}]},
+  b:"Engineer and surveyor by training, Macaulay fought colonial land seizures through the courts — the Apapa case he carried with Chief Oluwa to the Privy Council in 1921 — and defended the deposed Oba of Lagos against the administration, going to prison for six months over what he published about it. He founded Nigeria's first political party in 1923, ran the Lagos Daily News as its organ from 1927, and became the first president of the NCNC — a politics built on refusing to accept that Nigerians should be governed on someone else's terms.",
+  s:[{img:"imoudu",n:"Michael Imoudu (1902–2005)",d:"Released from wartime restriction weeks before the 1945 general strike, he became its militant public face; built Nigerian labour into a force the colonial administration had to negotiate with."}]},
  afrodreamer:{n:"Nnamdi Azikiwe",d:"1904 – 1996 · First President of Nigeria",in:"NA",img:"azikiwe",
-  b:"Azikiwe founded the West African Pilot and pressed the case for African self-rule across the region rather than within Nigeria's borders alone — he was as much a figure in Gold Coast politics as in Lagos. He led the NCNC, served as Premier of the Eastern Region and then as Governor-General and President, and gave Nigerian nationalism its continental register.",
-  s:[{n:"Fela Anikulapo-Kuti (1938–1997)",d:"Made pan-African and anti-establishment argument a mass cultural form, at sustained personal cost."}]},
+  b:"Azikiwe's career began in Accra, editing the African Morning Post and standing trial for sedition there, before he founded the West African Pilot in Lagos in 1937 and pressed the case for African self-rule across the region rather than within Nigeria's borders alone. He led the NCNC and served as Premier of the Eastern Region, then President of the Senate, Governor-General and finally President — though both of those last offices were ceremonial, with executive power sitting in Balewa's hands — and gave Nigerian nationalism its continental register.",
+  s:[{img:"fela",n:"Fela Anikulapo-Kuti (1938–1997)",d:"Made pan-African and anti-establishment argument a mass cultural form, at sustained personal cost."}]},
  stabiliser:{n:"Shehu Shagari",d:"1925 – 2018 · First executive President of Nigeria",in:"SS",img:"shagari",
-  b:"Shagari governed the Second Republic by coalition and consensus, expanded the Green Revolution agricultural programme, and introduced austerity measures as oil revenues collapsed. He was personally modest and institutionally cautious in a period that arguably demanded neither. His government was removed by coup in 1983, and the gradualist case has been arguing with that outcome ever since.",
-  s:[{img:"adebo",n:"Simeon Adebo (1913–1994)",d:"Career public servant whose wages commission reshaped federal pay; the institutional temperament in its purest form."}]},
+  b:"Shagari governed at first through an accord with the NPP that collapsed in 1981, launched the Green Revolution in 1980 as successor to Obasanjo's Operation Feed the Nation, and passed an austerity act in 1982 as oil revenues fell. He was personally modest and institutionally cautious in a period that arguably demanded neither. His government was removed by coup on the last day of 1983, and the gradualist case has been arguing with that outcome ever since.",
+  s:[{img:"adebo",n:"Simeon Adebo (1913–1994)",d:"Career public servant whose 1970–71 wages commission reset public pay after the war; the institutional temperament in its purest form."}]},
  grassroots:{n:"Michael Okpara",d:"1920 – 1984 · Premier, Eastern Region",in:"MO",img:"okpara",
-  b:"Okpara called his approach pragmatic socialism and built it on farm settlements, palm and rubber plantations and rural industrial estates rather than showpiece capital projects. The Eastern Region under his premiership recorded one of the fastest growth rates in the developing world at the time — an argument for development measured in what reaches a village, not in what is announced in a capital.",
+  b:"Okpara called his approach pragmatic socialism and built it on farm settlements, palm and rubber plantations and industrial estates at Aba, Enugu and Port Harcourt rather than showpiece capital projects. By 1966 the farm settlements had several thousand acres under oil palm, rubber and citrus — an argument for development measured in what reaches a village, not in what is announced in a capital.",
   s:[{img:"ekpo",n:"Margaret Ekpo (1914–2006)",d:"Built political power from market associations upward rather than from party structures downward."}]},
  technocrat:{n:"Simeon Adebo",d:"1913 – 1994 · Public servant and diplomat",in:"SA",img:"adebo",
-  b:"Adebo headed the Western Region civil service, served as Nigeria's Permanent Representative to the United Nations, and chaired the salaries and wages commission whose 1971 report restructured public pay. He belonged to the generation that believed an impartial, competent bureaucracy was the real machinery of a state, and that politics worked only as well as the institutions beneath it.",
-  s:[{img:"okigbo",n:"Pius Okigbo (1924–2000)",d:"Economist and architect of Nigeria's first National Development Plan; later chaired the panel that audited the CBN's dedicated accounts."}]}
+  b:"Adebo headed the Western Region civil service, served as Nigeria's Permanent Representative to the United Nations from 1962 to 1967, and chaired the 1970–71 wages and salaries review commission, whose interim cost-of-living awards reset public pay and whose recommendations led on to the Udoji review. He belonged to the generation that believed an impartial, competent bureaucracy was the real machinery of a state, and that politics worked only as well as the institutions beneath it.",
+  s:[{img:"okigbo",n:"Pius Okigbo (1924–2000)",d:"Economist and architect of Nigeria's first post-independence development plan; later chaired the panel that traced $12.4bn through the CBN's dedicated accounts and found $206m left in them."}]}
 };
 
 var TEN={
@@ -1418,11 +1504,26 @@ var KEYS=AXES.map(function(a){return a.k;});
 var MAX={};KEYS.forEach(function(k){MAX[k]=0;});
 Q.forEach(function(q){MAX[q.a]+=Math.abs(q.w)*2;});
 
+/* The denominator used to be every item on the axis whether or not it was answered,
+   so a skipped question pulled the reading toward the middle and an unanswered
+   dimension read as perfectly balanced. Only answered items count now, and an axis
+   nobody answered is reported as not measured rather than as zero. */
 function score(ans){
-  var raw={};KEYS.forEach(function(k){raw[k]=0;});
-  ans.forEach(function(v,i){if(v===null||v===undefined)return;raw[Q[i].a]+=v*Q[i].w;});
-  var o={};KEYS.forEach(function(k){o[k]=Math.max(-100,Math.min(100,Math.round(raw[k]/MAX[k]*100)));});
+  var raw={},den={};
+  KEYS.forEach(function(k){raw[k]=0;den[k]=0;});
+  ans.forEach(function(v,i){
+    if(!scored(v))return;
+    raw[Q[i].a]+=v*Q[i].w; den[Q[i].a]+=Math.abs(Q[i].w)*2;
+  });
+  var o={};KEYS.forEach(function(k){
+    o[k]=den[k]?Math.max(-100,Math.min(100,Math.round(raw[k]/den[k]*100))):0;});
   return o;
+}
+/* How much of each axis the person actually answered, so the result can say so. */
+function coverage(ans){
+  var c={};KEYS.forEach(function(k){c[k]={n:0,of:0};});
+  Q.forEach(function(q,i){ c[q.a].of++; if(scored(ans[i]))c[q.a].n++; });
+  return c;
 }
 function dist(p,q){var s=0;KEYS.forEach(function(k){var d=p[k]-q[k];s+=d*d;});return Math.sqrt(s);}
 /* The position is well measured; the label on it often is not. Changing one answer
@@ -1449,7 +1550,12 @@ function classify(p){
 /* ---------- compass ---------- */
 var P={x:70,y:60,s:360};
 function cx(e){return P.x+P.s/2+(-e/100)*(P.s/2);}
-function cy(t){return P.y+P.s/2+(-t/100)*(P.s/2);}
+/* The federation axis reads downward: Centralist at the top, Restructurist at the
+   bottom, which is what the labels and all four quadrant captions say. The minus
+   here put the dot on the wrong side of the centre line, so a Restructurist was
+   shown sitting under the word CENTRALIST. The economy axis below was always right,
+   which is why nothing else on the square looked wrong. */
+function cy(t){return P.y+P.s/2+(t/100)*(P.s/2);}
 
 function compass(svg,pos,opt){
   opt=opt||{};var g=[],x=P.x,y=P.y,s=P.s,mx=x+s/2,my=y+s/2;
@@ -1493,15 +1599,7 @@ function compass(svg,pos,opt){
   g.push('<circle cx="'+ux+'" cy="'+uy+'" r="7" fill="var(--danfo)" stroke="var(--ink)" stroke-width="1.6"/>');
   svg.innerHTML=g.join("");
 }
-function mini(svg,pos){
-  var g=['<rect x="8" y="8" width="104" height="104" fill="var(--stock-2)" stroke="var(--ink)" stroke-width="1.5"/>',
-   '<line x1="60" y1="8" x2="60" y2="112" stroke="var(--ink)" stroke-width="1"/>',
-   '<line x1="8" y1="60" x2="112" y2="60" stroke="var(--ink)" stroke-width="1"/>'];
-  var ux=60+(-pos.econ/100)*52,uy=60+(-pos.struct/100)*52;
-  g.push('<circle cx="'+ux+'" cy="'+uy+'" r="9" fill="var(--danfo)" opacity="0.28"/>');
-  g.push('<circle cx="'+ux+'" cy="'+uy+'" r="4.5" fill="var(--danfo)" stroke="var(--ink)" stroke-width="1"/>');
-  svg.innerHTML=g.join("");
-}
+
 /* The traditions now have faces. The file is named for the person, the archetype
    points at it, and if the image is missing or slow the drawn plate with initials is
    still what renders — nothing on this page depends on a picture arriving. */
@@ -1528,18 +1626,21 @@ function portrait(svg,initials){
 
 /* ---------- state ---------- */
 var st={part:1,i:0,a:new Array(Q.length).fill(null),ca:new Array(CIVIC.length).fill(null),r:null,who:null,cmp:null};
-var VIEWS=["start","quiz","result","ballot","play","about"];
+var VIEWS=["start","quiz","review","result","ballot","play","about"];
 function show(n){
   VIEWS.forEach(function(v){var e=$("view-"+v);if(e)e.hidden=(v!==n);});
   Array.prototype.forEach.call(document.querySelectorAll("nav.top button"),function(btn){
     btn.setAttribute("aria-current",btn.dataset.go===n?"true":"false");});
-  $("live").style.display=(n==="quiz"&&st.part===1)?"":"none";
   marks();
   window.scrollTo({top:0,behavior:"instant"});
 }
 document.addEventListener("click",function(e){
   var t=e.target.closest("[data-go]");
-  if(t){e.preventDefault();show(t.dataset.go);
+  if(t){e.preventDefault();
+    /* The quiz view is the only one that cannot simply be shown — it needs a question
+       on it. Entering from the masthead resumes wherever you left off. */
+    if(t.dataset.go==="quiz"){show("quiz");renderQ();return;}
+    show(t.dataset.go);
     if(t.dataset.go==="ballot")renderBallot();
     if(t.dataset.go==="play")startGame();}
 });
@@ -1559,7 +1660,7 @@ function didPlay(){return played_().length>0||(typeof G!=="undefined"&&G.day>0);
 /* The numeral in the masthead becomes a tick. This is the two-part progress device:
    present on every view, costs one character, and needs no bar of its own. */
 function marks(){
-  [["start",didQuiz(),"1"],["play",didPlay(),"2"]].forEach(function(x){
+  [["play",didPlay(),"1"],["quiz",didQuiz(),"2"]].forEach(function(x){
     var b=document.querySelector('nav.top button[data-go="'+x[0]+'"]');
     if(!b)return;
     b.classList.toggle("stepdone",x[1]);
@@ -1570,20 +1671,50 @@ function marks(){
 /* ---------- landing ---------- */
 function steps(){
   var done1=didQuiz(), played=didPlay();
+  /* The office is the front door now, so it is the one that says "start here" until
+     it has been opened. The questionnaire takes the lit state afterwards. */
   var cfg=[
-    {id:"step1",done:done1,now:!done1,txt:done1?"Done":"Start here"},
-    {id:"step3",done:played,now:done1,txt:played?"Played":"Open"},
+    {id:"step3",done:played,now:!played,txt:played?"Played":"Start here"},
+    {id:"step1",done:done1,now:played,txt:done1?"Done":"Open"},
     {id:"step2",done:false,now:false,txt:"Open"}
   ];
   cfg.forEach(function(c){
     var el=$(c.id);if(!el)return;
-    el.className="step"+(c.done?" done":"")+(c.now&&!c.done?" now":"")+((!done1&&c.id!=="step1")?" locked":"");
+    el.className="step"+(c.done?" done":"")+(c.now&&!c.done?" now":"");
     el.querySelector(".state").textContent=c.txt;
   });
 }
+/* The hero used to carry the compass with a dot wandering it, which was the right
+   picture for a site that opened with the questionnaire. What the visitor is being
+   invited into now is five powers that will not hold still, so that is the picture. */
+function powersPlate(svg){
+  var W=480,TOP=60,BOT=380,BW=56,GAP=30,X0=40;
+  var g=['<rect x="0" y="0" width="480" height="480" fill="none"/>'];
+  var LIFE=[
+    {h:[210,120,260,170],d:17},{h:[150,220,130,200],d:21},{h:[240,180,270,200],d:19},
+    {h:[170,250,140,230],d:23},{h:[200,140,230,180],d:15}
+  ];
+  BLOCS.forEach(function(b,i){
+    var x=X0+i*(BW+GAP), L=LIFE[i], hs=L.h.concat([L.h[0]]);
+    g.push('<rect x="'+x+'" y="'+TOP+'" width="'+BW+'" height="'+(BOT-TOP)+
+      '" fill="var(--stock-2)" stroke="var(--hair)" stroke-width="1"/>');
+    g.push('<rect x="'+x+'" width="'+BW+'" fill="'+b.c+'" opacity="0.9">'+
+      '<animate attributeName="height" dur="'+L.d+'s" repeatCount="indefinite" '+
+        'calcMode="spline" keySplines="'+hs.slice(1).map(function(){return ".45 0 .2 1";}).join(";")+'" '+
+        'values="'+hs.join(";")+'"/>'+
+      '<animate attributeName="y" dur="'+L.d+'s" repeatCount="indefinite" '+
+        'calcMode="spline" keySplines="'+hs.slice(1).map(function(){return ".45 0 .2 1";}).join(";")+'" '+
+        'values="'+hs.map(function(h){return BOT-h;}).join(";")+'"/></rect>');
+    g.push('<text x="'+(x+BW/2)+'" y="406" text-anchor="middle" fill="var(--ink-3)" '+
+      'font-family="IBM Plex Mono, monospace" font-size="11">'+
+      b.n.replace("The ","").toUpperCase()+'</text>');
+  });
+  g.push('<line x1="40" y1="'+BOT+'" x2="'+(W-40)+'" y2="'+BOT+'" stroke="var(--ink)" stroke-width="2"/>');
+  svg.innerHTML=g.join("");
+}
 function landing(){
   steps();
-  compass($("demo"),{econ:-30,struct:52},{ghosts:true,roam:true});
+  powersPlate($("demo"));
 }
 
 /* ---------- quiz ---------- */
@@ -1624,72 +1755,39 @@ function renderQ(){
      questions about the economy. The rail still shows all twenty-one at a glance. */
   $("qtext").textContent=q.t;
   uliRail($("rail"),n,st.i,st.part===1?3:5);
+  $("qcount").textContent="Question "+(st.i+1)+" of "+n;
   var ans=ansArr();
   $("likert").innerHTML=SCALE.map(function(sc,i){
-    return '<button type="button" id="lk'+i+'" data-v="'+sc.v+'" aria-pressed="'+(ans[st.i]===sc.v)+'"><kbd>'+(i+1)+'</kbd><span>'+sc.l+'</span></button>';
+    return '<button type="button" role="radio" id="lk'+i+'" data-v="'+sc.v+'" aria-checked="'+(ans[st.i]===sc.v)+'"><kbd>'+(i+1)+'</kbd><span>'+sc.l+'</span></button>';
+  }).join("");
+  $("asideRow").innerHTML=ASIDE.map(function(a,i){
+    return '<button type="button" role="radio" data-k="'+a.k+'" aria-checked="'+(ans[st.i]===a.k)+'"><kbd>'+(i+6)+'</kbd>'+a.l+'</button>';
   }).join("");
   $("bench").hidden=true;
-  forming();
   $("back").style.visibility=st.i===0?"hidden":"visible";
-  if(st.part===1)mini($("mini"),score(st.a));
 }
 
-/* ---------- the reading, forming ----------
-   Two of every three answers used to disappear into nothing: you clicked, the next
-   question arrived, and the instrument gave you no sign it had heard you. This is
-   the sign. It shows the dimension currently being decided moving under your own
-   answers, so the "settled" reveal on the third is earned rather than sudden — and
-   it is the literal thing the tagline promises. Partial scores only; no claim is
-   made until the dimension closes. */
-function forming(){
-  if(st.part!==1){$("forming").hidden=true;return;}
-  var k=Q[st.i].a, ax=AXES.filter(function(a){return a.k===k;})[0];
-  var idx=[]; Q.forEach(function(q,i){if(q.a===k)idx.push(i);});
-  var answered=idx.filter(function(i){return st.a[i]!==null;});
-  if(!answered.length){$("forming").hidden=true;return;}
-  var raw=0; answered.forEach(function(i){raw+=st.a[i]*Q[i].w;});
-  var v=Math.max(-100,Math.min(100,Math.round(raw/MAX[k]*100)));
-  var pole=v===0?"balanced":(v>0?ax.pos:ax.neg);
-  $("forming").hidden=false;
-  $("fmName").textContent=ax.n;
-  $("fmRead").innerHTML=(v===0)
-    ? '<b>Balanced</b> so far'
-    : '<b>'+pole+'</b> '+Math.abs(v);
-  $("fmRead").className="fm-read "+(v>0?"warm":(v<0?"cool":"mid"));
-  var half=Math.abs(v)/2;
-  $("fmFill").style.cssText = v===0
-    ? "left:50%;width:0"
-    : (v>0 ? "left:50%;width:"+half+"%" : "right:50%;width:"+half+"%");
-  $("fmPips").innerHTML=idx.map(function(i){
-    return '<i class="'+(st.a[i]!==null?"on":"")+'"></i>';}).join("");
+/* The instrument used to show a running reading and close each dimension out loud as
+   you went. Whatever that did for the sense of being heard, it also put a label on a
+   person in front of the questions they had not answered yet, and nobody has tested
+   what that does to the answers that follow. It is gone from the measurement. */
+function markChosen(v){
+  Array.prototype.forEach.call($("likert").children,function(btn){
+    btn.setAttribute("aria-checked",String(Number(btn.dataset.v)===v));});
+  Array.prototype.forEach.call($("asideRow").children,function(btn){
+    btn.setAttribute("aria-checked",String(btn.dataset.k===v));});
 }
-
+function pickAside(k){
+  var ans=ansArr();ans[st.i]=k;
+  markChosen(k);
+  advance(st.part===1?320:200);
+}
 function pick(v){
   var ans=ansArr();ans[st.i]=v;
-  Array.prototype.forEach.call($("likert").children,function(btn){
-    btn.setAttribute("aria-pressed",String(Number(btn.dataset.v)===v));});
-  if(st.part===1){
-    mini($("mini"),score(st.a));
-    forming();
-    /* Q is grouped three-per-dimension, so every third answer closes one out. */
-    var done=(st.i+1)%3===0, ak=Q[st.i].a;
-    if(done&&st.i<Q.length-1){
-      var pos=score(st.a),ax=AXES.filter(function(x){return x.k===ak;})[0],v=pos[ak];
-      $("benchtext").innerHTML='<b>'+ax.n+'</b> — settled. You read '+
-        (v===0?'<b>balanced</b>, dead centre'
-             :'<b>'+(v>0?ax.pos:ax.neg)+'</b> at '+(v>0?'+':'')+v)+
-        '. '+(function(left){
-          return left===0?"That is all seven."
-               :(left===1?"One dimension left."
-               :(left===2?"Two left."
-               :left+" to go."));})(7-((st.i+1)/3));
-      $("benchLab").textContent="Dimension closed";
-      $("bench").hidden=false;advance(1500);return;
-    }
-    advance(560);return;
-  }
+  markChosen(v);
+  if(st.part===1){ advance(320); return; }
   var q=CIVIC[st.i];
-  if(q.ab&&v!==0){
+  if(q.ab&&scored(v)&&v!==0){
     var agreed=v>0,pct=agreed?q.ab.agree:q.ab.dis;
     $("benchLab").textContent="Against the national sample";
     $("benchtext").innerHTML='You '+(agreed?"agreed":"disagreed")+'. So did <b>'+pct.toFixed(1)+'%</b> of Nigerians in the last national survey. '+q.ab.note;
@@ -1699,17 +1797,20 @@ function pick(v){
 function advance(ms){
   setTimeout(function(){
     if(st.i<total()-1){st.i++;renderQ();}
-    else if(st.part===1){finish();}
+    else if(st.part===1){renderReview();show("review");}
     else {renderCivic();show("result");}
   },ms);
 }
 $("likert").addEventListener("click",function(e){
   var b=e.target.closest("button[data-v]");if(b)pick(Number(b.dataset.v));});
+$("asideRow").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-k]");if(b)pickAside(b.dataset.k);});
 $("back").addEventListener("click",function(){if(st.i>0){st.i--;renderQ();}});
 document.addEventListener("keydown",function(e){
   if($("view-quiz").hidden)return;
   var n=parseInt(e.key,10);
   if(n>=1&&n<=5){e.preventDefault();pick(SCALE[n-1].v);}
+  if(n>=6&&n<=7){e.preventDefault();pickAside(ASIDE[n-6].k);}
   if(e.key==="Backspace"&&st.i>0){e.preventDefault();st.i--;renderQ();}
 });
 function reset(){st.part=1;st.i=0;st.a.fill(null);st.ca.fill(null);st.r=null;
@@ -1717,12 +1818,48 @@ function reset(){st.part=1;st.i=0;st.a.fill(null);st.ca.fill(null);st.r=null;
 function beginCompass(){
   CUR.compassSessionId=uuid();
   CUR.compassResultSent=false;
-  track("session_start",{session_id:CUR.compassSessionId,session_type:"compass"});
+  track("session_start",{session_id:CUR.compassSessionId,experience_type:"compass"});
   evt("compass_started",{session_id:CUR.compassSessionId});
 }
 $("startBtn").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
 $("again").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
 $("part2").addEventListener("click",function(){st.part=2;st.i=0;show("quiz");renderQ();});
+
+/* ---------- the answers, before anything is made of them ----------
+   The instrument used to go straight from the last question to a named archetype. A
+   person had no opportunity to see what they had actually said, and no way to correct
+   a mis-hit key, before the page started telling them who they were. */
+function answerLabel(v){
+  if(v===null||v===undefined)return "Not answered";
+  if(!scored(v))return ASIDE_L[v]||"Not answered";
+  var sc=SCALE.filter(function(x){return x.v===v;})[0];
+  return sc?sc.l:"Not answered";
+}
+function renderReview(){
+  $("rvList").innerHTML=Q.map(function(q,i){
+    var v=st.a[i],un=!scored(v);
+    return '<li'+(un?' class="un"':'')+'><p>'+q.t+'</p>'+
+      '<div class="rv-a"><b>'+answerLabel(v)+'</b>'+
+      '<button type="button" class="lab" data-i="'+i+'">Change</button></div></li>';
+  }).join("");
+  var n=st.a.filter(scored).length;
+  $("rvNote").textContent = n===Q.length
+    ? "All twenty-one scored."
+    : (Q.length-n)+" of 21 will not be scored, and the dimensions they belong to will say so.";
+}
+$("rvList").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-i]");if(!b)return;
+  st.part=1;st.i=Number(b.dataset.i);show("quiz");renderQ();
+});
+$("rvGo").addEventListener("click",function(){finish();});
+/* The primary action is to open one of your own views, not to read a label. */
+$("exploreBtn").addEventListener("click",function(){
+  var d=document.querySelector("#obs details");
+  if(!d)return;
+  d.open=true;
+  d.scrollIntoView({behavior:"smooth",block:"center"});
+});
+$("backToAns").addEventListener("click",function(){renderReview();show("review");});
 
 /* ---------- result ---------- */
 function fmt(v){return (v>0?"+":"")+v;}
@@ -1735,7 +1872,10 @@ function finish(){
     CUR.compassResultSent=true;
     track("session_complete",{session_id:CUR.compassSessionId,completion_status:"completed"});
     track("compass_result",{session_id:CUR.compassSessionId,
-      archetype:st.r.ranked[0].a.id,dimension_scores:JSON.parse(JSON.stringify(pos))});
+      archetype:st.r.ranked[0].a.id,
+      archetype_share:st.r.ranked[0].share,
+      tied_archetypes:tied(st.r.ranked).map(function(r){return r.a.id;}),
+      final_dimension_scores:JSON.parse(JSON.stringify(pos))});
     evt("compass_completed",{session_id:CUR.compassSessionId});
   }
   renderResult();renderWho();renderCompare();show("result");
@@ -1758,7 +1898,7 @@ var PLAIN={
            neg:["put order first","the state should be able to act before the courts catch up"],
            mid:["weigh order and rights about equally",""]},
  represent:{pos:["want a representative bound to a programme","not to whoever sent him"],
-            neg:["want a representative bound to his own people","before any national programme"],
+            neg:["want a representative bound to the constituency that elected him","before any national programme"],
             mid:["are torn between the constituency and the programme",""]},
  method:{pos:["expect change to be forced from outside","organised pressure moves Nigeria faster than patience does"],
          neg:["expect change from inside the institutions","however slow that turns out to be"],
@@ -1767,6 +1907,131 @@ var PLAIN={
           neg:["think Nigeria should finish its own house first",""],
           mid:["are undecided about Nigeria's role beyond its borders",""]}
 };
+
+/* ---------- what the answers actually show ----------
+   The page used to open with a square, a label and a percentage, and only then get
+   around to saying anything in words. A reader could not tell which of their answers
+   had produced any of it. This opens with three things they said, each one carrying
+   the questions it came from, what it does not establish, and one thing worth thinking
+   about next. The label is still here; it is no longer the payoff.
+
+   The distinction in the first of these is the one most worth having: what government
+   should guarantee, what it should fund and what it should own are three questions,
+   and a single number on an economy axis hides all three. */
+var LIMITS={
+ econ:"It does not say who should run the service or who should pay for it. What government guarantees, what it funds and what it owns are three separate questions, and these items only separate the first two.",
+ struct:"It does not say which powers should move, or on what terms. Policing, revenue and the protection of minorities inside a state are usually settled separately from each other.",
+ social:"It does not say whether you would change this by law or leave it to change on its own, and those are very different propositions in practice.",
+ security:"It does not say where the line sits in a particular emergency, which is where almost all of the real disagreement is.",
+ represent:"It does not say what a representative should do when the constituency and the programme point different ways on one specific bill.",
+ method:"It does not say whether you think the method you prefer is also the one that works, which is a separate question and often the harder one.",
+ horizon:"It does not say what Nigeria should be willing to give up, or accept, in order to hold that position."
+};
+var NEXTQ={
+ econ:"If government guaranteed a service but did not own the provider, who would you want setting the price?",
+ struct:"If a state took on a power from Abuja and then failed at it, what should happen next?",
+ social:"Which of these should move first, and who decides — the courts, the legislature, or the communities themselves?",
+ security:"Name the narrowest emergency in which you would accept the state acting before a court does.",
+ represent:"Should a representative who votes against his constituency on principle expect to be re-elected?",
+ method:"Which Nigerian change that you admire actually arrived the way you say change arrives?",
+ horizon:"What is the most Nigeria should spend on a neighbour's crisis while its own is unresolved?"
+};
+/* A conditional answer is the one non-scored response that carries information: the
+   person has a position and it turns on circumstances this instrument never asked
+   about. Saying so is more honest than leaving a gap in the count unexplained. */
+
+/* The vocabulary, attached to something the person has already said rather than
+   defined at them in the abstract. This is the element the audit asked for that the
+   first pass of this section did not have. */
+var CONCEPT={
+ econ:["Guarantee, fund, own","These are three separate decisions and Nigerian argument usually runs them together. A government can guarantee that a service exists, pay for it out of public revenue, and still not own the company that delivers it — or own the asset and charge for it like anyone else. A single reading on an economy axis cannot tell those apart, which is why the number above is narrower than it looks."],
+ struct:["Devolution and fiscal federalism","Moving a decision out of Abuja and moving the revenue that pays for it are two different reforms. Nigerians usually say restructuring for both. Which powers move, who collects the money, and who protects a minority inside a state once the centre steps back are separate questions with separate answers."],
+ social:["Custom, religion and law","A position on what should shape public life is not yet a position on what should be written into law. Traditional authority and religious authority are also distinct: they overlap in some parts of the country and compete in others, and a constitution can recognise one without the other."],
+ security:["Derogation","The technical word for suspending a right in an emergency. Most rights frameworks allow some of it and forbid the rest — the argument is almost never whether the state may ever act first, but which rights are suspendable, for how long, and who decides when the emergency is over."],
+ represent:["Delegate and trustee","Two old answers to what a representative is for. A delegate carries the instructions of the people who elected him. A trustee uses his own judgement and answers for it at the next election. Nigerian politics adds a third thing — what a representative is expected to hand out personally — which is not really either."],
+ method:["Institutional and contentious politics","Parties, courts and bills on one side; strikes, protest and refusal on the other. They are usually described as opposites and usually work as complements: most Nigerian change that stuck arrived through both, in some order."],
+ horizon:["Sovereignty and integration","Pooling authority with neighbours and keeping a free hand are the ends of the same axis, and most real arrangements sit between them. Trade, movement of people, a common currency and binding regional courts are separate commitments — a country can want any one without the others."]
+};
+
+function depLine(k){
+  var n=0;
+  Q.forEach(function(q,i){ if(q.a===k&&st.a[i]==="depends")n++; });
+  if(!n)return "";
+  return '<p class="ob-dep"><b>'+(n===1?"On one of these you said it depends.":"On "+(n===2?"two":"all three")+" of these you said it depends.")+
+    '</b> That is a view about circumstances, and these questions only ask about principles. Those answers are left out of the reading rather than counted as a middle position \u2014 but they are the ones worth going back to.</p>';
+}
+function evidenceFor(k){
+  var rows=[];
+  Q.forEach(function(q,i){
+    if(q.a!==k)return;
+    rows.push('<li'+(scored(st.a[i])?'':' class="un"')+'><span>'+q.t+'</span><b>'+answerLabel(st.a[i])+'</b></li>');
+  });
+  return rows.join("");
+}
+
+/* Where the resemblance stops. Naming a historical figure from a position is only
+   defensible if the page also says where the two part company and what was never
+   asked — otherwise the figure's reputation does the interpreting. */
+function tradDiff(top,pos){
+  var cov=coverage(st.a);
+  var far=null;
+  KEYS.forEach(function(k){
+    if(!cov[k].n)return;
+    var d=Math.abs(pos[k]-top.p[k]);
+    if(!far||d>far.d)far={k:k,d:d};
+  });
+  var unmeasured=KEYS.filter(function(k){return !cov[k].n;});
+  var out="";
+  if(far&&far.d>=35){
+    var ax=AXES.filter(function(x){return x.k===far.k;})[0];
+    var mine=pos[far.k],theirs=top.p[far.k];
+    /* A large arithmetic gap is not automatically a disagreement — two readings can sit
+       forty points apart on the same side of the line. Only opposite sides are a parting
+       of company; the rest is a difference of degree, and saying otherwise would be
+       inventing a quarrel out of a subtraction. */
+    var opposed=(Math.abs(mine)>=20&&Math.abs(theirs)>=20&&((mine>0)!==(theirs>0)));
+    if(opposed){
+      out+="<b>Where you part company.</b> On "+ax.n.toLowerCase()+" this tradition is "+
+        (theirs>0?ax.pos:ax.neg).toLowerCase()+" and your answers are "+
+        (mine>0?ax.pos:ax.neg).toLowerCase()+". That is a real disagreement, not a rounding.";
+    } else {
+      out+="<b>A difference of degree.</b> On "+ax.n.toLowerCase()+" you lean the same way as this tradition but "+
+        (Math.abs(mine)<Math.abs(theirs)?"considerably less far":"considerably further")+
+        ". That is the widest gap between you, and it is about how much rather than about which side.";
+    }
+  }
+  if(unmeasured.length){
+    out+=(out?" ":"")+"<b>What we did not ask.</b> You left "+
+      unmeasured.map(function(k){return AXES.filter(function(x){return x.k===k;})[0].n.toLowerCase();}).join(" and ")+
+      " unanswered, so nothing here rests on "+(unmeasured.length>1?"them":"it")+".";
+  }
+  return out;
+}
+
+function renderObs(pos){
+  var cov=coverage(st.a);
+  var ks=KEYS.filter(function(k){return cov[k].n>0;})
+             .sort(function(a,b){return Math.abs(pos[b])-Math.abs(pos[a]);})
+             .slice(0,3);
+  $("obs").innerHTML=ks.map(function(k){
+    var ax=AXES.filter(function(x){return x.k===k;})[0];
+    var v=pos[k],p=PLAIN[k],e=Math.abs(v)<20?p.mid:(v>0?p.pos:p.neg);
+    var strength=Math.abs(v)>=60?"strongly ":(Math.abs(v)>=30?"":"mildly ");
+    var head=/^would /.test(e[0])?e[0].replace(/^would /,"would "+strength):strength+e[0];
+    var c=cov[k];
+    return '<section class="ob">'+
+      '<span class="lab">'+ax.n+(c.n<c.of?' · '+c.n+' of '+c.of+' answered':'')+'</span>'+
+      '<p class="ob-say">You '+head+(e[1]?", and "+e[1]:"")+'.</p>'+
+      '<details><summary>The questions this came from</summary>'+
+        '<ul class="ev">'+evidenceFor(k)+'</ul>'+
+        depLine(k)+
+        '<p class="ob-con"><b>'+CONCEPT[k][0]+'.</b> '+CONCEPT[k][1]+'</p>'+
+        '<p class="ob-not"><b>What this does not establish.</b> '+LIMITS[k]+'</p>'+
+        '<p class="ob-next"><b>Worth thinking about next.</b> '+NEXTQ[k]+'</p>'+
+      '</details></section>';
+  }).join("");
+}
+
 function readout(pos){
   var ranked=KEYS.slice().sort(function(a,b){return Math.abs(pos[b])-Math.abs(pos[a]);});
   var parts=ranked.slice(0,2).map(function(k){
@@ -1783,26 +2048,28 @@ function readout(pos){
   return "In plain terms: you "+parts.join(". You ")+"."+tail;
 }
 /* His best untaken idea: expose the player before power does. These are pairs of
-   positions that pull against each other in Nigerian practice, not in theory. Each
+   positions that leave a question unresolved in Nigerian practice, not in theory. They
+   used to be written as accusations — your own answers disagree — which confused a
+   design question nobody has settled with an incoherence in the reader. Each
    fires only when both readings are committed, so nothing is asserted about a
    respondent who sat near the centre. */
 var STRAINS=[
  {a:"struct",as:1,b:"econ",bs:1,
-  t:"You want power devolved and you want the state to provide. Those pull against each other: the states you would empower are mostly the ones that cannot fund what you would have government guarantee."},
+  t:"You favour more power for the states, and you favour government guaranteeing essential services. That leaves one question open: should each state fund those guarantees itself, or should national revenue help the states with less of it? Funding, delivery and who sets the standard can each be answered differently."},
  {a:"struct",as:1,b:"security",bs:-1,
-  t:"You would move power out of Abuja and you would let the state act before the courts do. Devolved authority with thin oversight is how a governor becomes untouchable in his own state."},
+  t:"You favour moving power out of Abuja, and you would let the state act before the courts have caught up. That leaves one question open: who checks a state government once the centre has stepped back — its own courts, its own assembly, or the federal ones you would have weakened?"},
  {a:"security",as:1,b:"method",bs:-1,
-  t:"You hold that rights survive an emergency, and that change should come from inside institutions. The institutions you are trusting to protect those rights are the ones that have most often suspended them."},
+  t:"You hold that rights survive an emergency, and that change should come from inside institutions. That leaves one question open: what should happen when the institution itself is the thing suspending the right — is the remedy still internal?"},
  {a:"represent",as:1,b:"struct",bs:1,
-  t:"You want representatives bound to a national programme, and you want power held locally. A programme is national by construction; the more you devolve, the less there is to be bound to."},
+  t:"You want representatives bound to a national programme, and you want power held locally. That leaves one question open: what should a national programme actually commit to once most of the decisions have moved to the states?"},
  {a:"econ",as:1,b:"horizon",bs:-1,
-  t:"You want a state that provides generously and a Nigeria that looks inward. Both are expensive, and the second forecloses most of the ways the first has ever been paid for."},
+  t:"You want a state that provides generously and a Nigeria that concentrates on its own house first. That leaves one question open: which of the two gives way when revenue is short, and what would you want a government to protect last?"},
  {a:"social",as:1,b:"method",bs:-1,
-  t:"You would open public life to women and the young, and you would do it through existing institutions. Those institutions rejected the reserved-seats bill in 2022 without needing anyone's permission."},
+  t:"You would open public life to women and the young, and you would do it through existing institutions. That leaves one question open: the reserved-seats bill failed in those institutions in 2022 — what would have to change inside them for the same bill to pass?"},
  {a:"econ",as:-1,b:"represent",bs:-1,
-  t:"You want the state out of the market and a representative who serves his own people first. Constituency-first politics is where most of the discretionary spending you object to actually originates."},
+  t:"You want the state out of the market and a representative who serves his own constituency first. That leaves one question open: constituency-first politics is where much discretionary spending begins — is that spending part of what you would remove, or part of what representation is for?"},
  {a:"horizon",as:1,b:"security",bs:-1,
-  t:"You want Nigeria leading the continent and a state with a free hand at home. Nigeria's standing to arbitrate other people's crises has usually been argued down on exactly that record."}
+  t:"You want Nigeria leading the continent and a state with a free hand at home. That leaves one question open: how much does a country's conduct at home affect what it can ask of its neighbours?"}
 ];
 function strain(pos){
   var hits=STRAINS.filter(function(x){
@@ -1822,45 +2089,46 @@ function renderResult(){
     return '<span>'+a.n.toUpperCase()+' <b>'+(v===0?"BALANCED":(v>0?a.pos:a.neg).toUpperCase()+" "+Math.abs(v))+'</b></span>';}
   $("coord").innerHTML=axLab("econ")+axLab("struct");
   $("plain").innerHTML=readout(pos);
+  renderObs(pos);
   var str=strain(pos);
   $("strainBox").hidden=!str;
   if(str)$("strainText").textContent=str;
   var tie=tied(rk),multi=tie.length>1;
-  $("atag").textContent = multi ? "No single match" : "Clear match";
+  /* "Clear match" and a percentage were two claims the instrument cannot support. The
+     number is a normalised exponential of a Euclidean distance to ten hand-placed
+     prototypes, not a share of positions agreed with, and being nearest of ten is not
+     the same as being a good fit for any of them. The ordering survives; the arithmetic
+     dressed as a score does not. */
+  $("atag").textContent = multi ? "Nearest of the ten, and too close to separate" : "Nearest of the ten";
   $("aname").textContent = multi
     ? tie.map(function(r){return r.a.n.replace("The ","");}).join(" / ")
     : top.n;
   $("afit").textContent = multi
     ? (tie.length+" TRADITIONS, TOO CLOSE TO SEPARATE")
-    : (Math.round(rk[0].share*100)+"% ALIGNMENT · CLEAREST OF TEN");
+    : "NEAREST, NOT NECESSARILY NEAR";
   var spread=KEYS.reduce(function(m,k){return Math.max(m,Math.abs(pos[k]));},0);
   var note = multi
     ? "Your answers put you almost exactly the same distance from "+
       (tie.length===2?"both":"all "+tie.length)+" of these, so naming one would be inventing a precision the instrument does not have. "+
       (tie.length===2?"You are between them":"You are somewhere among them")+", and that is a real finding rather than a failure to decide — most Nigerians land in the gaps between these traditions rather than inside one."
-    : "Of the ten traditions this one is distinctly nearest to where you landed, which is not true for most people who take this.";
+    : "Of the ten traditions this is the one nearest to where your answers landed. Nearest is not the same as close, and none of the ten is a description of you — they are arguments Nigerians have had, and this one runs closest to yours.";
   $("asum").innerHTML=tie.map(function(r){return multi?('<b>'+r.a.n+'.</b> '+r.a.s):r.a.s;}).join("<br><br>")
     + (spread<22?'<span style="display:block;margin-top:12px;padding-top:12px;border-top:1px solid var(--hair);color:var(--ink-3);font-size:.87rem">You also sat near the middle on every dimension. That usually means you are unconvinced by both sides rather than undecided.</span>':'');
+  var cov=coverage(st.a);
   $("bars").innerHTML=AXES.map(function(a){
-    var v=pos[a.k],w=Math.abs(v)/2,side=v>=0?'left:50%;width:'+w+'%':'right:50%;width:'+w+'%';
+    var v=pos[a.k],c=cov[a.k],w=Math.abs(v)/2,side=v>=0?'left:50%;width:'+w+'%':'right:50%;width:'+w+'%';
     var edge=v===0?'var(--ink-3)':(v>0?'var(--pole-warm)':'var(--pole-cool)');
-    return '<div class="brow" style="--edge:'+edge+'"><div class="bl"><span>'+a.n+'</span><b>'+
+    /* An axis nobody answered is not a balanced one. */
+    if(!c.n)return '<div class="brow un" style="--edge:var(--ink-3)"><div class="bl"><span>'+a.n+
+      '</span><b>Not measured</b></div><div class="track"></div></div>';
+    var part=c.n<c.of?'<i class="part">'+c.n+' of '+c.of+' answered</i>':'';
+    return '<div class="brow" style="--edge:'+edge+'"><div class="bl"><span>'+a.n+part+'</span><b>'+
       (v===0?"Balanced":(v>0?a.pos:a.neg))+' '+Math.abs(v)+'</b></div><div class="track"><i style="'+side+'"></i></div></div>';
   }).join("");
   $("alist").innerHTML=rk.map(function(r,i){
     return '<div class="arow'+(i===0?" top":"")+'"><span>'+r.a.n.replace("The ","")+'</span>'+
-      '<div class="t"><i style="width:'+Math.max(2,r.share/rk[0].share*100)+'%"></i></div>'+
-      '<div class="v">'+Math.round(r.share*100)+'%</div></div>';}).join("");
-  /* The gap, stated rather than promised. These are the real counts off the INEC
-     list; the zero is the argument, so it is better shown than withheld. */
-  var invited=PRESIDENTIAL.filter(function(c){return c.invited;}).length;
-  var answered=PRESIDENTIAL.filter(function(c){return c.answers;}).length;
-  $("gapstat").innerHTML=[
-    [PRESIDENTIAL.length,"asking to be President on 16 January"],
-    [answered,"have stated a position on these questions"],
-    [invited-answered,"invited, nothing back yet"],
-    [PRESIDENTIAL.length-invited,"not yet invited"]
-  ].map(function(r){return '<div><b>'+r[0]+'</b><span>'+r[1]+'</span></div>';}).join("");
+      '<div class="t"><i style="width:'+Math.max(2,r.share*100)+'%"></i></div>'+
+      '<div class="v">'+(i+1)+'</div></div>';}).join("");
 
   var t=TR[top.id];
   portrait($("port"),t.in);
@@ -1868,6 +2136,8 @@ function renderResult(){
   $("portCap").textContent=(t.d.split("·")[1]||"").trim();
   $("fname").textContent=t.n;$("fdates").textContent=t.d;$("fbody").textContent=t.b;
   var srt=AXES.slice().sort(function(x,y){return Math.abs(pos[y.k])-Math.abs(pos[x.k]);});
+  var diff=tradDiff(top,pos);
+  $("fsec2").innerHTML=diff;$("fsec2").hidden=!diff;
   $("fwhy").innerHTML='<b>Why here:</b> your readings on '+
     srt.slice(0,2).map(function(a){return (pos[a.k]>=0?a.pos:a.neg).toLowerCase()+' ('+fmt(pos[a.k])+')';}).join(" and ")+
     ' argue along the same lines this figure argued along. It is a resemblance of argument, not of biography, and it is not a claim about how you would have governed — the '+
@@ -2012,35 +2282,39 @@ function renderCivic(){
 }
 
 /* ---------- who you are, and the aggregate ---------- */
+/* This panel used to invite you to "help build Nigeria's political map" and collect a
+   state and an age group for it. There is no map. There is no server, nothing is
+   aggregated, and the two fields were read by nothing — so the one justification for
+   asking a person for anything about themselves on a page about their politics did not
+   exist. The invitation is gone, the collection is gone, and any value a previous
+   version stored is deleted the next time the page loads. What is left is the true
+   thing: your own readings, on your own device, and a button that removes them. */
 function renderWho(){
-  var saved=null;try{saved=JSON.parse(localStorage.getItem("manifesto.who")||"null");}catch(e){}
-  st.who=saved;
-  /* The "your last reading moved N points" line was locked behind the state-and-age
-     form, so a returning player who skipped it was promised a comparison and shown
-     nothing. The reading is theirs either way. */
-  var show=!!saved||history_().length>1;
-  $("whoForm").hidden=!!saved;
-  $("whoOut").hidden=!show;
-  if(show)renderAgg();
+  dropWho();
+  st.who=null;
+  $("whoOut").hidden=!(history_().length>1||played_().length>0);
+  if(!$("whoOut").hidden)renderAgg();
 }
-function saveWho(){
-  var w={s:$("wState").value,a:$("wAge").value};
-  if(!w.s||!w.a)return;
-  st.who=w;try{localStorage.setItem("manifesto.who",JSON.stringify(w));}catch(e){}
-  $("whoForm").hidden=true;$("whoOut").hidden=false;renderAgg();
+function wipeLocal(){
+  try{localStorage.removeItem(LS);localStorage.removeItem(LSP);
+      localStorage.removeItem("manifesto.who");}catch(e){}
+  $("whoOut").hidden=true;
+  toast("Cleared from this device");
 }
 function renderAgg(){
-  var h=history_(),w=st.who||{};
-  var line=h.length>1
-    ? "You have taken this "+h.length+" times. Your last reading moved "+
+  var h=history_(),p=played_(),bits=[];
+  bits.push(h.length>1
+    ? "You have taken the questions "+h.length+" times. Your last reading moved "+
       KEYS.reduce(function(t,k){return t+Math.abs(h[h.length-1].pos[k]-h[h.length-2].pos[k]);},0)+
       " points from the one before."
-    : "This is your first reading. Take it again in a few months and this will show you what moved.";
-  $("aggMine").textContent=line;
-  $("aggWho").textContent=(w.a&&w.s)?(w.a+" · "+w.s):"On this device";
-  $("aggNote").textContent = (w.s
-    ? "Once enough people from "+w.s+" have taken this, your answers will sit against theirs here. "
-    : "")+"Nothing is sent anywhere. This reading lives on this device only.";
+    : (h.length?"This is your first reading. Take it again in a few months and this will show you what moved.":""));
+  if(p.length)bits.push("You have taken office "+p.length+" time"+(p.length===1?"":"s")+".");
+  $("aggMine").textContent=bits.filter(Boolean).join(" ");
+  $("aggWho").textContent="On this device";
+  /* Precise, because the methodology page was not: this browser keeps the last
+     twenty-four of each, and a shared link carries a reading in the part of a URL
+     that is never sent to a server. */
+  $("aggNote").textContent="Kept in this browser only — the last twenty-four readings and the last twenty-four presidencies. There is no account and no server behind this page. A link you choose to share carries your reading inside it.";
 }
 
 /* ---------- traditions ---------- */
@@ -2097,7 +2371,7 @@ function buildCard(face){
   var afterY=yy+(names.length-1)*(size+8)+44;
   x.fillStyle=C.red;x.font='600 24px "IBM Plex Mono", monospace';
   x.fillText(multi?(names.length+" TRADITIONS, TOO CLOSE TO SEPARATE")
-                  :(Math.round(top.share*100)+"% ALIGNMENT"),80,afterY);
+                  :"NEAREST OF THE TEN",80,afterY);
   /* Three tied traditions stack three names, and the block was running straight
      through the plot square. The square starts under whatever the name block
      actually needed, and everything keyed off Y follows it down. */
@@ -2107,7 +2381,7 @@ function buildCard(face){
   x.lineWidth=1;
   for(var i=1;i<4;i++){x.beginPath();x.moveTo(X+S*i/4,Y);x.lineTo(X+S*i/4,Y+S);x.stroke();
     x.beginPath();x.moveTo(X,Y+S*i/4);x.lineTo(X+S,Y+S*i/4);x.stroke();}
-  var ux=X+S/2+(-pos.econ/100)*(S/2),uy=Y+S/2+(-pos.struct/100)*(S/2);
+  var ux=X+S/2+(-pos.econ/100)*(S/2),uy=Y+S/2+(pos.struct/100)*(S/2);
   x.fillStyle=C.red;x.globalAlpha=.25;x.beginPath();x.arc(ux,uy,32,0,6.3);x.fill();x.globalAlpha=1;
   x.beginPath();x.arc(ux,uy,14,0,6.3);x.fill();
   x.fillStyle=C.i3;x.font='500 16px "IBM Plex Mono", monospace';x.textAlign="center";
@@ -2212,9 +2486,9 @@ function buildPresCard(){
   x.beginPath();x.moveTo(80,fy);x.lineTo(W-80,fy);x.stroke();
   if(st.r&&f.tested){
     x.fillStyle=C.i3;x.font='500 18px "IBM Plex Mono", monospace';
-    x.fillText("KEPT MY OWN MANIFESTO",80,fy+40);
+    x.fillText("DECISIONS THAT MATCHED WHAT I SAID",80,fy+40);
     x.fillStyle=C.gold;x.font='800 54px "Bricolage Grotesque", sans-serif';
-    x.fillText(Math.round(f.with_/f.tested*100)+"%",80,fy+98);
+    x.fillText(f.with_+" of "+f.tested,80,fy+98);
   } else {
     x.fillStyle=C.i2;x.font='400 24px "Literata", serif';
     x.fillText("I never said what I believed first.",80,fy+48);
@@ -2320,25 +2594,25 @@ var STATE_CARDS=[
   l:{t:"Pay Abuja in full.",m:{purse:8,gov:-20,street:-8},v:{pro:-4,coh:-9,int:-6,cap:2},ax:{struct:-1}},
   r:{t:"Seventy per cent, everybody.",m:{purse:-4,street:-12,gov:8,barracks:-10},v:{pro:-6,coh:4,int:5,cap:-4},ax:{struct:1},f:"phased_release"}},
 
- {req:"st_gov_plotting",now:true,w:"The Chairman of the Governors' Forum",
+ {req:"st_gov_plotting",now:true,w:"Governor Bassey Ekanem, Chair of the Governors' Forum",
   s:"Twenty-two of us met in Enugu without you and we are not going to pretend otherwise. We want the VAT formula and the state police bill, or we stop remitting and let you explain it.",
   l:{t:"Give them the formula.",m:{gov:22,purse:-16,barracks:-6},v:{pro:3,coh:7,cap:-4,sov:-3,int:4},ax:{struct:1},f:"vat_conceded"},
   r:{t:"Let them try it.",m:{gov:-16,barracks:10,purse:6},v:{pro:-5,coh:-11,sec:-4,int:-2},ax:{struct:-1}}},
 
  {req:"st_street_hostile",now:true,w:"A woman outside the gate, on live television",
   s:"We are not going home. You can send them to move us or you can come out here yourself, but we are not going home.",
-  l:{t:"Go out to the gate.",m:{street:20,barracks:-12,palace:-6},v:{coh:9,int:11,sec:-5,pro:2},ax:{represent:1},f:"went_out"},
-  r:{t:"Send them to move you.",m:{street:-24,barracks:12,purse:6},v:{coh:-12,int:-14,sec:3,pro:-3},ax:{represent:-1},f:"crackdown"}},
+  l:{t:"Go out to the gate.",m:{street:20,barracks:-12,palace:-6},v:{coh:9,int:11,sec:-5,pro:2},ax:{security:1},f:"went_out"},
+  r:{t:"Send them to move you.",m:{street:-24,barracks:12,purse:6},v:{coh:-12,int:-14,sec:3,pro:-3},ax:{security:-1},f:"crackdown"}},
 
- {req:"st_palace_plotting",now:true,w:"The Sultan's representative, unannounced",
+ {req:"st_palace_plotting",now:true,w:"Chief Adewale Ogundipe, unannounced",
   s:"My principal has not been invited to anything for eleven months. He is not asking for an invitation. He is telling you that the next time there is trouble in a place your police do not go, nobody will be calling him on your behalf.",
-  l:{t:"Go to Sokoto yourself.",m:{palace:20,street:-6,gov:4},v:{coh:8,sec:5,int:-4},ax:{social:1},f:"went_to_sokoto"},
-  r:{t:"The state does not court thrones.",m:{palace:-14,street:8,barracks:4},v:{coh:-7,sec:-6,int:7,cap:3},ax:{social:-1}}},
+  l:{t:"Go to Sokoto yourself.",m:{palace:20,street:-6,gov:4},v:{coh:8,sec:5,int:-4},ax:{social:-1},f:"went_to_sokoto"},
+  r:{t:"The state does not court thrones.",m:{palace:-14,street:8,barracks:4},v:{coh:-7,sec:-6,int:7,cap:3},ax:{social:1}}},
 
- {req:"st_barracks_captured",now:true,w:"The Chief of Defence Staff, without knocking",
+ {req:"st_barracks_captured",now:true,w:"General Musa Dangana, without knocking",
   s:"We have prepared the national security bill. It gives us the ports, the pipelines and the power to detain for ninety days. I have brought it for signature rather than debate, which I think we both understand is a courtesy.",
-  l:{t:"Sign it.",m:{barracks:8,street:-18,gov:-10,palace:-6},v:{sec:9,int:-22,coh:-9,sov:4,cap:-5},ax:{method:-1},f:"security_bill"},
-  r:{t:"It goes to the Assembly like anything else.",m:{barracks:-20,street:14,gov:8},v:{sec:-6,int:14,coh:5},ax:{method:1}}},
+  l:{t:"Sign it.",m:{barracks:8,street:-18,gov:-10,palace:-6},v:{sec:9,int:-22,coh:-9,sov:4,cap:-5},ax:{security:-1},f:"security_bill"},
+  r:{t:"It goes to the Assembly like anything else.",m:{barracks:-20,street:14,gov:8},v:{sec:-6,int:14,coh:5},ax:{security:1}}},
 
  {req:"st_purse_captured",now:true,w:"Three men who funded the campaign",
   s:"We are not asking for contracts. We are asking that the new tax law goes out for stakeholder consultation, and that the stakeholders are us. You would not be in that chair without this room.",
@@ -2435,8 +2709,8 @@ var CRISIS_CARDS=[
 
  {req:"st_barracks_abandoned",now:true,w:"The Chief of Defence Staff, who did not salute",
   s:"Two formations did not deploy this week and nobody has been disciplined for it, because I am not certain the order would be obeyed. The allowances are nine months behind. I am telling you this while it is still something I can tell you.",
-  l:{t:"Pay the arrears tonight.",m:{barracks:34,purse:-24,street:-8},v:{sec:8,pro:-6,int:-4,cap:-4},ax:{security:-1},f:"paid_arrears"},
-  r:{t:"Retire the two commanders.",m:{barracks:-6,street:10,palace:6},v:{sec:-9,int:8,coh:-4},ax:{security:1},f:"retired_them"}},
+  l:{t:"Pay the arrears tonight.",m:{barracks:34,purse:-24,street:-8},v:{sec:8,pro:-6,int:-4,cap:-4},f:"paid_arrears"},
+  r:{t:"Retire the two commanders.",m:{barracks:-6,street:10,palace:6},v:{sec:-9,int:8,coh:-4},f:"retired_them"}},
 
  {req:"st_purse_abandoned",now:true,w:"The Central Bank Governor and the Accountant-General together",
   s:"Salaries did not go out. We can print what is owed and take the inflation, or we can sell the assets we swore we would never sell. There is no third page in this file.",
@@ -2490,6 +2764,7 @@ var VKEYS=VALUES.map(function(v){return v.k;});
 /* The state cards below are appended to the deck after it is declared — they only
    ever become eligible when a power has actually changed posture, so a run in which
    nobody is ever pushed to the edge never sees them at all. */
+
 var DECK=[
  {w:"The Finance Minister",s:"Fuel subsidy is a fifth of what we spend. I can end it on Monday, or you can find the money somewhere else.",
   l:{t:"End it Monday.",m:{purse:16,street:-18,gov:4},v:{pro:7,cap:6,int:5,coh:-4,sov:3,sec:-3},ax:{econ:-1},f:"subsidy_gone"},
@@ -2503,15 +2778,15 @@ var DECK=[
   l:{t:"Raise it.",m:{gov:18,barracks:-16,street:6},v:{pro:6,sec:9,cap:5,coh:-7,int:-5},ax:{struct:1},f:"state_police"},
   r:{t:"The centre keeps the guns.",m:{barracks:14,gov:-18},v:{pro:-5,sec:-7,cap:-3,coh:4,int:3},ax:{struct:-1}}},
 
- {w:"A council of traditional rulers",s:"We want our role written into the constitution. We deliver peace in places your government has never reached.",
+ {w:"Chief Adewale Ogundipe, for the Council of Rulers",s:"We want our role written into the constitution. We deliver peace in places your government has never reached.",
   l:{t:"Write them in.",m:{palace:20,street:-8,gov:6},v:{pro:-6,sec:6,coh:6,cap:-4,int:-9},ax:{social:-1}},
   r:{t:"Advice, not authority.",m:{palace:-18,street:8},v:{pro:5,sec:-4,coh:-4,cap:4,int:8},ax:{social:1}}},
 
  {w:"A licensed trader",s:"The allocation is routine. It has been done this way under every administration, including the ones people remember fondly.",
-  l:{t:"Sign it.",m:{purse:14,palace:6},v:{pro:-14,int:-17,cap:-6,coh:-3},ax:{represent:-1},f:"dirty"},
-  r:{t:"Send it to open tender.",m:{purse:-10,street:8},v:{pro:9,int:15,cap:7,coh:2},ax:{represent:1}}},
+  l:{t:"Sign it.",m:{purse:14,palace:6},v:{pro:-14,int:-17,cap:-6,coh:-3},f:"dirty"},
+  r:{t:"Send it to open tender.",m:{purse:-10,street:8},v:{pro:9,int:15,cap:7,coh:2}}},
 
- {w:"The President of the Labour Congress",s:"The new wage or the country stops on Monday. We have done it before and you know we can do it again.",
+ {w:"Hauwa Tijjani, General Secretary of the Congress",s:"The new wage or the country stops on Monday. We have done it before and you know we can do it again.",
   l:{t:"Meet the wage.",m:{street:20,purse:-18},v:{pro:4,coh:8,sec:3,cap:-5,int:2},ax:{econ:1}},
   r:{t:"No work, no pay.",m:{barracks:8,street:-20,purse:12},v:{pro:-5,coh:-9,sec:-4,cap:3,int:-2},ax:{econ:-1}}},
 
@@ -2521,15 +2796,15 @@ var DECK=[
 
  {w:"Your Party Chairman",s:"The Minister is from home. The file against him is thick. If you move on him, we lose the state in four years.",
   l:{t:"Suspend him.",m:{street:18,palace:-14,gov:-6},v:{pro:8,int:16,cap:4,coh:-5},ax:{represent:1}},
-  r:{t:"The file can wait.",m:{palace:14,street:-18},v:{pro:-11,int:-16,cap:-4,coh:3},ax:{represent:-1},f:"dirty"}},
+  r:{t:"The file can wait.",m:{palace:14,street:-18},v:{pro:-11,int:-16,cap:-4,coh:3},f:"dirty"}},
 
  {w:"The ASUU President",s:"Nine months out and the universities are shut again. Fund the agreement your predecessors signed, or explain to a generation why not.",
   l:{t:"Fund it.",m:{street:16,purse:-18},v:{pro:14,cap:17,coh:5,int:3,sec:5},ax:{econ:1}},
   r:{t:"Renegotiate downward.",m:{purse:12,street:-16},v:{pro:-12,cap:-15,coh:-5,int:-3,sec:-5},ax:{econ:-1}}},
 
- {w:"The Chief of Army Staff",s:"ECOWAS wants Nigerian troops after the coup next door. If we do not go, the bloc is finished as an idea.",
-  l:{t:"Send them.",m:{barracks:16,purse:-14,street:-6},v:{pro:-3,sec:4,sov:13,cap:-4,coh:-3},ax:{horizon:1}},
-  r:{t:"Sanctions, not soldiers.",m:{barracks:-14,purse:8},v:{pro:2,sec:-2,sov:-9,cap:2},ax:{horizon:-1}}},
+ {w:"General Musa Dangana, Chief of Defence Staff",s:"ECOWAS wants Nigerian troops after the coup next door. If we do not go, the bloc is finished as an idea.",
+  l:{t:"Send them.",m:{barracks:16,purse:-14,street:-6},v:{pro:-3,sec:4,sov:13,cap:-4,coh:-3}},
+  r:{t:"Sanctions, not soldiers.",m:{barracks:-14,purse:8},v:{pro:2,sec:-2,sov:-9,cap:2}}},
 
  {w:"The Chief Justice",s:"The court has ruled against your administration. My registrar tells me the ministry is drafting reasons to delay compliance.",
   l:{t:"Comply this week.",m:{street:16,barracks:-8,gov:6},v:{pro:15,int:19,cap:9,coh:4,sec:5},ax:{security:1}},
@@ -2545,19 +2820,19 @@ var DECK=[
 
  {w:"A foreign lender",s:"Twelve billion, fifteen years, our contractors. The rail will be built and it will be built quickly.",
   l:{t:"Take the money.",m:{purse:16,gov:6},v:{pro:9,cap:11,sov:-15,int:-4,sec:3},ax:{horizon:1},f:"debt"},
-  r:{t:"We will build it slower.",m:{purse:-10},v:{pro:-3,cap:-4,sov:11,int:3,sec:-2},ax:{horizon:-1}}},
+  r:{t:"We will build it slower.",m:{purse:-10},v:{pro:-3,cap:-4,sov:11,int:3,sec:-2}}},
 
  {w:"The Accountant-General",req:"debt",s:"Debt service is now larger than revenue. The loans you took are being repaid with loans.",
   l:{t:"Borrow to cover it.",m:{purse:10,street:4},v:{pro:-15,sov:-13,cap:-4,int:-5,coh:3},ax:{econ:1}},
   r:{t:"Austerity budget.",m:{purse:-6,street:-16,gov:-10},v:{pro:6,sov:9,int:5,cap:-6,coh:-9},ax:{econ:-1}}},
 
- {w:"The Governors' Forum",s:"VAT is collected in our states and spent from Abuja. We are going to court, unless you would rather talk.",
+ {w:"Governor Bassey Ekanem, for the Governors' Forum",s:"VAT is collected in our states and spent from Abuja. We are going to court, unless you would rather talk.",
   l:{t:"Concede collection.",m:{gov:20,purse:-16},v:{pro:5,coh:4,int:4,cap:-7},ax:{struct:1}},
   r:{t:"See you in court.",m:{gov:-18,purse:12},v:{pro:-4,coh:-7,int:2,cap:6},ax:{struct:-1}}},
 
  {w:"The Chairman of the anti-graft commission",s:"We have enough on a sitting Governor's closest man. He delivered three states for the party.",
   l:{t:"Charge him.",m:{street:18,gov:-18},v:{pro:11,int:19,cap:5,coh:-5},ax:{represent:1}},
-  r:{t:"Not this year.",m:{gov:14,street:-16},v:{pro:-12,int:-17,cap:-4,coh:3},ax:{represent:-1},f:"dirty"}},
+  r:{t:"Not this year.",m:{gov:14,street:-16},v:{pro:-12,int:-17,cap:-4,coh:3},f:"dirty"}},
 
  {w:"The Minister of Communications",req:"crackdown",s:"They are organising on the apps. We can take the networks down in an hour, the way other governments do.",
   l:{t:"Shut it down.",m:{barracks:14,street:-28},v:{pro:-14,int:-17,sec:3,coh:-8,cap:-5},ax:{security:-1}},
@@ -2569,7 +2844,7 @@ var DECK=[
 
  {w:"The Attorney-General",s:"Local government funds pass through the states and mostly stop there. The constitution says otherwise. You can enforce it.",
   l:{t:"Enforce autonomy.",m:{gov:-20,street:16},v:{pro:14,cap:13,int:13,coh:-5,sec:6},ax:{method:1}},
-  r:{t:"Do not start that fight.",m:{gov:16,street:-8},v:{pro:-9,cap:-10,int:-11,coh:4,sec:-6},ax:{method:-1}}},
+  r:{t:"Do not start that fight.",m:{gov:16,street:-8},v:{pro:-9,cap:-10,int:-11,coh:4,sec:-6}}},
 
  {w:"The Sponsor of the Seats Bill",s:"Reserved seats for women. It failed in 2022. It fails again next week without you standing up in public.",
   l:{t:"Stand up for it.",m:{street:14,palace:-18},v:{pro:9,coh:11,int:10,cap:4},ax:{method:1}},
@@ -2583,7 +2858,7 @@ var DECK=[
   l:{t:"Send in the military.",m:{barracks:16,street:-14,purse:-8},v:{pro:-10,sec:3,coh:-11,int:-6},ax:{security:-1}},
   r:{t:"Reopen negotiations.",m:{street:10,barracks:-10,purse:-10},v:{pro:3,sec:6,coh:8,int:-4},ax:{security:1}}},
 
- {w:"The Minister of Trade",s:"AfCFTA means opening properly. Our manufacturers will lose the first three years and gain the next twenty.",
+ {w:"Mrs Amaka Nwachukwu, Chair of the Chamber",s:"AfCFTA means opening properly. Our manufacturers will lose the first three years and gain the next twenty.",
   l:{t:"Open the borders.",m:{purse:-8,street:-8,gov:6},v:{pro:15,cap:6,sov:-9,coh:-3},ax:{horizon:1}},
   r:{t:"Protect them.",m:{purse:10,street:10},v:{pro:-11,cap:-5,sov:10,coh:3},ax:{horizon:-1}}},
 
@@ -2593,15 +2868,15 @@ var DECK=[
 
  {w:"The INEC Chairman",s:"The election budget has been cut by a third. I can run a cheaper election. I cannot run a cheaper credible one.",
   l:{t:"Fund it fully.",m:{street:16,purse:-14},v:{pro:10,int:19,coh:6,cap:5,sec:6},ax:{represent:1}},
-  r:{t:"Run the cheap one.",m:{purse:12,street:-20},v:{pro:-14,int:-19,coh:-8,cap:-4,sec:-8},ax:{represent:-1},f:"dirty"}},
+  r:{t:"Run the cheap one.",m:{purse:12,street:-20},v:{pro:-14,int:-19,coh:-8,cap:-4,sec:-8},f:"dirty"}},
 
  {w:"A General",s:"The procurement is classified. That is the nature of defence procurement. You are asking questions your predecessors did not.",
   l:{t:"Open the books.",m:{barracks:-18,street:14},v:{pro:11,int:17,cap:6,sec:-4},ax:{represent:1}},
-  r:{t:"Sign it blind.",m:{barracks:16,purse:-12},v:{pro:-13,int:-17,cap:-5,sec:5},ax:{represent:-1},f:"dirty"}},
+  r:{t:"Sign it blind.",m:{barracks:16,purse:-12},v:{pro:-13,int:-17,cap:-5,sec:5},f:"dirty"}},
 
  {w:"The Diaspora Commission",s:"Twenty billion dollars a year comes home from them and they cannot vote. They have noticed.",
   l:{t:"Give them the vote.",m:{street:12,purse:-6},v:{pro:7,coh:9,int:9,sov:4,cap:-3},ax:{horizon:1}},
-  r:{t:"Not this cycle.",m:{palace:8,street:-10},v:{pro:-4,coh:-6,int:-6,sov:-2},ax:{horizon:-1}}},
+  r:{t:"Not this cycle.",m:{palace:8,street:-10},v:{pro:-4,coh:-6,int:-6,sov:-2}}},
 
  {w:"An oil major",s:"We are divesting onshore. Either you approve the sale to a local buyer, or we simply stop spending and let the fields decline.",
   l:{t:"Approve the sale.",m:{purse:12,gov:-6},v:{pro:-5,sov:7,cap:-3,int:-5},ax:{econ:-1}},
@@ -2612,7 +2887,7 @@ var DECK=[
   r:{t:"Not affordable now.",m:{purse:14},v:{pro:-15,cap:-19,coh:-6,sec:-5},ax:{econ:-1}}},
 
  {w:"The IMF mission chief",s:"The programme comes with conditions. You know what the conditions are. Everyone in this building knows what they are.",
-  l:{t:"Accept the programme.",m:{purse:18,street:-18},v:{pro:6,sov:-17,cap:5,int:4,coh:-5,sec:-5},ax:{horizon:1}},
+  l:{t:"Accept the programme.",m:{purse:18,street:-18},v:{pro:6,sov:-17,cap:5,int:4,coh:-5,sec:-5},ax:{econ:-1}},
   r:{t:"We will manage alone.",m:{street:14,purse:-16},v:{pro:-6,sov:15,cap:-4,coh:4,sec:2},ax:{horizon:-1}}},
 
  {w:"Your Chief of Staff",req:"dirty",s:"A reporter has most of it. Not all of it, but most of it. We can make the story difficult for her.",
@@ -2712,6 +2987,306 @@ var SHIFTWORD={
    sliding:"The coalition is loosening. It always starts with one or two and it is never only one or two.",
    loyal:"The states are with you, which means anything you decide can actually reach a village."}
 };
+
+
+
+/* ---------- section 143 ----------
+   A tester played this and said "they want to impeach me". They could not. Nothing in
+   the game could remove you except a bloc you had starved, and the one institution
+   that can actually remove a Nigerian president — the National Assembly — existed here
+   only as somebody who occasionally walked through the door to complain.
+
+   Impeachment is not an event, which is why it belongs in this game rather than in a
+   card. Section 143 is five stages with clocks: a notice signed by a third of the
+   Assembly with detailed particulars; a motion in each chamber, without debate, needing
+   two-thirds of ALL members, so that an absent member is a vote for you; a panel of
+   seven private citizens appointed by the Chief Justice, but only if the Senate
+   President asks him; a finding; and an adoption, again two-thirds of all members of
+   each chamber, on which you stand removed that day. It runs alongside the rest of your
+   presidency and you keep governing through it, which is the whole point.
+
+   Two facts shape the difficulty. Gross misconduct is defined in s.143(11) as whatever
+   the National Assembly says it is, so the trigger here is political and not criminal —
+   you do not need to have done anything chargeable. And no Nigerian president has ever
+   been removed this way, so surviving is the expected outcome and removal is the shock.
+   The panel is where these die in practice: Rivers in January 2026 ended when the Chief
+   Judge declined to constitute one. */
+var IMP_GAP=2;
+/* The Assembly is not a sixth bar. Its arithmetic is the three powers that actually
+   deliver federal legislators: governors carry their state delegations, the party and
+   the pulpit carry the benches, and the funders carry the rest. */
+/* Measured over twenty-six runs, no presidency was ever removed: two-thirds needs the
+   three powers near 33 at once, and with the Governors weighted at .45 the only way
+   there was a Governors bar on the floor — which burns the federation fuse and ends the
+   run six decisions earlier. Removal was unreachable content. Flattening the weights
+   lets the Assembly reach two-thirds with all three powers merely low, which is both
+   the realistic picture and the one that leaves the run alive to finish the process. */
+function navFor(){
+  var base=G.m.gov*0.40+G.m.palace*0.32+G.m.purse*0.28;
+  /* A member who can point at a specific act can defend the vote at home. Your own
+     record is worth votes against you. */
+  return Math.max(0,base-particCount()*2.5);
+}
+function navAgainst(){ return Math.round(100-navFor()); }
+/* ---------- section 9(2) ----------
+   A third term is a constitutional alteration, and the hardest arithmetic in the
+   document: two-thirds of all the members of each chamber, AND a resolution of
+   twenty-four of the thirty-six State Houses of Assembly. Both legs, independently.
+   The game used to settle this with the mean of the Palace, the Barracks and the
+   Governors against 58, which was a second and softer model of the same institution
+   sitting beside the impeachment one, and which gave a vote on a constitutional
+   amendment to the army. Soldiers do not ratify amendments. Governors effectively do,
+   which is why they carry the state leg outright and still weigh in the federal one. */
+function amendLegs(){
+  var p=particCount()*2.5;
+  var chambers=Math.max(0,(G.m.gov*0.34+G.m.palace*0.34+G.m.purse*0.32)-p);
+  var states=Math.max(0,G.m.gov-p);
+  return {c:Math.round(chambers),s:Math.round(states),ok:(chambers>=67&&states>=67)};
+}
+/* Detailed particulars are mandatory under s.143(2)(b). They are read off what you
+   actually did, so the notice is your own record handed back to you. */
+var PARTIC=[
+ ["crackdown","ordering armed men against Nigerians exercising a right of assembly"],
+ ["dirty","the award of public contracts outside the Procurement Act"],
+ ["security_bill","assenting to detention without charge for ninety days"],
+ ["subsidy_gone","the removal of the subsidy without a measure to carry the poorest"],
+ ["state_police","arming a force the Constitution does not permit to exist"],
+ ["purge","the detention of serving officers without charge"],
+ ["went_to_sokoto","the conduct of the office through a throne rather than a ministry"]
+];
+function particCount(){
+  var n=0;PARTIC.forEach(function(p){if(G.flags[p[0]])n++;});
+  if(G.flags.dirty)n++;
+  return n;
+}
+function particulars(){
+  var out=[];
+  PARTIC.forEach(function(p){ if(G.flags[p[0]])out.push(p[1]); });
+  if(!out.length)out.push("a pattern of conduct in the performance of the functions of your office");
+  return out.slice(0,3);
+}
+function impStart(){
+  G.imp={st:"notice",at:G.day,deal:false,leaned:false,defended:false};
+  G.impTried=(G.impTried||0)+1;
+}
+function impDue(){ return G.imp && (G.day-G.imp.at)>=IMP_GAP; }
+function impCheck(){
+  if(G.imp||G.day<7||(G.impTried||0)>=2)return false;
+  /* The full process is four beats and eight decisions. Starting one the run has no
+     room to finish leaves it hanging at the ballot, which reads as a bug. */
+  if(G.limit-G.day<9)return false;
+  if(G.impCool!==undefined&&G.day-G.impCool<6)return false;
+  return navAgainst()>=58;
+}
+/* Every impeachment beat is dealt the way a shock is: outside the deck, one card, and
+   it consumes a decision. */
+function impCard(who,says,lt,rt){
+  G.cur=-2;
+  $("gCard").className="card imp";
+  $("gL").parentNode.classList.remove("one");
+  $("gWho").textContent=who;
+  $("gSays").textContent="\u201c"+says+"\u201d";
+  $("gL").querySelector(".txt").textContent=lt;
+  $("gR").querySelector(".txt").textContent=rt;
+  $("gFlagBox").hidden=true;
+  $("gCard").classList.remove("tilt-l","tilt-r");
+  G.busy=false;
+}
+function impFlag(t,p){
+  $("gFlagTitle").textContent=t;$("gFlag").textContent=p;$("gFlagBox").hidden=false;
+}
+function impDeal(){
+  var i=G.imp;
+  if(!i)return;
+  i.spent=false;
+  if(i.st==="notice"){
+    var ps=particulars();
+    impCard("The President of the Senate",
+      "A notice under section 143, signed by a third of the National Assembly. The particulars are "+
+      ps.join(", ")+". I am obliged to serve it on you and on every member. You may reply in writing.",
+      "Reply in writing.","Say nothing.");
+    return;
+  }
+  if(i.st==="broker"){
+    impCard(FACE.gov.n+", "+FACE.gov.t,
+      "They have the signatures. What they do not have yet is two-thirds of all the members of both chambers, and three of us can hold our delegations where they are. We would want something for that.",
+      "Make the deal.","Take your chances.");
+    return;
+  }
+  if(i.st==="panel"){
+    impCard("Your Chief of Staff, with the door closed",
+      "The motion carried. The Chief Justice appoints seven people within seven days \u2014 but only when the Senate President asks him to, and the Senate President can be persuaded that this is not the week. It worked in Rivers in January.",
+      "Let it be constituted.","Lean on them.");
+    return;
+  }
+  if(i.st==="defence"){
+    impCard("The panel, seven people you have never met",
+      "Section 143(6) gives you the right to appear in person and to be represented by counsel of your own choosing. We sit for three months. Whether you come is a matter for you.",
+      "Go and defend yourself.","Send the lawyers.");
+    return;
+  }
+}
+/* Each answer resolves the stage and schedules the next. Nothing here is random: the
+   votes are the arithmetic of the three powers, taken at the moment of the vote. */
+function impPlay(side){
+  var i=G.imp,L=(side==="l");
+  /* A second press inside the pause after a stage resolves used to arrive here with
+     nothing left to resolve. The stage is spent the moment it is answered. */
+  if(!i||i.spent){G.busy=false;return;}
+  i.spent=true;
+  G.day++;G.year=Math.floor((G.day-1)/PER_YEAR);
+  var deltas={};
+  function move(k,d){var b=G.m[k];G.m[k]=Math.max(0,Math.min(100,b+d));deltas[k]=(deltas[k]||0)+(G.m[k]-b);}
+  if(i.st==="notice"){
+    if(L){ applyV({int:3},1); move("street",4); }
+    else { move("palace",-4); }
+    i.st="broker";i.at=G.day;
+    impFlag(L?"Your reply was served on every member.":"You said nothing.",
+      L?"Section 143(3) is clear that the chambers vote within fourteen days whether or not you answer. It has never stopped a member reading it.":
+        "The section does not require an answer. The members noticed that you did not give one.");
+  }
+  else if(i.st==="broker"){
+    if(L){ i.deal=true; move("gov",16); move("purse",-8); applyV({int:-13,cap:-4},1); }
+    var ag=navAgainst();
+    var carried=(ag>=67);
+    i.st=carried?"panel":"over";i.at=G.day;i.motion=ag;
+    impFlag(carried?"The motion carried in both chambers.":"The motion failed.",
+      carried
+        ? "Two-thirds of all the members of each House, without debate, as section 143(4) requires. Roughly "+ag+" in every hundred were against you and only sixty-seven were needed."
+        : "About "+ag+" in every hundred were against you. Section 143(4) needs two-thirds of all the members of each chamber, not of those who turned up, and they could not find it."+(L?" The three delegations held.":""));
+    if(!carried)impEnd(false,"motion");
+  }
+  else if(i.st==="panel"){
+    if(L){ i.st="defence";i.at=G.day;
+      impFlag("The Chief Justice has appointed seven.",
+        "Persons of unquestionable integrity, none of them a public servant, a legislator or a member of any party. They have three months.");
+    } else {
+      i.leaned=true; move("street",-10); move("palace",6);
+      applyV({int:-22,cap:-6},1);
+      G.flags.leaned_cjn=true;
+      impFlag("No panel was constituted.",
+        "The Senate President never made the request, so the Chief Justice never appointed anybody, and the thing stopped where these things usually stop. Nobody outside this building believes it was a coincidence.");
+      impEnd(false,"panel");
+    }
+  }
+  else if(i.st==="defence"){
+    if(L){ i.defended=true; move("street",6); applyV({int:4},1); }
+    else { move("purse",4); }
+    /* The panel is not a vote. It is seven people reading the particulars against the
+       record of the government, which is the integrity of the state you have run. */
+    var proved=(G.v.int+(i.defended?7:0)+(i.deal?-4:0))<40;
+    if(!proved){ impFlag("The panel found the allegation not proved.",
+        "Under section 143(8) no further proceedings may be taken on this matter. It is finished, and it is finished for good.");
+      impEnd(false,"finding"); }
+    else {
+      var ag2=navAgainst();
+      if(ag2>=67){
+        impFlag("The report was adopted.","Two-thirds of all the members of each chamber. Under section 143(9) you stand removed from office as from today.");
+        G.impRemoved=true;
+      } else {
+        impFlag("The panel found against you. The chambers did not adopt it.",
+          "About "+ag2+" in every hundred, and adoption needs two-thirds of all the members of each House all over again. You keep the office and you keep the finding.");
+        impEnd(false,"adoption");
+      }
+    }
+  }
+  BLOCS.forEach(function(b){
+    G.hist[b.k].push(deltas[b.k]||0);
+    if(G.hist[b.k].length>6)G.hist[b.k].shift();
+    G.cold[b.k]++;
+  });
+  var shift=updateStates();
+  SFX.decide();
+  renderMeters(deltas);
+  if(!(G.crisisN>=3&&G.prevN<3))announceShift(shift);
+  updateClock();
+  if(G.impRemoved){setTimeout(function(){endGame(null,"impeached");},1400);return;}
+  if(G.burnt){setTimeout(function(){endGame(null,"fuse");},1200);return;}
+  if(G.crisisN>=3&&G.prevN>=3){setTimeout(function(){endGame(null,"collapse");},1200);return;}
+  if(G.crisisN>=3&&G.prevN<3)brink();
+  if(G.day>=G.limit){setTimeout(function(){endGame(null,"legacy");},1000);return;}
+  if(G.day%PER_TERM===0){setTimeout(election,1000);return;}
+  setTimeout(nextCard,2400);
+}
+function impEnd(removed,where){
+  G.imp=null;G.impCool=G.day;
+  if(!removed){G.impSurvived=(G.impSurvived||0)+1;G.impWhere=where;}
+}
+/* One line in the ending, because surviving this is the thing a player will want to
+   say out loud. */
+function impLine(){
+  if(G.impRemoved)return "";
+  if(!G.impSurvived)return "";
+  var w={motion:"the chambers could not find two-thirds",
+         panel:"no panel was ever constituted",
+         finding:"the panel found the allegation not proved",
+         adoption:"the chambers would not adopt the report"}[G.impWhere]||"it failed";
+  return " You were served with a notice under section 143 and you are still here: "+w+
+    (G.flags.leaned_cjn?", which is not quite the same as being cleared.":".");
+}
+
+/* ---------- the five, as people ----------
+   A tester played this and came back saying "these people are badly behaved", "they
+   want to impeach me", "why are they so bad". She was talking about five bars. She had
+   already done the work of turning them into people, so the game should stop making
+   her do it. Each power now has one person who speaks for it, and the posture machine
+   decides what they say: the same ten states, in a voice.
+   They are composites and they are fictional. None of them is a living officeholder,
+   the five are spread across the country rather than concentrated anywhere, and none
+   of them is the villain — the Barracks that keeps you alive in year two is the
+   Barracks that comes at four in year six. */
+var FACE={
+ street:{n:"Hauwa Tijjani",t:"General Secretary of the Congress"},
+ palace:{n:"Chief Adewale Ogundipe",t:"Secretary to the Council of Rulers"},
+ barracks:{n:"General Musa Dangana",t:"Chief of Defence Staff"},
+ purse:{n:"Mrs Amaka Nwachukwu",t:"Chair of the Chamber"},
+ gov:{n:"Governor Bassey Ekanem",t:"Chair of the Governors' Forum"}
+};
+/* [line, how it reached you]. Where the second element is present the words were not
+   said to your face, which is most of the information in them. */
+var VOICE={
+ street:{
+  owned:["Every hard thing now waits for me to say my members can live with it. That is not a presidency. That is a poll with a flag on it."],
+  abandoned:["There is nothing left to discuss. From Monday nothing moves \u2014 not the ports, not the pumps, not the schools.","to the cameras"],
+  captured:["You have not upset us once. Sir, in four years, not once. Ask yourself what that says about what you have done."],
+  plotting:["We have stopped issuing statements. Statements are for people who still expect an answer.","in a room you were not in"],
+  hostile:["They are on the road in Lagos, in Ibadan, in Kano. Not the kind with a permit.","to the cameras"],
+  sliding:["Whatever you did last week, my members felt it before your ministers did."],
+  loyal:["I can carry one hard decision to my people and make it stick. One. Choose it carefully."]},
+ palace:{
+  owned:["Nothing reaches this country now until a throne or a pulpit has agreed to it. Your Excellency might ask whether that is the government you ran for."],
+  abandoned:["The Council has withdrawn. On Friday and on Sunday your name will not be spoken kindly, and that reaches further than any ministry you hold.","conveyed in writing"],
+  captured:["You are very well blessed, sir. You are also asking permission for everything, and permission is a thing that can be refused."],
+  plotting:["The Council has nothing to say about the President at this time.","the only statement issued"],
+  hostile:["The emirs will not sit with you and the bishops will not stand with you. You may take that as our position."],
+  sliding:["You stopped consulting. That is the only thing we have ever actually asked of you."],
+  loyal:["They are speaking for you on Fridays and on Sundays. No ministry you control has that reach."]},
+ barracks:{
+  owned:["With respect, sir, we decide and you announce. There has been no coup because nobody has seen the need for one."],
+  abandoned:["I no longer control what happens next. I am telling you that as a courtesy."],
+  captured:["You keep us very close, sir. Close enough that people have begun asking which of us is governing."],
+  plotting:["Your own security people are bringing you the rumours now. I would listen to them.","reported to you by someone else"],
+  hostile:["Officers are talking openly in the mess. You know what hour they come.","reported to you by someone else"],
+  sliding:["Something you did landed badly with the officers. Nobody has said anything, which is the part I would worry about."],
+  loyal:["They are yours. That buys you one decision nobody else in this building could survive taking."]},
+ purse:{
+  owned:["We funded you and now we write what your ministers read out. You may call it a partnership if that helps."],
+  abandoned:["There is no money, Your Excellency. Salaries stop first, and in this country everything else follows inside a month."],
+  captured:["Our members are delighted with you. I would ask yourself why."],
+  plotting:["The money is already leaving. Not loudly \u2014 invoices, Dubai, accounts you will never be shown.","to her own board"],
+  hostile:["Nobody is lending to this government at a price you would agree to."],
+  sliding:["Confidence is going. Borrowing costs move before anybody announces anything."],
+  loyal:["You can pay for what you decide. Almost no president of this country has been able to say that."]},
+ gov:{
+  owned:["Abuja decides nothing now. The thirty-six decide, and we invite you to the photograph."],
+  abandoned:["Some of my colleagues have started saying referendum in public. I have stopped correcting them.","relayed by a third party"],
+  captured:["You have given us everything we asked for. We have stopped asking for the things that are hard."],
+  plotting:["We no longer come to Abuja to consult. We meet, and then we tell you.","from a meeting you were not at"],
+  hostile:["The states are not remitting and they are not attending. What you have in Abuja is a capital city."],
+  sliding:["It begins with one or two of us, sir. It is never only one or two."],
+  loyal:["The states are with you, which is the only reason anything you decide can reach a village."]}
+};
+
 /* ---------- which abandonments are terminal ----------
    The test is whether the state stops performing its function, not whether a
    constituency is unhappy. Officers who will not take orders is how every Nigerian
@@ -2724,11 +3299,20 @@ var SHIFTWORD={
    end your government — which is the point at which the five powers finally stop
    being five identical bars. */
 var FUSE={barracks:3,purse:4,gov:6};
+/* The clock in this sentence is read off fuseLeft rather than written into the prose,
+   because the two disagreed: the meter counted the turn you are standing in and the
+   warning did not. Whatever the meter says is now what the warning says. */
 var FUSE_WARN={
- barracks:"Officers have stopped taking orders. Every coup this country has had began exactly here. You have three decisions to give them a reason to stay.",
- purse:"Salaries have stopped. A federal government that cannot pay the army, the police and the civil service is not one for long. You have four decisions.",
- gov:"They have stopped remitting and they have started saying referendum out loud. A federation comes apart slowly, but it comes apart. You have six decisions."
+ barracks:"Every coup this country has had began exactly here.",
+ purse:"A government that cannot pay the army, the police and the civil service is not one for long.",
+ gov:"A federation comes apart slowly, but it comes apart."
 };
+var NUMWORD=["no","one","two","three","four","five","six","seven","eight"];
+function fuseClock(k){
+  var n=fuseLeft(k);
+  if(n===null)return "";
+  return FUSE_WARN[k]+" You have "+(NUMWORD[n]||n)+" decision"+(n===1?"":"s")+".";
+}
 function fuseLeft(k){
   if(G.fuseAt[k]===undefined)return null;
   return Math.max(0,FUSE[k]-(G.day-G.fuseAt[k]));
@@ -2770,6 +3354,11 @@ function trendOf(k){
   for(var i=Math.max(0,h.length-3);i<h.length;i++)t+=h[i];
   return t;
 }
+/* There used to be a second line under the banner explaining why the posture had
+   turned — "that is the third decision running that has cost them", "six decisions
+   without one that touched them". It was the game reading its own counters back to
+   the player, in a voice nobody in the room would use. The person speaking already
+   says why, in their own words, which is the only version worth having. */
 function stateOf(k){
   var v=G.m[k],tr=trendOf(k),cold=G.cold[k]||0;
   /* The two ends of the bar used to end the game. They are now the two worst places a
@@ -2800,7 +3389,10 @@ function updateStates(){
   var loudest=null;
   G.lifted=null;
   edgeCheck();
-  if(G.lifted)return {b:G.lifted.b,s:"lifted"};
+  /* This used to return the "back from the edge" notice before the loop below had
+     recomputed the postures, so the banner announced a recovery over a meter still
+     reading Mutiny. The postures are brought up to date first now, whatever is
+     announced afterwards. */
   BLOCS.forEach(function(b){
     var ns=stateOf(b.k),os=G.stNow[b.k];
     G.stT[b.k][ns]=(G.stT[b.k][ns]||0)+1;
@@ -2813,6 +3405,7 @@ function updateStates(){
       if(ns==="sliding")G.flags["st_"+b.k+"_sliding"]=true;
     } else G.turned[b.k]=false;
   });
+  if(G.lifted)return {b:G.lifted.b,s:"lifted"};
   if(loudest){
     if(G.lastShift!==undefined&&G.day-G.lastShift<SHIFT_GAP)return null;
     G.lastShift=G.day;
@@ -2836,7 +3429,8 @@ function brink(){
   var box=$("gShift"),live=[];
   for(var k in G.crisis)live.push(blocOf(k).n);
   $("gShiftT").textContent="Three at once — "+live.join(", ");
-  $("gShiftP").textContent="No Nigerian government has run three emergencies of this size and stayed a government. You have one decision.";
+  $("gShiftP").textContent="A government fighting three of these at once cannot do anything else, and yours has stopped trying. One more decision before there is nothing left to decide with.";
+  $("gShiftA").hidden=true;$("gShiftC").hidden=true;$("gShiftW").hidden=true;
   box.classList.remove("good");
   clearTimeout(shiftT);
   box.hidden=false;void box.offsetWidth;box.classList.add("on");
@@ -2847,10 +3441,18 @@ function brink(){
 function announceShift(sh){
   var box=$("gShift");
   if(!sh)return;
-  var lift=(sh.s==="lifted");
-  var fused=(sh.s==="abandoned"&&FUSE[sh.b.k]!==undefined);
-  $("gShiftT").textContent=sh.b.n+" — "+(lift?"Back from the edge":POSTURE[sh.b.k][sh.s]);
-  $("gShiftP").textContent=lift?LIFTED[sh.b.k]:(fused?FUSE_WARN[sh.b.k]:SHIFTWORD[sh.b.k][sh.s]);
+  var k=sh.b.k, lift=(sh.s==="lifted");
+  var fused=(sh.s==="abandoned"&&FUSE[k]!==undefined);
+  /* The power speaks for itself wherever it has words for the state it has just
+     entered; the older narration stays as the floor so no posture can fall silent. */
+  var v=lift?null:(VOICE[k]&&VOICE[k][sh.s]);
+  $("gShiftT").textContent=sh.b.n+" — "+(lift?"Back from the edge":POSTURE[k][sh.s]);
+  $("gShiftP").textContent=v?("\u201c"+v[0]+"\u201d"):(lift?LIFTED[k]:SHIFTWORD[k][sh.s]);
+  $("gShiftA").textContent=v?(FACE[k].n+" · "+FACE[k].t+(v[1]?", "+v[1]:"")):"";
+  $("gShiftA").hidden=!v;
+  $("gShiftW").hidden=true;
+  $("gShiftC").textContent=fused?fuseClock(k):"";
+  $("gShiftC").hidden=!fused;
   box.classList.toggle("good",sh.s==="loyal"||lift);
   clearTimeout(shiftT);
   box.hidden=false;void box.offsetWidth;box.classList.add("on");
@@ -2876,7 +3478,7 @@ function renderGate(){
   $("gateBlocs").innerHTML=BLOCS.map(function(b){
     return '<div><h4 style="color:'+b.c+'">'+b.n+'</h4><p>'+b.d+'</p></div>';}).join("");
   $("gLinkNote").innerHTML = st.r
-    ? "Your answers are loaded. We will tell you when you contradict them."
+    ? "Your quiz answers are loaded. You will see where your decisions follow them, and where the circumstances raise a question the questions did not."
     : 'You can play now. <a href="#" data-go="start">Answer the twenty-one questions</a> first and the game will hold you to your own words.';
 }
 
@@ -2961,7 +3563,9 @@ function dealShock(sk){
   $("gL").querySelector(".txt").textContent="Continue.";
   $("gR").querySelector(".txt").textContent="Continue.";
   $("gFlagBox").hidden=true;
+  G.busy=false;
   $("gL").onclick=$("gR").onclick=function(){
+    if(G.busy)return; G.busy=true;
     $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
     $("gL").parentNode.classList.remove("one");
     if(G.burnt){endGame(null,"fuse");return;}
@@ -2972,8 +3576,12 @@ function dealShock(sk){
   };
 }
 function nextCard(){
+  if(G.impRemoved){endGame(null,"impeached");return;}
   $("gCard").className="card";
   $("gL").parentNode.classList.remove("one");
+  /* An impeachment in progress outranks everything except the run ending. */
+  if(G.imp){ if(impDue()){impDeal();return;} }
+  else if(impCheck()){ impStart(); impDeal(); return; }
   var sk=pickShock();
   if(sk){dealShock(sk);return;}
   if(G.day>=26&&!G.third&&G.limit===BASE_LIMIT){
@@ -2984,6 +3592,7 @@ function nextCard(){
     $("gR").querySelector(".txt").textContent=THIRD.r.t;
     $("gFlagBox").hidden=true;
     $("gCard").classList.remove("tilt-l","tilt-r");
+    G.busy=false;
     return;
   }
   var pool=eligible();
@@ -3004,10 +3613,16 @@ function nextCard(){
   if(urgent.length){pick=urgent[0];G.lastUrgent=G.day;}
   else if(ripe.length) pick=ripe[0];
   else {
+    /* Cards that make no directional claim used to score 99 here, which meant they
+       could only ever be dealt once every card that did make one was exhausted — they
+       all bunched at the end of a run. Eight cards stopped carrying a claim when the
+       mis-mapped ones were corrected, so an unmapped card now sits at the mean of the
+       seven counts: neither chased nor buried. */
+    var mean=0;KEYS.forEach(function(k){mean+=(G.gn[k]||0);});mean/=KEYS.length;
     var bestI=pool[0],bestN=1e9;
     pool.forEach(function(i){
       var ak=DECK[i].l.ax?Object.keys(DECK[i].l.ax)[0]:null;
-      var n=(ak?(G.gn[ak]||0):99)+Math.random()*0.9;
+      var n=(ak?(G.gn[ak]||0):mean)+Math.random()*0.9;
       if(n<bestN){bestN=n;bestI=i;}
     });
     pick=bestI;
@@ -3020,6 +3635,7 @@ function nextCard(){
   $("gR").querySelector(".txt").textContent=c.r.t;
   $("gFlagBox").hidden=true;
   $("gCard").classList.remove("tilt-l","tilt-r");
+  G.busy=false;
 }
 
 /* The levels are where the blocs ended. This is what living under you was like for
@@ -3060,16 +3676,23 @@ function applyV(o,scale){
   for(var k in o){ if(G.v[k]===undefined)continue;
     G.v[k]=Math.max(0,Math.min(100,G.v[k]+o[k]*(scale===undefined?0.55:scale))); }
 }
+/* Pressing faster than the game resolves used to queue a second nextCard, and the
+   second one landed eight milliseconds after the first had put a message on screen —
+   so a player who clicks quickly never saw "the amendment passed", never saw a
+   contradiction flagged, and could skip a card outright. A decision now locks the
+   controls until the next answerable card is on screen. */
 function play(side){
-  if(!G.live)return;
+  if(!G.live||G.busy)return;
+  G.busy=true;
+  if(G.cur===-2){impPlay(side);return;}
   var c=(G.cur==="third")?THIRD:DECK[G.cur],ch=side==="l"?c.l:c.r;
   /* Declining the amendment has to be recorded, or nextCard re-satisfies the same
      condition and deals this card again for ever. Saying no was an unwinnable loop. */
   if(G.cur==="third"&&!ch.third)G.third="declined";
   if(ch.third){
-    var support=(G.m.palace+G.m.barracks+G.m.gov)/3;
+    var leg=amendLegs();
     G.day++;
-    if(support>=58){
+    if(leg.ok){
       G.third="passed";G.limit=48;G.term=3;season();
       G.m.street=Math.max(0,G.m.street-30);G.m.gov=Math.max(0,G.m.gov-12);
       applyV({pro:-8,int:-26,coh:-12,cap:-5},1);
@@ -3077,7 +3700,7 @@ function play(side){
       G.hist.street[G.hist.street.length-1]=-30;G.hist.gov[G.hist.gov.length-1]=-12;
       announceShift(updateStates());renderMeters({street:-30,gov:-12});
       $("gFlagTitle").textContent="The amendment passed.";
-      $("gFlag").textContent="You have four more years and the country knows exactly how you got them. Nobody who votes for you again will be voting for the same thing.";
+      $("gFlag").textContent="Two-thirds of all the members of each chamber, and then twenty-four of the thirty-six State Houses of Assembly. You have four more years and the country knows exactly how you got them. Nobody who votes for you again will be voting for the same thing.";
     } else {
       G.third="failed";
       G.m.street=Math.max(0,G.m.street-22);G.m.palace=Math.max(0,G.m.palace-12);
@@ -3088,7 +3711,13 @@ function play(side){
       G.hist.gov[G.hist.gov.length-1]=-12;
       announceShift(updateStates());renderMeters({street:-22,palace:-12,gov:-12});
       $("gFlagTitle").textContent="It died on the floor.";
-      $("gFlag").textContent="The Assembly threw it out, in public, the way it did in 2006. You are still leaving at the end of the term — you have simply told everyone you did not want to.";
+      $("gFlag").textContent=
+        (leg.c<67&&leg.s<67
+          ? "Neither chamber came near two-thirds, and the states were never going to ratify it either."
+          : (leg.c<67
+            ? "The chambers could not find two-thirds of all their members. Roughly "+leg.c+" in every hundred were with you and sixty-seven were needed."
+            : "The chambers carried it and then it went to the states, where twenty-four of the thirty-six had to agree and did not."))+
+        " It died in public, the way it did in 2006. You are still leaving at the end of the term — you have simply told everyone you did not want to.";
     }
     $("gFlagBox").hidden=false;
     updateClock();
@@ -3151,6 +3780,7 @@ function play(side){
   if(ch.f)G.flags[ch.f]=true;
   G.day++;G.year=Math.floor((G.day-1)/PER_YEAR);
   var msg=contradiction(ch);
+  G.lastTest=msg?{k:Object.keys(ch.ax)[0]}:null;
   if(msg){G.contra++;SFX.flag();$("gFlagTitle").textContent="That is not what you told us.";
     $("gFlag").textContent=msg;$("gFlagBox").hidden=false;}
   SFX.decide();
@@ -3172,21 +3802,35 @@ function play(side){
 /* You broke your own word. Say something. Nothing here touches the score — it is
    here because it is the moment a person recognises themselves, and because the
    answer they pick is more revealing than the decision was. */
+/* This asked for an excuse, which presumes the player did something needing one, and
+   offered no way to say the comparison itself was wrong. Every option conceded the
+   game's reading. Rejecting it is now one of the answers, and a rejected comparison is
+   taken back out of the fidelity count rather than held against anybody. */
 var EXCUSES=[
-  {k:"context",t:"I have the full picture now."},
-  {k:"harder", t:"Politics is harder from inside."},
-  {k:"stand",  t:"I stand by it."}
+  {k:"same",   t:"They express the same principle."},
+  {k:"context",t:"The circumstances changed my decision."},
+  {k:"changed",t:"I changed my mind."},
+  {k:"playing",t:"I was experimenting with the game."},
+  {k:"reject", t:"This comparison does not fit."}
 ];
 function askExcuse(){
   var box=$("gExcuse");
-  box.innerHTML='<span class="lab">Your excuse, Mr President</span>'+
-    '<div class="exrow">'+EXCUSES.map(function(e,i){
-      return '<button type="button" class="exbtn" data-ex="'+e.k+'">'+e.t+'</button>';}).join("")+'</div>';
+  box.innerHTML='<span class="lab">How do these fit together for you?</span>'+
+    '<div class="exrow">'+EXCUSES.map(function(e){
+      return '<button type="button" class="exbtn'+(e.k==="reject"?' rej':'')+'" data-ex="'+e.k+'">'+e.t+'</button>';}).join("")+'</div>';
   box.hidden=false;
   Array.prototype.forEach.call(box.querySelectorAll(".exbtn"),function(btn){
     btn.addEventListener("click",function(){
       var k=btn.dataset.ex;
       G.ex[k]=(G.ex[k]||0)+1;
+      /* A comparison the player rejects is withdrawn from the measure. */
+      if(k==="reject"&&G.lastTest){
+        var t=G.lastTest;
+        G.gtest[t.k]=Math.max(0,(G.gtest[t.k]||0)-1);
+        G.contra=Math.max(0,G.contra-1);
+        G.rejected=(G.rejected||0)+1;
+      }
+      G.lastTest=null;
       box.hidden=true;box.innerHTML="";
       SFX.decide();
       nextCard();
@@ -3195,6 +3839,7 @@ function askExcuse(){
 }
 
 function election(){
+  if(G.impRemoved){endGame(null,"impeached");return;}
   /* the country you are asking them to re-elect you on: mostly what it costs
      at the market, but not only that */
   var felt=G.v.pro*0.55+G.v.sec*0.25+G.v.cap*0.20;
@@ -3210,7 +3855,7 @@ function election(){
   $("gSays").textContent="“You have been returned for a second term. Four more years, and then the constitution says you go. The blocs reset nothing. Neither does the country.”";
   $("gL").querySelector(".txt").textContent="Continue.";
   $("gR").querySelector(".txt").textContent="Continue.";
-  G.cur=-1;
+  G.cur=-1;G.busy=false;
   $("gL").onclick=$("gR").onclick=function(){
     $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
     nextCard();updateClock();
@@ -3309,14 +3954,19 @@ function presidencyCode(bloc,why){
 }
 
 function endGame(bloc,why){
-  var already=!G.live;
+  /* A run can only end once. An election timer scheduled a decision earlier was
+     arriving after an adopted impeachment report and ending the presidency at the
+     ballot instead of at section 143(9). */
+  if(G.done)return;
+  G.done=true;
   SFX.over();
   G.live=false;
   clearShift();
   $("gameRun").hidden=true;$("gameEnd").hidden=false;
-  if(!already)(function(){
+  (function(){
     var crisisBlocs=Object.keys(G.crisis||{});
     var outcome = why==="fuse" ? ("fuse_"+G.burnt)
+      : why==="impeached" ? "removed_by_impeachment"
       : why==="collapse" ? "collapsed_three_crises"
       : why==="lost" ? "lost_election"
       : bloc ? ((G.m[bloc.k]>=100?"captured_by_":"abandoned_by_")+bloc.k)
@@ -3351,8 +4001,15 @@ function endGame(bloc,why){
     kick="THE STATE STOPPED FUNCTIONING";
     title="It came apart.";
     body="Three of the five at once: "+live.slice(0,2).join(", ")+" and "+live[2]+
-      ". No Nigerian government has ever run three emergencies of that size simultaneously and stayed a government. "+
-      "You were not removed by anybody. There was simply nothing left to preside over.";
+      ". Nobody removed you. Every office still carried your name and not one of them could move, "+
+      "because the money, the authority and the consent a government needs to act were all being fought for somewhere else at the same time. "+
+      "You did not lose a vote or a barracks. You ran out of the things that make a decision possible.";
+  } else if(why==="impeached"){
+    kick="REMOVED BY THE NATIONAL ASSEMBLY";
+    title="Two-thirds of both chambers.";
+    body="A notice under section 143, a panel of seven people who had never met you, and then the vote again \u2014 two-thirds of all the members of each House, which is the hardest number in the Constitution to assemble. "+
+      "You stood removed from office on the day the report was adopted. There was no court to go to; section 143(10) saw to that, and in any case the Assembly had followed the section. "+
+      "Your Vice-President was sworn in the same afternoon and is now the President of Nigeria. No Nigerian president had ever been removed this way before you.";
   } else if(why==="lost"){
     kick="YOU LOST THE ELECTION";
     title="They voted you out.";
@@ -3395,17 +4052,33 @@ function endGame(bloc,why){
   /* A score is not a story, and stories are what travel. Everything below is derived
      from the run — nothing is invented for effect. */
   G.pn=presidencyCode(bloc,why);
-  $("gEndKick").textContent=pname(G.pn.c,G.pn.a)||kick;
+  $("gEndKick").textContent=(why==="impeached")?kick:(pname(G.pn.c,G.pn.a)||kick);
   $("gEndTitle").textContent=title;
-  $("gEndBody").textContent=body;
+  $("gEndBody").textContent=body+impLine();
   var yrs=Math.floor(G.day/PER_YEAR),mos=Math.round((G.day%PER_YEAR)*(12/PER_YEAR));
   $("gEndYears").textContent=yrs+"y "+mos+"m";
   $("gEndCount").textContent=G.day;
   /* The number the run can actually support: of the decisions that tested something
      you had committed to, the share you took on your own side. */
   var fx=fidelity();
-  $("gEndContra").textContent = (st.r&&fx.tested)
-    ? Math.round(fx.with_/fx.tested*100)+"%" : "—";
+  /* Withdrawing a rejected comparison can empty the count, and an empty count used to
+     read as "you never put a position on the record" — which is the opposite of what
+     happened to someone who stated positions and then disagreed with every comparison
+     drawn from them. Three cases, not two. */
+  if(st.r&&fx.tested){
+    $("gEndContra").textContent=fx.with_+" of "+fx.tested;
+    $("gEndContraLab").textContent="decisions matched what you said"+
+      (G.rejected?" · "+G.rejected+" comparison"+(G.rejected===1?"":"s")+" you set aside":"");
+  } else if(st.r&&G.rejected){
+    $("gEndContra").textContent="—";
+    $("gEndContraLab").textContent="you set aside every comparison you were shown";
+  } else if(st.r){
+    $("gEndContra").textContent="—";
+    $("gEndContraLab").textContent="nothing you decided tested a position you had taken";
+  } else {
+    $("gEndContra").textContent="—";
+    $("gEndContraLab").textContent="you never put a position on the record";
+  }
   postMortem(bloc);
   ledger();
   philosophy();
@@ -3524,9 +4197,9 @@ function versus(){
     pname(g.c,g.a).toLowerCase()+". You lasted "+spanWords(G.day)+
     (G.day>g.d?" — longer." : (G.day<g.d?" — not as long." : ", to the month."));
   if(g.kept!==null&&mine!==null){
-    t+=" They kept "+g.kept+"% of their own manifesto. You kept "+mine+"%.";
+    t+=" On the decisions that tested a stated position, they matched "+g.kept+" in every hundred. You matched "+mine+".";
   } else if(g.kept!==null&&mine===null){
-    t+=" They kept "+g.kept+"% of their own manifesto. You never said what yours was.";
+    t+=" They matched "+g.kept+" in every hundred of the decisions that tested a stated position. You never put a position on the record.";
   }
   el.textContent=t;el.hidden=false;
 }
@@ -3802,14 +4475,15 @@ function interstitial(title,sub,after){
 }
 function beginRun(){
   CUR.presidentSessionId=uuid();
-  track("session_start",{session_id:CUR.presidentSessionId,session_type:"president"});
+  track("session_start",{session_id:CUR.presidentSessionId,experience_type:"president"});
   evt("president_started",{session_id:CUR.presidentSessionId});
   G={live:true,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,cur:0,
      limit:BASE_LIMIT,third:null,gax:{},gn:{},gtest:{},gwith:{},brave:0,safe:0,ex:{},owed:{},cause:{},
      hist:{},cold:{},stNow:{},stT:{},turned:{},lastShift:undefined,lastUrgent:undefined,
      crisis:{},crisisN:0,prevN:0,crisisTurns:0,recovered:0,lifted:null,everCrisis:{},
      shocks:{},shockN:0,shockLog:[],lastShock:undefined,
-     fuseAt:{},fuseLit:0,fuseMet:0,burnt:null};
+     fuseAt:{},fuseLit:0,fuseMet:0,burnt:null,
+     imp:null,impTried:0,impSurvived:0,impRemoved:false,impCool:undefined,impWhere:null,done:false,busy:false,lastTest:null,rejected:0};
   KEYS.forEach(function(k){G.gax[k]=0;G.gn[k]=0;G.gtest[k]=0;G.gwith[k]=0;});
   BLOCS.forEach(function(b){G.m[b.k]=50;G.hist[b.k]=[];G.cold[b.k]=0;
     G.stNow[b.k]="holding";G.stT[b.k]={};G.turned[b.k]=false;});
@@ -3853,14 +4527,17 @@ document.addEventListener("keydown",function(e){
 });
 
 /* ---------- boot ---------- */
+/* Whatever a previous version stored for the map that never existed goes on the first
+   load after this one, not on the first result. */
+function dropWho(){try{localStorage.removeItem("manifesto.who");}catch(e){}}
 function start(){
+  dropWho();
   var opts=STATES.map(function(x){return '<option>'+x+'</option>';}).join("");
   $("stateSel").innerHTML=opts;
   $("stateSel").value="Lagos";
-  $("wState").innerHTML='<option value="">—</option>'+opts;
   $("stateSel").addEventListener("change",renderBallot);
   $("officeSel").addEventListener("change",renderBallot);
-  $("wSave").addEventListener("click",saveWho);
+  $("wWipe").addEventListener("click",wipeLocal);
   st.cmp=readInvite();
   renderBallot();landing();renderInvite();show("start");marks();
   track("participant_seen",{});
