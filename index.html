@@ -1236,7 +1236,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <h1 style="font-size:var(--s-3)">Eight years in office.<br>If you can manage it.</h1>
       <p class="lead" style="margin-top:16px">You will receive proposals and choose between two responses. Your decisions change the balance between the Street, the Palace, the Barracks, the Purse and the Governors.</p>
       <div class="gate-blocs" id="gateBlocs"></div>
-      <p style="color:var(--ink-2);margin-top:20px">Keep all five away from either extreme. Drive one to nothing and you are governing a crisis — and some of those crises end presidencies. Let one own you completely and you keep the office but lose the room to use it.</p>
+      <p style="color:var(--ink-2);margin-top:20px">Keep all five away from either extreme. Drive one to nothing and you are governing a crisis — and some of those crises end presidencies.</p>
       <p style="margin-top:16px">Your first proposal is waiting.</p>
       <div class="cta" style="margin-top:22px">
         <button class="btn go" id="gStart">Make my first decision →</button>
@@ -1267,13 +1267,12 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <div class="g-flag" id="gFlagBox" hidden>
         <b id="gFlagTitle"></b><p id="gFlag"></p>
       </div>
-      <div class="g-excuse" id="gExcuse" hidden></div>
     </div>
 
     <div id="gameEnd" hidden>
       <span class="lab" id="gEndKick"></span>
       <h1 style="font-size:var(--s-3);margin-top:10px" id="gEndTitle"></h1>
-      <p class="lead" id="gEndBody" style="margin-top:14px"></p>
+      <p class="lead" id="gEndBody" style="margin-top:14px" hidden></p>
 
       <div class="tally">
         <div><b id="gEndYears"></b><span>in office</span></div>
@@ -1288,7 +1287,6 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <div class="reveal" id="gReveal"></div>
       <div class="rest" id="gRest"></div>
 
-      <p style="color:var(--ink-2);margin-top:20px" id="gEndVerdict"></p>
       <div class="chips" id="gPhilChips" style="margin-top:18px"></div>
 
       <figure class="overheard" id="gScene">
@@ -1377,7 +1375,7 @@ var $=function(i){return document.getElementById(i);};
    or the President deck/values. Date-based, not semver: ships aren't
    backward compatible with each other in a way that makes semver meaningful
    here, and the date is what you'd want to know anyway. */
-var CONTENT_VERSION="2026-09-28.1";
+var CONTENT_VERSION="2026-09-28.2";
 function uuid(){
   if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
@@ -2695,39 +2693,39 @@ document.addEventListener("click",function(e){
    Democracy's substance: prosperity is a separate number nobody in the room argues for. */
 var STATE_CARDS=[
  {req:"st_barracks_plotting",now:true,w:"The Director of Military Intelligence",
-  s:"Sir, I am obliged to report a conversation. Three officers, one of them a general. Nothing actionable. I can arrest them tonight or I can leave them where I can hear them.",
-  l:{t:"Arrest them tonight.",m:{barracks:-10,palace:6,street:-6,gov:4},v:{sec:6,int:-10,coh:-6,cap:-3},ax:{security:-1},f:"purge"},
-  r:{t:"Leave them where you can hear them.",m:{barracks:12,purse:-6},v:{sec:-8,int:4,coh:2},ax:{security:1}}},
+  s:"Three officers have been discussing your removal. We do not have evidence for charges. I can arrest them now or keep them under surveillance.",
+  l:{t:"Arrest them without charges",m:{barracks:-10,palace:6,street:-6,gov:4},v:{sec:6,int:-10,coh:-6,cap:-3},ax:{security:-1},f:"purge"},
+  r:{t:"Keep them under surveillance",m:{barracks:12,purse:-6},v:{sec:-8,int:4,coh:2},ax:{security:1}}},
 
  {req:"st_purse_hostile",now:true,w:"The Accountant-General",
-  s:"There is not enough for salaries this month. I can pay the federal workforce and default on the states, or pay everyone at seventy per cent and call it a phased release.",
-  l:{t:"Pay Abuja in full.",m:{purse:8,gov:-20,street:-8},v:{pro:-4,coh:-9,int:-6,cap:2},ax:{struct:-1}},
-  r:{t:"Seventy per cent, everybody.",m:{purse:-4,street:-12,gov:8,barracks:-10},v:{pro:-6,coh:4,int:5,cap:-4},ax:{struct:1},f:"phased_release"}},
+  s:"We cannot cover the full payroll. We can pay the federal workforce in full and miss the states’ payment, or pay everyone 70% for now.",
+  l:{t:"Pay the federal workforce in full",m:{purse:8,gov:-20,street:-8},v:{pro:-4,coh:-9,int:-6,cap:2},ax:{struct:-1}},
+  r:{t:"Pay everyone 70%",m:{purse:-4,street:-12,gov:8,barracks:-10},v:{pro:-6,coh:4,int:5,cap:-4},ax:{struct:1},f:"phased_release"}},
 
- {req:"st_gov_plotting",now:true,w:"Governor Bassey Ekanem, Chair of the Governors' Forum",
-  s:"Twenty-two of us met in Enugu without you and we are not going to pretend otherwise. We want the VAT formula and the state police bill, or we stop remitting and let you explain it.",
-  l:{t:"Give them the formula.",m:{gov:22,purse:-16,barracks:-6},v:{pro:3,coh:7,cap:-4,sov:-3,int:4},ax:{struct:1},f:"vat_conceded"},
-  r:{t:"Let them try it.",m:{gov:-16,barracks:10,purse:6},v:{pro:-5,coh:-11,sec:-4,int:-2},ax:{struct:-1}}},
+ {req:"st_gov_plotting",now:true,w:"Governor Bassey Ekanem",
+  s:"Twenty-two governors have met without you. We want the VAT formula changed in our favour and your support for state police. Refuse, and we will stop remitting revenue.",
+  l:{t:"Accept both demands",m:{gov:22,purse:-16,barracks:-6},v:{pro:3,coh:7,cap:-4,sov:-3,int:4},ax:{struct:1},f:"vat_conceded"},
+  r:{t:"Refuse both demands",m:{gov:-16,barracks:10,purse:6},v:{pro:-5,coh:-11,sec:-4,int:-2},ax:{struct:-1}}},
 
  {req:"st_street_hostile",now:true,w:"A woman outside the gate, on live television",
-  s:"We are not going home. You can send them to move us or you can come out here yourself, but we are not going home.",
-  l:{t:"Go out to the gate.",m:{street:20,barracks:-12,palace:-6},v:{coh:9,int:11,sec:-5,pro:2},ax:{security:1},f:"went_out"},
-  r:{t:"Send them to move you.",m:{street:-24,barracks:12,purse:6},v:{coh:-12,int:-14,sec:3,pro:-3},ax:{security:-1},f:"crackdown"}},
+  s:"We are not going home. Come out and speak to us—or send your security forces to remove us.",
+  l:{t:"Go out and speak to the protesters",m:{street:20,barracks:-12,palace:-6},v:{coh:9,int:11,sec:-5,pro:2},ax:{security:1},f:"went_out"},
+  r:{t:"Send security forces to remove them",m:{street:-24,barracks:12,purse:6},v:{coh:-12,int:-14,sec:3,pro:-3},ax:{security:-1},f:"crackdown"}},
 
  {req:"st_palace_plotting",now:true,w:"Chief Adewale Ogundipe, unannounced",
-  s:"My principal has not been invited to anything for eleven months. He is not asking for an invitation. He is telling you that the next time there is trouble in a place your police do not go, nobody will be calling him on your behalf.",
-  l:{t:"Go to Sokoto yourself.",m:{palace:20,street:-6,gov:4},v:{coh:8,sec:5,int:-4},ax:{social:-1},f:"went_to_sokoto"},
-  r:{t:"The state does not court thrones.",m:{palace:-14,street:8,barracks:4},v:{coh:-7,sec:-6,int:7,cap:3},ax:{social:1}}},
+  s:"The Council feels ignored. A visit to Sokoto would reopen the conversation. Refuse, and do not assume we will help when you next need us.",
+  l:{t:"Visit Sokoto to meet the Council",m:{palace:20,street:-6,gov:4},v:{coh:8,sec:5,int:-4},ax:{social:-1},f:"went_to_sokoto"},
+  r:{t:"Decline the visit",m:{palace:-14,street:8,barracks:4},v:{coh:-7,sec:-6,int:7,cap:3},ax:{social:1}}},
 
  {req:"st_barracks_captured",now:true,w:"General Musa Dangana, without knocking",
-  s:"We have prepared the national security bill. It gives us the ports, the pipelines and the power to detain for ninety days. I have brought it for signature rather than debate, which I think we both understand is a courtesy.",
-  l:{t:"Sign it.",m:{barracks:8,street:-18,gov:-10,palace:-6},v:{sec:9,int:-22,coh:-9,sov:4,cap:-5},ax:{security:-1},f:"security_bill"},
-  r:{t:"It goes to the Assembly like anything else.",m:{barracks:-20,street:14,gov:8},v:{sec:-6,int:14,coh:5},ax:{security:1}}},
+  s:"We want control of the ports and pipelines, and detention without charge for 90 days. We want your approval now, without legislative scrutiny.",
+  l:{t:"Approve the powers without scrutiny",m:{barracks:8,street:-18,gov:-10,palace:-6},v:{sec:9,int:-22,coh:-9,sov:4,cap:-5},ax:{security:-1},f:"security_bill"},
+  r:{t:"Require legislative scrutiny",m:{barracks:-20,street:14,gov:8},v:{sec:-6,int:14,coh:5},ax:{security:1}}},
 
  {req:"st_purse_captured",now:true,w:"Three men who funded the campaign",
-  s:"We are not asking for contracts. We are asking that the new tax law goes out for stakeholder consultation, and that the stakeholders are us. You would not be in that chair without this room.",
-  l:{t:"Send it for consultation.",m:{purse:6,street:-14,gov:-6},v:{pro:-4,int:-18,coh:-6,cap:-4},ax:{econ:-1},f:"captured_tax"},
-  r:{t:"It goes out as drafted.",m:{purse:-22,street:12,barracks:4},v:{pro:5,int:15,cap:6,coh:3},ax:{econ:1}}}
+  s:"Send the tax proposal back for consultation. The people you consult will be us. You would not be in that chair without this room.",
+  l:{t:"Give the funders control of consultation",m:{purse:6,street:-14,gov:-6},v:{pro:-4,int:-18,coh:-6,cap:-4},ax:{econ:-1},f:"captured_tax"},
+  r:{t:"Proceed with the current draft",m:{purse:-22,street:12,barracks:4},v:{pro:5,int:15,cap:6,coh:3},ax:{econ:1}}}
 ];
 
 /* ---------- what happens to you ----------
@@ -2739,48 +2737,48 @@ var STATE_CARDS=[
    just difficulty wearing a costume.
    A shock costs a decision. That is the mechanic: a crisis eats your agenda. */
 var SHOCKS=[
- {id:"oilcrash",yr:[1,7],w:"Bloomberg, 06:10",
-  s:"Crude has fallen through $41 a barrel overnight and the futures curve says it stays there. Your budget was built on $75.",
+ {id:"oilcrash",yr:[1,7],w:"An event outside your control",
+  s:"Oil prices have fallen sharply below the price assumed in your budget. The government’s expected revenue is down.",
   m:{purse:-22,gov:-10},v:{pro:-11,cap:-6,sov:-4},f:"oil_crash"},
 
- {id:"oilboom",yr:[1,7],w:"Bloomberg, 06:10",
-  s:"Crude has gone through $104 and held there for a week. For the first time in your presidency there is more money than the budget assumed.",
+ {id:"oilboom",yr:[1,7],w:"An event outside your control",
+  s:"Oil prices have risen above the budget’s assumption. The government has more revenue than expected.",
   m:{purse:24,gov:10},v:{pro:9,cap:5,sov:3},f:"oil_boom"},
 
- {id:"coupnextdoor",yr:[1,7],w:"The Foreign Minister, from the airport",
-  s:"The government next door was removed at four this morning. The soldiers are on television. ECOWAS is calling an emergency session and every eye in the room will be on Nigeria.",
+ {id:"coupnextdoor",yr:[1,7],w:"An event outside your control",
+  s:"The military has taken power in a neighbouring country. ECOWAS is calling an emergency meeting and wants Nigeria’s response.",
   m:{barracks:14,gov:-6},v:{sov:-6,coh:-5,sec:-7},f:"coup_nextdoor"},
 
- {id:"flood",yr:[2,7],w:"NEMA, and it is already on every phone",
-  s:"The dams have been released upstream and the flood plain is gone. Two million people are displaced across eleven states and the farms in them will not produce this year.",
+ {id:"flood",yr:[2,7],w:"An event outside your control",
+  s:"Severe flooding has displaced people across eleven states. Farms and public services have been damaged.",
   m:{street:-14,purse:-14,gov:-10},v:{pro:-9,sec:-6,cap:-7,coh:-4},f:"flood"},
 
- {id:"courtruling",yr:[2,7],w:"The Supreme Court, unanimously",
-  s:"The court has ruled against the federation on revenue allocation. It did not ask you. It did not warn you. The judgment takes effect immediately.",
+ {id:"courtruling",yr:[2,7],w:"An event outside your control",
+  s:"The court has ruled against the federal government on revenue allocation. The judgement takes effect immediately.",
   m:{gov:20,street:8,purse:-16},v:{int:10,coh:4,cap:-6},f:"court_ruling"},
 
- {id:"rateshock",yr:[1,7],w:"The Central Bank Governor, without being summoned",
-  s:"The Americans have raised again and the money is leaving. Portfolio outflows in one week are larger than anything I have had to report to a president.",
+ {id:"rateshock",yr:[1,7],w:"An event outside your control",
+  s:"Higher US interest rates are drawing investment out of Nigeria. Financial pressure on your government is increasing.",
   m:{purse:-20,street:-8},v:{pro:-10,sov:-8,cap:-3},f:"rate_shock"},
 
- {id:"abduction",yr:[1,7],w:"The National Security Adviser, 02:17",
-  s:"A boarding school in the north-west. They took a hundred and forty children and they have made contact. Nothing about this stays quiet past sunrise.",
+ {id:"abduction",yr:[1,7],w:"An event outside your control",
+  s:"Children have been abducted from a boarding school in the north-west. Their families are waiting for news. The kidnappers have made contact.",
   m:{street:-16,barracks:-12,palace:-8},v:{sec:-13,coh:-7,int:-4},f:"abduction"},
 
- {id:"investment",yr:[2,7],w:"The Minister of Trade, trying not to smile",
-  s:"They have signed. The largest single foreign industrial commitment this country has had in twenty years, and it is going to Ogun and to Kano, not offshore.",
+ {id:"investment",yr:[2,7],w:"An event outside your control",
+  s:"Investors have signed a major industrial agreement for projects in Ogun and Kano. It is a welcome boost.",
   m:{purse:18,street:10},v:{pro:10,cap:8,sov:-3},f:"big_investment"},
 
- {id:"foodprices",yr:[1,7],w:"Your Chief of Staff, with the market survey",
-  s:"A war a long way from here has taken wheat and fertiliser off the market. A bag of rice has moved forty per cent in six weeks and nothing you did caused it.",
+ {id:"foodprices",yr:[1,7],w:"An event outside your control",
+  s:"A war abroad has disrupted supplies of wheat and fertiliser. Food prices are rising. This shock did not begin with one of your decisions.",
   m:{street:-18,purse:-8},v:{pro:-9,sec:-5,coh:-5},f:"food_shock"},
 
- {id:"leak",yr:[3,7],w:"An international consortium of newspapers",
-  s:"Forty years of accounts, published at once. Half of Abuja is in them. Some of the names are in your cabinet and one of them signed your nomination papers.",
+ {id:"leak",yr:[3,7],w:"An event outside your control",
+  s:"Leaked financial records name senior political figures, including people in your cabinet and campaign.",
   m:{street:-12,palace:-10,purse:-10},v:{int:-12,coh:-5,cap:-3},f:"the_leak"},
 
- {id:"outbreak",yr:[2,7],w:"The Minister of Health, by telephone, at night",
-  s:"Nineteen confirmed in two states and the case count is doubling every four days. We have eleven days before this is a national emergency rather than a health one.",
+ {id:"outbreak",yr:[2,7],w:"An event outside your control",
+  s:"A disease outbreak is spreading across two states. Case numbers are rising quickly, and health services are under pressure.",
   m:{street:-10,purse:-12,gov:-6},v:{sec:-8,cap:-9,pro:-6,coh:-3},f:"outbreak"}
 ];
 
@@ -2791,46 +2789,46 @@ var SHOCKS=[
    which is the whole point: you did not put them on your agenda. */
 var SHOCK_REPLIES=[
  {req:"oil_crash",now:true,w:"The Finance Minister, with two versions of the budget",
-  s:"Twenty-two per cent of the revenue is gone. I can cut the capital budget, which means the roads and the power projects stop, or we can borrow against oil we have not sold yet.",
-  l:{t:"Cut the capital budget.",m:{purse:16,street:-14,gov:-12},v:{pro:-5,cap:-11,sov:6,int:5},ax:{econ:-1},f:"austerity"},
-  r:{t:"Borrow against it.",m:{purse:10,gov:8,street:6},v:{pro:3,cap:4,sov:-12,int:-6},ax:{econ:1},f:"debt"}},
+  s:"Oil revenue has fallen. We can stop capital projects to close the gap, or borrow against future oil receipts to keep them going.",
+  l:{t:"Cut the capital projects",m:{purse:16,street:-14,gov:-12},v:{pro:-5,cap:-11,sov:6,int:5},ax:{econ:-1},f:"austerity"},
+  r:{t:"Borrow against future oil revenue",m:{purse:10,gov:8,street:6},v:{pro:3,cap:4,sov:-12,int:-6},ax:{econ:1},f:"debt"}},
 
  {req:"abduction",now:true,w:"The National Security Adviser, 11:40",
-  s:"The families are on television now. We can pay through an intermediary and have most of them home this week, or we hold the line and the next school is somebody else's problem to explain.",
-  l:{t:"Pay, and get them home.",m:{street:20,barracks:-16,palace:8},v:{sec:-11,coh:7,int:-9},ax:{security:1},f:"paid_ransom"},
-  r:{t:"Nigeria does not pay.",m:{barracks:16,street:-20,palace:-8},v:{sec:6,coh:-9,int:5},ax:{security:-1},f:"no_ransom"}},
+  s:"The kidnappers have contacted an intermediary. Paying may secure the children’s release, but it may also encourage further demands. Refusing leaves the families waiting.",
+  l:{t:"Authorise the ransom payment",m:{street:20,barracks:-16,palace:8},v:{sec:-11,coh:7,int:-9},ax:{security:1},f:"paid_ransom"},
+  r:{t:"Refuse the ransom payment",m:{barracks:16,street:-20,palace:-8},v:{sec:6,coh:-9,int:5},ax:{security:-1},f:"no_ransom"}},
 
- {req:"flood",now:true,w:"The Governors of the eleven states, together",
-  s:"Two million people and none of us can carry this alone. Release the ecological fund and the reserves now, or tell us in public that we are on our own.",
-  l:{t:"Release everything.",m:{gov:20,street:16,purse:-22},v:{pro:-4,sec:6,coh:10,cap:3},ax:{struct:-1},f:"relief"},
-  r:{t:"The states must carry it.",m:{gov:-18,street:-14,purse:14},v:{pro:2,sec:-7,coh:-11,cap:-4},ax:{struct:1}}}
+ {req:"flood",now:true,w:"The governors of the eleven states",
+  s:"Flooding has displaced people across our eleven states. We want federal emergency funds released now. We cannot cover the response ourselves.",
+  l:{t:"Release federal emergency funds",m:{gov:20,street:16,purse:-22},v:{pro:-4,sec:6,coh:10,cap:3},ax:{struct:-1},f:"relief"},
+  r:{t:"Leave relief funding to the states",m:{gov:-18,street:-14,purse:14},v:{pro:2,sec:-7,coh:-11,cap:-4},ax:{struct:1}}}
 ];
 
 var CRISIS_CARDS=[
- {req:"st_street_abandoned",now:true,w:"The President of the Labour Congress, on the sixth day",
-  s:"Nothing is moving. Not the ports, not the refineries, not the banks. We did not want this and we cannot stop it now on your word alone. Give us something we can take back to them.",
-  l:{t:"Reverse the increase.",m:{street:34,purse:-22,gov:-6},v:{pro:-7,coh:9,int:-6,cap:-5},ax:{econ:1},f:"climbdown"},
-  r:{t:"Wait them out.",m:{street:10,barracks:8,purse:8},v:{pro:-11,coh:-9,sec:-6,int:3},ax:{econ:-1}}},
+ {req:"st_street_abandoned",now:true,w:"Hauwa Tijjani, on the sixth day",
+  s:"Nothing is moving — not the ports, not the refineries, not the banks. My members will go back for the wage you promised them and nothing less. I cannot stop this on your word alone.",
+  l:{t:"Meet the wage",m:{street:34,purse:-22,gov:-6},v:{pro:-7,coh:9,int:-6,cap:-5},ax:{econ:1},f:"climbdown"},
+  r:{t:"Wait out the strike",m:{street:10,barracks:8,purse:8},v:{pro:-11,coh:-9,sec:-6,int:3},ax:{econ:-1}}},
 
  {req:"st_street_owned",now:true,w:"Your Chief of Staff, with the morning papers",
-  s:"Every decision this month has been taken to the crowd first. The ministries have stopped sending you anything difficult because they already know the answer. You are very popular and you are not governing.",
-  l:{t:"Take one decision they will hate.",m:{street:-30,purse:14,barracks:8},v:{pro:9,cap:10,int:8,coh:-5},ax:{method:-1},f:"broke_the_spell"},
-  r:{t:"Popularity is a mandate.",m:{street:-4,gov:-10,purse:-8},v:{pro:-8,cap:-9,int:-6,coh:4},ax:{method:1}}},
+  s:"Your ministers have shelved the tax bill three times because it reaches traders and small businesses, and the crowd will hate it. You are very popular and you are not governing.",
+  l:{t:"Send the tax bill anyway",m:{street:-30,purse:14,barracks:8},v:{pro:9,cap:10,int:8,coh:-5},ax:{method:-1},f:"broke_the_spell"},
+  r:{t:"Leave it shelved",m:{street:-4,gov:-10,purse:-8},v:{pro:-8,cap:-9,int:-6,coh:4},ax:{method:1}}},
 
  {req:"st_barracks_abandoned",now:true,w:"The Chief of Defence Staff, who did not salute",
-  s:"Two formations did not deploy this week and nobody has been disciplined for it, because I am not certain the order would be obeyed. The allowances are nine months behind. I am telling you this while it is still something I can tell you.",
-  l:{t:"Pay the arrears tonight.",m:{barracks:34,purse:-24,street:-8},v:{sec:8,pro:-6,int:-4,cap:-4},f:"paid_arrears"},
-  r:{t:"Retire the two commanders.",m:{barracks:-6,street:10,palace:6},v:{sec:-9,int:8,coh:-4},f:"retired_them"}},
+  s:"Two formations refused to deploy. Their allowances are nine months overdue. We can pay the arrears or retire the commanders, but replacing them may deepen the refusal.",
+  l:{t:"Pay the overdue allowances",m:{barracks:34,purse:-24,street:-8},v:{sec:8,pro:-6,int:-4,cap:-4},f:"paid_arrears"},
+  r:{t:"Retire the two commanders",m:{barracks:-6,street:10,palace:6},v:{sec:-9,int:8,coh:-4},f:"retired_them"}},
 
- {req:"st_purse_abandoned",now:true,w:"The Central Bank Governor and the Accountant-General together",
-  s:"Salaries did not go out. We can print what is owed and take the inflation, or we can sell the assets we swore we would never sell. There is no third page in this file.",
-  l:{t:"Print it.",m:{purse:26,street:12},v:{pro:-13,int:-9,sov:5,cap:-6},ax:{econ:1},f:"printed"},
-  r:{t:"Sell the assets.",m:{purse:30,street:-16,gov:-8},v:{pro:6,sov:-12,int:4,cap:-4},ax:{econ:-1},f:"fire_sale"}},
+ {req:"st_purse_abandoned",now:true,w:"The Central Bank Governor and Accountant-General",
+  s:"Salaries have not been paid. We can create money to pay them and risk higher prices, or sell public assets to raise the funds.",
+  l:{t:"Create money to pay salaries",m:{purse:26,street:12},v:{pro:-13,int:-9,sov:5,cap:-6},ax:{econ:1},f:"printed"},
+  r:{t:"Sell assets to raise the funds",m:{purse:30,street:-16,gov:-8},v:{pro:6,sov:-12,int:4,cap:-4},ax:{econ:-1},f:"fire_sale"}},
 
  {req:"st_gov_abandoned",now:true,w:"Three governors who did not ask for an appointment",
-  s:"Two of our colleagues have used the word referendum in public this week and nobody has corrected them. We are here because we would rather be here than where this is going.",
-  l:{t:"Call a national conference.",m:{gov:32,barracks:-14,palace:6},v:{coh:12,sov:-4,int:7,cap:-6},ax:{struct:1},f:"conference"},
-  r:{t:"The union is not negotiable.",m:{gov:6,barracks:16,street:-10},v:{coh:-10,sec:-7,int:-5,sov:6},ax:{struct:-1}}}
+  s:"Some governors are talking openly about leaving the federation. We want a national conference. Will you open talks, or refuse to negotiate the union?",
+  l:{t:"Call a national conference",m:{gov:32,barracks:-14,palace:6},v:{coh:12,sov:-4,int:7,cap:-6},ax:{struct:1},f:"conference"},
+  r:{t:"Refuse talks on the union",m:{gov:6,barracks:16,street:-10},v:{coh:-10,sec:-7,int:-5,sov:6},ax:{struct:-1}}}
 ];
 
 var BLOCS=[
@@ -2876,133 +2874,133 @@ var VKEYS=VALUES.map(function(v){return v.k;});
    nobody is ever pushed to the edge never sees them at all. */
 
 var DECK=[
- {w:"The Finance Minister",s:"Fuel subsidy is a fifth of what we spend. I can end it on Monday, or you can find the money somewhere else.",
-  l:{t:"End it Monday.",m:{purse:16,street:-18,gov:4},v:{pro:7,cap:6,int:5,coh:-4,sov:3,sec:-3},ax:{econ:-1},f:"subsidy_gone"},
-  r:{t:"Find it elsewhere.",m:{purse:-16,street:10},v:{pro:-6,cap:-5,int:-4,coh:3,sov:-2,sec:2},ax:{econ:1}}},
+ {w:"The Finance Minister",s:"The fuel subsidy is putting pressure on the budget. We can end it now, or keep paying and find the money elsewhere.",
+  l:{t:"End the subsidy",m:{purse:16,street:-18,gov:4},v:{pro:7,cap:6,int:5,coh:-4,sov:3,sec:-3},ax:{econ:-1},f:"subsidy_gone"},
+  r:{t:"Keep funding it",m:{purse:-16,street:10},v:{pro:-6,cap:-5,int:-4,coh:3,sov:-2,sec:2},ax:{econ:1}}},
 
- {w:"The National Security Adviser",s:"They have held the Lekki road four days. Lagos business is losing billions. We can open it tonight.",
-  l:{t:"Open the road.",m:{barracks:14,street:-26,palace:4},v:{pro:-9,sec:4,coh:-10,int:-12},ax:{security:-1},f:"crackdown"},
-  r:{t:"Go and talk to them.",m:{street:16,barracks:-12},v:{pro:5,sec:-3,coh:8,int:7},ax:{security:1}}},
+ {w:"The National Security Adviser",s:"Protesters have blocked the Lekki road for four days. Businesses are losing money. I can send soldiers to clear them, or you can open talks.",
+  l:{t:"Send soldiers to clear the road",m:{barracks:14,street:-26,palace:4},v:{pro:-9,sec:4,coh:-10,int:-12},ax:{security:-1},f:"crackdown"},
+  r:{t:"Open talks with the protesters",m:{street:16,barracks:-12},v:{pro:5,sec:-3,coh:8,int:7},ax:{security:1}}},
 
- {w:"A Governor from the North West",s:"My people are being killed while your federal police sit in Abuja. Let me raise and arm my own force.",
-  l:{t:"Raise it.",m:{gov:18,barracks:-16,street:6},v:{pro:6,sec:9,cap:5,coh:-7,int:-5},ax:{struct:1},f:"state_police"},
-  r:{t:"The centre keeps the guns.",m:{barracks:14,gov:-18},v:{pro:-5,sec:-7,cap:-3,coh:4,int:3},ax:{struct:-1}}},
+ {w:"A Governor from the North West",s:"People in my state are being killed. I want your approval to raise and arm a state security force instead of waiting for federal deployment.",
+  l:{t:"Approve the state force",m:{gov:18,barracks:-16,street:6},v:{pro:6,sec:9,cap:5,coh:-7,int:-5},ax:{struct:1},f:"state_police"},
+  r:{t:"Keep armed policing under federal control",m:{barracks:14,gov:-18},v:{pro:-5,sec:-7,cap:-3,coh:4,int:3},ax:{struct:-1}}},
 
- {w:"Chief Adewale Ogundipe, for the Council of Rulers",s:"We want our role written into the constitution. We deliver peace in places your government has never reached.",
-  l:{t:"Write them in.",m:{palace:20,street:-8,gov:6},v:{pro:-6,sec:6,coh:6,cap:-4,int:-9},ax:{social:-1}},
-  r:{t:"Advice, not authority.",m:{palace:-18,street:8},v:{pro:5,sec:-4,coh:-4,cap:4,int:8},ax:{social:1}}},
+ {w:"Chief Adewale Ogundipe, Council of Rulers",s:"We want a formal role in the constitution. We help settle disputes where your government struggles to reach. Will you support the change?",
+  l:{t:"Support a constitutional role",m:{palace:20,street:-8,gov:6},v:{pro:-6,sec:6,coh:6,cap:-4,int:-9},ax:{social:-1}},
+  r:{t:"Keep the role advisory",m:{palace:-18,street:8},v:{pro:5,sec:-4,coh:-4,cap:4,int:8},ax:{social:1}}},
 
- {w:"A licensed trader",s:"The allocation is routine. It has been done this way under every administration, including the ones people remember fondly.",
-  l:{t:"Sign it.",m:{purse:14,palace:6},v:{pro:-14,int:-17,cap:-6,coh:-3},f:"dirty"},
-  r:{t:"Send it to open tender.",m:{purse:-10,street:8},v:{pro:9,int:15,cap:7,coh:2}}},
+ {w:"A licensed trader",s:"We want this public contract awarded directly to us, without an open tender. Your signature would settle it.",
+  l:{t:"Award the contract directly",m:{purse:14,palace:6},v:{pro:-14,int:-17,cap:-6,coh:-3},f:"dirty"},
+  r:{t:"Require an open tender",m:{purse:-10,street:8},v:{pro:9,int:15,cap:7,coh:2}}},
 
- {w:"Hauwa Tijjani, General Secretary of the Congress",s:"The new wage or the country stops on Monday. We have done it before and you know we can do it again.",
-  l:{t:"Meet the wage.",m:{street:20,purse:-18},v:{pro:4,coh:8,sec:3,cap:-5,int:2},ax:{econ:1}},
-  r:{t:"No work, no pay.",m:{barracks:8,street:-20,purse:12},v:{pro:-5,coh:-9,sec:-4,cap:3,int:-2},ax:{econ:-1}}},
+ {w:"Hauwa Tijjani, General Secretary of the Congress",s:"Agree to the new wage or our members strike on Monday. If you refuse, they will want to know whether you intend to pay them during the strike.",
+  l:{t:"Agree to the new wage",m:{street:20,purse:-18},v:{pro:4,coh:8,sec:3,cap:-5,int:2},ax:{econ:1}},
+  r:{t:"Reject it and withhold strike pay",m:{barracks:8,street:-20,purse:12},v:{pro:-5,coh:-9,sec:-4,cap:3,int:-2},ax:{econ:-1}}},
 
- {w:"The Central Bank Governor",s:"The official rate and the street rate have not spoken in months. Every importer in the country is lying on a form.",
-  l:{t:"Float it.",m:{purse:16,street:-20},v:{pro:10,int:9,cap:3,coh:-6,sov:-5,sec:-4},ax:{econ:-1},f:"floated"},
-  r:{t:"Hold the rate.",m:{street:10,purse:-16},v:{pro:-11,int:-8,cap:-3,coh:4,sov:5,sec:2},ax:{econ:1}}},
+ {w:"The Central Bank Governor",s:"The official exchange rate is far from the rate people actually pay. We can let the naira’s rate move with the market, or keep defending the official rate.",
+  l:{t:"Let the exchange rate float",m:{purse:16,street:-20},v:{pro:10,int:9,cap:3,coh:-6,sov:-5,sec:-4},ax:{econ:-1},f:"floated"},
+  r:{t:"Maintain the official rate",m:{street:10,purse:-16},v:{pro:-11,int:-8,cap:-3,coh:4,sov:5,sec:2},ax:{econ:1}}},
 
- {w:"Your Party Chairman",s:"The Minister is from home. The file against him is thick. If you move on him, we lose the state in four years.",
-  l:{t:"Suspend him.",m:{street:18,palace:-14,gov:-6},v:{pro:8,int:16,cap:4,coh:-5},ax:{represent:1}},
-  r:{t:"The file can wait.",m:{palace:14,street:-18},v:{pro:-11,int:-16,cap:-4,coh:3},f:"dirty"}},
+ {w:"Your Party Chairman",s:"There are serious allegations against the Minister. He is a powerful ally in his state. Suspend him and we may lose that support.",
+  l:{t:"Suspend the Minister",m:{street:18,palace:-14,gov:-6},v:{pro:8,int:16,cap:4,coh:-5},ax:{represent:1}},
+  r:{t:"Delay action on the allegations",m:{palace:14,street:-18},v:{pro:-11,int:-16,cap:-4,coh:3},f:"dirty"}},
 
- {w:"The ASUU President",s:"Nine months out and the universities are shut again. Fund the agreement your predecessors signed, or explain to a generation why not.",
-  l:{t:"Fund it.",m:{street:16,purse:-18},v:{pro:14,cap:17,coh:5,int:3,sec:5},ax:{econ:1}},
-  r:{t:"Renegotiate downward.",m:{purse:12,street:-16},v:{pro:-12,cap:-15,coh:-5,int:-3,sec:-5},ax:{econ:-1}}},
+ {w:"The ASUU President",s:"The universities have been shut for nine months. We want the funding promised in the agreement. Will you fund it, or ask us to accept less?",
+  l:{t:"Fund the agreement",m:{street:16,purse:-18},v:{pro:14,cap:17,coh:5,int:3,sec:5},ax:{econ:1}},
+  r:{t:"Seek a lower-cost agreement",m:{purse:12,street:-16},v:{pro:-12,cap:-15,coh:-5,int:-3,sec:-5},ax:{econ:-1}}},
 
- {w:"General Musa Dangana, Chief of Defence Staff",s:"ECOWAS wants Nigerian troops after the coup next door. If we do not go, the bloc is finished as an idea.",
-  l:{t:"Send them.",m:{barracks:16,purse:-14,street:-6},v:{pro:-3,sec:4,sov:13,cap:-4,coh:-3}},
-  r:{t:"Sanctions, not soldiers.",m:{barracks:-14,purse:8},v:{pro:2,sec:-2,sov:-9,cap:2}}},
+ {w:"General Musa Dangana",s:"There has been a coup in a neighbouring country. ECOWAS wants Nigerian troops. We can send them or support sanctions instead.",
+  l:{t:"Send Nigerian troops",m:{barracks:16,purse:-14,street:-6},v:{pro:-3,sec:4,sov:13,cap:-4,coh:-3}},
+  r:{t:"Support sanctions instead",m:{barracks:-14,purse:8},v:{pro:2,sec:-2,sov:-9,cap:2}}},
 
- {w:"The Chief Justice",s:"The court has ruled against your administration. My registrar tells me the ministry is drafting reasons to delay compliance.",
-  l:{t:"Comply this week.",m:{street:16,barracks:-8,gov:6},v:{pro:15,int:19,cap:9,coh:4,sec:5},ax:{security:1}},
-  r:{t:"We will appeal it forever.",m:{barracks:10,street:-22},v:{pro:-16,int:-19,cap:-9,coh:-4,sec:-6},ax:{security:-1},f:"dirty"}},
+ {w:"The Chief Justice",s:"The court has ruled against your administration. The ministry is preparing to delay compliance. Will you comply now or let the delay continue?",
+  l:{t:"Comply with the ruling",m:{street:16,barracks:-8,gov:6},v:{pro:15,int:19,cap:9,coh:4,sec:5},ax:{security:1}},
+  r:{t:"Delay compliance",m:{barracks:10,street:-22},v:{pro:-16,int:-19,cap:-9,coh:-4,sec:-6},ax:{security:-1},f:"dirty"}},
 
- {w:"The Comptroller of Customs",s:"Close the land borders and local rice wins. Leave them open and the smugglers do.",
-  l:{t:"Close them.",m:{purse:12,palace:10,street:-16},v:{pro:-10,sov:11,sec:4,coh:-4,cap:-3},ax:{horizon:-1}},
-  r:{t:"Keep them open.",m:{street:12,purse:-8},v:{pro:7,sov:-6,sec:-3,coh:4,cap:2},ax:{horizon:1}}},
+ {w:"The Comptroller of Customs",s:"Closing the land borders may protect local rice producers, but it will also restrict legitimate trade. Will you close them or keep them open?",
+  l:{t:"Close the land borders",m:{purse:12,palace:10,street:-16},v:{pro:-10,sov:11,sec:4,coh:-4,cap:-3},ax:{horizon:-1}},
+  r:{t:"Keep the land borders open",m:{street:12,purse:-8},v:{pro:7,sov:-6,sec:-3,coh:4,cap:2},ax:{horizon:1}}},
 
- {w:"The Minister of Power",s:"The tariff has not covered the cost of a unit of electricity in twenty years. That is why there is no electricity.",
-  l:{t:"Cost-reflective tariff.",m:{purse:14,street:-20},v:{pro:16,cap:15,int:5,coh:-6,sec:4},ax:{econ:-1}},
-  r:{t:"Hold the tariff.",m:{street:14,purse:-14},v:{pro:-13,cap:-13,int:-4,coh:5,sec:-4},ax:{econ:1}}},
+ {w:"The Minister of Power",s:"The electricity tariff does not cover the cost of supply. Raising it would bring in more money, but households would pay more.",
+  l:{t:"Raise tariffs to cover supply costs",m:{purse:14,street:-20},v:{pro:16,cap:15,int:5,coh:-6,sec:4},ax:{econ:-1}},
+  r:{t:"Keep the current tariff",m:{street:14,purse:-14},v:{pro:-13,cap:-13,int:-4,coh:5,sec:-4},ax:{econ:1}}},
 
- {w:"A foreign lender",s:"Twelve billion, fifteen years, our contractors. The rail will be built and it will be built quickly.",
-  l:{t:"Take the money.",m:{purse:16,gov:6},v:{pro:9,cap:11,sov:-15,int:-4,sec:3},ax:{horizon:1},f:"debt"},
-  r:{t:"We will build it slower.",m:{purse:-10},v:{pro:-3,cap:-4,sov:11,int:3,sec:-2}}},
+ {w:"A foreign lender",s:"We can finance the railway, but the loan requires you to use our contractors. Accept the terms, or build more slowly without this loan.",
+  l:{t:"Accept the loan and its terms",m:{purse:16,gov:6},v:{pro:9,cap:11,sov:-15,int:-4,sec:3},ax:{horizon:1},f:"debt"},
+  r:{t:"Proceed without this loan",m:{purse:-10},v:{pro:-3,cap:-4,sov:11,int:3,sec:-2}}},
 
- {w:"The Accountant-General",req:"debt",s:"Debt service is now larger than revenue. The loans you took are being repaid with loans.",
-  l:{t:"Borrow to cover it.",m:{purse:10,street:4},v:{pro:-15,sov:-13,cap:-4,int:-5,coh:3},ax:{econ:1}},
-  r:{t:"Austerity budget.",m:{purse:-6,street:-16,gov:-10},v:{pro:6,sov:9,int:5,cap:-6,coh:-9},ax:{econ:-1}}},
+ {w:"The Accountant-General",req:"debt",s:"Debt repayments now exceed our revenue. We can borrow to meet them, or cut spending elsewhere in the budget.",
+  l:{t:"Borrow to meet repayments",m:{purse:10,street:4},v:{pro:-15,sov:-13,cap:-4,int:-5,coh:3},ax:{econ:1}},
+  r:{t:"Cut spending to meet repayments",m:{purse:-6,street:-16,gov:-10},v:{pro:6,sov:9,int:5,cap:-6,coh:-9},ax:{econ:-1}}},
 
- {w:"Governor Bassey Ekanem, for the Governors' Forum",s:"VAT is collected in our states and spent from Abuja. We are going to court, unless you would rather talk.",
-  l:{t:"Concede collection.",m:{gov:20,purse:-16},v:{pro:5,coh:4,int:4,cap:-7},ax:{struct:1}},
-  r:{t:"See you in court.",m:{gov:-18,purse:12},v:{pro:-4,coh:-7,int:2,cap:6},ax:{struct:-1}}},
+ {w:"Governor Bassey Ekanem",s:"We want states to collect VAT instead of the federal government. Agree to discuss the transfer, or we will challenge the arrangement in court.",
+  l:{t:"Back state VAT collection",m:{gov:20,purse:-16},v:{pro:5,coh:4,int:4,cap:-7},ax:{struct:1}},
+  r:{t:"Defend federal collection in court",m:{gov:-18,purse:12},v:{pro:-4,coh:-7,int:2,cap:6},ax:{struct:-1}}},
 
- {w:"The Chairman of the anti-graft commission",s:"We have enough on a sitting Governor's closest man. He delivered three states for the party.",
-  l:{t:"Charge him.",m:{street:18,gov:-18},v:{pro:11,int:19,cap:5,coh:-5},ax:{represent:1}},
-  r:{t:"Not this year.",m:{gov:14,street:-16},v:{pro:-12,int:-17,cap:-4,coh:3},f:"dirty"}},
+ {w:"The Chairman of the anti-graft commission",s:"We have evidence to charge a governor’s close ally. He helped deliver three states for your party. Shall we proceed?",
+  l:{t:"Proceed with the charges",m:{street:18,gov:-18},v:{pro:11,int:19,cap:5,coh:-5},ax:{represent:1}},
+  r:{t:"Delay the case",m:{gov:14,street:-16},v:{pro:-12,int:-17,cap:-4,coh:3},f:"dirty"}},
 
- {w:"The Minister of Communications",req:"crackdown",s:"They are organising on the apps. We can take the networks down in an hour, the way other governments do.",
-  l:{t:"Shut it down.",m:{barracks:14,street:-28},v:{pro:-14,int:-17,sec:3,coh:-8,cap:-5},ax:{security:-1}},
-  r:{t:"Leave it on.",m:{street:16,barracks:-14},v:{pro:8,int:15,sec:-2,coh:6,cap:3},ax:{security:1}}},
+ {w:"The Minister of Communications",req:"crackdown",s:"Protesters are organising through messaging apps. We can shut down the networks, but that will cut off other people and businesses too.",
+  l:{t:"Shut down the networks",m:{barracks:14,street:-28},v:{pro:-14,int:-17,sec:3,coh:-8,cap:-5},ax:{security:-1}},
+  r:{t:"Keep the networks running",m:{street:16,barracks:-14},v:{pro:8,int:15,sec:-2,coh:6,cap:3},ax:{security:1}}},
 
- {w:"A delegation of young Nigerians",s:"You promised us the room, not the photograph. There is not one person under forty in your cabinet.",
-  l:{t:"Appoint them.",m:{street:18,palace:-12},v:{pro:8,coh:11,cap:6,int:5,sec:5},ax:{social:1}},
-  r:{t:"Experience first.",m:{palace:10,street:-14},v:{pro:-5,coh:-9,cap:-3,int:-3,sec:-5},ax:{social:-1}}},
+ {w:"A delegation of young Nigerians",s:"No one in your cabinet is under 40. We want younger Nigerians represented. Will you change the cabinet or keep the current team?",
+  l:{t:"Bring under-40s into the cabinet",m:{street:18,palace:-12},v:{pro:8,coh:11,cap:6,int:5,sec:5},ax:{social:1}},
+  r:{t:"Keep the current cabinet",m:{palace:10,street:-14},v:{pro:-5,coh:-9,cap:-3,int:-3,sec:-5},ax:{social:-1}}},
 
- {w:"The Attorney-General",s:"Local government funds pass through the states and mostly stop there. The constitution says otherwise. You can enforce it.",
-  l:{t:"Enforce autonomy.",m:{gov:-20,street:16},v:{pro:14,cap:13,int:13,coh:-5,sec:6},ax:{method:1}},
-  r:{t:"Do not start that fight.",m:{gov:16,street:-8},v:{pro:-9,cap:-10,int:-11,coh:4,sec:-6}}},
+ {w:"The Attorney-General",s:"State governments are holding back funds meant for local government. Will you press for direct access to those funds, or avoid a confrontation with the governors?",
+  l:{t:"Press for local access to the funds",m:{gov:-20,street:16},v:{pro:14,cap:13,int:13,coh:-5,sec:6},ax:{method:1}},
+  r:{t:"Defer the confrontation",m:{gov:16,street:-8},v:{pro:-9,cap:-10,int:-11,coh:4,sec:-6}}},
 
- {w:"The Sponsor of the Seats Bill",s:"Reserved seats for women. It failed in 2022. It fails again next week without you standing up in public.",
-  l:{t:"Stand up for it.",m:{street:14,palace:-18},v:{pro:9,coh:11,int:10,cap:4},ax:{method:1}},
-  r:{t:"Let the chamber decide.",m:{palace:12,street:-10},v:{pro:-6,coh:-8,int:-7},ax:{method:-1}}},
+ {w:"The Sponsor of the Seats Bill",s:"The bill would reserve seats for women. Its supporters want you to back it publicly before the vote. Will you?",
+  l:{t:"Publicly support the reserved seats",m:{street:14,palace:-18},v:{pro:9,coh:11,int:10,cap:4},ax:{method:1}},
+  r:{t:"Do not campaign for the bill",m:{palace:12,street:-10},v:{pro:-6,coh:-8,int:-7},ax:{method:-1}}},
 
- {w:"A Niger Delta leader",s:"The amnesty stipends have kept the creeks quiet for fifteen years. The budget office wants them cut.",
-  l:{t:"Keep paying.",m:{purse:-14,street:6},v:{pro:-7,sec:9,int:-10,coh:3,cap:-4},ax:{represent:-1}},
-  r:{t:"End the programme.",m:{purse:14,barracks:-8},v:{pro:4,sec:-11,int:10,coh:-4,cap:3},ax:{represent:1},f:"creeks"}},
+ {w:"A Niger Delta leader",s:"The amnesty programme pays stipends to keep the peace in the creeks. The budget office wants to stop the payments. We are warning you about what may follow.",
+  l:{t:"Continue the stipends",m:{purse:-14,street:6},v:{pro:-7,sec:9,int:-10,coh:3,cap:-4},ax:{represent:-1}},
+  r:{t:"End the stipends",m:{purse:14,barracks:-8},v:{pro:4,sec:-11,int:10,coh:-4,cap:3},ax:{represent:1},f:"creeks"}},
 
- {w:"The Chief of Defence Staff",req:"creeks",s:"Production is down four hundred thousand barrels a day. The creeks are not quiet any more.",
-  l:{t:"Send in the military.",m:{barracks:16,street:-14,purse:-8},v:{pro:-10,sec:3,coh:-11,int:-6},ax:{security:-1}},
-  r:{t:"Reopen negotiations.",m:{street:10,barracks:-10,purse:-10},v:{pro:3,sec:6,coh:8,int:-4},ax:{security:1}}},
+ {w:"The Chief of Defence Staff",req:"creeks",s:"Attacks in the creeks have cut oil production. We can deploy the military or reopen negotiations.",
+  l:{t:"Deploy the military",m:{barracks:16,street:-14,purse:-8},v:{pro:-10,sec:3,coh:-11,int:-6},ax:{security:-1}},
+  r:{t:"Reopen negotiations",m:{street:10,barracks:-10,purse:-10},v:{pro:3,sec:6,coh:8,int:-4},ax:{security:1}}},
 
- {w:"Mrs Amaka Nwachukwu, Chair of the Chamber",s:"AfCFTA means opening properly. Our manufacturers will lose the first three years and gain the next twenty.",
-  l:{t:"Open the borders.",m:{purse:-8,street:-8,gov:6},v:{pro:15,cap:6,sov:-9,coh:-3},ax:{horizon:1}},
-  r:{t:"Protect them.",m:{purse:10,street:10},v:{pro:-11,cap:-5,sov:10,coh:3},ax:{horizon:-1}}},
+ {w:"Mrs Amaka Nwachukwu",s:"Opening trade under the African Continental Free Trade Area would expose local manufacturers to more competition. They want protection; supporters expect a larger market.",
+  l:{t:"Open trade under the agreement",m:{purse:-8,street:-8,gov:6},v:{pro:15,cap:6,sov:-9,coh:-3},ax:{horizon:1}},
+  r:{t:"Keep protection for local manufacturers",m:{purse:10,street:10},v:{pro:-11,cap:-5,sov:10,coh:3},ax:{horizon:-1}}},
 
- {w:"A group of state governors",s:"Herders and farmers are killing each other across the middle of the country. We want a national ranching law.",
-  l:{t:"Federal ranching law.",m:{gov:-12,palace:-10},v:{pro:12,coh:13,sec:11,cap:5},ax:{struct:-1}},
-  r:{t:"Each state decides.",m:{gov:16,palace:8},v:{pro:-8,coh:-10,sec:-9,cap:-4},ax:{struct:1}}},
+ {w:"A group of state governors",s:"Farmer–herder violence is spreading across state boundaries. Should ranching be governed by one national law or by separate state rules?",
+  l:{t:"Back a national ranching law",m:{gov:-12,palace:-10},v:{pro:12,coh:13,sec:11,cap:5},ax:{struct:-1}},
+  r:{t:"Leave ranching rules to each state",m:{gov:16,palace:8},v:{pro:-8,coh:-10,sec:-9,cap:-4},ax:{struct:1}}},
 
- {w:"The INEC Chairman",s:"The election budget has been cut by a third. I can run a cheaper election. I cannot run a cheaper credible one.",
-  l:{t:"Fund it fully.",m:{street:16,purse:-14},v:{pro:10,int:19,coh:6,cap:5,sec:6},ax:{represent:1}},
-  r:{t:"Run the cheap one.",m:{purse:12,street:-20},v:{pro:-14,int:-19,coh:-8,cap:-4,sec:-8},f:"dirty"}},
+ {w:"The INEC Chairman",s:"The election budget has been cut by a third. I am warning you that the reduced budget will compromise how we run the election.",
+  l:{t:"Restore the election budget",m:{street:16,purse:-14},v:{pro:10,int:19,coh:6,cap:5,sec:6},ax:{represent:1}},
+  r:{t:"Keep the reduced budget",m:{purse:12,street:-20},v:{pro:-14,int:-19,coh:-8,cap:-4,sec:-8},f:"dirty"}},
 
- {w:"A General",s:"The procurement is classified. That is the nature of defence procurement. You are asking questions your predecessors did not.",
-  l:{t:"Open the books.",m:{barracks:-18,street:14},v:{pro:11,int:17,cap:6,sec:-4},ax:{represent:1}},
-  r:{t:"Sign it blind.",m:{barracks:16,purse:-12},v:{pro:-13,int:-17,cap:-5,sec:5},f:"dirty"}},
+ {w:"A General",s:"This defence purchase is classified. You can require a review of the accounts, or approve it without seeing them.",
+  l:{t:"Require a review of the accounts",m:{barracks:-18,street:14},v:{pro:11,int:17,cap:6,sec:-4},ax:{represent:1}},
+  r:{t:"Approve without reviewing the accounts",m:{barracks:16,purse:-12},v:{pro:-13,int:-17,cap:-5,sec:5},f:"dirty"}},
 
- {w:"The Diaspora Commission",s:"Twenty billion dollars a year comes home from them and they cannot vote. They have noticed.",
-  l:{t:"Give them the vote.",m:{street:12,purse:-6},v:{pro:7,coh:9,int:9,sov:4,cap:-3},ax:{horizon:1}},
-  r:{t:"Not this cycle.",m:{palace:8,street:-10},v:{pro:-4,coh:-6,int:-6,sov:-2}}},
+ {w:"The Diaspora Commission",s:"Nigerians living abroad want to vote from where they live. Will you back voting from abroad for this election cycle?",
+  l:{t:"Back voting from abroad",m:{street:12,purse:-6},v:{pro:7,coh:9,int:9,sov:4,cap:-3},ax:{horizon:1}},
+  r:{t:"Defer it beyond this cycle",m:{palace:8,street:-10},v:{pro:-4,coh:-6,int:-6,sov:-2}}},
 
- {w:"An oil major",s:"We are divesting onshore. Either you approve the sale to a local buyer, or we simply stop spending and let the fields decline.",
-  l:{t:"Approve the sale.",m:{purse:12,gov:-6},v:{pro:-5,sov:7,cap:-3,int:-5},ax:{econ:-1}},
-  r:{t:"Block it pending review.",m:{purse:-12,street:6},v:{pro:4,sov:-3,cap:3,int:6},ax:{econ:1}}},
+ {w:"An oil major",s:"We want to sell our onshore operations to a Nigerian buyer. Approve the sale now, or hold it for review while we reduce investment.",
+  l:{t:"Approve the sale now",m:{purse:12,gov:-6},v:{pro:-5,sov:7,cap:-3,int:-5},ax:{econ:-1}},
+  r:{t:"Require a review before approval",m:{purse:-12,street:6},v:{pro:4,sov:-3,cap:3,int:6},ax:{econ:1}}},
 
- {w:"The Minister of Education",s:"Twenty million children are not in any school. Fixing it costs more than one term and pays out after three.",
-  l:{t:"Fund it anyway.",m:{purse:-20,palace:-6},v:{pro:20,cap:21,coh:8,sec:6},ax:{econ:1}},
-  r:{t:"Not affordable now.",m:{purse:14},v:{pro:-15,cap:-19,coh:-6,sec:-5},ax:{econ:-1}}},
+ {w:"The Minister of Education",s:"Millions of children are out of school. Expanding access needs sustained funding, and the full benefits will take longer than your term.",
+  l:{t:"Commit the education funding",m:{purse:-20,palace:-6},v:{pro:20,cap:21,coh:8,sec:6},ax:{econ:1}},
+  r:{t:"Defer the funding",m:{purse:14},v:{pro:-15,cap:-19,coh:-6,sec:-5},ax:{econ:-1}}},
 
- {w:"The IMF mission chief",s:"The programme comes with conditions. You know what the conditions are. Everyone in this building knows what they are.",
-  l:{t:"Accept the programme.",m:{purse:18,street:-18},v:{pro:6,sov:-17,cap:5,int:4,coh:-5,sec:-5},ax:{econ:-1}},
-  r:{t:"We will manage alone.",m:{street:14,purse:-16},v:{pro:-6,sov:15,cap:-4,coh:4,sec:2},ax:{horizon:-1}}},
+ {w:"The IMF mission chief",s:"Three billion dollars, and the conditions are the ones you already know: end the fuel subsidy, let the naira find its level, and hold public spending flat for two years.",
+  l:{t:"Accept the programme and its conditions",m:{purse:18,street:-18},v:{pro:6,sov:-17,cap:5,int:4,coh:-5,sec:-5},ax:{econ:-1}},
+  r:{t:"Decline the programme",m:{street:14,purse:-16},v:{pro:-6,sov:15,cap:-4,coh:4,sec:2},ax:{horizon:-1}}},
 
- {w:"Your Chief of Staff",req:"dirty",s:"A reporter has most of it. Not all of it, but most of it. We can make the story difficult for her.",
-  l:{t:"Make it difficult.",m:{barracks:8,street:-24},v:{pro:-12,int:-19,coh:-6,sec:-4},ax:{security:-1}},
-  r:{t:"Let her publish.",m:{street:18,palace:-8},v:{pro:10,int:17,coh:5,sec:3},ax:{security:1}}}
+ {w:"Your Chief of Staff",req:"dirty",s:"A reporter has most of the contract file — not all of it, but most. We can make the story difficult for her, or let her publish.",
+  l:{t:"Pressure her to stop the story",m:{barracks:8,street:-24},v:{pro:-12,int:-19,coh:-6,sec:-4},ax:{security:-1}},
+  r:{t:"Let her publish",m:{street:18,palace:-8},v:{pro:10,int:17,coh:5,sec:3},ax:{security:1}}}
 ];
 Array.prototype.push.apply(DECK,STATE_CARDS);
 Array.prototype.push.apply(DECK,CRISIS_CARDS);
@@ -3184,7 +3182,7 @@ function impCheck(){
   if(G.imp||G.day<7||(G.impTried||0)>=2)return false;
   /* The full process is four beats and eight decisions. Starting one the run has no
      room to finish leaves it hanging at the ballot, which reads as a bug. */
-  if(G.limit-G.day<9)return false;
+  if(G.limit-G.day<7)return false;
   if(G.impCool!==undefined&&G.day-G.impCool<6)return false;
   return navAgainst()>=58;
 }
@@ -3212,27 +3210,21 @@ function impDeal(){
   if(i.st==="notice"){
     var ps=particulars();
     impCard("The President of the Senate",
-      "A notice under section 143, signed by a third of the National Assembly. The particulars are "+
-      ps.join(", ")+". I am obliged to serve it on you and on every member. You may reply in writing.",
-      "Reply in writing.","Say nothing.");
-    return;
-  }
-  if(i.st==="broker"){
-    impCard(FACE.gov.n+", "+FACE.gov.t,
-      "They have the signatures. What they do not have yet is two-thirds of all the members of both chambers, and three of us can hold our delegations where they are. We would want something for that.",
-      "Make the deal.","Take your chances.");
+      "A third of the Assembly has signed a notice to remove you from office. The particulars are "+
+      ps.join(", ")+". I have to serve it on you and on every member of both chambers.",
+      "Answer them in public.","Speak to the governors first.");
     return;
   }
   if(i.st==="panel"){
     impCard("Your Chief of Staff, with the door closed",
-      "The motion carried. The Chief Justice appoints seven people within seven days \u2014 but only when the Senate President asks him to, and the Senate President can be persuaded that this is not the week. It worked in Rivers in January.",
-      "Let it be constituted.","Lean on them.");
+      "Seven people have to be appointed to examine this. The Chief Justice appoints them \u2014 but only once the Senate President asks him to, and the Senate President can be persuaded that this is not the week.",
+      "Let the panel sit.","Lean on them.");
     return;
   }
   if(i.st==="defence"){
     impCard("The panel, seven people you have never met",
-      "Section 143(6) gives you the right to appear in person and to be represented by counsel of your own choosing. We sit for three months. Whether you come is a matter for you.",
-      "Go and defend yourself.","Send the lawyers.");
+      "You can come and answer this yourself, or send your lawyers. We sit for three months. That is your choice to make.",
+      "Go and answer it.","Send the lawyers.");
     return;
   }
 }
@@ -3249,33 +3241,26 @@ function impPlay(side){
   function move(k,d){var b=G.m[k];G.m[k]=Math.max(0,Math.min(100,b+d));deltas[k]=(deltas[k]||0)+(G.m[k]-b);}
   if(i.st==="notice"){
     if(L){ applyV({int:3},1); move("street",4); }
-    else { move("palace",-4); }
-    i.st="broker";i.at=G.day;
-    impFlag(L?"Your reply was served on every member.":"You said nothing.",
-      L?"Section 143(3) is clear that the chambers vote within fourteen days whether or not you answer. It has never stopped a member reading it.":
-        "The section does not require an answer. The members noticed that you did not give one.");
-  }
-  else if(i.st==="broker"){
-    if(L){ i.deal=true; move("gov",16); move("purse",-8); applyV({int:-13,cap:-4},1); }
+    else { i.deal=true; move("gov",16); move("purse",-8); applyV({int:-13,cap:-4},1); }
     var ag=navAgainst();
     var carried=(ag>=67);
     i.st=carried?"panel":"over";i.at=G.day;i.motion=ag;
-    impFlag(carried?"The motion carried in both chambers.":"The motion failed.",
+    impFlag(carried?"Both chambers voted to go on.":"The vote failed.",
       carried
-        ? "Two-thirds of all the members of each House, without debate, as section 143(4) requires. Roughly "+ag+" in every hundred were against you and only sixty-seven were needed."
-        : "About "+ag+" in every hundred were against you. Section 143(4) needs two-thirds of all the members of each chamber, not of those who turned up, and they could not find it."+(L?" The three delegations held.":""));
+        ? "It needs two thirds of every member of both chambers, and they found it. Seven people will now be appointed to examine the case."
+        : "It needs two thirds of every member of both chambers, and they could not find it."+(L?"":" The three delegations held."));
     if(!carried)impEnd(false,"motion");
   }
   else if(i.st==="panel"){
     if(L){ i.st="defence";i.at=G.day;
-      impFlag("The Chief Justice has appointed seven.",
-        "Persons of unquestionable integrity, none of them a public servant, a legislator or a member of any party. They have three months.");
+      impFlag("Seven people have been appointed.",
+        "None of them a politician or a public servant. They have three months to look at the case.");
     } else {
       i.leaned=true; move("street",-10); move("palace",6);
       applyV({int:-22,cap:-6},1);
       G.flags.leaned_cjn=true;
-      impFlag("No panel was constituted.",
-        "The Senate President never made the request, so the Chief Justice never appointed anybody, and the thing stopped where these things usually stop. Nobody outside this building believes it was a coincidence.");
+      impFlag("No panel was appointed.",
+        "The request was never made, so nobody was ever appointed, and the thing stopped where these things usually stop. Nobody outside this building believes that was a coincidence.");
       impEnd(false,"panel");
     }
   }
@@ -3285,17 +3270,17 @@ function impPlay(side){
     /* The panel is not a vote. It is seven people reading the particulars against the
        record of the government, which is the integrity of the state you have run. */
     var proved=(G.v.int+(i.defended?7:0)+(i.deal?-4:0))<40;
-    if(!proved){ impFlag("The panel found the allegation not proved.",
-        "Under section 143(8) no further proceedings may be taken on this matter. It is finished, and it is finished for good.");
+    if(!proved){ impFlag("The panel cleared you.",
+        "It is finished, and it cannot be brought against you again on these facts.");
       impEnd(false,"finding"); }
     else {
       var ag2=navAgainst();
       if(ag2>=67){
-        impFlag("The report was adopted.","Two-thirds of all the members of each chamber. Under section 143(9) you stand removed from office as from today.");
+        impFlag("The report was adopted.","Two thirds of every member of both chambers again. You are removed from office today.");
         G.impRemoved=true;
       } else {
-        impFlag("The panel found against you. The chambers did not adopt it.",
-          "About "+ag2+" in every hundred, and adoption needs two-thirds of all the members of each House all over again. You keep the office and you keep the finding.");
+        impFlag("The panel found against you. The chambers did not remove you.",
+          "About "+ag2+" in every hundred voted to, and it needed two thirds of every member all over again. You keep the office and you keep the finding.");
         impEnd(false,"adoption");
       }
     }
@@ -3327,11 +3312,11 @@ function impEnd(removed,where){
 function impLine(){
   if(G.impRemoved)return "";
   if(!G.impSurvived)return "";
-  var w={motion:"the chambers could not find two-thirds",
-         panel:"no panel was ever constituted",
-         finding:"the panel found the allegation not proved",
+  var w={motion:"the chambers could not find two thirds",
+         panel:"no panel was ever appointed",
+         finding:"the panel cleared you",
          adoption:"the chambers would not adopt the report"}[G.impWhere]||"it failed";
-  return " You were served with a notice under section 143 and you are still here: "+w+
+  return " The Assembly moved to remove you and you are still here: "+w+
     (G.flags.leaned_cjn?", which is not quite the same as being cleared.":".");
 }
 
@@ -3781,16 +3766,6 @@ function heldBy(){
   return " For "+mo+" of your "+totalW+" months "+worst.b.n.toLowerCase()+
     (worst.kind==="cap"?" effectively governed alongside you.":" wanted you gone.");
 }
-function contradiction(ch){
-  if(!st.r||!ch.ax)return null;
-  var k=Object.keys(ch.ax)[0],dir=ch.ax[k],said=st.r.pos[k];
-  if(Math.abs(said)<25)return null;
-  if((said>0)===(dir>0))return null;
-  var ax=AXES.filter(function(a){return a.k===k;})[0];
-  return "You answered "+(said>0?ax.pos:ax.neg).toLowerCase()+" at "+(said>0?"+":"")+said+
-    " on "+ax.n.toLowerCase()+". You just governed the other way.";
-}
-
 var PER_YEAR=4,PER_TERM=16,BASE_LIMIT=32;
 /* Obasanjo put a third term to the National Assembly in 2006 and it died on the floor.
    Whether yours passes depends on whether you have the Palace, the Barracks and the
@@ -3806,9 +3781,8 @@ function applyV(o,scale){
 }
 /* Pressing faster than the game resolves used to queue a second nextCard, and the
    second one landed eight milliseconds after the first had put a message on screen —
-   so a player who clicks quickly never saw "the amendment passed", never saw a
-   contradiction flagged, and could skip a card outright. A decision now locks the
-   controls until the next answerable card is on screen. */
+   so a player who clicks quickly never saw "the amendment passed" and could skip a
+   card outright. A decision now locks the controls until the next card is on screen. */
 function play(side){
   if(!G.live||G.busy)return;
   if(SND&&AC&&AC.state!=="running")unlock();
@@ -3908,10 +3882,6 @@ function play(side){
   var shift=updateStates();
   if(ch.f)G.flags[ch.f]=true;
   G.day++;G.year=Math.floor((G.day-1)/PER_YEAR);
-  var msg=contradiction(ch);
-  G.lastTest=msg?{k:Object.keys(ch.ax)[0]}:null;
-  if(msg){G.contra++;SFX.flag();$("gFlagTitle").textContent="That is not what you told us.";
-    $("gFlag").textContent=msg;$("gFlagBox").hidden=false;}
   SFX.decide();
   renderMeters(deltas);
   if(!(G.crisisN>=3&&G.prevN<3)){
@@ -3924,47 +3894,7 @@ function play(side){
   if(G.crisisN>=3&&G.prevN<3)brink();
   if(G.day>=G.limit){setTimeout(function(){endGame(null,"legacy");},1000);return;}
   if(G.day%PER_TERM===0){setTimeout(election,1000);return;}
-  if(msg){ askExcuse(); return; }
   setTimeout(nextCard,800);
-}
-
-/* You broke your own word. Say something. Nothing here touches the score — it is
-   here because it is the moment a person recognises themselves, and because the
-   answer they pick is more revealing than the decision was. */
-/* This asked for an excuse, which presumes the player did something needing one, and
-   offered no way to say the comparison itself was wrong. Every option conceded the
-   game's reading. Rejecting it is now one of the answers, and a rejected comparison is
-   taken back out of the fidelity count rather than held against anybody. */
-var EXCUSES=[
-  {k:"same",   t:"They express the same principle."},
-  {k:"context",t:"The circumstances changed my decision."},
-  {k:"changed",t:"I changed my mind."},
-  {k:"playing",t:"I was experimenting with the game."},
-  {k:"reject", t:"This comparison does not fit."}
-];
-function askExcuse(){
-  var box=$("gExcuse");
-  box.innerHTML='<span class="lab">How do these fit together for you?</span>'+
-    '<div class="exrow">'+EXCUSES.map(function(e){
-      return '<button type="button" class="exbtn'+(e.k==="reject"?' rej':'')+'" data-ex="'+e.k+'">'+e.t+'</button>';}).join("")+'</div>';
-  box.hidden=false;
-  Array.prototype.forEach.call(box.querySelectorAll(".exbtn"),function(btn){
-    btn.addEventListener("click",function(){
-      var k=btn.dataset.ex;
-      G.ex[k]=(G.ex[k]||0)+1;
-      /* A comparison the player rejects is withdrawn from the measure. */
-      if(k==="reject"&&G.lastTest){
-        var t=G.lastTest;
-        G.gtest[t.k]=Math.max(0,(G.gtest[t.k]||0)-1);
-        G.contra=Math.max(0,G.contra-1);
-        G.rejected=(G.rejected||0)+1;
-      }
-      G.lastTest=null;
-      box.hidden=true;box.innerHTML="";
-      SFX.decide();
-      nextCard();
-    });
-  });
 }
 
 function election(){
@@ -4138,9 +4068,10 @@ function endGame(bloc,why){
   } else if(why==="impeached"){
     kick="REMOVED BY THE NATIONAL ASSEMBLY";
     title="Two-thirds of both chambers.";
-    body="A notice under section 143, a panel of seven people who had never met you, and then the vote again \u2014 two-thirds of all the members of each House, which is the hardest number in the Constitution to assemble. "+
-      "You stood removed from office on the day the report was adopted. There was no court to go to; section 143(10) saw to that, and in any case the Assembly had followed the section. "+
-      "Your Vice-President was sworn in the same afternoon and is now the President of Nigeria. No Nigerian president had ever been removed this way before you.";
+    body="A notice signed by a third of the Assembly, a vote in both chambers, seven people who had never met you, and then the vote again. "+
+      "Two thirds of every member, twice \u2014 the hardest number in the Constitution to assemble, and they assembled it. "+
+      "There was no court to appeal to. Your Vice-President was sworn in the same afternoon and is now the President of Nigeria. "+
+      "No Nigerian president had ever been removed this way before you.";
   } else if(why==="lost"){
     kick="YOU LOST THE ELECTION";
     title="They voted you out.";
@@ -4185,22 +4116,19 @@ function endGame(bloc,why){
   G.pn=presidencyCode(bloc,why);
   $("gEndKick").textContent=kick;
   $("gEndTitle").textContent=title;
-  $("gEndBody").textContent=body+impLine();
+  /* The paragraph that used to sit here told the player what to make of the ending
+     before they had seen any of it. The record below says what happened. */
   var yrs=Math.floor(G.day/PER_YEAR),mos=Math.round((G.day%PER_YEAR)*(12/PER_YEAR));
   $("gEndYears").textContent=yrs+"y "+mos+"m";
   $("gEndCount").textContent=G.day;
   postMortem(bloc);
   ledger();
   philosophy();
-  var p=national();
   dossier();versus();
   notePlayed({t:Date.now(),d:G.day,k:$("gEndKick").textContent});
   steps();marks();returnLeg();
-  $("gEndVerdict").textContent = p>=50
-    ? "You left the country better than you found it on the measures above. Almost nobody in the room ever asked you to."
-    : (p>=33
-      ? "The country is roughly where you found it. You spent the time surviving, which is what the job mostly is, and that is the complaint."
-      : "You stayed in the room and the country went backwards while you did. Every power in that room got something out of you at some point. The measures above are what it cost.");
+  /* No closing verdict. The six measures and the record above are the account; a
+     sentence telling the player what to conclude from them is not. */
 }
 
 /* ---------- the record ----------
@@ -4554,7 +4482,7 @@ function beginRun(){
      crisis:{},crisisN:0,prevN:0,crisisTurns:0,recovered:0,lifted:null,everCrisis:{},
      shocks:{},shockN:0,shockLog:[],lastShock:undefined,
      fuseAt:{},fuseLit:0,fuseMet:0,burnt:null,
-     imp:null,impTried:0,impSurvived:0,impRemoved:false,impCool:undefined,impWhere:null,done:false,busy:false,lastTest:null,rejected:0};
+     imp:null,impTried:0,impSurvived:0,impRemoved:false,impCool:undefined,impWhere:null,done:false,busy:false};
   KEYS.forEach(function(k){G.gax[k]=0;G.gn[k]=0;G.gtest[k]=0;G.gwith[k]=0;});
   BLOCS.forEach(function(b){G.m[b.k]=50;G.hist[b.k]=[];G.cold[b.k]=0;
     G.stNow[b.k]="holding";G.stT[b.k]={};G.turned[b.k]=false;});
