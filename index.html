@@ -151,6 +151,7 @@ nav.top button[aria-current="true"]{border-color:var(--rule);background:var(--in
 /* The two halves are numbered wherever you are on the site, and the numeral becomes a
    tick when you have done that half. This is the whole "there are two things here"
    problem solved in twenty pixels, with no bar and no onboarding. */
+nav.top button .pip[hidden]{display:none;}
 nav.top button .pip{font-style:normal;display:inline-block;min-width:1.5em;margin-right:7px;
   text-align:center;border:1px solid var(--hair);color:var(--ink-3);
   font-size:.64rem;line-height:1.45;}
@@ -174,6 +175,10 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 
 /* landing */
 .hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(24px,4vw,52px);align-items:start;}
+.lede{font-size:var(--s-0);color:var(--ink-2);margin:16px 0 0;max-width:46ch;line-height:1.55;}
+.lnk{background:none;border:0;padding:0;font:inherit;color:var(--ink);cursor:pointer;
+  border-bottom:2px solid var(--danfo);}
+.lnk:hover{background:var(--danfo);color:#141821;}
 .hero h1{font-size:var(--s-4);}
 .hero h1 em{font-style:normal;color:var(--palm-text);}
 .kick{font-size:var(--s-1);color:var(--ink-2);margin:22px 0 0;max-width:42ch;line-height:1.42;}
@@ -302,6 +307,7 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 .aname{font-size:var(--s-3);margin:8px 0 0;}
 .afit{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--bronze-text);letter-spacing:.1em;margin-top:10px;display:block;}
 .asum{color:var(--ink-2);margin:14px 0 0;font-size:.97rem;line-height:1.52;}
+.tag[hidden],.afit[hidden]{display:none !important;}
 .tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.12em;
   text-transform:uppercase;border:1px solid var(--ink);padding:4px 8px;color:var(--ink);}
 
@@ -323,7 +329,7 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 .arow .v{font-family:"IBM Plex Mono",monospace;font-size:.67rem;color:var(--ink-3);text-align:right;}
 
 .trad{border:3px solid var(--rule);background:var(--stock);margin-top:22px;
-  display:grid;grid-template-columns:190px minmax(0,1fr);}
+  display:grid;grid-template-columns:190px minmax(0,1fr);align-items:start;}
 @media (max-width:640px){.trad{grid-template-columns:1fr;}}
 .portrait{border-right:1px solid var(--hair);padding:20px;display:flex;flex-direction:column;
   align-items:center;justify-content:flex-start;gap:10px;background:var(--stock-2);}
@@ -331,16 +337,16 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 .portrait svg{width:100%;max-width:110px;height:auto;display:block;}
 /* the portrait sits on the indigo ground with the resist field showing through it,
    so an illustration that arrived as a cut-out still reads as part of the page */
-.portrait{background:var(--elu);position:relative;overflow:hidden;padding:0;justify-content:flex-end;}
+.portrait{background:var(--elu);position:relative;overflow:hidden;padding:0;justify-content:flex-start;}
 .portrait::before{content:"";position:absolute;inset:0;opacity:.14;
   background-image:var(--adire-a),var(--adire-b);
   background-size:52px 52px,61px 61px;background-position:0 0,19px 31px;
   filter:invert(1) brightness(3);}
 .portrait .pimg{position:relative;z-index:1;width:100%;height:auto;display:block;
-  margin-top:auto;filter:drop-shadow(0 2px 10px rgba(0,0,0,.35));}
+  filter:drop-shadow(0 2px 10px rgba(0,0,0,.35));}
 .portrait svg{position:relative;z-index:1;margin:20px auto;}
-.portrait .cap{position:relative;z-index:2;color:var(--on-elu-2);padding:0 10px 12px;
-  background:linear-gradient(to top,var(--elu) 55%,transparent);margin-top:-30px;padding-top:22px;}
+.portrait .cap{position:relative;z-index:2;color:var(--on-elu-2);padding:0 10px 14px;
+  background:linear-gradient(to top,var(--elu) 62%,transparent);margin-top:-34px;padding-top:26px;}
 .portrait .cap{font-family:"IBM Plex Mono",monospace;font-size:.52rem;letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink-3);text-align:center;line-height:1.5;}
 .tbody{padding:clamp(18px,2.6vw,26px);}
@@ -348,14 +354,28 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 .tdates{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--ink-3);margin-top:6px;display:block;}
 .tbody p{margin:14px 0 0;line-height:1.56;}
 .twhy{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);font-size:.89rem;color:var(--ink-2);}
-.tsec{display:grid;gap:12px;margin-top:16px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));}
-.tsec div{border-left:3px solid var(--bronze);padding-left:12px;}
-/* the people behind a tradition, at the size of a stamp */
-.tsec div.withpic{display:grid;grid-template-columns:54px minmax(0,1fr);gap:11px;align-items:start;}
-.tsec .sface{grid-row:1 / span 2;width:54px;height:54px;object-fit:cover;object-position:top center;
-  background:var(--elu);display:block;}
-.tsec b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:.8rem;display:block;text-transform:none;}
-.tsec span{font-size:.83rem;color:var(--ink-2);line-height:1.46;display:block;margin-top:4px;}
+/* The people behind a tradition used to sit at the size of a postage stamp with a
+   line each. They are the payoff of the questionnaire, so they are a read now. */
+.tsec{display:grid;gap:26px;margin-top:6px;grid-template-columns:1fr;max-width:70ch;}
+.tsec div{border-left:3px solid var(--bronze);padding-left:16px;}
+.tsec div.withpic{display:grid;grid-template-columns:132px minmax(0,1fr);gap:20px;align-items:start;
+  border-left:0;padding-left:0;}
+.tsec .sface{grid-row:1 / span 2;width:132px;height:160px;object-fit:cover;object-position:top center;
+  background:var(--elu);display:block;border:1px solid var(--hair);}
+.tsec b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.02rem;display:block;text-transform:none;}
+.tsec span{font-size:.93rem;color:var(--ink-2);line-height:1.6;display:block;margin-top:8px;}
+@media (max-width:560px){
+  .tsec div.withpic{grid-template-columns:96px minmax(0,1fr);gap:14px;}
+  .tsec .sface{width:96px;height:118px;}
+}
+.fsec-h{margin-top:22px;}
+.fsec-h .lab{color:var(--bronze-text);}
+.tbody p{max-width:66ch;}
+.fq{margin:16px 0 0;padding:0 0 0 16px;border-left:4px solid var(--danfo);}
+.fq p{margin:0;font-family:"Bricolage Grotesque",sans-serif;font-weight:600;
+  font-size:clamp(1.05rem,.95rem + .5vw,1.28rem);line-height:1.34;letter-spacing:-.015em;color:var(--ink);}
+.fq cite{display:block;margin-top:8px;font-style:normal;font-family:"IBM Plex Mono",monospace;
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);}
 
 /* civic profile */
 .civ{display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -585,6 +605,17 @@ tr:last-child td{border-bottom:0;}
 .chips i.hot{border-color:var(--laterite);color:var(--laterite-text);}
 .chips i.good{border-color:var(--palm);color:var(--palm-text);}
 
+/* The card is the object that travels, and a presidency with a name on it is a
+   different thing to send somebody than an anonymous one. Typed here, drawn onto the
+   canvas, and never stored or put in the link. */
+.namebox{margin-top:26px;padding-top:18px;border-top:1px solid var(--hair);max-width:34ch;}
+.namebox .lab{display:block;margin-bottom:8px;}
+.namebox input{width:100%;font-family:"Literata",Georgia,serif;font-size:1rem;
+  color:var(--ink);background:var(--stock);border:2px solid var(--ink);border-radius:0;
+  padding:11px 13px;}
+.namebox input::placeholder{color:var(--ink-3);}
+.namebox span{display:block;margin-top:7px;font-size:.8rem;color:var(--ink-3);}
+
 /* ===== the game ===== */
 .g-wrap{max-width:660px;margin:0 auto;}
 #gameRun{position:relative;}
@@ -595,6 +626,21 @@ tr:last-child td{border-bottom:0;}
 .gate-blocs p{margin:0;font-size:.8rem;color:var(--ink-2);line-height:1.44;}
 
 .meters{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:18px;}
+/* The six measures used to be invisible until the run was over, which made the ending
+   arrive out of nowhere. They sit under the powers now, deliberately quiet: no figures,
+   no movement flashes, nothing that competes with the five bars above. */
+.cwrap{margin-top:12px;padding-top:10px;border-top:1px solid var(--hair);}
+.clab{display:block;font-family:"IBM Plex Mono",monospace;font-size:.54rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;}
+.cmeters{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;}
+.cm span{display:block;font-family:"IBM Plex Mono",monospace;font-size:.5rem;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--ink-3);line-height:1.25;margin-bottom:4px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cm .ct{height:4px;background:var(--stock-2);border:1px solid var(--hair);}
+.cm .ct i{display:block;height:100%;background:var(--ink-3);transition:width .7s ease;}
+.cm.up .ct i{background:var(--palm);}
+.cm.dn .ct i{background:var(--laterite);}
+@media(max-width:560px){.cmeters{gap:5px;}.cm span{font-size:.44rem;}}
 .mt{text-align:center;position:relative;padding-top:17px;}
 .mt .bar{height:74px;background:var(--stock-2);border:1px solid var(--hair);position:relative;overflow:hidden;}
 .mt .bar i{position:absolute;left:0;right:0;bottom:0;background:var(--mc,var(--elu));transition:height .45s cubic-bezier(.4,0,.2,1);}
@@ -935,8 +981,8 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       </span>
     </button>
     <nav class="top" id="nav">
-      <button data-go="play"><i class="pip">1</i>Take office</button>
-      <button data-go="quiz"><i class="pip">2</i>Your politics</button>
+      <button data-go="play"><i class="pip" hidden></i>Play President</button>
+      <button data-go="quiz"><i class="pip" hidden></i>Explore your politics</button>
     </nav>
   </div>
 </header>
@@ -954,12 +1000,12 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     <div class="hero">
       <div>
         <h1>If na you,<br>wetin you go <em>do?</em></h1>
-        <p class="kick">You are President of Nigeria. Eight years, and everybody who walks through that door wants something.</p>
+        <p class="kick">If Na You is a civic education tool. It puts you inside the challenges, the trade-offs and the decisions that governing Nigeria requires.</p>
+        <p class="lede">Play as Nigeria’s president and face difficult choices. Or explore what you believe first, with twenty-one questions.</p>
         <div class="cta">
-          <button class="btn go" data-go="play">Take office</button>
-          <button class="btn ghost" id="startBtn">Or start with what you believe</button>
+          <button class="btn go" data-go="play">Play President</button>
+          <button type="button" class="lnk" id="startBtn">Explore your politics</button>
         </div>
-        <p class="note">No signup. Either one works on its own.</p>
       </div>
       <div class="plate" style="padding:18px;align-self:start">
         <svg id="demo" viewBox="0 0 480 424" role="img" aria-label="The five powers a Nigerian president has to keep in balance"></svg>
@@ -973,20 +1019,10 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <circle cx="436" cy="10" r="2.6" fill="var(--danfo)"/>
     </svg>
 
-    <div class="measure" style="margin-top:34px">
-      <h2 style="font-size:var(--s-2)">Nigerian politics isn't driven by ideology.</h2>
-      <p style="color:var(--ink-2)">True. But that doesn't mean Nigerians don't have political beliefs. We just haven't had much of a shared language for them.</p>
-      <p style="color:var(--ink-2)">And what you believe is not always how you govern.</p>
-      <p class="beat">If Na You asks you both.</p>
-    </div>
-
     <div class="strip" id="steps">
-      <button class="step" data-go="play" id="step3"><span class="n">ONE</span><h4>Take office</h4><p>Eight years, five powers with their own interests, and every decision costing something. Proposals arrive and you answer them one at a time.</p><span class="state"></span></button>
-      <button class="step" data-go="start" id="step1"><span class="n">TWO</span><h4>Where you stand</h4><p>Twenty-one questions, no right answers. At the end you have a position on the arguments Nigeria is actually having.</p><span class="state"></span></button>
-      <button class="step" data-go="ballot" id="step2"><span class="n">THEN</span><h4>Who wants the real job</h4><p>Eighteen people are asking to run the country in January. What they have said. And what they have not.</p><span class="state"></span></button>
+      <button class="step" data-go="play" id="step3"><h4>Play President</h4><p>Eight years, five powers with their own interests, and every decision costing something. Proposals arrive and you answer them one at a time.</p><span class="state"></span></button>
+      <button class="step" data-go="quiz" id="step1"><h4>Explore your politics</h4><p>Twenty-one questions, no right answers. At the end you have a position on the arguments Nigeria is actually having.</p><span class="state"></span></button>
     </div>
-    <p class="pairline">Either one works on its own. Do both and you see your own answers meet a budget, a general and a crowd on the road.</p>
-
   </div>
 </section>
 
@@ -997,14 +1033,13 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <span class="lab qcount" id="qcount"></span>
       <p class="qstate" id="qtext"></p>
       <div class="likert" id="likert" role="radiogroup" aria-labelledby="qtext"></div>
-      <div class="aside-row" id="asideRow" role="radiogroup" aria-label="Other answers"></div>
       <div class="bench" id="bench" hidden>
         <span class="lab" id="benchLab">Against the national sample</span>
         <p id="benchtext"></p>
       </div>
       <div class="qfoot">
         <button class="btn ghost sm" id="back">Back</button>
-        <span class="lab" id="hint">Press 1–5 to answer, 6 if it depends, 7 to skip</span>
+        <span class="lab" id="hint">Press 1–5 to answer</span>
       </div>
     </div>
   </div>
@@ -1014,13 +1049,12 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 <section class="view" id="view-review" hidden>
   <div class="wrap">
     <div class="measure">
-      <div class="eyebrow"><span class="lab">Before you see anything</span></div>
-      <h1 style="font-size:var(--s-3)">These are your twenty-one answers</h1>
-      <p style="color:var(--ink-2);margin-top:12px">Nothing has been scored or named yet. Change any of them, or go on.</p>
+      <h1 style="font-size:var(--s-3)">Your twenty-one answers</h1>
+      <p style="color:var(--ink-2);margin-top:12px">Change any of them and your reading changes with it.</p>
     </div>
     <ol class="rvlist" id="rvList"></ol>
     <div class="cta" style="margin-top:24px">
-      <button class="btn go" id="rvGo">See what this says</button>
+      <button class="btn go" id="rvGo">Back to my result</button>
       <span class="lab" id="rvNote"></span>
     </div>
   </div>
@@ -1029,9 +1063,43 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 <section class="view" id="view-result" hidden>
   <div class="wrap">
     <div class="measure">
-      <h1 style="font-size:var(--s-3)">Your politics, in your own answers</h1>
-      <p style="color:var(--ink-2);margin-top:12px">These are patterns in what you answered. They are not a complete account of your politics, and nothing here is a score.</p>
+      <h1 style="font-size:var(--s-3)">Your political philosophy, based on your answers</h1>
+      <p style="color:var(--ink-2);margin-top:12px">These are the patterns in what you answered.</p>
     </div>
+
+    <div class="measure">
+      <span class="tag" id="atag" hidden></span>
+      <h2 class="aname" id="aname"></h2>
+      <span class="afit" id="afit" hidden></span>
+      <p class="asum" id="asum"></p>
+    </div>
+
+    <div class="eyebrow" style="margin-top:34px"><span class="lab">A tradition that argued the same way</span></div>
+    <div class="trad">
+      <div class="portrait"><svg id="port" viewBox="0 0 120 150" role="img" aria-label="Portrait plate"></svg>
+        <span class="cap" id="portCap"></span></div>
+      <div class="tbody">
+        <h3 id="fname"></h3>
+        <span class="tdates" id="fdates"></span>
+        <blockquote class="fq" id="fq" hidden><p id="fqt"></p><cite id="fqs"></cite></blockquote>
+        <div class="fsec-h"><span class="lab">What he argued</span></div>
+        <p id="fbody"></p>
+        <div class="fsec-h"><span class="lab">What he did about it</span></div>
+        <p id="fdid"></p>
+        <div class="fsec-h"><span class="lab">The argument against him</span></div>
+        <p id="fcrit"></p>
+        <div class="twhy" id="fwhy"></div>
+        <div class="twhy" id="fsec2" hidden></div>
+      </div>
+    </div>
+
+    <div class="eyebrow" style="margin-top:34px" id="fsecHead" hidden><span class="lab">Others who argued this way</span></div>
+    <div class="tsec" id="fsec"></div>
+
+    <div class="eyebrow" style="margin-top:30px"><span class="lab">Where this argument gets pushed back on</span></div>
+    <div class="measure"><p style="color:var(--ink-2);margin:0" id="tension"></p></div>
+
+    <div class="eyebrow" style="margin-top:34px"><span class="lab">What your answers actually said</span></div>
     <div class="obs" id="obs"></div>
     <div class="cta" style="margin-top:20px">
       <button class="btn go" id="exploreBtn">Explore one of your views</button>
@@ -1042,56 +1110,25 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <p id="strainText"></p>
     </div>
 
-    <div class="eyebrow" style="margin-top:34px"><span class="lab">An argument with a history</span></div>
-    <div class="plate rgrid">
-      <div class="pane">
-        <span class="tag" id="atag"></span>
-        <h2 class="aname" id="aname"></h2>
-        <span class="afit" id="afit"></span>
-        <p class="asum" id="asum"></p>
-      </div>
-      <div class="pane">
-        <div class="eyebrow"><span class="lab">Seven readings</span></div>
-        <div class="bars" id="bars"></div>
-        <div class="eyebrow" style="margin-top:26px"><span class="lab">The ten, in order of closeness</span></div>
-        <div class="alist" id="alist"></div>
-      </div>
-    </div>
-
-    <div class="nextup">
-      <p><b>What happens when these priorities compete?</b> Stating a position and holding it under pressure are different things.</p>
-      <button class="btn go" data-go="play">Try a governing scenario</button>
-    </div>
-
-    <div class="trad">
-      <div class="portrait"><svg id="port" viewBox="0 0 120 150" role="img" aria-label="Portrait plate"></svg>
-        <span class="cap" id="portCap"></span></div>
-      <div class="tbody">
-        <div class="eyebrow"><span class="lab">A tradition that argued the same way</span></div>
-        <h3 id="fname"></h3>
-        <span class="tdates" id="fdates"></span>
-        <p id="fbody"></p>
-        <div class="twhy" id="fwhy"></div>
-        <div class="twhy" id="fsec2" hidden></div>
-        <div class="tsec" id="fsec"></div>
-      </div>
-    </div>
-
-
-
-    <div class="eyebrow" style="margin-top:30px"><span class="lab">Where this argument gets pushed back on</span></div>
-    <div class="measure"><p style="color:var(--ink-2);margin:0" id="tension"></p></div>
-
     <details class="detail">
       <summary><span class="lab">The chart, and how this was worked out</span></summary>
       <div class="dwrap">
         <svg id="compass" viewBox="0 0 480 480" role="img" aria-label="Your position on the federation and economy compass"></svg>
         <div class="coord" id="coord"></div>
         <p class="plain" id="plain"></p>
+        <div class="eyebrow"><span class="lab">Seven readings</span></div>
+        <div class="bars" id="bars"></div>
+        <div class="eyebrow" style="margin-top:26px"><span class="lab">The ten, in order of closeness</span></div>
+        <div class="alist" id="alist"></div>
+
         <p style="color:var(--ink-3);font-size:.88rem;margin-top:12px">The square plots two of the seven dimensions — the federation and the economy — because they are the two Nigerian politics argues about most. It is not the whole reading, and the other five are above. <a href="methodology.html">How the instrument works</a>.</p>
       </div>
     </details>
 
+    <div class="nextup">
+      <p><b>What happens when these priorities compete?</b> Stating a position and holding it under pressure are different things.</p>
+      <button class="btn go" data-go="play">Play President</button>
+    </div>
 
     <div class="gap">
       <div class="eyebrow"><span class="lab">The Gap</span></div>
@@ -1188,6 +1225,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       </div>
       <div class="mwrap">
         <div class="meters" id="gMeters"></div>
+        <div class="cwrap"><span class="clab">The country</span><div class="cmeters" id="gCountry"></div></div>
         <div class="shift" id="gShift" hidden><b id="gShiftT"></b><p id="gShiftP"></p><span class="att" id="gShiftA" hidden></span><span class="why" id="gShiftW" hidden></span><span class="clk" id="gShiftC" hidden></span></div>
       </div>
       <div class="g-clock"><span class="lab" id="gClock"></span>
@@ -1215,18 +1253,11 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <div class="tally">
         <div><b id="gEndYears"></b><span>in office</span></div>
         <div><b id="gEndCount"></b><span>decisions</span></div>
-        <div><b id="gEndContra"></b><span id="gEndContraLab">decisions matched what you said</span></div>
       </div>
 
       <ul class="dossier" id="gDossier"></ul>
 
       <p class="turn-line" id="gVersus" hidden style="margin-top:20px;border-left:5px solid var(--danfo);padding-left:14px"></p>
-
-      <div class="turn" id="gWordBox" hidden>
-        <div class="eyebrow"><span class="lab">You said, and then you did</span></div>
-        <p class="turn-line" id="gWordLine"></p>
-        <div class="turn-rows" id="gTurnRows"></div>
-      </div>
 
       <div class="eyebrow" style="margin-top:30px"><span class="lab">The country, meanwhile</span></div>
       <div class="reveal" id="gReveal"></div>
@@ -1249,8 +1280,15 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
         <button class="btn go" id="gReturnBtn"></button>
       </div>
 
+      <div class="namebox">
+        <label class="lab" for="gName">Put your name on it</label>
+        <input id="gName" type="text" maxlength="28" placeholder="Optional"
+               autocomplete="off" autocapitalize="words" spellcheck="false">
+        <span>It goes on the card and nowhere else.</span>
+      </div>
+
       <div class="cta" style="margin-top:22px">
-        <button class="btn go" id="gAgain">Take office again</button>
+        <button class="btn go" id="gAgain">Play President again</button>
         <button class="btn ghost sm" id="gPresCard">Save my presidency</button>
         <button class="btn ghost sm" id="gChallenge">Challenge someone</button>
         <button class="btn ghost sm" data-go="ballot">See who wants the job</button>
@@ -1314,7 +1352,7 @@ var $=function(i){return document.getElementById(i);};
    or the President deck/values. Date-based, not semver: ships aren't
    backward compatible with each other in a way that makes semver meaningful
    here, and the date is what you'd want to know anyway. */
-var CONTENT_VERSION="2026-09-26.1";
+var CONTENT_VERSION="2026-09-28.1";
 function uuid(){
   if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
@@ -1349,7 +1387,7 @@ var AXES=[
   d:"What the state may do to citizens in the name of safety, and what a citizen may do in the name of dissent."},
  {k:"represent",n:"Representation",neg:"Community-first",pos:"Programme-first",c:"var(--ink-2)",
   d:"Whether a representative owes their first duty to their own people or to a national programme. The transactional question, made measurable."},
- {k:"horizon",n:"Horizon",neg:"Nigeria-first",pos:"Pan-African",c:"var(--green)",
+ {k:"horizon",n:"Nigeria and Africa",neg:"Nigeria-first",pos:"Pan-African",c:"var(--green)",
   d:"Whether Nigeria's job is to lead a continent or to finish its own house first."}
 ];
 
@@ -1426,14 +1464,9 @@ var MEASURES=[
    measured centrism. The scale below is five substantive positions; the other three
    states are separate, and none of them is scored. */
 var SCALE=[{v:2,l:"Strongly agree"},{v:1,l:"Agree"},{v:0,l:"Neither agree nor disagree"},{v:-1,l:"Disagree"},{v:-2,l:"Strongly disagree"}];
-/* Two, not three. "I am not sure" and "Rather not say" were separate buttons that
-   behaved identically to each other and to a skip everywhere in the code — the same
-   exclusion from the reading, the same mark on the review, the same dimmed row in the
-   evidence. A distinction the product never acts on is not a distinction. "It depends"
-   stays separate because it is the one that says something: the person has a view and
-   it is conditional, which the results now report rather than swallow. */
-var ASIDE=[{k:"depends",l:"It depends"},{k:"skip",l:"Skip this one"}];
-var ASIDE_L={depends:"It depends",skip:"Skipped"};
+/* The scale is the whole instrument now. “It depends” and “Skip this one” are gone:
+   every one of the twenty-one is answered on the five, the middle is a scored zero, and
+   nothing is left out of a denominator. */
 function scored(v){return typeof v==="number";}
 
 /* ---------- archetypes ---------- */
@@ -1448,9 +1481,9 @@ var AR=[
   s:"This tradition holds that a society which discards its inherited order gets chaos, not freedom. Religion, custom and traditional authority are not obstacles to modern governance; they are the institutions most Nigerians have actually trusted."},
  {id:"hustler",n:"The Hustler",p:{econ:-75,struct:5,social:15,security:25,represent:35,method:0,horizon:40},tmp:"Enterprising",
   s:"This tradition holds that Nigerians already know how to create wealth and are mostly being prevented. Get the state out of pricing, ownership and permission, and the energy that runs Alaba, Aba and Computer Village does the rest."},
- {id:"patriot",n:"The Patriot",p:{econ:35,struct:-25,social:-20,security:-40,represent:-35,method:10,horizon:-70},tmp:"Sovereigntist",
+ {id:"patriot",n:"The Sovereigntist",p:{econ:35,struct:-25,social:-20,security:-40,represent:-35,method:10,horizon:-70},tmp:"Sovereigntist",
   s:"This tradition reads Nigeria's condition as a sovereignty problem. It holds that foreign capital, foreign advice and foreign obligations have consistently cost more than they returned, and that the first duty of a Nigerian government is to Nigerians."},
- {id:"afrodreamer",n:"The Afro-Dreamer",p:{econ:15,struct:-20,social:40,security:35,represent:40,method:15,horizon:85},tmp:"Continental",
+ {id:"afrodreamer",n:"The Pan-African",p:{econ:15,struct:-20,social:40,security:35,represent:40,method:15,horizon:85},tmp:"Continental",
   s:"This tradition holds that Nigeria cannot be fixed as a Nigerian problem. A country this size either leads a continental project or is diminished by the absence of one — the border was drawn by other people and should not define the ambition."},
  {id:"stabiliser",n:"The Stabiliser",p:{econ:10,struct:0,social:0,security:-20,represent:10,method:-75,horizon:0},tmp:"Gradualist",
   s:"This tradition has seen what abrupt change costs in Nigeria and is not persuaded by the next grand plan. Incremental improvement inside working institutions is unglamorous, and it is the only method with a record of not making things worse."},
@@ -1463,36 +1496,82 @@ var AR=[
 var TR={
  restructurer:{n:"Obafemi Awolowo",d:"1909 – 1987 · Premier, Western Region",in:"OA",img:"awolowo",
   b:"Awolowo's government launched free primary education across the Western Region in 1955 and Nigeria's first television service in 1959, and he argued across four decades that Nigeria could hold together only as a genuine federation of strong regions. He was three times a contender for the country's highest office — in 1959, 1979 and 1983 — and never took it, and remained the most systematic political thinker of his generation: his case for federalism was written out at book length rather than improvised on a podium.",
-  s:[{img:"enahoro",n:"Anthony Enahoro (1923–2010)",d:"Moved the 1953 motion for self-government in 1956, which split the House and was followed by the Kano riots; spent his later decades campaigning for a sovereign national conference."},
-     {img:"tarka",n:"J. S. Tarka (1932–1980)",d:"Led the United Middle Belt Congress; argued federalism had to protect minorities, not only the three large regions."}]},
+  arg:"Awolowo's premise was that Nigeria was not a nation and could not be governed as one. In <i>Path to Nigerian Freedom</i> (1947) he called it “a mere geographical expression”, with no Nigerians in the sense that there are English or French. His conclusion was not separation but structure: a federation built on the nationalities themselves, so that each secured its interests inside the union rather than being outvoted in it. To that he added a welfare argument — that poverty, disease and ignorance were the real enemies, and that education was the instrument against them.",
+  did:"Free universal primary education across the Western Region from 17 January 1955. Enrolment went from 456,600 in 1954 to 811,432 the following year, and education took between 29 and 41 per cent of the region's recurrent budget for the next decade. Nigeria's first television service broadcast from 31 October 1959. He built the Action Group from 1951 and governed as Premier from 1954. Three times he contended for the country's highest office — 1959, 1979, 1983 — and never took it.",
+  crit:"The Action Group's support was concentrated in the West, and opponents read the nationalities argument as a principled framing of a sectional base. The region he held up as the demonstration case split in 1962 and was placed under federal emergency rule. The education scheme carried real costs too: teacher shortages, falling standards and school-leaver unemployment.",
+  q:"Nigeria is not a nation. It is a mere geographical expression.",
+  qs:"Path to Nigerian Freedom, 1947",
+  s:[{img:"enahoro",n:"Anthony Enahoro (1923–2010)",d:"On 31 March 1953 he moved, in the federal House of Representatives, that Nigeria should have self-government in 1956. Ahmadu Bello had “1956” replaced with “as soon as practicable”; Action Group and NCNC members walked out, and communal violence followed in Kano that May. His motion was lost — the successful independence motion came from Remi Fani-Kayode in 1958 — but it forced the question of a date. He fled Nigeria in 1962, was arrested in London under the Fugitive Offenders Act and returned after a Commons controversy, and was convicted of treasonable felony in 1963. He spent his last decades demanding a sovereign national conference, through NADECO and then PRONACO. He also served eight years as Federal Commissioner for Information under a military government."},
+     {img:"tarka",n:"J. S. Tarka (1932–1980)",d:"Elected to the federal House at twenty-two in 1954, he led the United Middle Belt Congress from 1957. His claim was that a federation of three large regions could not protect the people inside them who belonged to none of the three majorities, and that constitutional guarantees are worth little without a unit the minority actually governs. He put the Middle Belt case to the Willink Commission in 1958. It refused to recommend any new state and gave Nigeria an entrenched bill of rights instead — which is why the fundamental-rights chapter exists at all. He resigned from the federal cabinet in 1974 over corruption allegations."}]},
  unifier:{n:"Abubakar Tafawa Balewa",d:"1912 – 1966 · First Prime Minister of Nigeria",in:"TB",img:"balewa",
   b:"Balewa governed a federation whose regions were stronger than its centre, and spent his premiership holding it together through the census disputes, the Western Region crisis and the 1964 election deadlock. His instinct was consensus and his foreign policy cautious. He was killed in the January 1966 coup, and the union he tried to preserve collapsed into civil war within eighteen months.",
-  s:[{img:"murtala",n:"Murtala Muhammed (1938–1976)",d:"Two hundred days as head of state; created seven new states and chose Abuja as the new capital, both announced on the same day in February 1976 — centralisation pursued at speed rather than by consensus."}]},
+  arg:"Balewa's position was that Nigeria was not yet a nation and that forcing it into one prematurely would break it. His answer was a federation in which real power stayed with the regions and the centre worked as a broker — a structure he defended rather than resisted. He paired it with gradualism on independence and with government through cross-regional coalition.",
+  did:"He held the federation together through an NPC–NCNC coalition and brought it to independence on 1 October 1960. He addressed the United Nations in 1961 and became the first Nigerian to address a joint session of the United States Congress. He was central to the formation of the Organisation of African Unity in 1963. On 29 May 1962 he moved the emergency resolution over the Western Region in Federal Parliament.",
+  crit:"The centre he led was too weak for the job he claimed for it. He defended a structure that reserved authority to the regions and then had to manage regional collapse from a capital without the means to do it. Federal power was used against the opposition in the West in 1962 and again in 1963. He presided over a disputed census and over the elections of 1964 and 1965 that destroyed the First Republic.",
+  q:"But do not mistake our pride for arrogance.",
+  qs:"Independence Day address, Lagos, 1 October 1960",
+  s:[{img:"murtala",n:"Murtala Muhammed (1938–1976)",d:"He took power on 29 July 1975 and was killed on 13 February 1976 — about six and a half months. On 3 February 1976 he created seven new states, taking Nigeria from twelve to nineteen, and announced on the same day that the capital would move to Abuja, on the recommendation of the Aguda Panel. At the OAU in Addis Ababa on 11 January 1976 he told the meeting that Africa had come of age. He also dismissed more than ten thousand public employees without benefits or due process in 1975, and commanded the Second Division during the Asaba massacre of October 1967, in which an estimated five hundred to eight hundred people were killed. No Nigerian government has investigated it."}]},
  changemaker:{n:"Aminu Kano",d:"1920 – 1983 · Leader, NEPU and the PRP",in:"AK",img:"aminu-kano",
   b:"Aminu Kano built his politics around the talakawa — the common people — and directed it at the northern aristocracy as much as at the colonial administration. He campaigned for free education, against the emirate tax system, and for a vote for women that northern women did not get until 1979, twenty-five years after women in the South. He lived without accumulating wealth, and remains the clearest Nigerian example of a mass movement organised on class rather than ethnic lines.",
-  s:[{img:"ransome-kuti",n:"Funmilayo Ransome-Kuti (1900–1978)",d:"Led the Abeokuta Women's Union in the tax revolt that drove the Alake from the throne in 1949, though he returned the year after; among the first Nigerian women in national politics."},
-     {img:"ekpo",n:"Margaret Ekpo (1914–2006)",d:"Organised Aba's market women into a voting bloc and won the Aba Urban North seat in the Eastern House of Assembly in 1961."}]},
+  arg:"Aminu Kano's diagnosis was class, not colonialism alone. The problem in the North was the domination of the <i>talakawa</i> — the commoners — by a hereditary emirate elite entrenched and protected by indirect rule, which he called the most exploiting system of colonial administration the world had known. He argued it in Islamic terms rather than imported ones: office should be earned, not inherited.",
+  did:"The Sawaba Declaration, issued at Kano on 8 August 1950, argued that the talakawa must organise to take governmental power and convert it “from an instrument of oppression into the agent of emancipation”. He resigned his government post on 16 October 1950 to lead NEPU, the first declared political party in Northern Nigeria. It claimed 500,000 members by 1960 and ran a women's wing led by Gambo Sawaba in a region where women could not vote. He led the People's Redemption Party from 1978 and came fourth in the 1979 presidential election with 10.3 per cent.",
+  crit:"He spent seven years in the cabinet of a military government no one had elected. He ran his own party autocratically, expelling the Kano governor and splitting the PRP. And he never displaced the establishment he spent his life attacking: NEPU never won the Northern Region, and its strength stayed concentrated in Kano.",
+  q:"I refuse to believe that this country is by necessity a prisoner of the Anglo-Fulani aristocracy.",
+  qs:"Resignation letter, published in the Daily Comet, 11 November 1950",
+  s:[{img:"ransome-kuti",n:"Funmilayo Ransome-Kuti (1900–1978)",d:"She turned the Abeokuta Ladies' Club into the Abeokuta Women's Union in 1946, opening it to market women and to members who could not read, and built it to about twenty thousand registered members. Her claim was that a woman taxed by a council she cannot sit on is being governed, not represented — and that the condition of Nigerian women should be measured by the trader and the farmer rather than by the educated wife. Thousands besieged the Alake's palace; he left Abeokuta, most accounts record a formal abdication on 3 January 1949, and he returned to the throne around 1950. The flat tax was suspended rather than abolished, and was later reimposed. She founded the Nigerian Women's Union in 1949 and was vice-president of the Women's International Democratic Federation from 1953; Britain refused to renew her passport in 1957 and the United States denied her a visa in 1958. “We had equality till Britain came.”"},
+     {img:"ekpo",n:"Margaret Ekpo (1914–2006)",d:"Her argument was organisational: market women were not an auxiliary of the nationalist movement but a constituency with a franchise and bloc power of its own. In Aba at the end of the 1940s she bought up the market's entire salt supply and required women to register with her association in order to buy it — turning a commodity monopoly into a membership roll. By 1955 women outnumbered men on the city's voting register. She testified to the Enugu commission of enquiry in December 1949, after twenty-one miners were shot at Iva Valley, and in 1961 she won the Aba Urban North seat in the Eastern House of Assembly."}]},
  traditionalist:{n:"Ahmadu Bello",d:"1910 – 1966 · Sardauna of Sokoto; Premier, Northern Region",in:"AB",img:"ahmadu-bello",
   b:"Bello chose to lead the Northern Region rather than seek the federal premiership, judging regional authority the more consequential seat. He grounded his politics in the emirate system and in Islamic scholarship, pursued Northernisation, which reserved posts in the regional civil service for northerners and shut out southern Nigerians as well as Europeans, and built an institutional base in education and administration whose effects outlasted him by decades.",
-  s:[{img:"zungur",n:"Sa'adu Zungur (c. 1914–1958)",d:"Northern poet and radical intellectual who argued from inside the same tradition for reform of it."}]},
+  arg:"Bello's starting point was that the 1914 amalgamation had been an error, and that the North's institutions — emirate authority, Islamic law and custom, its own pace of development — had to be protected inside whatever Nigeria emerged. His doctrine was maximum regional autonomy, regional control of the regional service, and no independence before the North had the trained people to survive it.",
+  did:"In March 1953 he had the motion for self-government “in 1956” replaced with “as soon as practicable”, telling the House that the mistake of 1914 had come to light. He northernised the regional public service, restricting southern recruitment on the stated ground that too few northerners held qualifications. In 1960 he declined the federal premiership and stayed in Kaduna, sending Balewa to Lagos. In 1962 he founded Jama'atu Nasril Islam with Sheikh Abubakar Gumi.",
+  crit:"Northernisation was discrimination in public employment by origin, shutting Nigerian citizens out of work across a third of the country. His gradualism was read as a failure of nationalism, a charge he acknowledged and rebutted rather than denied. And the One North project rested on suppressing northern dissent: NEPU members were harassed and Aminu Kano was arrested for flying a party flag.",
+  q:"The mistake of 1914 has come to light.",
+  qs:"House of Representatives, the 1953 self-government debate",
+  s:[{img:"zungur",n:"Sa'adu Zungur (c. 1914–1958)",d:"Sa'adu Zungur was Northern Nigeria's first radical public intellectual, and he argued in Hausa verse so that ordinary people, not only the schooled few, could follow him. The first northerner sent to Yaba Higher College, he turned that education against both indirect rule and the emirs who administered it. His best-known poem, <i>Arewa Jumhuriya ko Mulukiya</i> — “The North: Republic or Monarchy?”, 1950 — asked whether hereditary rule could survive the age of independence, a question the establishment found intolerable; much of his work was censored in his lifetime and he was posted to rural stations to quiet him. He helped found the association that became NEPU, served as NCNC general secretary, and was one of the sources Aminu Kano drew his politics from."}]},
  hustler:{n:"Louis Odumegwu Ojukwu",d:"1909 – 1966 · Industrialist",in:"LO",img:"ojukwu-snr",
   b:"Nnewi-born, Ojukwu built a transport and trading business out of Onitsha and Lagos into one of colonial Nigeria's largest private fortunes, chaired the African Continental Bank, sat on the board of the Nigerian Coal Corporation, and was among the founding subscribers to the Lagos Stock Exchange in 1960 — the body that became the Nigerian Stock Exchange eleven years after his death. His argument, made commercially rather than rhetorically, was that Nigerians could own and run enterprise at scale without the state doing it for them.",
-  s:[{img:"odutola",n:"Timothy Adeola Odutola (1902–1995)",d:"Built rubber and tyre manufacturing among other concerns and was the first president of the Manufacturers Association of Nigeria; an early advocate of indigenous industrial ownership."}]},
+  arg:"Ojukwu left no manifesto. His argument was made commercially, and it has three parts: that Africans could own the commanding heights of trade rather than merely work under them; that wealth should move out of trading and into capital; and that indigenous money belonged inside the boardrooms of the expatriate firms and inside the new state corporations at the same time.",
+  did:"He began as a clerk selling tyres at John Holt in Lagos and built Ojukwu Transport into the haulage network the Lagos–Niger trade depended on, placing the fleet at the disposal of the war effort in the 1940s. He moved out of transport into equities and Lagos property. On 15 September 1960 he was one of seven subscribers to the memorandum of association of the Lagos Stock Exchange — present at the creation of the institution that prices capital, not merely buying from it. He sat on the board of the Nigerian National Shipping Line and chaired development and marketing bodies in the Eastern Region.",
+  crit:"The fortune was made inside the colonial commercial order rather than against it. He began at a British trading house, earned from expatriate firms and from the war effort, and sat on the boards of John Holt, Shell and Guinness. Indigenous ownership and indigenous autonomy are not the same claim, and his career proves the first.",
+  s:[{img:"odutola",n:"Timothy Adeola Odutola (1902–1995)",d:"Chief Timothy Adeola Odutola — one man, despite the two names, and elder brother of Jimoh Odutola — made the case that Nigerians could own industry rather than merely trade in other people's goods. From a court clerkship he moved into cocoa and palm produce, then sawmilling, and finally into manufacturing: rubber compounding and tyre retreading at Ibadan, Kano and Onitsha, bicycle tyres and tubes, and a five-thousand-acre plantation feeding them. Based in Ijebu-Ode, where he was Ogbeni-Oja, he pressed government to back local producers with foreign exchange, industrial land, water, power and roads — the same list manufacturers recite today. He is widely recorded as the first president of the Manufacturers Association of Nigeria, holding the office in 1971, the year it was founded. “Oil will finish,” he is remembered as saying, “while industry will not.”"}]},
  patriot:{n:"Herbert Macaulay",d:"1864 – 1946 · Founder, Nigerian National Democratic Party",in:"HM",img:"macaulay",
   b:"Engineer and surveyor by training, Macaulay fought colonial land seizures through the courts — the Apapa case he carried with Chief Oluwa to the Privy Council in 1921 — and defended the deposed Oba of Lagos against the administration, going to prison for six months over what he published about it. He founded Nigeria's first political party in 1923, ran the Lagos Daily News as its organ from 1927, and became the first president of the NCNC — a politics built on refusing to accept that Nigerians should be governed on someone else's terms.",
-  s:[{img:"imoudu",n:"Michael Imoudu (1902–2005)",d:"Released from wartime restriction weeks before the 1945 general strike, he became its militant public face; built Nigerian labour into a force the colonial administration had to negotiate with."}]},
+  arg:"Macaulay's case had two parts, both pressed through British institutions rather than against them. No rates or taxes without African representation: a Lagosian taxed by a council he cannot elect is being governed, not represented. And indigenous authority and customary land title were legal rights rather than colonial concessions — enforceable in the Crown's own highest court.",
+  did:"He resigned from the colonial service in 1898, citing racial discrimination against African civil servants. In 1920 he took Chief Amodu Tijani Oluwa's land case to London, and in 1921 the Privy Council held that the Crown had acquired only a limited right of administrative interference and owed compensation — a ruling still cited on native title far beyond Nigeria. He founded the Nigerian National Democratic Party on 24 June 1923, the country's first political party, which won every elective Lagos seat in 1923, 1928 and 1933. He ran the Lagos Daily News from 1927 and served six months' hard labour over what he published about the deposed Eleko of Lagos. In 1944 he became the first president of the NCNC, and died on tour with it in 1946.",
+  crit:"The historian Kristin Mann records that as Surveyor of Crown Lands he used the post to help friends acquire grants and to punish enemies, and obtained grants under false names to sell at a profit. He was convicted in 1913 of misappropriating an estate of which he was executor — a conviction that barred him from elected office, which is why he built a party and a newspaper instead of taking a seat. His chief African antagonist, Henry Carr, called him a crooked mind and a dangerous fool.",
+  q:"the greatest talkee, talkee governor that Nigeria could boast of",
+  qs:"Lagos Weekly Record, 2 May 1925, on Governor Clifford's departure",
+  s:[{img:"imoudu",n:"Michael Imoudu (1902–2005)",d:"Michael Imoudu built the argument that Nigerian workers were citizens with claims, not labour to be rationed. As president of the Railway Workers Union — registered as Trade Union No. 1, which earned him the name Labour Leader Number One — he marched three thousand railwaymen to Government House in Lagos in 1941 and won most of their demands. The colonial state detained him in January 1943 and restricted him to Auchi. Released on 20 May 1945, he reached Lagos on 2 June to enormous crowds and refused to let cautious union leaders postpone action. The general strike that followed ran about forty-four days. The commission of inquiry it forced recommended raising cost-of-living allowances by fifty per cent, backdated to 1 August 1945."}]},
  afrodreamer:{n:"Nnamdi Azikiwe",d:"1904 – 1996 · First President of Nigeria",in:"NA",img:"azikiwe",
   b:"Azikiwe's career began in Accra, editing the African Morning Post and standing trial for sedition there, before he founded the West African Pilot in Lagos in 1937 and pressed the case for African self-rule across the region rather than within Nigeria's borders alone. He led the NCNC and served as Premier of the Eastern Region, then President of the Senate, Governor-General and finally President — though both of those last offices were ceremonial, with executive power sitting in Balewa's hands — and gave Nigerian nationalism its continental register.",
-  s:[{img:"fela",n:"Fela Anikulapo-Kuti (1938–1997)",d:"Made pan-African and anti-establishment argument a mass cultural form, at sustained personal cost."}]},
+  arg:"Azikiwe's claim was that mental emancipation comes before political resurgence. Set out in <i>Renascent Africa</i> (1937), the argument was that constitutional advance without removing an internalised sense of inferiority produces African officeholders inside European institutions rather than African self-government. The instrument of that emancipation was the mass-circulation, African-owned newspaper; its economic corollary was African-owned capital.",
+  did:"He edited the African Morning Post in Accra, was convicted of sedition in 1936 for publishing “Has the African a God?”, and was acquitted on appeal. He founded the West African Pilot in Lagos on 22 November 1937 and edited it for a decade, from six thousand copies a day to more than twenty thousand at its peak. He led the NCNC from 1946, was Premier of the Eastern Region from 1954, and then Governor-General and, from 1963, President.",
+  crit:"In 1956 a tribunal under Sir Stafford Foster-Sutton examined the investment of £877,000 of Eastern Region public money in the African Continental Bank, which he controlled — about a quarter of the region's revenue that year. It found his conduct fell short of what honest reasonable people expect. He surrendered his shares and repaid £5,252 in directors' fees, dissolved the House, and won the election that followed in a landslide. Both of his highest offices were largely ceremonial: executive power sat with Balewa, and he was close to a spectator through the crises that ended the First Republic.",
+  q:"Show the light and the people will find the way.",
+  qs:"Masthead motto of the West African Pilot",
+  s:[{img:"fela",n:"Fela Anikulapo-Kuti (1938–1997)",d:"Fela Anikulapo-Kuti turned Afrobeat into sustained political argument: that Nigeria's soldiers, its business elite and their foreign partners were one system, and that ordinary people's fear was what kept it standing. From the Afrika Shrine in Lagos he called the army mindless in <i>Zombie</i> (1976), named the multinational–elite alliance in <i>I.T.T. — International Thief Thief</i> (1980), and turned on public passivity itself in <i>Sorrow Tears and Blood</i> (1977). He declared his Kalakuta Republic commune independent of military rule; on 18 February 1977 about a thousand soldiers razed it, and his mother, Funmilayo Ransome-Kuti, died of injuries suffered there. A tribunal blamed an unknown soldier. His party, Movement of the People, was never registered, and his name never reached a ballot."}]},
  stabiliser:{n:"Shehu Shagari",d:"1925 – 2018 · First executive President of Nigeria",in:"SS",img:"shagari",
   b:"Shagari governed at first through an accord with the NPP that collapsed in 1981, launched the Green Revolution in 1980 as successor to Obasanjo's Operation Feed the Nation, and passed an austerity act in 1982 as oil revenues fell. He was personally modest and institutionally cautious in a period that arguably demanded neither. His government was removed by coup on the last day of 1983, and the gradualist case has been arguing with that outcome ever since.",
-  s:[{img:"adebo",n:"Simeon Adebo (1913–1994)",d:"Career public servant whose 1970–71 wages commission reset public pay after the war; the institutional temperament in its purest form."}]},
+  arg:"Shagari's argument was made in conduct rather than doctrine: that a constitutional government facing an emergency goes to the legislature rather than around it. In 1982 he asked the National Assembly for special powers to introduce austerity rather than decreeing them. He spoke of the judiciary's part in sustaining the rule of law, and he did not resist the coup that removed him.",
+  did:"He was sworn in as Nigeria's first executive President on 1 October 1979. He launched the National Green Revolution programme in April 1980 — river basin authorities, agro-service centres, a credit guarantee scheme, duty-free farm machinery — aimed at food and export-crop production. He passed the Economic Stabilization Act in 1982 as oil production fell from 1.9 million barrels a day to 600,000. The Kaduna refinery was completed in 1980 and the Delta Steel complex in 1982.",
+  crit:"The Green Revolution's resources went to the well-connected rather than to smallholders, and the programme ended with the coup. The 1983 election that returned him is widely judged to have been more blatantly rigged than 1979's, and rioting followed. A panel under Justice Uwaifo later cleared him personally — it found one house and traced his deposits to his salary — but it did not clear his administration, and his transport minister fled the country and was found drugged in a crate at Stansted in 1984.",
+  q:"A nation without morals and tradition is like a body without a soul.",
+  qs:"Independence Day address, 1 October 1982",
+  s:[{img:"adebo",n:"Simeon Adebo (1913–1994)",d:"Adebo's case was that competence and impartiality are institutions rather than virtues. With Sydney Phillipson he wrote the 1953 report that gave Nigerianisation its name and its first honest measurement — Africans in senior posts up from 245 to 685 between 1948 and 1953, while expatriate numbers rose too — then carried it out in the Western Region service between 1957 and 1960. From 1962 to 1967 he was Nigeria's Permanent Representative to the United Nations, and in 1963 he chaired the General Assembly's working group auditing the UN's own administration. His 1970–71 wages commission reset public pay after the war, and its central recommendation was not a number but a standing body to set pay professionally — the commission that became Udoji."}]},
  grassroots:{n:"Michael Okpara",d:"1920 – 1984 · Premier, Eastern Region",in:"MO",img:"okpara",
   b:"Okpara called his approach pragmatic socialism and built it on farm settlements, palm and rubber plantations and industrial estates at Aba, Enugu and Port Harcourt rather than showpiece capital projects. By 1966 the farm settlements had several thousand acres under oil palm, rubber and citrus — an argument for development measured in what reaches a village, not in what is announced in a capital.",
-  s:[{img:"ekpo",n:"Margaret Ekpo (1914–2006)",d:"Built political power from market associations upward rather than from party structures downward."}]},
+  arg:"Okpara called his approach pragmatic socialism: state-led development without expropriation, with agriculture as the base on which industry would stand. His own phrase for it was <i>progress without tears</i>. He argued for a fifteen-year economic emergency run by a cross-party government, and against the totalitarian shortcut, because of the ease with which people under such a system lose their freedom.",
+  did:"He became Premier of the East on 1 October 1959, at thirty-nine the country's youngest. After an economic mission to Israel in 1961 he modelled farm settlements on the Israeli moshav, at £500,000 each. By the end of 1966 the six settlements had 7,829 acres planted with oil palm, rubber and citrus; the regional development corporation's plantations carried about 67,000 acres; and the Oil Palm Rehabilitation Scheme, launched in 1962, had reached some 50,000 acres and more than four thousand farmers. Agriculture took 37 per cent of capital spending in the 1962–68 plan.",
+  crit:"Settlers were state tenants on a regimented timetable, fined for unexcused absence, and less committed because they held stipends rather than title. The cost per settler meant only a fraction of farmers could ever be reached — 1,070 by 1966. A five-acre minimum excluded the 85 per cent of the region's farmers working under two and a half acres. And he was a protagonist in the crises that broke the First Republic: he led the East's rejection of the census and the UPGA boycott of the 1964 election.",
+  q:"Modern agriculture development is the foundation on which industrialization can be based.",
+  qs:"Progress Without Tears, University of Nigeria, Nsukka, 17 December 1962",
+  s:[{img:"ekpo",n:"Margaret Ekpo (1914–2006)",d:"Her argument was organisational: market women were not an auxiliary of the nationalist movement but a constituency with a franchise and bloc power of its own. In Aba at the end of the 1940s she bought up the market's entire salt supply and required women to register with her association in order to buy it — turning a commodity monopoly into a membership roll. By 1955 women outnumbered men on the city's voting register. She testified to the Enugu commission of enquiry in December 1949, after twenty-one miners were shot at Iva Valley, and in 1961 she won the Aba Urban North seat in the Eastern House of Assembly."}]},
  technocrat:{n:"Simeon Adebo",d:"1913 – 1994 · Public servant and diplomat",in:"SA",img:"adebo",
   b:"Adebo headed the Western Region civil service, served as Nigeria's Permanent Representative to the United Nations from 1962 to 1967, and chaired the 1970–71 wages and salaries review commission, whose interim cost-of-living awards reset public pay and whose recommendations led on to the Udoji review. He belonged to the generation that believed an impartial, competent bureaucracy was the real machinery of a state, and that politics worked only as well as the institutions beneath it.",
-  s:[{img:"okigbo",n:"Pius Okigbo (1924–2000)",d:"Economist and architect of Nigeria's first post-independence development plan; later chaired the panel that traced $12.4bn through the CBN's dedicated accounts and found $206m left in them."}]}
+  arg:"Adebo never wrote a doctrine of the impartial civil service; his career is the argument. Two things carry it: that Nigerianisation should proceed on merit and be measured honestly, and that public pay should be set by a permanent professional body rather than by ad hoc political bargaining.",
+  did:"In 1952 he was appointed with Sydney Phillipson to report on recruiting Nigerians into the service. Their 1953 report, <i>The Nigerianisation of the Civil Service</i>, was the first official use of the term, and it recorded that Africans in senior posts had risen from 245 to 685 between 1948 and 1953 — while expatriate numbers rose too. He organised the replacement of British senior officials in the Western Region service between 1957 and 1960. He was Nigeria's Permanent Representative to the United Nations from 1962 to 1967, and in 1963 chaired the General Assembly's working group examining the UN's own administrative and budgetary procedures. From July 1970 to August 1971 he chaired the Wages and Salaries Review Commission, whose central recommendation was institutional: a standing public service review commission, which became Udoji.",
+  crit:"The sharpest answer to his case is that the people who convene the impartial expert are not themselves disinterested. Dafe Otobo's study of Nigerian wage commissions since 1931 found administrative elites shaping the process to their own advantage, including by choosing when to strike a commission. And Gowon's government adopted only the wage part of Udoji, discarding the productivity and management reforms.",
+  s:[{img:"okigbo",n:"Pius Okigbo (1924–2000)",d:"Pius Okigbo insisted that Nigeria could not plan what it had never measured. He compiled the country's first national accounts, answering the charge that independence-era Nigeria was planning without facts, and worked with Wolfgang Stolper on the 1962–68 First National Development Plan before serving as ambassador to the European Economic Community. In 1994 he chaired the panel on the Central Bank's dedicated and special accounts. It found that $12.4 billion had passed through six extra-budgetary accounts between 1988 and June 1994, leaving $206 million, and that these had become a parallel budget for the presidency, known to only three men. The famous “$12.4 billion missing” is the sum that flowed through — not a figure the panel declared stolen."}]}
 };
 
 var TEN={
@@ -1669,11 +1748,12 @@ function didPlay(){return played_().length>0||(typeof G!=="undefined"&&G.day>0);
 /* The numeral in the masthead becomes a tick. This is the two-part progress device:
    present on every view, costs one character, and needs no bar of its own. */
 function marks(){
-  [["play",didPlay(),"1"],["quiz",didQuiz(),"2"]].forEach(function(x){
+  [["play",didPlay()],["quiz",didQuiz()]].forEach(function(x){
     var b=document.querySelector('nav.top button[data-go="'+x[0]+'"]');
     if(!b)return;
     b.classList.toggle("stepdone",x[1]);
-    var pip=b.querySelector(".pip"); if(pip)pip.textContent=x[1]?"\u2713":x[2];
+    var pip=b.querySelector(".pip");
+    if(pip){pip.textContent=x[1]?"\u2713":"";pip.hidden=!x[1];}
   });
 }
 
@@ -1684,8 +1764,7 @@ function steps(){
      it has been opened. The questionnaire takes the lit state afterwards. */
   var cfg=[
     {id:"step3",done:played,now:!played,txt:played?"Played":"Start here"},
-    {id:"step1",done:done1,now:played,txt:done1?"Done":"Open"},
-    {id:"step2",done:false,now:false,txt:"Open"}
+    {id:"step1",done:done1,now:played,txt:done1?"Results ready":"Open"}
   ];
   cfg.forEach(function(c){
     var el=$(c.id);if(!el)return;
@@ -1721,10 +1800,7 @@ function powersPlate(svg){
   g.push('<line x1="40" y1="'+BOT+'" x2="'+(W-40)+'" y2="'+BOT+'" stroke="var(--ink)" stroke-width="2"/>');
   svg.innerHTML=g.join("");
 }
-function landing(){
-  steps();
-  powersPlate($("demo"));
-}
+function landing(){ steps(); powersPlate($("demo")); }
 
 /* ---------- quiz ---------- */
 function cur(){return st.part===1?Q[st.i]:CIVIC[st.i];}
@@ -1769,9 +1845,6 @@ function renderQ(){
   $("likert").innerHTML=SCALE.map(function(sc,i){
     return '<button type="button" role="radio" id="lk'+i+'" data-v="'+sc.v+'" aria-checked="'+(ans[st.i]===sc.v)+'"><kbd>'+(i+1)+'</kbd><span>'+sc.l+'</span></button>';
   }).join("");
-  $("asideRow").innerHTML=ASIDE.map(function(a,i){
-    return '<button type="button" role="radio" data-k="'+a.k+'" aria-checked="'+(ans[st.i]===a.k)+'"><kbd>'+(i+6)+'</kbd>'+a.l+'</button>';
-  }).join("");
   $("bench").hidden=true;
   $("back").style.visibility=st.i===0?"hidden":"visible";
 }
@@ -1783,13 +1856,6 @@ function renderQ(){
 function markChosen(v){
   Array.prototype.forEach.call($("likert").children,function(btn){
     btn.setAttribute("aria-checked",String(Number(btn.dataset.v)===v));});
-  Array.prototype.forEach.call($("asideRow").children,function(btn){
-    btn.setAttribute("aria-checked",String(btn.dataset.k===v));});
-}
-function pickAside(k){
-  var ans=ansArr();ans[st.i]=k;
-  markChosen(k);
-  advance(st.part===1?320:200);
 }
 function pick(v){
   var ans=ansArr();ans[st.i]=v;
@@ -1806,20 +1872,17 @@ function pick(v){
 function advance(ms){
   setTimeout(function(){
     if(st.i<total()-1){st.i++;renderQ();}
-    else if(st.part===1){renderReview();show("review");}
+    else if(st.part===1){finish();}
     else {renderCivic();show("result");}
   },ms);
 }
 $("likert").addEventListener("click",function(e){
   var b=e.target.closest("button[data-v]");if(b)pick(Number(b.dataset.v));});
-$("asideRow").addEventListener("click",function(e){
-  var b=e.target.closest("button[data-k]");if(b)pickAside(b.dataset.k);});
 $("back").addEventListener("click",function(){if(st.i>0){st.i--;renderQ();}});
 document.addEventListener("keydown",function(e){
   if($("view-quiz").hidden)return;
   var n=parseInt(e.key,10);
   if(n>=1&&n<=5){e.preventDefault();pick(SCALE[n-1].v);}
-  if(n>=6&&n<=7){e.preventDefault();pickAside(ASIDE[n-6].k);}
   if(e.key==="Backspace"&&st.i>0){e.preventDefault();st.i--;renderQ();}
 });
 function reset(){st.part=1;st.i=0;st.a.fill(null);st.ca.fill(null);st.r=null;
@@ -1840,7 +1903,6 @@ $("part2").addEventListener("click",function(){st.part=2;st.i=0;show("quiz");ren
    a mis-hit key, before the page started telling them who they were. */
 function answerLabel(v){
   if(v===null||v===undefined)return "Not answered";
-  if(!scored(v))return ASIDE_L[v]||"Not answered";
   var sc=SCALE.filter(function(x){return x.v===v;})[0];
   return sc?sc.l:"Not answered";
 }
@@ -1852,9 +1914,7 @@ function renderReview(){
       '<button type="button" class="lab" data-i="'+i+'">Change</button></div></li>';
   }).join("");
   var n=st.a.filter(scored).length;
-  $("rvNote").textContent = n===Q.length
-    ? "All twenty-one scored."
-    : (Q.length-n)+" of 21 will not be scored, and the dimensions they belong to will say so.";
+  $("rvNote").textContent = n===Q.length ? "" : "Question "+(st.a.indexOf(null)+1)+" is still unanswered.";
 }
 $("rvList").addEventListener("click",function(e){
   var b=e.target.closest("button[data-i]");if(!b)return;
@@ -1963,13 +2023,6 @@ var CONCEPT={
  horizon:["Sovereignty and integration","Pooling authority with neighbours and keeping a free hand are the ends of the same axis, and most real arrangements sit between them. Trade, movement of people, a common currency and binding regional courts are separate commitments — a country can want any one without the others."]
 };
 
-function depLine(k){
-  var n=0;
-  Q.forEach(function(q,i){ if(q.a===k&&st.a[i]==="depends")n++; });
-  if(!n)return "";
-  return '<p class="ob-dep"><b>'+(n===1?"On one of these you said it depends.":"On "+(n===2?"two":"all three")+" of these you said it depends.")+
-    '</b> That is a view about circumstances, and these questions only ask about principles. Those answers are left out of the reading rather than counted as a middle position \u2014 but they are the ones worth going back to.</p>';
-}
 function evidenceFor(k){
   var rows=[];
   Q.forEach(function(q,i){
@@ -2028,13 +2081,11 @@ function renderObs(pos){
     var v=pos[k],p=PLAIN[k],e=Math.abs(v)<20?p.mid:(v>0?p.pos:p.neg);
     var strength=Math.abs(v)>=60?"strongly ":(Math.abs(v)>=30?"":"mildly ");
     var head=/^would /.test(e[0])?e[0].replace(/^would /,"would "+strength):strength+e[0];
-    var c=cov[k];
     return '<section class="ob">'+
-      '<span class="lab">'+ax.n+(c.n<c.of?' · '+c.n+' of '+c.of+' answered':'')+'</span>'+
+      '<span class="lab">'+ax.n+'</span>'+
       '<p class="ob-say">You '+head+(e[1]?", and "+e[1]:"")+'.</p>'+
       '<details><summary>The questions this came from</summary>'+
         '<ul class="ev">'+evidenceFor(k)+'</ul>'+
-        depLine(k)+
         '<p class="ob-con"><b>'+CONCEPT[k][0]+'.</b> '+CONCEPT[k][1]+'</p>'+
         '<p class="ob-not"><b>What this does not establish.</b> '+LIMITS[k]+'</p>'+
         '<p class="ob-next"><b>Worth thinking about next.</b> '+NEXTQ[k]+'</p>'+
@@ -2109,13 +2160,9 @@ function renderResult(){
      prototypes, not a share of positions agreed with, and being nearest of ten is not
      the same as being a good fit for any of them. The ordering survives; the arithmetic
      dressed as a score does not. */
-  $("atag").textContent = multi ? "Nearest of the ten, and too close to separate" : "Nearest of the ten";
   $("aname").textContent = multi
-    ? tie.map(function(r){return r.a.n.replace("The ","");}).join(" / ")
+    ? (function(ns){return ns.length<3?ns.join(" and "):ns.slice(0,-1).join(", ")+" and "+ns[ns.length-1];})(tie.map(function(r){return r.a.n;}))
     : top.n;
-  $("afit").textContent = multi
-    ? (tie.length+" TRADITIONS, TOO CLOSE TO SEPARATE")
-    : "NEAREST, NOT NECESSARILY NEAR";
   var spread=KEYS.reduce(function(m,k){return Math.max(m,Math.abs(pos[k]));},0);
   var note = multi
     ? "Your answers put you almost exactly the same distance from "+
@@ -2130,9 +2177,8 @@ function renderResult(){
     var edge=v===0?'var(--ink-3)':(v>0?'var(--pole-warm)':'var(--pole-cool)');
     /* An axis nobody answered is not a balanced one. */
     if(!c.n)return '<div class="brow un" style="--edge:var(--ink-3)"><div class="bl"><span>'+a.n+
-      '</span><b>Not measured</b></div><div class="track"></div></div>';
-    var part=c.n<c.of?'<i class="part">'+c.n+' of '+c.of+' answered</i>':'';
-    return '<div class="brow" style="--edge:'+edge+'"><div class="bl"><span>'+a.n+part+'</span><b>'+
+      '</span><b>Not answered</b></div><div class="track"></div></div>';
+    return '<div class="brow" style="--edge:'+edge+'"><div class="bl"><span>'+a.n+'</span><b>'+
       (v===0?"Balanced":(v>0?a.pos:a.neg))+' '+Math.abs(v)+'</b></div><div class="track"><i style="'+side+'"></i></div></div>';
   }).join("");
   $("alist").innerHTML=rk.map(function(r,i){
@@ -2144,16 +2190,19 @@ function renderResult(){
   portrait($("port"),t.in);
   renderPortrait(top.id);
   $("portCap").textContent=(t.d.split("·")[1]||"").trim();
-  $("fname").textContent=t.n;$("fdates").textContent=t.d;$("fbody").textContent=t.b;
+  $("fname").textContent=t.n;$("fdates").textContent=t.d;
+  $("fbody").innerHTML=t.arg||t.b;
+  $("fdid").innerHTML=t.did||"";
+  $("fcrit").innerHTML=t.crit||"";
+  $("fq").hidden=!t.q;
+  if(t.q){$("fqt").textContent="“"+t.q+"”";$("fqs").textContent=t.qs||"";}
   var srt=AXES.slice().sort(function(x,y){return Math.abs(pos[y.k])-Math.abs(pos[x.k]);});
   var diff=tradDiff(top,pos);
   $("fsec2").innerHTML=diff;$("fsec2").hidden=!diff;
   $("fwhy").innerHTML='<b>Why here:</b> your readings on '+
     srt.slice(0,2).map(function(a){return (pos[a.k]>=0?a.pos:a.neg).toLowerCase()+' ('+fmt(pos[a.k])+')';}).join(" and ")+
-    ' argue along the same lines this figure argued along. It is a resemblance of argument, not of biography, and it is not a claim about how you would have governed — the '+
-    '<a href="#" data-go="play">game</a> exists because stated positions and governing behaviour come apart.'+
-    (multi?' Because your reading is between '+tie.length+' traditions, the figures below are the ones behind the nearest of them — the other'+(tie.length>2?'s':'')+' would give you '+
-      tie.slice(1).map(function(r){return TR[r.a.id].n;}).join(" and ")+'.':'');
+    ' argue along the same lines this figure argued along.';
+  $("fsecHead").hidden=!(t.s&&t.s.length);
   $("fsec").innerHTML=t.s.map(function(x){
     return '<div'+(x.img?' class="withpic"':'')+'>'+
       (x.img?'<img class="sface" src="portraits/sm/'+x.img+'.png" alt="" loading="lazy" decoding="async" onerror="this.remove()">':'')+
@@ -2212,9 +2261,8 @@ function spanWords(d){
 }
 function gameLink(){
   var base=location.href.split("#")[0];
-  var f=fidelity(), kept=(st.r&&f.tested)?Math.round(f.with_/f.tested*100):"x";
   var pn=G.pn||{c:"caretaker"};
-  var g="g="+G.day+"."+kept+"."+pn.c+(pn.a?"."+pn.a:"");
+  var g="g="+G.day+".x."+pn.c+(pn.a?"."+pn.a:"");
   var c=st.r?("c="+encodePos(st.r.pos)+"~"+st.r.ranked[0].a.id):null;
   return base+"#"+(c?c+"&":"")+g;
 }
@@ -2234,21 +2282,18 @@ function renderInvite(){
   if(!c||(!c.pos&&!c.g)){$("invite").hidden=true;return;}
   var body,go;
   if(c.pos&&c.g){
-    body='Somebody answered the twenty-one and came out <b>'+c.a.n+'</b>. Then they took the office, lasted <b>'+
-      spanWords(c.g.d)+'</b> and left as <b>'+pname(c.g.c,c.g.a).toLowerCase()+'</b>'+
-      (c.g.kept!==null?', keeping <b>'+c.g.kept+'%</b> of what they said they believed':'')+
-      '. They do not think you would do better.';
-    go='<button class="btn go sm" data-go="start">Find my politics</button>'+
-       '<button class="btn ghost sm" data-go="play">Or go straight to the office</button>';
+    body='Somebody answered the twenty-one and came out <b>'+c.a.n+'</b>, then governed for <b>'+
+      spanWords(c.g.d)+'</b>. What would you do differently?';
+    go='<button class="btn go sm" data-go="play">Play President</button>'+
+       '<button class="btn ghost sm" data-go="quiz">Compare our quiz answers</button>';
   } else if(c.g){
-    body='Somebody took the office, lasted <b>'+spanWords(c.g.d)+'</b> and left as <b>'+
-      pname(c.g.c,c.g.a).toLowerCase()+'</b>. They do not think you would last.';
-    go='<button class="btn go sm" data-go="play">Take office</button>'+
-       '<button class="btn ghost sm" data-go="start">Answer the twenty-one first</button>';
+    body='Somebody governed for <b>'+spanWords(c.g.d)+'</b>. Can you last longer?';
+    go='<button class="btn go sm" data-go="play">Play President</button>'+
+       '<button class="btn ghost sm" data-go="quiz">Explore my politics</button>';
   } else {
     body='Somebody has answered these twenty-one questions and come out <b>'+c.a.n+
-      '</b>. They think you would not. Answer the same twenty-one and find out exactly where the two of you part company.';
-    go='<button class="btn go sm" data-go="start">Find my politics</button>';
+      '</b>. Answer the same twenty-one and see where the two of you part company.';
+    go='<button class="btn go sm" data-go="quiz">Explore my politics</button>';
   }
   $("invite").hidden=false;
   $("inviteBody").innerHTML=body;
@@ -2448,6 +2493,13 @@ $("card").addEventListener("click",function(){
   });
 });
 
+/* Whatever they typed, reduced to something a canvas can draw: one line, no control
+   characters, and short enough that the card does not have to shrink to nothing. */
+function presName(){
+  var el=$("gName"); if(!el)return "";
+  return String(el.value||"").replace(/[\u0000-\u001f\u007f]/g,"")
+    .replace(/\s+/g," ").trim().slice(0,28);
+}
 /* ---------- the presidency card ----------
    The second artifact. Everything on it is read off the run; the six bars are the
    reveal the player never saw while playing. */
@@ -2461,9 +2513,18 @@ function buildPresCard(){
   x.fillStyle=C.i3;x.font='500 22px "IBM Plex Mono", monospace';
   x.fillText("IF NA YOU? · THE PRESIDENCY",80,112);
 
+  var yy=182, nm=presName();
+  if(nm){
+    var fs=44;
+    x.font='800 '+fs+'px "Bricolage Grotesque", sans-serif';
+    while(x.measureText(nm).width>W-170&&fs>22){
+      fs-=2;x.font='800 '+fs+'px "Bricolage Grotesque", sans-serif';}
+    x.fillStyle=C.ink;x.fillText(nm,80,yy);
+    yy+=fs+18;
+  }
   var kick=$("gEndKick").textContent;
   x.fillStyle=C.gold;x.font='600 26px "IBM Plex Mono", monospace';
-  var words=kick.split(" "),ln="",yy=182;
+  var words=kick.split(" "),ln="";
   words.forEach(function(w){
     var t=ln?ln+" "+w:w;
     if(x.measureText(t).width>W-170){x.fillText(ln,80,yy);yy+=34;ln=w;} else ln=t;});
@@ -2491,20 +2552,29 @@ function buildPresCard(){
     x.fillStyle=C.ink;x.fillRect(bx+v.s/100*bw-1,by-4,2,22);
   });
 
-  var f=fidelity(),fy=top+VALUES.length*74+34;
+  var fy=top+VALUES.length*74+34;
   x.strokeStyle=C.hair;x.lineWidth=1;
   x.beginPath();x.moveTo(80,fy);x.lineTo(W-80,fy);x.stroke();
-  if(st.r&&f.tested){
+  /* what the record will say, in the space the six bars left over */
+  var chips=Array.prototype.map.call($("gPhilChips").children,function(el){
+    return {t:el.textContent.toUpperCase(),c:el.className};});
+  if(chips.length){
+    var cy0=fy+52;
     x.fillStyle=C.i3;x.font='500 18px "IBM Plex Mono", monospace';
-    x.fillText("DECISIONS THAT MATCHED WHAT I SAID",80,fy+40);
-    x.fillStyle=C.gold;x.font='800 54px "Bricolage Grotesque", sans-serif';
-    x.fillText(f.with_+" of "+f.tested,80,fy+98);
-  } else {
-    x.fillStyle=C.i2;x.font='400 24px "Literata", serif';
-    x.fillText("I never said what I believed first.",80,fy+48);
+    x.fillText("THE RECORD",80,cy0);
+    var cx0=80,row=cy0+34,PADX=15,CH=38,GAPX=9,GAPY=11,rows=0;
+    x.font='500 17px "IBM Plex Mono", monospace';
+    for(var ci=0;ci<chips.length&&rows<2;ci++){
+      var w=x.measureText(chips[ci].t).width+PADX*2;
+      if(cx0+w>W-80){ cx0=80;row+=CH+GAPY;rows++; if(rows>=2)break; }
+      var col=chips[ci].c==="good"?C.up:(chips[ci].c==="hot"?C.dn:C.i3);
+      x.strokeStyle=col;x.lineWidth=1;x.strokeRect(cx0,row,w,CH);
+      x.fillStyle=col;x.fillText(chips[ci].t,cx0+PADX,row+25);
+      cx0+=w+GAPX;
+    }
   }
   x.fillStyle=C.i3;x.font='500 19px "IBM Plex Mono", monospace';
-  x.fillText("IF NA YOU? \u00b7 IFNAYOU.COM",80,H-88);
+  x.fillText("SEE YOUR OWN AT IFNAYOU.COM",80,H-88);
   return c;
 }
 
@@ -2762,9 +2832,9 @@ var VALUES=[
  {k:"pro",n:"Prosperity",d:"Money in the country, and whether ordinary people can reach it.",s:35},
  {k:"sec",n:"Security",d:"Whether Nigerians can sleep, travel and farm without being killed for it.",s:30},
  {k:"coh",n:"Cohesion",d:"Whether the country still wants to be one country.",s:40},
- {k:"cap",n:"Capability",d:"Whether the state can do things: schools, power, courts that work.",s:30},
+ {k:"cap",n:"Public services",d:"Whether the state can do things: schools, power, courts that work.",s:30},
  {k:"int",n:"Integrity",d:"Whether the rules are the same for everyone, including you.",s:28},
- {k:"sov",n:"Sovereignty",d:"Whether Nigeria's decisions are taken in Nigeria.",s:45}
+ {k:"sov",n:"Independence",d:"Whether Nigeria's decisions are taken in Nigeria.",s:45}
 ];
 var VKEYS=VALUES.map(function(v){return v.k;});
 
@@ -3500,8 +3570,26 @@ function buildMeters(){
       '<div class="bar" style="--mc:'+b.c+'"><i style="height:50%"></i></div>'+
       '<span>'+b.n.replace("The ","")+'</span><b class="st"></b></div>';}).join("");
 }
+function buildCountry(){
+  $("gCountry").innerHTML=VALUES.map(function(v){
+    return '<div class="cm" data-k="'+v.k+'" title="'+v.n+'"><span>'+v.n+'</span>'+
+      '<div class="ct"><i style="width:'+v.s+'%"></i></div></div>';}).join("");
+}
+/* No numbers and no flash — the bar simply sits where the measure is. Green once it is
+   clearly above where it started, red once it is clearly below. */
+function renderCountry(){
+  var box=$("gCountry"); if(!box)return;
+  VALUES.forEach(function(v){
+    var el=box.querySelector('[data-k="'+v.k+'"]'); if(!el)return;
+    var now=G.v[v.k],d=now-v.s;
+    el.querySelector(".ct i").style.width=Math.max(0,Math.min(100,now))+"%";
+    el.classList.toggle("up",d>=4);
+    el.classList.toggle("dn",d<=-4);
+  });
+}
 var mtTimers={};
 function renderMeters(d){
+  renderCountry();
   BLOCS.forEach(function(b){
     var el=$("gMeters").querySelector('[data-k="'+b.k+'"]');
     if(!el)return;
@@ -3693,6 +3781,7 @@ function applyV(o,scale){
    controls until the next answerable card is on screen. */
 function play(side){
   if(!G.live||G.busy)return;
+  if(SND&&AC&&AC.state!=="running")unlock();
   G.busy=true;
   if(G.cur===-2){impPlay(side);return;}
   var c=(G.cur==="third")?THIRD:DECK[G.cur],ch=side==="l"?c.l:c.r;
@@ -4063,33 +4152,12 @@ function endGame(bloc,why){
   /* A score is not a story, and stories are what travel. Everything below is derived
      from the run — nothing is invented for effect. */
   G.pn=presidencyCode(bloc,why);
-  $("gEndKick").textContent=(why==="impeached")?kick:(pname(G.pn.c,G.pn.a)||kick);
+  $("gEndKick").textContent=kick;
   $("gEndTitle").textContent=title;
   $("gEndBody").textContent=body+impLine();
   var yrs=Math.floor(G.day/PER_YEAR),mos=Math.round((G.day%PER_YEAR)*(12/PER_YEAR));
   $("gEndYears").textContent=yrs+"y "+mos+"m";
   $("gEndCount").textContent=G.day;
-  /* The number the run can actually support: of the decisions that tested something
-     you had committed to, the share you took on your own side. */
-  var fx=fidelity();
-  /* Withdrawing a rejected comparison can empty the count, and an empty count used to
-     read as "you never put a position on the record" — which is the opposite of what
-     happened to someone who stated positions and then disagreed with every comparison
-     drawn from them. Three cases, not two. */
-  if(st.r&&fx.tested){
-    $("gEndContra").textContent=fx.with_+" of "+fx.tested;
-    $("gEndContraLab").textContent="decisions matched what you said"+
-      (G.rejected?" · "+G.rejected+" comparison"+(G.rejected===1?"":"s")+" you set aside":"");
-  } else if(st.r&&G.rejected){
-    $("gEndContra").textContent="—";
-    $("gEndContraLab").textContent="you set aside every comparison you were shown";
-  } else if(st.r){
-    $("gEndContra").textContent="—";
-    $("gEndContraLab").textContent="nothing you decided tested a position you had taken";
-  } else {
-    $("gEndContra").textContent="—";
-    $("gEndContraLab").textContent="you never put a position on the record";
-  }
   postMortem(bloc);
   ledger();
   philosophy();
@@ -4203,15 +4271,8 @@ function versus(){
   var el=$("gVersus"); if(!el)return;
   var g=st.cmp&&st.cmp.g;
   if(!g){el.hidden=true;return;}
-  var f=fidelity(), mine=(st.r&&f.tested)?Math.round(f.with_/f.tested*100):null;
-  var t="The person who sent you here lasted "+spanWords(g.d)+" and left as "+
-    pname(g.c,g.a).toLowerCase()+". You lasted "+spanWords(G.day)+
+  var t="The person who sent you here governed for "+spanWords(g.d)+". You lasted "+spanWords(G.day)+
     (G.day>g.d?" — longer." : (G.day<g.d?" — not as long." : ", to the month."));
-  if(g.kept!==null&&mine!==null){
-    t+=" On the decisions that tested a stated position, they matched "+g.kept+" in every hundred. You matched "+mine+".";
-  } else if(g.kept!==null&&mine===null){
-    t+=" They matched "+g.kept+" in every hundred of the decisions that tested a stated position. You never put a position on the record.";
-  }
   el.textContent=t;el.hidden=false;
 }
 
@@ -4227,7 +4288,7 @@ function returnLeg(){
   } else {
     $("gReturnH").textContent="You never said what you believed.";
     $("gReturnP").textContent="So nothing you did in there could contradict you. Answer the twenty-one and take office again — the second run is the one that tells you something.";
-    $("gReturnBtn").textContent="Find my politics";
+    $("gReturnBtn").textContent="Explore my politics";
   }
   box.hidden=false;
 }
@@ -4361,56 +4422,6 @@ function plural(n,w){
   return n+" "+w+"s";
 }
 function philosophy(){
-  var said=st.r?st.r.pos:null;
-  var axOf=function(k){return AXES.filter(function(a){return a.k===k;})[0];};
-
-  /* One line, and only when the run earned it. This replaced a compass, a second
-     archetype and four rows of analysis — three summaries of the same run, which is
-     what made the page unreadable. */
-  if(said){
-    var committed=KEYS.filter(function(k){return Math.abs(said[k])>=25;}).length;
-    var f=fidelity(),line;
-    if(committed===0){
-      line="Every one of your twenty-one answers came back near the centre, so nothing you did in office could contradict you. That is its own finding, and it is the one most people get.";
-    } else if(f.tested===0){
-      line="Nothing you had committed to came up. Govern longer and the office will find your answers.";
-    } else {
-      var w=f.per[0];
-      line="The office tested something you had committed to "+plural(f.tested,"time")+". You held to it "+f.with_+".";
-      if(w.rate<0.5&&w.n>=2){
-        var pn=function(x){return /^(Nigeria|Pan-)/.test(x)?x:x.charAt(0).toLowerCase()+x.slice(1);};
-        line+=" You gave way furthest on "+axOf(w.k).n.toLowerCase()+": you said "+
-          pn(said[w.k]>0?axOf(w.k).pos:axOf(w.k).neg)+
-          ", then governed the other way "+(w.n-w.w)+" times out of "+w.n+".";
-      } else if(f.with_===f.tested){
-        line+=" You did not break your own word once.";
-      }
-    }
-    var top=null,n=0;
-    for(var ek in G.ex){ if(G.ex[ek]>n){n=G.ex[ek];top=ek;} }
-    if(top){
-      var et=EXCUSES.filter(function(e){return e.k===top;})[0].t;
-      line+=" Asked to account for it, you said “"+et+"” "+plural(n,"time")+".";
-    }
-    $("gWordLine").textContent=line;
-    /* Which of your own positions survived the office. This is the honest version of
-       "you governed as an archetype" — that label ties 67% of the time and returns
-       eight different answers for one consistent style, because a governed axis from
-       two observations can only be −100, 0 or +100. Direction survives; the label
-       does not. So name the positions, not a second archetype. */
-    var rows=f.per.slice().sort(function(x,y){return x.rate-y.rate;});
-    $("gTurnRows").innerHTML=rows.map(function(r){
-      var ax=axOf(r.k),said=st.r.pos[r.k],held=r.w>=Math.ceil(r.n/2);
-      var pn=function(x){return /^(Nigeria|Pan-)/.test(x)?x:x.toLowerCase();};
-      return '<div class="'+(held?"held":"broke")+'">'+
-        '<b>'+ax.n+'</b>'+
-        '<span>you said '+pn(said>0?ax.pos:ax.neg)+' '+Math.abs(said)+'</span>'+
-        '<i>'+(r.w===r.n?"held all "+r.n:(r.w===0?"broke all "+r.n:"held "+r.w+" of "+r.n))+'</i>'+
-        '</div>';}).join("");
-    $("gWordBox").hidden=false;
-  } else {
-    $("gWordBox").hidden=true;
-  }
 
   /* what the record will say */
   var chips=[];
@@ -4441,10 +4452,25 @@ function philosophy(){
    first click, so no autoplay policy is fought. Muted state persists per device. */
 var AC=null,SND=false;
 try{SND=localStorage.getItem("manifesto.snd")==="1";}catch(e){}
-function ac(){ if(!AC){var C=window.AudioContext||window.webkitAudioContext; if(C)AC=new C(); } return AC; }
+function ac(){ if(!AC){var C=window.AudioContext||window.webkitAudioContext;
+  if(C){try{AC=new C();}catch(e){AC=null;}} } return AC; }
+/* A phone hands back a suspended context and resuming it is asynchronous. The old
+   code called resume() and then scheduled the note at the frozen currentTime, so by
+   the time the output actually opened every event was already in the past and got
+   dropped — the first sound after switching sound on was always lost, and on iOS the
+   context often never opened at all. Unlock has to finish before anything is played,
+   and the one-sample silent buffer is what actually opens the output there. */
+function unlock(cb){
+  var a=ac(); if(!a){if(cb)cb();return;}
+  if(a.state==="running"){if(cb)cb();return;}
+  try{var buf=a.createBuffer(1,1,a.sampleRate),src=a.createBufferSource();
+      src.buffer=buf;src.connect(a.destination);src.start(0);}catch(e){}
+  var done=function(){if(cb)cb();},p;
+  try{p=a.resume();}catch(e){}
+  if(p&&p.then)p.then(done,done); else setTimeout(done,60);
+}
 function tone(f,dur,type,vol,slideTo){
-  if(!SND)return; var a=ac(); if(!a)return;
-  if(a.state==="suspended")a.resume();
+  if(!SND)return; var a=ac(); if(!a||a.state!=="running")return;
   var o=a.createOscillator(),g=a.createGain(),t=a.currentTime;
   o.type=type||"sine"; o.frequency.setValueAtTime(f,t);
   if(slideTo)o.frequency.exponentialRampToValueAtTime(slideTo,t+dur);
@@ -4454,17 +4480,19 @@ function tone(f,dur,type,vol,slideTo){
   o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+dur+0.02);
 }
 var SFX={
-  decide:function(){tone(196,0.11,"triangle",0.05);tone(98,0.16,"sine",0.05);},
-  danger:function(){tone(150,0.34,"sawtooth",0.035,88);},
-  flag:function(){tone(523,0.10,"square",0.028);setTimeout(function(){tone(392,0.14,"square",0.028);},90);},
-  term:function(){tone(262,0.22,"sine",0.06);setTimeout(function(){tone(330,0.22,"sine",0.06);},150);
-                  setTimeout(function(){tone(392,0.5,"sine",0.06);},300);},
-  over:function(){tone(174,0.9,"sine",0.07,64);}
+  decide:function(){tone(523,0.09,"triangle",0.10);tone(349,0.14,"sine",0.085);},
+  danger:function(){tone(466,0.32,"sawtooth",0.075,277);},
+  flag:function(){tone(988,0.09,"square",0.05);setTimeout(function(){tone(740,0.13,"square",0.05);},90);},
+  term:function(){tone(523,0.20,"sine",0.10);setTimeout(function(){tone(659,0.20,"sine",0.10);},150);
+                  setTimeout(function(){tone(784,0.46,"sine",0.10);},300);},
+  over:function(){tone(392,0.9,"sine",0.12,165);}
 };
 function sndToggle(){
   SND=!SND; try{localStorage.setItem("manifesto.snd",SND?"1":"0");}catch(e){}
   var b=$("gSnd"); if(b){b.textContent=SND?"Sound on":"Sound off";b.setAttribute("aria-pressed",String(SND));}
-  if(SND)SFX.decide();
+  /* The tap that turns sound on is the gesture the browser wants, so the output is
+     opened inside it and the confirming note waits until it is actually open. */
+  if(SND)unlock(function(){SFX.decide();});
 }
 
 function startGame(){
@@ -4501,7 +4529,8 @@ function beginRun(){
   VALUES.forEach(function(v){G.v[v.k]=v.s;});
   $("gameGate").hidden=true;$("gameEnd").hidden=true;$("gameRun").hidden=false;
   $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
-  season();buildMeters();clearShift();
+  if(SND)unlock();
+  season();buildMeters();buildCountry();clearShift();
   renderMeters();updateClock();nextCard();
   interstitial("The rains","Term one. You arrive with everything still possible.");
 }
@@ -4514,12 +4543,12 @@ $("gPresCard").addEventListener("click",function(){
   saveCard(buildPresCard(),"ifnayou-presidency.png",gtoast);
 });
 $("gChallenge").addEventListener("click",function(){
-  var f=fidelity();
-  var kept=(st.r&&f.tested)?"kept "+Math.round(f.with_/f.tested*100)+"% of my own manifesto"
-                           :"never said what I believed first";
-  var t="I was "+$("gEndKick").textContent.toLowerCase()+".\n\n"+
-    spanWords(G.day)+" in office, "+G.day+" decisions, and I "+kept+".\n\n"+
-    "If na you, wetin you for do?\n"+gameLink();
+  var nm=presName();
+  var t="My presidency ended: "+$("gEndTitle").textContent.replace(/\.$/,"")+" — "+
+    $("gEndKick").textContent.toLowerCase()+".\n\n"+
+    spanWords(G.day)+" in office, "+G.day+" decisions.\n"+
+    (nm?"\n— "+nm+"\n":"")+
+    "\nIf na you, wetin you for do?\n"+gameLink();
   navigator.clipboard.writeText(t).then(function(){gtoast("Challenge copied");
     evt("result_shared",{session_id:CUR.presidentSessionId,method:"copy"});},
     function(){gtoast("Your browser blocked the copy");});
