@@ -15,6 +15,31 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1122995333574337');
+fbq('track', 'PageView');
+/* Product-event helper for the six If Na You events below. Fails silently like
+   the existing track()/evt() analytics — an ad blocker or a failed fbevents.js
+   load must never break the quiz or the game. Custom events only: none of
+   quiz_start/quiz_complete/quiz_result_view/game_start/game_complete/share_result
+   are Meta standard events, so trackCustom is correct here rather than track. */
+function mpx(name,params){
+  try{ if(typeof fbq==="function")fbq("trackCustom",name,params||{}); }catch(e){}
+}
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1122995333574337&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 
 <style>
@@ -1892,6 +1917,7 @@ function beginCompass(){
   CUR.compassResultSent=false;
   track("session_start",{session_id:CUR.compassSessionId,experience_type:"compass"});
   evt("compass_started",{session_id:CUR.compassSessionId});
+  mpx("quiz_start",{content_name:"If Na You quiz"});
 }
 $("startBtn").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
 $("again").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
@@ -1947,9 +1973,11 @@ function finish(){
       tied_archetypes:tied(st.r.ranked).map(function(r){return r.a.id;}),
       final_dimension_scores:JSON.parse(JSON.stringify(pos))});
     evt("compass_completed",{session_id:CUR.compassSessionId});
+    mpx("quiz_complete",{content_name:"If Na You quiz",archetype:st.r.ranked[0].a.id});
   }
   renderResult();renderWho();renderCompare();show("result");
   evt("result_viewed",{session_id:CUR.compassSessionId});
+  mpx("quiz_result_view",{content_name:"If Na You quiz",archetype:st.r.ranked[0].a.id});
 }
 /* A tester asked why the dimensions aren't socialist / capitalist / nationalist. They
    aren't, because those are imported and they do not name the arguments Nigeria has.
@@ -2390,7 +2418,8 @@ function resultText(){
 }
 $("copy").addEventListener("click",function(){
   navigator.clipboard.writeText(resultText()).then(function(){toast("Challenge copied");
-    evt("result_shared",{session_id:CUR.compassSessionId,method:"copy"});},
+    evt("result_shared",{session_id:CUR.compassSessionId,method:"copy"});
+    mpx("share_result",{context:"quiz",method:"copy"});},
     function(){toast("Your browser blocked the copy");});});
 /* The card is the only thing that leaves the site, so it is the only place the
    wordmark has to work — which is why the portrait goes here and nowhere else gets
@@ -2487,6 +2516,7 @@ function canvasToBlob(canvas,name,say){
 $("card").addEventListener("click",function(){
   var id=st.r.ranked[0].a.id, nm="ifnayou-"+id+".png";
   evt("result_shared",{session_id:CUR.compassSessionId,method:"card"});
+  mpx("share_result",{context:"quiz",method:"card"});
   withPortrait(portraitSrc(id),function(face){
     try{ canvasToBlob(buildCard(face),nm,toast); }
     catch(e){ saveCard(buildCard(null),nm,toast); }
@@ -4082,6 +4112,7 @@ function endGame(bloc,why){
       final_value_scores:JSON.parse(JSON.stringify(G.v)),
       final_bloc_scores:JSON.parse(JSON.stringify(G.m))});
     evt("president_completed",{session_id:CUR.presidentSessionId,final_outcome:outcome});
+    mpx("game_complete",{content_name:"If Na You: Play President",final_outcome:outcome});
   })();
   var kick,title,body;
   if(why==="fuse"){
@@ -4516,6 +4547,7 @@ function beginRun(){
   CUR.presidentSessionId=uuid();
   track("session_start",{session_id:CUR.presidentSessionId,experience_type:"president"});
   evt("president_started",{session_id:CUR.presidentSessionId});
+  mpx("game_start",{content_name:"If Na You: Play President"});
   G={live:true,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,cur:0,
      limit:BASE_LIMIT,third:null,gax:{},gn:{},gtest:{},gwith:{},brave:0,safe:0,ex:{},owed:{},cause:{},
      hist:{},cold:{},stNow:{},stT:{},turned:{},lastShift:undefined,lastUrgent:undefined,
@@ -4540,6 +4572,7 @@ function gtoast(m){var t=$("gToast");t.textContent=m;t.classList.add("on");
   clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("on");},2400);}
 $("gPresCard").addEventListener("click",function(){
   evt("result_shared",{session_id:CUR.presidentSessionId,method:"card"});
+  mpx("share_result",{context:"president",method:"card"});
   saveCard(buildPresCard(),"ifnayou-presidency.png",gtoast);
 });
 $("gChallenge").addEventListener("click",function(){
@@ -4550,7 +4583,8 @@ $("gChallenge").addEventListener("click",function(){
     (nm?"\n— "+nm+"\n":"")+
     "\nIf na you, wetin you for do?\n"+gameLink();
   navigator.clipboard.writeText(t).then(function(){gtoast("Challenge copied");
-    evt("result_shared",{session_id:CUR.presidentSessionId,method:"copy"});},
+    evt("result_shared",{session_id:CUR.presidentSessionId,method:"copy"});
+    mpx("share_result",{context:"president",method:"copy"});},
     function(){gtoast("Your browser blocked the copy");});
 });
 $("gReturnBtn").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
