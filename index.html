@@ -706,8 +706,11 @@ tr:last-child td{border-bottom:0;}
    between them, so every disc sits exactly on the bar it belongs to. */
 .gate-powers{margin:26px 0 22px;}
 .gate-faces{display:grid;grid-template-columns:repeat(5,1fr);gap:5%;margin-bottom:0;}
-.gate-faces img{width:100%;aspect-ratio:1;border-radius:50%;display:block;
-  background:var(--gf,var(--stock-2));}
+/* No disc here. On the gate all five sit together, and five solid fields of colour
+   at that size swamped the page and made the figures read as larger than they are.
+   The bar underneath already carries the power's colour, and the disc still does its
+   job in the run, where one face appears at a time and has to be placed instantly. */
+.gate-faces img{width:100%;aspect-ratio:1;display:block;}
 
 .meters{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:18px;}
 /* The six measures used to be invisible until the run was over, which made the ending
@@ -899,9 +902,16 @@ tr:last-child td{border-bottom:0;}
   border-top:0;padding:15px 14px;cursor:pointer;font:inherit;color:inherit;font-size:.93rem;
   line-height:1.38;text-align:left;min-height:74px;}
 #gR{justify-content:flex-end;text-align:right;}
-.g-choice:hover{border-color:var(--elu);background:var(--stock-2);}
+/* Touch screens keep :hover on whatever was last tapped, so after a decision the
+   side you chose stayed outlined and its arrow stayed danfo — which reads as the
+   page asking you to press it again. Hover is for pointers that can actually hover. */
+@media (hover:hover) and (pointer:fine){
+  .g-choice:hover{border-color:var(--elu);background:var(--stock-2);}
+}
 .g-choice .dir{font-family:"IBM Plex Mono",monospace;color:var(--ink-3);flex:none;font-size:.8rem;}
-.g-choice:hover .dir{color:var(--danfo);}
+@media (hover:hover) and (pointer:fine){
+  .g-choice:hover .dir{color:var(--danfo);}
+}
 
 /* ---- what you left behind ---- */
 .lg-intro{color:var(--ink-3);font-size:.86rem;line-height:1.55;margin:12px 0 18px;max-width:54ch;}
@@ -940,13 +950,13 @@ tr:last-child td{border-bottom:0;}
 @media (max-width:720px){
   body.runlock{overflow:hidden;}
   body.runlock footer.site{display:none;}
-  body.runlock #view-play{padding-block:8px 0;}
+  body.runlock #view-play{padding-block:8px 18px;}
   body.runlock #view-play .wrap{padding-inline:14px;}
   /* The wrapper already insets the page by the safe areas, so the run has to give
      them back or the answers finish under the home indicator. */
   body.runlock .g-wrap{display:flex;flex-direction:column;
-    height:calc(100vh - var(--mast-h,58px) - 14px);
-    height:calc(100dvh - var(--mast-h,58px) - 14px
+    height:calc(100vh - var(--mast-h,58px) - 32px);
+    height:calc(100dvh - var(--mast-h,58px) - 32px
       - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));}
   body.runlock #gameRun{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;}
   body.runlock .mwrap{flex:none;margin-bottom:0;}
@@ -1110,7 +1120,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       </svg>
       <span class="wordmark">
         <b>If na you<i>?</i></b>
-        <span>See what you believe</span>
+        <span>Know yourself. Know your country.</span>
       </span>
     </button>
     <nav class="top" id="nav">
@@ -1871,6 +1881,9 @@ function runLock(on){
 window.addEventListener("resize",function(){
   if(document.body.classList.contains("runlock"))runLock(true);
 });
+/* A reload restores the last scroll position by default, which on a phone opened the
+   site halfway down with the hero cut in half. The page decides where it starts. */
+if("scrollRestoration" in history)history.scrollRestoration="manual";
 function show(n){
   VIEWS.forEach(function(v){var e=$("view-"+v);if(e)e.hidden=(v!==n);});
   Array.prototype.forEach.call(document.querySelectorAll("nav.top button"),function(btn){
@@ -4703,6 +4716,9 @@ function start(){
   $("wWipe").addEventListener("click",wipeLocal);
   st.cmp=readInvite();
   renderBallot();landing();renderInvite();show("start");marks();
+  /* and again once the hero has its bytes, because a late image can move the page
+     under a scroll position the browser set before it arrived */
+  window.addEventListener("load",function(){window.scrollTo(0,0);},{once:true});
   track("participant_seen",{});
   evt("landing_viewed",{});
 }
