@@ -201,7 +201,59 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 .btn.sm{font-size:.76rem;padding:9px 14px;}
 
 /* landing */
-.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(24px,4vw,52px);align-items:start;}
+/* Nothing here may widen the document: the hero deliberately overruns its column,
+   and a page that has never scrolled sideways should not start. `clip` rather than
+   `hidden` because `hidden` would make this a scroll container and unstick the
+   masthead. */
+/* Each view spans the viewport, so this is where the hero's overrun is cut off.
+   `clip` rather than `hidden` so it does not become a scroll container, and on the
+   view rather than on `body`, which would also clip the fixed adire field. */
+.view{overflow-x:clip;}
+.hero{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:clamp(24px,4vw,52px);align-items:center;}
+/* The hero illustration. She is a cut-out on transparency, so the page's own
+   paper — or its indigo, after dark — is the ground she stands on, and there is
+   no frame to end on. The aspect ratio is declared so her box is held before the
+   bytes land. */
+.hero-art{margin:0;min-width:0;}
+.hero-art picture{display:block;}
+/* the crop ends at her waist, so the last of it is dissolved rather than cut */
+.hero-art img{display:block;width:100%;height:auto;aspect-ratio:1377/1125;
+  -webkit-mask-image:linear-gradient(to bottom,#000 84%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 84%,transparent 100%);}
+/* On the wide layout she overruns her column into the gutter rather than sitting
+   politely inside it — at column width she read as an inset picture with air
+   around it instead of the other half of the composition. */
+@media (min-width:861px){
+  .hero-art{position:relative;}
+  .hero-art img{width:122%;max-width:none;left:8%;position:relative;}
+}
+
+/* Below the two-column breakpoint she stops being a second block under the copy
+   — stacked, she read as a picture somebody had pasted beneath the writing, with
+   a gap between them announcing it. She becomes the ground instead: pinned to the
+   top right, bleeding off the edge, dissolved by a mask before she reaches the
+   body copy, with the headline set beside her. Nothing is layered over her face,
+   and the mask is alpha rather than a tinted scrim, so it works in both themes. */
+@media (max-width:860px){
+  .hero{display:block;position:relative;}
+  .hero-copy{position:relative;z-index:2;}
+  /* The headline keeps to the left so her face is never under type, and takes a
+     step down in size to buy the width that keeps "wetin you go" on one line. */
+  .hero h1{width:62%;font-size:clamp(2.2rem,8.8vw,2.9rem);}
+  /* She runs to the screen edge and is clipped there. Without the clip the image
+     widened the document past the viewport, which is what put a sideways shift on
+     a page that had never scrolled horizontally. The box reaches past the wrap's
+     own gutter so the bleed is to the glass, not to the text margin. */
+  .hero-art{position:absolute;top:-64px;bottom:0;left:-20px;right:-20px;
+    overflow:hidden;z-index:0;pointer-events:none;}
+  .hero-art img{position:absolute;top:34px;right:-26%;width:104%;
+    -webkit-mask-image:linear-gradient(to bottom,#000 30%,rgba(0,0,0,.26) 52%,transparent 68%);
+    mask-image:linear-gradient(to bottom,#000 30%,rgba(0,0,0,.26) 52%,transparent 68%);}
+}
+@media (min-width:601px) and (max-width:860px){
+  .hero h1{width:52%;}
+  .hero-art img{top:-26px;right:-4%;width:52%;}
+}
 .lede{font-size:var(--s-0);color:var(--ink-2);margin:16px 0 0;max-width:46ch;line-height:1.55;}
 .lnk{background:none;border:0;padding:0;font:inherit;color:var(--ink);cursor:pointer;
   border-bottom:2px solid var(--danfo);}
@@ -316,7 +368,6 @@ nav.top button[aria-current="true"].stepdone .pip{background:var(--palm);border-
 }
 
 /* results */
-.plate{border:3px solid var(--rule);background:var(--stock);}
 .rgrid{display:grid;grid-template-columns:minmax(0,430px) minmax(0,1fr);}
 .rgrid > .pane{padding:clamp(18px,2.6vw,28px);}
 .rgrid > .pane + .pane{border-left:1px solid var(--hair);}
@@ -646,11 +697,17 @@ tr:last-child td{border-bottom:0;}
 /* ===== the game ===== */
 .g-wrap{max-width:660px;margin:0 auto;}
 #gameRun{position:relative;}
-.gate-blocs{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0;
-  border-top:2px solid var(--ink);margin-top:26px;}
-.gate-blocs div{padding:14px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);}
-.gate-blocs h4{font-size:.9rem;margin-bottom:6px;}
-.gate-blocs p{margin:0;font-size:.8rem;color:var(--ink-2);line-height:1.44;}
+/* The gate used to name the five powers in five boxes of prose, then in a framed
+   chart with the names repeated underneath. The prose above already names them, so
+   what is left here is the one thing a sentence cannot carry: five faces, each over
+   its own colour, each on top of a bar that will not hold still. The names are not
+   printed — you meet them one at a time once the run has started.
+   The grid matches the bar geometry in powersPlate(): five columns at 16% with 5%
+   between them, so every disc sits exactly on the bar it belongs to. */
+.gate-powers{margin:26px 0 22px;}
+.gate-faces{display:grid;grid-template-columns:repeat(5,1fr);gap:5%;margin-bottom:0;}
+.gate-faces img{width:100%;aspect-ratio:1;border-radius:50%;display:block;
+  background:var(--gf,var(--stock-2));}
 
 .meters{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:18px;}
 /* The six measures used to be invisible until the run was over, which made the ending
@@ -729,7 +786,17 @@ tr:last-child td{border-bottom:0;}
   box-shadow:0 6px 18px rgba(0,0,0,.14);
   opacity:0;transform:translateY(-7px);
   transition:opacity .42s ease,transform .42s ease;
-  pointer-events:none;}
+  pointer-events:none;
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:13px;align-items:start;}
+/* The power that just changed its mind has a face. The ring around it is that
+   power's own colour, so the banner points back at the bar it came from — which is
+   why the ring is drawn here rather than baked into the picture. The banner is an
+   overlay, so none of this costs the locked run screen a pixel of height. */
+.shift .sface{width:56px;height:56px;border-radius:50%;display:block;
+  background:var(--sf,var(--stock-2));}
+.shift .sface[hidden]{display:none;}
+.shift-b{min-width:0;}
+@media (max-width:420px){.shift .sface{width:48px;height:48px;}.shift{gap:11px;padding:9px 12px;}}
 .shift.on{opacity:1;transform:none;transition:opacity .14s ease,transform .18s cubic-bezier(.34,1.5,.5,1);}
 .shift.good{border-left-color:var(--palm);}
 .shift b{display:block;font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;
@@ -860,6 +927,45 @@ tr:last-child td{border-bottom:0;}
 .g-flag{border-left:5px solid var(--danfo);background:var(--stock-2);padding:14px 16px;margin-top:16px;}
 .g-flag b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;display:block;font-size:.9rem;margin-bottom:5px;}
 .g-flag p{margin:0;font-size:.88rem;color:var(--ink-2);line-height:1.5;}
+
+/* ---------- the run, held to one screen ----------
+   On a phone the powers sat at the top of a scrolling page and the two answers at
+   the bottom of it, so a player could watch the board or read the card but never
+   both: you tapped, scrolled up to see what it cost you, and scrolled back down.
+   While a run is live the whole board is pinned to the viewport instead — dvh,
+   because Safari's address bar makes vh a lie on exactly the device this is for —
+   and the site footer goes, since nothing down there is wanted mid-presidency and
+   the masthead is still the way home. The card takes whatever height is left and
+   scrolls inside itself, so a long proposal can never push a button off screen. */
+@media (max-width:720px){
+  body.runlock{overflow:hidden;}
+  body.runlock footer.site{display:none;}
+  body.runlock #view-play{padding-block:8px 0;}
+  body.runlock #view-play .wrap{padding-inline:14px;}
+  /* The wrapper already insets the page by the safe areas, so the run has to give
+     them back or the answers finish under the home indicator. */
+  body.runlock .g-wrap{display:flex;flex-direction:column;
+    height:calc(100vh - var(--mast-h,58px) - 14px);
+    height:calc(100dvh - var(--mast-h,58px) - 14px
+      - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));}
+  body.runlock #gameRun{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;}
+  body.runlock .mwrap{flex:none;margin-bottom:0;}
+  body.runlock .mt{padding-top:15px;}
+  /* the powers take the height the taller phones have going spare, so the board
+     reads as the loud thing rather than the card's empty field */
+  body.runlock .mt .bar{height:clamp(48px,10.5vh,96px);}
+  body.runlock .mt .st{min-height:2.2em;}
+  body.runlock .cwrap{margin-top:9px;padding-top:8px;}
+  body.runlock .g-clock{flex:none;margin:8px 0 6px;}
+  /* centred while it fits, top-aligned the moment it does not — a centred flex box
+     that overflows clips its own first line, which is the one that matters */
+  body.runlock .card{flex:1 1 auto;min-height:0;overflow:auto;padding:18px 16px;
+    justify-content:center;justify-content:safe center;}
+  body.runlock .card .says{font-size:1.12rem;}
+  body.runlock .g-choices{flex:none;}
+  body.runlock .g-choice{min-height:64px;padding:12px;}
+  body.runlock .g-flag{flex:none;margin-top:8px;max-height:24vh;overflow:auto;padding:11px 14px;}
+}
 .g-excuse{border-left:5px solid var(--laterite);background:var(--stock);padding:13px 16px;margin-top:8px;}
 .g-excuse .lab{display:block;margin-bottom:9px;color:var(--laterite-text);}
 .exrow{display:flex;gap:7px;flex-wrap:wrap;}
@@ -1025,7 +1131,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     </div>
 
     <div class="hero">
-      <div>
+      <div class="hero-copy">
         <h1>If na you,<br>wetin you go <em>do?</em></h1>
         <p class="kick">If Na You is a civic education tool. It puts you inside the challenges, the trade-offs and the decisions that governing Nigeria requires.</p>
         <p class="lede">Play as Nigeria’s president and face difficult choices. Or explore what you believe first, with twenty-one questions.</p>
@@ -1034,10 +1140,18 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
           <button type="button" class="lnk" id="startBtn">Explore your politics</button>
         </div>
       </div>
-      <div class="plate" style="padding:18px;align-self:start">
-        <svg id="demo" viewBox="0 0 480 424" role="img" aria-label="The five powers a Nigerian president has to keep in balance"></svg>
+      <div class="hero-art">
+        <picture>
+          <source type="image/avif" sizes="(min-width:861px) 46vw, 80vw"
+                  srcset="hero/hero3-620.avif 620w, hero/hero3-900.avif 900w, hero/hero3-1240.avif 1240w">
+          <source type="image/webp" sizes="(min-width:861px) 46vw, 80vw"
+                  srcset="hero/hero3-620.webp 620w, hero/hero3-900.webp 900w, hero/hero3-1240.webp 1240w">
+          <img src="hero/hero3-900.webp" width="1377" height="1125" decoding="async" fetchpriority="high"
+               alt="A young Nigerian woman with long braids, a pen held at her chin, looking up in thought, a notebook under her arm.">
+        </picture>
       </div>
     </div>
+
 
     <svg class="uli" viewBox="0 0 600 26" preserveAspectRatio="none" aria-hidden="true">
       <path d="M4 21 Q52 5 100 21 Q148 5 196 21 Q244 5 292 21 Q340 5 388 21 Q436 5 484 21 Q532 5 580 21"
@@ -1237,7 +1351,10 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
     <div id="gameGate">
       <h1 style="font-size:var(--s-3)">Eight years in office.<br>If you can manage it.</h1>
       <p class="lead" style="margin-top:16px">You will receive proposals and choose between two responses. Your decisions change the balance between the Street, the Palace, the Barracks, the Purse and the Governors.</p>
-      <div class="gate-blocs" id="gateBlocs"></div>
+      <div class="gate-powers">
+        <div class="gate-faces" aria-hidden="true"></div>
+        <svg id="demo" viewBox="0 0 720 156" role="img" aria-label="The five powers a Nigerian president has to keep in balance: the Street, the Palace, the Barracks, the Purse and the Governors, each moving on its own"></svg>
+      </div>
       <p style="color:var(--ink-2);margin-top:20px">Keep all five away from either extreme. Drive one to nothing and you are governing a crisis — and some of those crises end presidencies.</p>
       <p style="margin-top:16px">Your first proposal is waiting.</p>
       <div class="cta" style="margin-top:22px">
@@ -1253,7 +1370,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <div class="mwrap">
         <div class="meters" id="gMeters"></div>
         <div class="cwrap"><span class="clab">The country</span><div class="cmeters" id="gCountry"></div></div>
-        <div class="shift" id="gShift" hidden><b id="gShiftT"></b><p id="gShiftP"></p><span class="att" id="gShiftA" hidden></span><span class="why" id="gShiftW" hidden></span><span class="clk" id="gShiftC" hidden></span></div>
+        <div class="shift" id="gShift" hidden><img class="sface" id="gShiftF" alt="" decoding="async" hidden><div class="shift-b"><b id="gShiftT"></b><p id="gShiftP"></p><span class="att" id="gShiftA" hidden></span><span class="why" id="gShiftW" hidden></span><span class="clk" id="gShiftC" hidden></span></div></div>
       </div>
       <div class="g-clock"><span class="lab" id="gClock"></span>
         <button class="sndbtn lab" id="gSnd" aria-pressed="false">Sound off</button>
@@ -1740,10 +1857,25 @@ function portrait(svg,initials){
 /* ---------- state ---------- */
 var st={part:1,i:0,a:new Array(Q.length).fill(null),ca:new Array(CIVIC.length).fill(null),r:null,who:null,cmp:null};
 var VIEWS=["start","quiz","review","result","ballot","play","about"];
+/* The locked board is a property of being mid-run, not of being on the game page:
+   the gate and the ending are long reads and have to scroll normally. The masthead
+   is sticky and its height varies with the wrap, so it is measured rather than
+   guessed, and measured again when the phone is turned. */
+function runLock(on){
+  if(on){
+    var m=document.querySelector(".mast");
+    if(m)document.documentElement.style.setProperty("--mast-h",m.offsetHeight+"px");
+  }
+  document.body.classList.toggle("runlock",!!on);
+}
+window.addEventListener("resize",function(){
+  if(document.body.classList.contains("runlock"))runLock(true);
+});
 function show(n){
   VIEWS.forEach(function(v){var e=$("view-"+v);if(e)e.hidden=(v!==n);});
   Array.prototype.forEach.call(document.querySelectorAll("nav.top button"),function(btn){
     btn.setAttribute("aria-current",btn.dataset.go===n?"true":"false");});
+  if(n!=="play")runLock(false);
   marks();
   window.scrollTo({top:0,behavior:"instant"});
 }
@@ -1801,12 +1933,15 @@ function steps(){
    picture for a site that opened with the questionnaire. What the visitor is being
    invited into now is five powers that will not hold still, so that is the picture. */
 function powersPlate(svg){
-  var W=480,TOP=60,BOT=380,BW=56,GAP=30,X0=40;
-  var g=['<rect x="0" y="0" width="480" height="480" fill="none"/>'];
+  /* Wide and shallow rather than tall: it sits above the button that starts the run,
+     and a plate half a screen high pushed that button under the fold. The heights are
+     fractions of the span so the shape survives any reproportioning. */
+  var W=720,TOP=8,BOT=152,GAP=36,BW=(W-4*GAP)/5,SPAN=BOT-TOP,X0=0;
+  var g=[];
   var LIFE=[
-    {h:[210,120,260,170],d:17},{h:[150,220,130,200],d:21},{h:[240,180,270,200],d:19},
-    {h:[170,250,140,230],d:23},{h:[200,140,230,180],d:15}
-  ];
+    {h:[.66,.38,.81,.53],d:17},{h:[.47,.69,.41,.63],d:21},{h:[.75,.56,.84,.63],d:19},
+    {h:[.53,.78,.44,.72],d:23},{h:[.63,.44,.72,.56],d:15}
+  ].map(function(L){return {d:L.d,h:L.h.map(function(f){return Math.round(f*SPAN);})};});
   BLOCS.forEach(function(b,i){
     var x=X0+i*(BW+GAP), L=LIFE[i], hs=L.h.concat([L.h[0]]);
     g.push('<rect x="'+x+'" y="'+TOP+'" width="'+BW+'" height="'+(BOT-TOP)+
@@ -1818,14 +1953,20 @@ function powersPlate(svg){
       '<animate attributeName="y" dur="'+L.d+'s" repeatCount="indefinite" '+
         'calcMode="spline" keySplines="'+hs.slice(1).map(function(){return ".45 0 .2 1";}).join(";")+'" '+
         'values="'+hs.map(function(h){return BOT-h;}).join(";")+'"/></rect>');
-    g.push('<text x="'+(x+BW/2)+'" y="406" text-anchor="middle" fill="var(--ink-3)" '+
-      'font-family="IBM Plex Mono, monospace" font-size="11">'+
-      b.n.replace("The ","").toUpperCase()+'</text>');
   });
-  g.push('<line x1="40" y1="'+BOT+'" x2="'+(W-40)+'" y2="'+BOT+'" stroke="var(--ink)" stroke-width="2"/>');
+  g.push('<line x1="0" y1="'+BOT+'" x2="'+W+'" y2="'+BOT+'" stroke="var(--ink)" stroke-width="2"/>');
   svg.innerHTML=g.join("");
+  /* The faces live outside the drawing so each one is a real element that can be
+     sized and masked by CSS, and so the disc is painted by the page in the power's
+     own colour — the same arrangement the shift banner uses, which is why the colour
+     can never end up attached to the wrong person. No names: they are introduced one
+     at a time during the run, and printing them here would spend that. */
+  var fr=svg.parentNode.querySelector(".gate-faces");
+  if(fr)fr.innerHTML=BLOCS.map(function(b){
+    return '<img src="'+FACEIMG[b.k]+'" alt="" decoding="async" style="--gf:'+b.c+'">';
+  }).join("");
 }
-function landing(){ steps(); powersPlate($("demo")); }
+function landing(){ steps(); }
 
 /* ---------- quiz ---------- */
 function cur(){return st.part===1?Q[st.i]:CIVIC[st.i];}
@@ -3525,6 +3666,7 @@ var SHIFT_MS=3400;
 function brink(){
   var box=$("gShift"),live=[];
   for(var k in G.crisis)live.push(blocOf(k).n);
+  setFace(null);
   $("gShiftT").textContent="Three at once — "+live.join(", ");
   $("gShiftP").textContent="A government fighting three of these at once cannot do anything else, and yours has stopped trying. One more decision before there is nothing left to decide with.";
   $("gShiftA").hidden=true;$("gShiftC").hidden=true;$("gShiftW").hidden=true;
@@ -3535,10 +3677,25 @@ function brink(){
     shiftT=setTimeout(function(){box.hidden=true;shiftT=null;},480);},5200);
   SFX.danger();
 }
+/* Five composites, one per power. They are invented people standing in for
+   institutions, which is why they are drawn in their own register and never in the
+   one the twenty historical figures get. */
+var FACEIMG={street:"faces/street.webp",palace:"faces/palace.webp",
+  barracks:"faces/barracks.webp",purse:"faces/purse.webp",gov:"faces/gov.webp"};
+function setFace(k,colour){
+  var f=$("gShiftF"); if(!f)return;
+  var src=k&&FACEIMG[k];
+  if(!src){f.hidden=true;return;}
+  if(f.getAttribute("src")!==src)f.src=src;
+  f.alt=FACE[k]?FACE[k].n+", "+FACE[k].t:"";
+  f.style.setProperty("--sf",colour||"var(--ink)");
+  f.hidden=false;
+}
 function announceShift(sh){
   var box=$("gShift");
   if(!sh)return;
   var k=sh.b.k, lift=(sh.s==="lifted");
+  setFace(k,sh.b.c);
   var fused=(sh.s==="abandoned"&&FUSE[k]!==undefined);
   /* The power speaks for itself wherever it has words for the state it has just
      entered; the older narration stays as the floor so no posture can fall silent. */
@@ -3572,8 +3729,7 @@ function swing(){
 }
 
 function renderGate(){
-  $("gateBlocs").innerHTML=BLOCS.map(function(b){
-    return '<div><h4 style="color:'+b.c+'">'+b.n+'</h4><p>'+b.d+'</p></div>';}).join("");
+  powersPlate($("demo"));
   $("gLinkNote").innerHTML = st.r
     ? "Your quiz answers are loaded. You will see where your decisions follow them, and where the circumstances raise a question the questions did not."
     : 'You can play now. <a href="#" data-go="start">Answer the twenty-one questions</a> first and the game will hold you to your own words.';
@@ -4023,6 +4179,7 @@ function endGame(bloc,why){
   SFX.over();
   G.live=false;
   clearShift();
+  runLock(false);
   $("gameRun").hidden=true;$("gameEnd").hidden=false;
   (function(){
     var crisisBlocs=Object.keys(G.crisis||{});
@@ -4458,6 +4615,7 @@ function sndToggle(){
 
 function startGame(){
   renderGate();
+  runLock(false);
   $("gameGate").hidden=false;$("gameRun").hidden=true;$("gameEnd").hidden=true;
 }
 function season(){
@@ -4490,6 +4648,7 @@ function beginRun(){
     G.stNow[b.k]="holding";G.stT[b.k]={};G.turned[b.k]=false;});
   VALUES.forEach(function(v){G.v[v.k]=v.s;});
   $("gameGate").hidden=true;$("gameEnd").hidden=true;$("gameRun").hidden=false;
+  runLock(true);
   $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
   if(SND)unlock();
   season();buildMeters();buildCountry();clearShift();
