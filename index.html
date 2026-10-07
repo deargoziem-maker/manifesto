@@ -2577,12 +2577,27 @@ function buildCard(face){
   x.lineWidth=1;
   for(var i=1;i<4;i++){x.beginPath();x.moveTo(X+S*i/4,Y);x.lineTo(X+S*i/4,Y+S);x.stroke();
     x.beginPath();x.moveTo(X,Y+S*i/4);x.lineTo(X+S,Y+S*i/4);x.stroke();}
+  /* The two centre axes are what make it a compass rather than a grid; they were
+     missing, as were the left/right labels and the quadrant names the on-screen
+     compass carries. */
+  x.strokeStyle=C.i3;x.lineWidth=2;
+  x.beginPath();x.moveTo(X+S/2,Y);x.lineTo(X+S/2,Y+S);x.stroke();
+  x.beginPath();x.moveTo(X,Y+S/2);x.lineTo(X+S,Y+S/2);x.stroke();
+  x.fillStyle=C.i3;x.font='500 13px "IBM Plex Mono", monospace';x.textAlign="center";
+  [["Developmental centre",.25,.09],["Ordered market",.75,.09],["Regional welfare",.25,.95],["Devolved enterprise",.75,.95]]
+    .forEach(function(q){x.fillText(q[0],X+S*q[1],Y+S*q[2]);});
   var ux=X+S/2+(-pos.econ/100)*(S/2),uy=Y+S/2+(pos.struct/100)*(S/2);
+  x.save();x.strokeStyle=C.red;x.lineWidth=2;x.setLineDash([7,6]);
+  x.beginPath();x.moveTo(ux,Y);x.lineTo(ux,Y+S);x.stroke();
+  x.beginPath();x.moveTo(X,uy);x.lineTo(X+S,uy);x.stroke();x.restore();
   x.fillStyle=C.red;x.globalAlpha=.25;x.beginPath();x.arc(ux,uy,32,0,6.3);x.fill();x.globalAlpha=1;
   x.beginPath();x.arc(ux,uy,14,0,6.3);x.fill();
   x.fillStyle=C.i3;x.font='500 16px "IBM Plex Mono", monospace';x.textAlign="center";
-  x.fillText("CENTRALIST",X+S/2,Y-16);x.fillText("RESTRUCTURIST",X+S/2,Y+S+30);x.textAlign="left";
-  var RX=X+S+52,RY=Y+16;
+  x.fillText("CENTRALIST",X+S/2,Y-16);x.fillText("RESTRUCTURIST",X+S/2,Y+S+30);
+  x.save();x.translate(X-20,Y+S/2);x.rotate(-Math.PI/2);x.fillText("STATE-LED",0,0);x.restore();
+  x.save();x.translate(X+S+20,Y+S/2);x.rotate(Math.PI/2);x.fillText("MARKET-LED",0,0);x.restore();
+  x.textAlign="left";
+  var RX=X+S+64,RY=Y+16;
   AXES.forEach(function(a,i){
     var yy=RY+i*74;
     x.fillStyle=C.i3;x.font='500 16px "IBM Plex Mono", monospace';x.fillText(a.n.toUpperCase(),RX,yy);
