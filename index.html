@@ -4382,12 +4382,6 @@ function dossier(){
     if(x.bad<3)return;
     rows.push({c:"hot",t:"For "+Math.min(mo,x.bad*3)+" of your "+mo+" months, "+DOSS_BAD[x.b.k]+"."});
   });
-  /* Fidelity is already one of the three big numbers above and gets a full breakdown
-     below, so the dossier says the one thing neither of those can: that there was
-     nothing to measure. */
-  if(!st.r){
-    rows.push({c:"",t:"You never put a position on the record, so nothing you did could contradict you."});
-  }
   /* what you lived through, which is now a thing you can live through */
   if(G.crisisTurns){
     var everList=[];for(var ek in G.everCrisis)everList.push(blocOf(ek).n.toLowerCase());
