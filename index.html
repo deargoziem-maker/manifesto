@@ -17,6 +17,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<script>
+/* A shared link carries the sender's reading (positions, archetype, a run's ending) in
+   the URL fragment. The advertising pixel below sends the full page URL, fragment
+   included, with every event — so the fragment is moved out of the address bar here,
+   before the pixel exists, and read back by the page from this variable instead. */
+(function(){
+  try{
+    var h=location.hash;
+    if(h&&h.length>1){
+      window.__IFY_FRAG=h;
+      try{sessionStorage.setItem("ify_frag",h);}catch(e){}
+      history.replaceState(null,"",location.pathname+location.search);
+    }else{
+      var nv=performance.getEntriesByType&&performance.getEntriesByType("navigation")[0];
+      if(!nv||nv.type!=="reload"){try{sessionStorage.removeItem("ify_frag");}catch(e){}}
+    }
+  }catch(e){}
+})();
+</script>
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -35,7 +54,16 @@ fbq('track', 'PageView');
    quiz_start/quiz_complete/quiz_result_view/game_start/game_complete/share_result
    are Meta standard events, so trackCustom is correct here rather than track. */
 function mpx(name,params){
-  try{ if(typeof fbq==="function")fbq("trackCustom",name,params||{}); }catch(e){}
+  /* Advertising platforms get generic conversion events only. Anything not on this
+     list is dropped here, so no future edit can send a result, a position, an
+     archetype or a decision to them by accident. */
+  try{
+    var ok={content_name:1,context:1,method:1},clean={};
+    for(var k in (params||{})){
+      if(ok[k]&&typeof params[k]==="string"&&params[k].length<=60)clean[k]=params[k];
+    }
+    if(typeof fbq==="function")fbq("trackCustom",name,clean);
+  }catch(e){}
 }
 </script>
 <noscript><img height="1" width="1" style="display:none"
@@ -2085,11 +2113,11 @@ function finish(){
       tied_archetypes:tied(st.r.ranked).map(function(r){return r.a.id;}),
       final_dimension_scores:JSON.parse(JSON.stringify(pos))});
     evt("compass_completed",{session_id:CUR.compassSessionId});
-    mpx("quiz_complete",{content_name:"If Na You quiz",archetype:st.r.ranked[0].a.id});
+    mpx("quiz_complete",{content_name:"If Na You quiz"});
   }
   renderResult();renderWho();renderCompare();show("result");
   evt("result_viewed",{session_id:CUR.compassSessionId});
-  mpx("quiz_result_view",{content_name:"If Na You quiz",archetype:st.r.ranked[0].a.id});
+  mpx("quiz_result_view",{content_name:"If Na You quiz"});
 }
 /* A tester asked why the dimensions aren't socialist / capitalist / nationalist. They
    aren't, because those are imported and they do not name the arguments Nigeria has.
@@ -2369,7 +2397,9 @@ function shareLink(){
    needs: a position, an archetype, a length, a fidelity figure and an ending code.
    Fragments are never sent to a server and none of this names anybody. */
 function readInvite(){
-  var h=(location.hash||"").replace(/^#/,"");
+  var h=(window.__IFY_FRAG||location.hash||"");
+  if(!h){try{h=sessionStorage.getItem("ify_frag")||"";}catch(e){}}
+  h=h.replace(/^#/,"");
   if(!h)return null;
   var out=null;
   h.split("&").forEach(function(part){
@@ -2478,12 +2508,13 @@ function renderCivic(){
 
 /* ---------- who you are, and the aggregate ---------- */
 /* This panel used to invite you to "help build Nigeria's political map" and collect a
-   state and an age group for it. There is no map. There is no server, nothing is
-   aggregated, and the two fields were read by nothing — so the one justification for
+   state and an age group for it. There is no map, nothing is aggregated by those
+   fields, and the two fields were read by nothing — so the one justification for
    asking a person for anything about themselves on a page about their politics did not
    exist. The invitation is gone, the collection is gone, and any value a previous
    version stored is deleted the next time the page loads. What is left is the true
-   thing: your own readings, on your own device, and a button that removes them. */
+   thing: your own readings, on your own device, and a button that removes them. The
+   server-side summary described in aggNote is separate and is not removed by it. */
 function renderWho(){
   dropWho();
   st.who=null;
@@ -2509,7 +2540,7 @@ function renderAgg(){
   /* Precise, because the methodology page was not: this browser keeps the last
      twenty-four of each, and a shared link carries a reading in the part of a URL
      that is never sent to a server. */
-  $("aggNote").textContent="Kept in this browser only — the last twenty-four readings and the last twenty-four presidencies. There is no account and no server behind this page. A link you choose to share carries your reading inside it.";
+  $("aggNote").textContent="This browser keeps your last twenty-four readings and presidencies. When you finish the quiz or a run, the site also sends a summary to its server — your result and scores, or how the run ended — with a random ID for this browser, your country and your device type, but no name, email or account. Clearing this device does not remove what the server already holds. Meta’s advertising pixel is told that someone started or finished something, never what you answered or got. A link you choose to share carries your reading inside it.";
 }
 
 /* ---------- traditions ---------- */
@@ -4236,7 +4267,7 @@ function endGame(bloc,why){
       final_value_scores:JSON.parse(JSON.stringify(G.v)),
       final_bloc_scores:JSON.parse(JSON.stringify(G.m))});
     evt("president_completed",{session_id:CUR.presidentSessionId,final_outcome:outcome});
-    mpx("game_complete",{content_name:"If Na You: Play President",final_outcome:outcome});
+    mpx("game_complete",{content_name:"If Na You: Play President"});
   })();
   var kick,title,body;
   if(why==="fuse"){
