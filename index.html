@@ -1453,6 +1453,53 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 }
 .scene .scene-tag{max-width:calc(100% - 175px);}
 @media (max-width:720px){body.runlock #gameRun.roomless .feed{display:none;}}
+/* the run is laid out in two groups: the scene with the country's voices, and the desk
+   with the powers, the problem and the answers. On a phone they interleave as one column. */
+@media (max-width:720px){
+  #gameRun .side-desk,#gameRun .side-view{display:contents;}
+  #gameRun .rn-head{order:1;} #gameRun .headline-strip{order:2;} #gameRun .scene{order:3;}
+  #gameRun .card{order:4;} #gameRun .g-choices{order:5;} #gameRun .feed{order:6;} #gameRun .g-flag{order:7;}
+}
+/* ===== laptop and desktop: a wide scene beside the desk =====
+   The picture keeps its landscape framing on the left, with the country's voices under it;
+   the powers, the problem and the answers stand together on the right. One screen. */
+@media (min-width:721px){
+  #view-play .g-wrap{max-width:1400px;}
+  #view-play{padding-block:18px;}
+  body.runlock footer.site{display:none;}
+  #gameRun:not([hidden]){display:grid;grid-template-columns:minmax(0,1.55fr) minmax(360px,1fr);column-gap:28px;
+    align-items:center;align-content:center;min-height:calc(100vh - var(--mast-h,58px) - 36px);
+    min-height:calc(100dvh - var(--mast-h,58px) - 36px);}
+  #gameRun .side-view{grid-column:1;grid-row:1;display:flex;flex-direction:column;gap:14px;min-width:0;}
+  #gameRun .side-desk{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:10px;min-width:0;}
+  #gameRun .scene{aspect-ratio:16/10;width:100%;height:auto;margin:0;
+    max-height:calc(100vh - var(--mast-h,58px) - 190px);max-height:calc(100dvh - var(--mast-h,58px) - 190px);}
+  #gameRun .mwrap{margin-bottom:0;}
+  #gameRun .card{min-height:0;padding:18px 20px;}
+  #gameRun .card .says{font-size:1.12rem;line-height:1.5;}
+  #gameRun .g-choices{margin-top:0;}
+  #gameRun .feed{margin-top:0;}
+  #gameRun .fmsgs .fmsg:nth-child(n+3){display:none;}
+  #gameRun .g-flag{margin-top:0;max-height:24vh;overflow:auto;}
+  #gameRun .headline-strip{display:none !important;}
+  #gameRun .cap-t{font-size:1.35rem;}
+  #gameRun .mt .bar{height:52px;}
+  #gameRun.fresh .mwrap{display:block;opacity:0;}
+  #gameRun .shift{left:0;right:0;}
+}
+@media (min-width:721px) and (max-height:760px){
+  #gameRun .mt .bar{height:34px;}
+  #gameRun .card{padding:12px 16px;}
+  #gameRun .card .says{font-size:1rem;}
+  #gameRun .g-choice{padding:9px 12px;}
+}
+@media (min-width:721px) and (max-width:1000px){
+  #gameRun:not([hidden]){grid-template-columns:minmax(0,1.2fr) minmax(320px,1fr);column-gap:18px;}
+}
+/* both columns start on the same line, at the top of the screen */
+@media (min-width:721px){
+  #gameRun:not([hidden]){align-items:start;align-content:start;padding-top:6px;}
+}
 
 /* ===== the front door: always at night, like the game ===== */
 body.onhome{--paper:#0E1420;--stock:#151C2A;--stock-2:#1E2636;--ink:#F3F1E8;--ink-2:#B9BDC5;--ink-3:#8A9099;
@@ -1776,6 +1823,7 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
       <div class="season-veil" id="gSeason" hidden>
         <div class="sv-in"><span class="lab" id="gSeasonT"></span><p id="gSeasonS"></p></div>
       </div>
+      <div class="side-desk">
       <div class="rn-head">
         <div class="mwrap">
           <div class="meters" id="gMeters"></div>
@@ -1784,12 +1832,6 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
         </div>
       </div>
       <p class="headline-strip" id="gHead" hidden></p>
-      <div class="scene" id="gScene" data-fmt="briefing">
-        <img id="gScenePrev" class="prev" alt="" aria-hidden="true" decoding="async"><img id="gSceneImg" alt="" decoding="async"><div class="dust" aria-hidden="true"></div>
-        <div class="g-clock"><span class="lab" id="gClock"></span><span class="lab" id="gTerm"></span><button class="sndbtn lab" id="gSnd" aria-pressed="false">Sound off</button></div>
-        <span class="scene-tag" id="gTag" hidden></span>
-        <div class="frame" id="gFrame" hidden></div>
-      </div>
       <div class="card" id="gCard">
         <span class="who" id="gWho"></span>
         <p class="says" id="gSays"></p>
@@ -1799,13 +1841,23 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
         <button class="g-choice" id="gR"><span class="ab">B</span><span class="txt"></span><span class="sub"></span></button>
         <button class="g-choice" id="gC" hidden><span class="ab">C</span><span class="txt"></span><span class="sub"></span></button>
       </div>
+      <div class="g-flag" id="gFlagBox" hidden>
+        <b id="gFlagTitle"></b><p id="gFlag"></p>
+      </div>
+
+      </div>
+      <div class="side-view">
+      <div class="scene" id="gScene" data-fmt="briefing">
+        <img id="gScenePrev" class="prev" alt="" aria-hidden="true" decoding="async"><img id="gSceneImg" alt="" decoding="async"><div class="dust" aria-hidden="true"></div>
+        <div class="g-clock"><span class="lab" id="gClock"></span><span class="lab" id="gTerm"></span><button class="sndbtn lab" id="gSnd" aria-pressed="false">Sound off</button></div>
+        <span class="scene-tag" id="gTag" hidden></span>
+        <div class="frame" id="gFrame" hidden></div>
+      </div>
       <div class="feed" id="gFeed" hidden aria-live="polite">
         <div class="feed-h"><span class="clab">The country</span><button class="feed-why" id="gWhyBtn" aria-expanded="false" aria-controls="gWhy" hidden>Why?</button></div>
         <div class="fmsgs" id="gFeedMsgs"></div>
         <p class="fwhy" id="gWhy" hidden></p>
       </div>
-      <div class="g-flag" id="gFlagBox" hidden>
-        <b id="gFlagTitle"></b><p id="gFlag"></p>
       </div>
 
       <div class="ov" id="gYear" hidden>
