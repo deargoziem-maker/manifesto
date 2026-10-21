@@ -1386,6 +1386,68 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 #gameEnd #gGoverned,#gameEnd .eyebrow,#gameEnd #gStory,#gameEnd #gDossier,#gameEnd #gVersus,#gameEnd #gReveal,
 #gameEnd #gRest,#gameEnd #gPhilChips,#gameEnd figure.overheard,#gameEnd #gReturn{display:none !important;}
 #gameEnd #gEndTitle{display:none !important;}
+/* ===== motion: the camera, not the people =====
+   Slow, continuous and quiet. Everything here stops for anyone who has asked for less motion. */
+@keyframes camPush{from{transform:scale(1.02)}to{transform:scale(1.12)}}
+@keyframes camPan{from{transform:scale(1.12) translateX(-3.5%)}to{transform:scale(1.12) translateX(3.5%)}}
+@keyframes gateIn{from{transform:scale(1)}to{transform:scale(1.14) translateY(2%)}}
+@keyframes prevOut{from{opacity:1}to{opacity:0}}
+@keyframes sceneIn{from{opacity:0}to{opacity:1}}
+@keyframes mote{0%{transform:translate(0,0);opacity:0}15%{opacity:.85}85%{opacity:.6}100%{transform:translate(18px,-46px);opacity:0}}
+@keyframes lamp{0%,100%{opacity:.55}50%{opacity:.85}}
+.scene > img{transform-origin:50% 45%;will-change:transform;}
+.scene > img.cam-push{animation:camPush 26s ease-out both, sceneIn .6s ease both;}
+.scene > img.cam-pan{animation:camPan 30s ease-in-out infinite alternate, sceneIn .6s ease both;}
+.scene > img.prev{z-index:0;opacity:0;animation:none;transform:scale(1.1);}
+.scene > img.prev.fade{animation:prevOut .7s ease both;}
+.scene > #gSceneImg{z-index:1;}
+.gate-scene img{animation:gateIn 22s cubic-bezier(.2,.6,.3,1) both;transform-origin:50% 62%;}
+.dust{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity 1s ease;}
+.gate-scene .dust,.scene.sunlit .dust{opacity:1;}
+.dust i{position:absolute;border-radius:50%;background:rgba(255,236,190,.9);box-shadow:0 0 6px rgba(255,220,150,.8);
+  animation:mote 14s linear infinite;}
+.gate-scene .glow{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(circle at 6% 42%,rgba(255,196,110,.55),transparent 18%);animation:lamp 4.5s ease-in-out infinite;}
+.gate-scene img{position:relative;z-index:1;}
+.way-play .way-img{animation:camPush 30s ease-out both;transform-origin:62% 55%;}
+@media (prefers-reduced-motion:reduce){
+  .scene > img,.scene > img.cam-push,.scene > img.cam-pan,.gate-scene img,.way-play .way-img,.gate-scene .glow,.dust i{animation:none !important;transform:none;}
+  .dust{display:none;}
+}
+.scene::after{z-index:2;}
+.scene .dust{z-index:2;}
+.scene .frame{z-index:3;}
+.scene-tag{z-index:4;}
+/* ===== one screen on a phone =====
+   Time and sound sit on the picture; the site header slims to one line while you play;
+   a long problem shrinks the picture rather than hiding the answers. */
+.scene .g-clock{position:absolute;top:8px;right:8px;left:auto;z-index:4;margin:0;display:flex;gap:6px;align-items:center;}
+.scene .g-clock .lab{background:rgba(10,14,22,.62);color:#F3F1E8;padding:3px 7px;font-size:.56rem;}
+.scene .g-clock #gTerm:empty{display:none;}
+.scene .g-clock .sndbtn{background:rgba(10,14,22,.62);color:#F3F1E8;border:0;padding:3px 7px;font-size:.56rem;margin:0;}
+.scene .scene-tag{max-width:calc(100% - 150px);}
+@media (max-width:720px){
+  body.runlock .mast .wrap{padding-block:6px;flex-wrap:nowrap;gap:10px;}
+  body.runlock .logo .wordmark > span{display:none;}
+  body.runlock .logo .wordmark b{font-size:1.15rem;}
+  body.runlock .logo .mark{width:24px;height:24px;}
+  body.runlock nav.top button{font-size:.6rem;padding:5px 7px;}
+  body.runlock #view-play{padding-block:6px 10px;}
+  body.runlock .mt{padding-top:10px;}
+  body.runlock .mt span{font-size:.5rem;margin-top:3px;}
+  body.runlock #view-play .scene{height:clamp(110px,22vh,190px);}
+  body.runlock #view-play .scene.tight{height:clamp(84px,14vh,130px);}
+  body.runlock #view-play .scene.tighter{height:64px;}
+  body.runlock #view-play .scene.tighter .frame{display:none;}
+  body.runlock .card{padding:10px 12px;}
+  body.runlock .card .says{font-size:.96rem;line-height:1.42;}
+  body.runlock .g-choices{margin-top:6px;}
+  body.runlock .feed{margin-top:6px;padding-top:6px;}
+  body.runlock .feed-h{margin-bottom:3px;}
+  body.runlock .fmsg p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+}
+.scene .scene-tag{max-width:calc(100% - 175px);}
+@media (max-width:720px){body.runlock #gameRun.roomless .feed{display:none;}}
 
 /* ===== the front door: always at night, like the game ===== */
 body.onhome{--paper:#0E1420;--stock:#151C2A;--stock-2:#1E2636;--ink:#F3F1E8;--ink-2:#B9BDC5;--ink-3:#8A9099;
@@ -1690,7 +1752,7 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
   <div class="wrap"><div class="g-wrap">
 
     <div id="gameGate">
-      <div class="gate-scene"><img src="art/desk.webp" alt="The President’s empty chair at the desk in Aso Rock, Abuja at sunrise through the window" decoding="async"></div>
+      <div class="gate-scene"><div class="glow" aria-hidden="true"></div><div class="dust" aria-hidden="true"></div><img src="art/desk.webp" alt="The President’s empty chair at the desk in Aso Rock, Abuja at sunrise through the window" decoding="async"></div>
       <span class="lab gate-kick">If Na You · Run Nigeria</span>
       <h1 class="gate-title">The President’s Desk</h1>
       <p class="gate-sub">You haven’t even settled into your office. Your Chief of Staff is already at the door.</p>
@@ -1710,8 +1772,6 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
         <div class="sv-in"><span class="lab" id="gSeasonT"></span><p id="gSeasonS"></p></div>
       </div>
       <div class="rn-head">
-        <div class="g-clock"><span class="lab" id="gClock"></span><span class="lab" id="gTerm"></span>
-          <button class="sndbtn lab" id="gSnd" aria-pressed="false">Sound off</button></div>
         <div class="mwrap">
           <div class="meters" id="gMeters"></div>
           <div class="cwrap" hidden><span class="clab">The country</span><div class="cmeters" id="gCountry"></div></div>
@@ -1720,7 +1780,8 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
       </div>
       <p class="headline-strip" id="gHead" hidden></p>
       <div class="scene" id="gScene" data-fmt="briefing">
-        <img id="gSceneImg" alt="" decoding="async">
+        <img id="gScenePrev" class="prev" alt="" aria-hidden="true" decoding="async"><img id="gSceneImg" alt="" decoding="async"><div class="dust" aria-hidden="true"></div>
+        <div class="g-clock"><span class="lab" id="gClock"></span><span class="lab" id="gTerm"></span><button class="sndbtn lab" id="gSnd" aria-pressed="false">Sound off</button></div>
         <span class="scene-tag" id="gTag" hidden></span>
         <div class="frame" id="gFrame" hidden></div>
       </div>
@@ -2248,11 +2309,11 @@ var VIEWS=["start","quiz","review","result","ballot","play","about"];
    is sticky and its height varies with the wrap, so it is measured rather than
    guessed, and measured again when the phone is turned. */
 function runLock(on){
+  document.body.classList.toggle("runlock",!!on);
   if(on){
     var m=document.querySelector(".mast");
     if(m)document.documentElement.style.setProperty("--mast-h",m.offsetHeight+"px");
   }
-  document.body.classList.toggle("runlock",!!on);
 }
 window.addEventListener("resize",function(){
   if(document.body.classList.contains("runlock"))runLock(true);
@@ -4705,8 +4766,22 @@ function setScene(key,fmt){
   var sc=$("gScene"),im=$("gSceneImg"),src=ART[key]||ART.officeTall;
   sc.setAttribute("data-fmt",fmt||"none");
   sc.setAttribute("data-img",key||"");
-  if(im.getAttribute("src")!==src)im.src=src;
+  if(im.getAttribute("src")!==src){
+    /* the last scene stays underneath and fades while the new one arrives */
+    var pv=$("gScenePrev"),was=im.getAttribute("src");
+    if(was&&pv){pv.src=was;pv.style.objectPosition=getComputedStyle(im).objectPosition;
+      pv.classList.remove("fade");void pv.offsetWidth;pv.classList.add("fade");}
+    im.src=src;
+  }
   im.alt="";
+  /* the camera moves: across a crowd, towards a person or a room */
+  var pan=/market|fuel|protest|polling|farm|campus|traffic|street|hospital|forum/.test(key||"");
+  if(sc.getAttribute("data-shot")!==key){
+    sc.setAttribute("data-shot",key||"");
+    im.classList.remove("cam-push","cam-pan");void im.offsetWidth;
+    im.classList.add(pan?"cam-pan":"cam-push");
+  }
+  sc.classList.toggle("sunlit",/officeTall|cos|cabinetEmpty|cabinetMeeting/.test(key||""));
   if(fmt&&fmt!=="none")G.sceneImg=src;
 }
 /* months later, after something you chose: a consequence says where it came from */
@@ -4880,6 +4955,36 @@ election=(function(orig){return function(){
 };})(election);
 
 
+
+/* dust in the morning light: a few motes, drawn once */
+(function(){
+  Array.prototype.forEach.call(document.querySelectorAll(".dust"),function(d){
+    for(var i=0;i<14;i++){var m=document.createElement("i");
+      m.style.left=(8+Math.random()*84)+"%";m.style.top=(10+Math.random()*75)+"%";
+      m.style.animationDelay=(-Math.random()*14)+"s";m.style.animationDuration=(10+Math.random()*8)+"s";
+      var z=1+Math.random()*2.2;m.style.width=m.style.height=z+"px";d.appendChild(m);}
+  });
+})();
+
+/* a long problem gets the room: the picture gives way so the words and both answers fit */
+function fitCard(){
+  var sc=$("gScene"),cd=$("gCard"); if(!sc||!cd)return;
+  sc.classList.remove("tight","tighter");$("gameRun").classList.remove("roomless");
+  if(!document.body.classList.contains("runlock"))return;
+  if(cd.scrollHeight>cd.clientHeight+2){ sc.classList.add("tight");
+    if(cd.scrollHeight>cd.clientHeight+2) sc.classList.add("tighter");
+    if(cd.scrollHeight>cd.clientHeight+2) $("gameRun").classList.add("roomless"); }
+}
+showCard=(function(orig){return function(c){orig(c);fitCard();};})(showCard);
+window.addEventListener("resize",function(){ if(G&&G.live)fitCard(); });
+/* every way a problem reaches the desk, including the Senate's notice and results night */
+(function(){
+  if(typeof MutationObserver==="undefined")return;
+  var t=null,mo=new MutationObserver(function(){clearTimeout(t);t=setTimeout(fitCard,30);});
+  mo.observe($("gSays"),{childList:true,characterData:true,subtree:true});
+  mo.observe($("gFlagBox"),{attributes:true,attributeFilter:["hidden"]});
+  mo.observe($("gFeed"),{attributes:true,attributeFilter:["hidden"]});
+})();
 
 function frontPage(endTitle){
   var f=$("gFront"); if(!f)return;
@@ -5744,6 +5849,10 @@ function play(side){
   if(G.cur===-3){campPlay(side);return;}
   if(G.cur===-4){runoffPlay(side);return;}
   var c=(G.cur==="third")?THIRD:((G.cur==="open")?OPENING:DECK[G.cur]);
+  /* A second quick press on "Continue" lands while the next card is still being dealt:
+     there is no card yet, and without this the lookup below throws with the controls
+     already locked, so the run freezes for good. */
+  if(!c){G.busy=false;return;}
   var ch=side==="l"?c.l:(side==="c"&&c.c?c.c:c.r);
   hideThird();
   /* Declining the amendment has to be recorded, or nextCard re-satisfies the same
