@@ -19,19 +19,22 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
 <script>
 /* A shared link carries the sender's reading (positions, archetype, a run's ending) in
-   the URL fragment. The advertising pixel below sends the full page URL, fragment
-   included, with every event — so the fragment is moved out of the address bar here,
-   before the pixel exists, and read back by the page from this variable instead. */
+   the URL fragment, as c= and g= parts. The advertising pixel below sends the full page
+   URL, fragment included, with every event — so those parts are moved out of the address
+   bar here, before the pixel exists, and read back by the page from this variable
+   instead. Route parts (#play-now, #quiz ...) are not sensitive and stay in the URL. */
 (function(){
   try{
-    var h=location.hash;
-    if(h&&h.length>1){
-      window.__IFY_FRAG=h;
-      try{sessionStorage.setItem("ify_frag",h);}catch(e){}
-      history.replaceState(null,"",location.pathname+location.search);
+    var h=location.hash.replace(/^#/,""),keep=[],hide=[];
+    if(h)h.split("&").forEach(function(p){(/^[cg]=/.test(p)?hide:keep).push(p);});
+    if(hide.length){
+      window.__IFY_FRAG=hide.join("&");
+      try{sessionStorage.setItem("ify_frag",window.__IFY_FRAG);}catch(e){}
+      history.replaceState(null,"",location.pathname+location.search+(keep.length?"#"+keep.join("&"):""));
     }else{
       var nv=performance.getEntriesByType&&performance.getEntriesByType("navigation")[0];
-      if(!nv||nv.type!=="reload"){try{sessionStorage.removeItem("ify_frag");}catch(e){}}
+      if(nv&&nv.type==="reload"){try{window.__IFY_FRAG=sessionStorage.getItem("ify_frag")||undefined;}catch(e){}}
+      else{try{sessionStorage.removeItem("ify_frag");}catch(e){}}
     }
   }catch(e){}
 })();
@@ -725,7 +728,8 @@ tr:last-child td{border-bottom:0;}
    job in the run, where one face appears at a time and has to be placed instantly. */
 .gate-faces img{width:100%;aspect-ratio:1;display:block;}
 
-.meters{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:18px;}
+.meters{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-bottom:18px;}
+@media(max-width:560px){.meters{gap:5px;}.mt span{font-size:.5rem;letter-spacing:.04em;}}
 /* The six measures used to be invisible until the run was over, which made the ending
    arrive out of nowhere. They sit under the powers now, deliberately quiet: no figures,
    no movement flashes, nothing that competes with the five bars above. */
@@ -951,6 +955,125 @@ tr:last-child td{border-bottom:0;}
 .g-flag b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;display:block;font-size:.9rem;margin-bottom:5px;}
 .g-flag p{margin:0;font-size:.88rem;color:var(--ink-2);line-height:1.5;}
 
+/* ---------- the country, speaking ----------
+   The six measures are no longer drawn as bars. After each decision the country
+   answers in its own words: people on their phones, and an adviser when something
+   has gone far enough that someone in the building has to say it out loud. */
+#gameRun .mwrap{transition:opacity .7s ease;}
+#gameRun.fresh .mwrap{opacity:0;pointer-events:none;}
+.feed{margin-top:12px;padding-top:10px;border-top:1px solid var(--hair);}
+.feed[hidden]{display:none;}
+.feed-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:7px;}
+.feed-h .clab{margin:0;}
+.feed-why{background:none;border:0;padding:0 0 1px;cursor:pointer;font-family:"IBM Plex Mono",monospace;
+  font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+  border-bottom:1px solid var(--hair);}
+.feed-why:hover,.feed-why[aria-expanded="true"]{color:var(--ink);border-color:var(--danfo);}
+.fmsgs{display:grid;gap:7px;}
+.fmsg{display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px;align-items:start;
+  opacity:0;transform:translateY(5px);animation:feedIn .38s ease forwards;}
+.fmsg:nth-child(2){animation-delay:.18s;}
+.fmsg:nth-child(3){animation-delay:.36s;}
+.fmsg > i{width:8px;height:8px;border-radius:50%;background:var(--ink-3);margin-top:.5em;display:block;}
+.fmsg.up > i{background:var(--palm);}
+.fmsg.dn > i{background:var(--laterite);}
+.fmsg.warn > i{background:var(--danfo);box-shadow:0 0 0 2px color-mix(in srgb,var(--danfo) 35%,transparent);}
+.fmsg b{display:block;font-family:"IBM Plex Mono",monospace;font-size:.6rem;font-weight:500;
+  letter-spacing:.05em;color:var(--ink-3);line-height:1.3;}
+.fmsg p{margin:1px 0 0;font-size:.88rem;line-height:1.42;color:var(--ink);}
+.fmsg.warn p{font-weight:600;}
+@keyframes feedIn{to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:reduce){.fmsg{animation:none;opacity:1;transform:none;}}
+.fwhy{margin:9px 0 0;padding:9px 12px;border-left:3px solid var(--danfo);background:var(--stock-2);
+  font-size:.84rem;line-height:1.5;color:var(--ink-2);}
+.fwhy[hidden]{display:none;}
+/* a third answer, only where the situation genuinely has one */
+#gC{grid-column:1/-1;justify-content:center;text-align:center;min-height:56px;border-top:1px solid var(--hair);}
+#gC[hidden]{display:none;}
+/* ---------- the President's Desk: how a problem arrives ----------
+   The way a decision is made never changes. The way the problem reaches the desk does:
+   a front page, a ministry briefing, a call holding, a classified file, the people
+   themselves, or the situation room. Typographic only, in the house identity. */
+.desk-line{margin-top:18px;font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:1.05rem;
+  line-height:1.35;color:var(--ink);max-width:36ch;border-left:4px solid var(--danfo);padding-left:12px;}
+.desk-items{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px;}
+.desk-items li{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--hair);padding:6px 9px;color:var(--ink-2);background:var(--stock);}
+.desk-items .di-paper{border-top:3px solid var(--ink);}
+.desk-items .di-brief{border-top:3px solid var(--elu-mark);}
+.desk-items .di-call{border-top:3px solid var(--palm);}
+.desk-items .di-file{border-top:3px solid var(--laterite);}
+.headline-strip{margin:0 0 8px;padding:6px 10px;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:.86rem;letter-spacing:-.01em;line-height:1.3;
+  color:var(--ink);display:flex;gap:10px;align-items:baseline;}
+.headline-strip b{flex:none;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:.56rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);}
+.headline-strip[hidden]{display:none;}
+.frame{margin:-6px 0 14px;}
+.frame[hidden]{display:none;}
+.fr-mast{display:flex;justify-content:space-between;align-items:baseline;border-bottom:3px double var(--ink);
+  padding-bottom:5px;margin-bottom:8px;gap:10px;}
+.fr-mast b{font-family:"Literata",Georgia,serif;font-weight:600;font-size:1.05rem;letter-spacing:.02em;}
+.fr-mast span{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);}
+.fr-head{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.3rem;line-height:1.08;letter-spacing:-.025em;margin:0;}
+.fr-letter{border-left:4px solid var(--elu-mark);padding:2px 0 2px 10px;}
+.fr-letter b{display:block;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--elu-mark);}
+.fr-letter span{font-family:"IBM Plex Mono",monospace;font-size:.56rem;color:var(--ink-3);}
+.fr-call{display:flex;align-items:center;gap:10px;background:var(--stock-2);border:1px solid var(--hair);padding:8px 10px;}
+.fr-call i{width:10px;height:10px;border-radius:50%;background:var(--palm);flex:none;animation:ring 1.2s ease-in-out infinite;}
+.fr-call b{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--palm-text);}
+.fr-call span{font-family:"IBM Plex Mono",monospace;font-size:.6rem;color:var(--ink-3);margin-left:auto;}
+@keyframes ring{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--palm) 55%,transparent)}50%{box-shadow:0 0 0 6px transparent}}
+@media (prefers-reduced-motion:reduce){.fr-call i{animation:none;}}
+.fr-file{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px dashed var(--laterite);padding:6px 10px;}
+.fr-file b{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--laterite-text);border:2px solid var(--laterite);padding:2px 6px;transform:rotate(-2deg);}
+.fr-file span{font-family:"IBM Plex Mono",monospace;font-size:.58rem;color:var(--ink-3);}
+.fr-voices{display:grid;gap:6px;}
+.fr-voices > b{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze-text);}
+.fr-voices div{border-left:3px solid var(--danfo);padding:2px 0 2px 9px;}
+.fr-voices em{display:block;font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.56rem;color:var(--ink-3);letter-spacing:.04em;}
+.fr-voices p{margin:0;font-size:.88rem;line-height:1.4;color:var(--ink);}
+.fr-sit{border:1px solid var(--ink);padding:8px 10px;background:var(--stock-2);}
+.fr-sit > b{display:block;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;}
+.fr-g{display:grid;grid-template-columns:minmax(96px,auto) minmax(0,1fr);gap:8px;align-items:center;margin-top:4px;}
+.fr-g span{font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);}
+.fr-g div{height:6px;background:var(--paper);border:1px solid var(--hair);}
+.fr-g div i{display:block;height:100%;background:var(--ink-3);}
+.fr-g.lo div i{background:var(--laterite);}
+.fr-g.hi div i{background:var(--palm);}
+.fwhy .hist{display:block;margin-top:9px;padding-top:9px;border-top:1px solid var(--hair);color:var(--ink);}
+.fwhy .hist b{display:block;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze-text);margin-bottom:3px;}
+.fwhy .hist a{display:inline-block;margin-top:4px;font-size:.78rem;}
+.front{border:2px solid var(--ink);background:var(--stock);padding:14px 16px 16px;margin-bottom:22px;}
+.front .fr-mast b{font-size:1.4rem;}
+.front h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(1.6rem,1.2rem + 2vw,2.4rem);line-height:1.02;letter-spacing:-.03em;margin:4px 0 0;}
+.front .stand{margin:10px 0 0;font-size:.98rem;line-height:1.5;color:var(--ink-2);max-width:56ch;}
+.front .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;padding-top:10px;border-top:1px solid var(--hair);}
+@media (max-width:560px){.front .cols{grid-template-columns:1fr;}}
+.front .cols p{margin:0;font-size:.86rem;line-height:1.45;color:var(--ink);}
+.front .cols em{display:block;font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px;}
+@media (max-width:720px){body.runlock .headline-strip{font-size:.76rem;margin-bottom:6px;padding:4px 8px;}
+  body.runlock .fr-head{font-size:1.06rem;} body.runlock .fr-voices p{font-size:.8rem;}
+  body.runlock .frame{margin:-4px 0 8px;} body.runlock .fr-sit .fr-g:nth-of-type(n+4){display:none;}}
+
+.g-flag.elec p{white-space:pre-line;font-family:"IBM Plex Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--ink);}
+/* the story of the presidency, in the order it happened */
+.story{list-style:none;margin:14px 0 0;padding:0;max-width:62ch;border-top:2px solid var(--ink);}
+.story li{display:grid;grid-template-columns:74px minmax(0,1fr);gap:14px;padding:13px 0;border-bottom:1px solid var(--hair);}
+.story .yr{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);padding-top:4px;}
+.story p{margin:0;font-size:.96rem;line-height:1.5;color:var(--ink);}
+.story p .w{color:var(--ink-2);}
+.story .back{display:block;margin-top:5px;font-size:.84rem;line-height:1.45;color:var(--laterite-text);}
+.story li.cb .yr{color:var(--laterite-text);}
+.story li.ev p{font-weight:600;}
+.story li.end{border-bottom:2px solid var(--ink);}
+.story li.end p{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.05rem;}
+.governed{margin-top:30px;}
+.governed .lab{display:block;}
+.governed h3{font-size:var(--s-2);margin-top:8px;max-width:26ch;}
+
 /* ---------- the run, held to one screen ----------
    On a phone the powers sat at the top of a scrolling page and the two answers at
    the bottom of it, so a player could watch the board or read the card but never
@@ -988,6 +1111,11 @@ tr:last-child td{border-bottom:0;}
   body.runlock .g-choices{flex:none;}
   body.runlock .g-choice{min-height:64px;padding:12px;}
   body.runlock .g-flag{flex:none;margin-top:8px;max-height:24vh;overflow:auto;padding:11px 14px;}
+  body.runlock .feed{flex:none;margin-top:8px;padding-top:7px;}
+  body.runlock .fmsg p{font-size:.8rem;line-height:1.35;}
+  body.runlock .fmsgs .fmsg:nth-child(n+3){display:none;}
+  body.runlock .fwhy{max-height:18vh;overflow:auto;}
+  body.runlock #gC{min-height:52px;}
 }
 .g-excuse{border-left:5px solid var(--laterite);background:var(--stock);padding:13px 16px;margin-top:8px;}
 .g-excuse .lab{display:block;margin-bottom:9px;color:var(--laterite-text);}
@@ -1119,6 +1247,202 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 
 @media (max-width:860px){.hero{grid-template-columns:1fr;} .finding{order:-1;}}
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important;animation-duration:.01ms !important;}}
+/* ===== Run Nigeria, with a scene =====
+   The house identity stays: paper and ink in light or dark, and the season accent
+   (the Rains, the Harmattan, the long dry) on everything that marks the run. The scene
+   is a picture of where the problem arrived, with one caption; the words and the two
+   answers keep the room they had. */
+#view-play .g-wrap{max-width:560px;}
+/* the gate: you step into the office */
+.gate-scene{margin:0 0 18px;aspect-ratio:16/9;overflow:hidden;position:relative;border-bottom:4px solid var(--g-ac,var(--palm));}
+.gate-scene img{width:100%;height:100%;object-fit:cover;display:block;}
+.gate-kick{display:block;letter-spacing:.3em;}
+.gate-title{font-family:"Literata",Georgia,serif;font-weight:600;font-size:var(--s-3);letter-spacing:-.01em;margin-top:8px;}
+.gate-sub{margin-top:12px;color:var(--ink-2);font-size:1.02rem;line-height:1.5;}
+/* the scene: how the problem arrives */
+.scene{position:relative;aspect-ratio:16/8;overflow:hidden;background:var(--stock-2);margin-bottom:10px;
+  border-bottom:4px solid var(--g-ac,var(--ink));transition:border-color 1.2s ease;}
+.scene > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+.scene::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(10,14,22,0) 35%,rgba(10,14,22,.86) 100%);}
+.scene .frame{position:absolute;left:12px;right:12px;bottom:10px;z-index:2;margin:0;color:#F3F4F0;
+  display:flex;flex-direction:column;gap:3px;}
+.scene .frame[hidden]{display:none;}
+.cap-k{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:#F3F4F0;opacity:.9;}
+.cap-k::before{content:"";display:inline-block;width:12px;height:3px;background:var(--g-ac,var(--danfo));vertical-align:middle;margin-right:7px;}
+.cap-t{font-family:"Literata",Georgia,serif;font-weight:600;font-size:1.12rem;line-height:1.2;color:#fff;}
+.cap-s{font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.06em;color:#d0d3d8;}
+.scene-tag{position:absolute;top:10px;left:12px;z-index:3;font-family:"IBM Plex Mono",monospace;font-size:.6rem;
+  letter-spacing:.12em;text-transform:uppercase;background:var(--paper);color:var(--ink);padding:4px 8px;
+  border-left:3px solid var(--g-ac,var(--danfo));max-width:calc(100% - 24px);}
+.scene-tag[hidden]{display:none;}
+#view-play .headline-strip{display:none !important;}
+/* the answers: A and B, with what each costs */
+#view-play .g-choices{grid-template-columns:1fr;gap:7px;}
+#view-play .g-choice{display:grid;grid-template-columns:26px minmax(0,1fr);column-gap:10px;row-gap:1px;align-items:center;
+  text-align:left;justify-content:stretch;padding:10px 12px;}
+#view-play .g-choice .ab{grid-row:1 / span 2;width:24px;height:24px;display:grid;place-items:center;border:1.5px solid currentColor;
+  font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.72rem;}
+#view-play .g-choice .txt{line-height:1.25;}
+#view-play .g-choice .sub{font-size:.78rem;line-height:1.3;color:var(--ink-2);}
+#view-play .g-choice .sub:empty{display:none;}
+#view-play .g-choice .dir{display:none;}
+#view-play #gL{border-left:4px solid var(--danfo);}
+#view-play #gR{border-left:4px solid var(--elu-mark);}
+#view-play #gC{border-left:4px solid var(--hair);}
+#view-play .g-choices.one #gL{grid-template-columns:1fr;justify-items:center;}
+#view-play .g-choices.one #gL .ab,#view-play .g-choices.one #gL .sub{display:none;}
+#view-play .card.tilt-l,#view-play .card.tilt-r{transform:none;}
+/* the year ahead, and results night: full screens, in the house colours */
+#gameRun{position:relative;}
+.ov{position:absolute;inset:0;z-index:30;background:var(--paper);overflow:auto;animation:ovIn .25s ease both;}
+.ov[hidden]{display:none;}
+@keyframes ovIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.ov{animation:none;}}
+#view-play .season-veil{z-index:40;}
+.ov-in{padding:4px 0 18px;display:flex;flex-direction:column;gap:12px;min-height:100%;}
+.ov-lab{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);}
+.ov-lab::before{content:"";display:inline-block;width:12px;height:3px;background:var(--g-ac,var(--ink));vertical-align:middle;margin-right:7px;}
+.ov-h{font-family:"Literata",Georgia,serif;font-weight:600;font-size:1.9rem;line-height:1.05;margin:0;}
+.ov-go{margin-top:auto;align-self:stretch;text-align:center;}
+.ov-note{margin:0;color:var(--ink-3);font-size:.86rem;}
+.agenda{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
+.agenda li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--stock);
+  border:1px solid var(--hair);border-left:4px solid var(--g-ac,var(--ink));padding:10px 12px;}
+.agenda li .ic{display:none;}
+.agenda li b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:.95rem;}
+.agenda li small{display:block;color:var(--ink-2);font-size:.82rem;line-height:1.35;margin-top:2px;}
+.agenda li em{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);}
+.res-nums{display:flex;justify-content:space-between;gap:12px;border-top:2px solid var(--ink);border-bottom:1px solid var(--hair);padding:12px 0;}
+.res-nums div b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:2.2rem;line-height:1;}
+.res-nums div span{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);}
+.res-nums .you b{color:var(--ink);} .res-nums .opp b{color:var(--laterite-text);} .res-nums .third b{color:var(--ink-3);}
+.res-lead{margin:0;color:var(--ink-2);font-size:.92rem;line-height:1.5;}
+.res-zones{list-style:none;margin:0;padding:0;}
+.res-zones li{display:grid;grid-template-columns:minmax(96px,1fr) 2fr;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--hair);font-size:.8rem;}
+.res-zones .zb{display:flex;height:10px;background:var(--stock-2);overflow:hidden;}
+.res-zones .zb i{display:block;height:100%;}
+.res-zones .zb i.y{background:var(--g-ac,var(--palm));} .res-zones .zb i.o{background:var(--laterite);} .res-zones .zb i.t{background:var(--ink-3);}
+.res-zones .zn{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);}
+/* on a phone the words get the room: a slim picture, slim powers, the card takes the rest */
+@media (max-width:720px){
+  body.runlock #view-play .scene{flex:none;aspect-ratio:auto;height:clamp(78px,12vh,130px);margin-bottom:8px;}
+  body.runlock #view-play .cap-t{font-size:.95rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  body.runlock #view-play .cap-s{display:none;}
+  body.runlock .mt .bar{height:clamp(18px,3.2vh,30px);}
+  body.runlock .mt{padding-top:13px;}
+  body.runlock .card{padding:12px 14px;justify-content:flex-start;}
+  body.runlock .card .says{font-size:1rem;line-height:1.45;}
+  body.runlock .g-choice{min-height:0;padding:8px 11px;}
+  body.runlock #gC{min-height:0;}
+  body.runlock #view-play .g-choice .sub{font-size:.72rem;}
+  body.runlock .fmsgs .fmsg:nth-child(n+2){display:none;}
+}
+@media (max-width:720px) and (max-height:820px){
+  body.runlock #view-play .g-choice .sub{display:none;}
+  body.runlock .card .says{font-size:.96rem;}
+}
+@media (max-width:720px){ body.runlock #gameRun.fresh .mwrap{display:none;} }
+/* the bars speak for themselves: no posture words under them */
+#view-play .mt .st{display:none;}
+#view-play .mt span{margin-bottom:0;}
+/* a power changing mood: one line over the bars, not a panel over the scene */
+#view-play .shift{top:0;bottom:0;margin:0;padding:4px 10px;display:flex;align-items:center;gap:9px;min-height:0;overflow:hidden;}
+#view-play .shift .sface{width:30px;height:30px;flex:none;}
+#view-play .shift-b{min-width:0;}
+#view-play .shift b{margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#view-play .shift p,#view-play .shift .att,#view-play .shift .why,#view-play .shift .clk{display:none !important;}
+/* the answers are just the answers */
+#view-play .g-choice .sub{display:none !important;}
+/* each picture framed on what matters in it when the strip is slim */
+.scene[data-img="hauwa"] > img{object-position:55% 22%;}
+.scene[data-img="confidential"] > img{object-position:50% 68%;}
+.scene[data-img="sitroom"] > img{object-position:50% 38%;}
+.scene[data-img="cabinetMeeting"] > img{object-position:50% 45%;}
+.scene[data-img="cabinetEmpty"] > img{object-position:50% 55%;}
+@media (max-width:720px){ body.runlock #view-play .scene{height:clamp(100px,19vh,170px);} }
+.scene[data-img="hauwaBargain"] > img{object-position:50% 30%;}
+.scene[data-img="ogundipe"] > img{object-position:45% 28%;}
+.scene[data-img="ogundipeCall"] > img{object-position:50% 24%;}
+.scene[data-img="dangana"] > img{object-position:55% 25%;}
+.scene[data-img="danganaCall"] > img{object-position:50% 24%;}
+.scene[data-img="amaka"] > img{object-position:40% 30%;}
+.scene[data-img="amakaCall"] > img{object-position:45% 28%;}
+.scene[data-img="ekanem"] > img{object-position:40% 25%;}
+.scene[data-img="ekanemCall"] > img{object-position:50% 26%;}
+.scene[data-img="gyang"] > img{object-position:50% 24%;}
+.scene[data-img="gyangCall"] > img{object-position:50% 22%;}
+.scene[data-img="works"] > img{object-position:45% 22%;}
+.scene[data-img="finance"] > img{object-position:60% 30%;}
+.scene[data-img="cos"] > img{object-position:45% 22%;}
+.scene[data-img="chairman"] > img{object-position:40% 28%;}
+.scene[data-img="cbn"] > img{object-position:50% 30%;}
+.scene[data-img="forum"] > img{object-position:50% 35%;}
+.scene[data-img="protest"] > img{object-position:50% 55%;}
+.gate-scene{aspect-ratio:2/1;}
+.gate-scene img{object-position:50% 60%;}
+.scene[data-img="officeTall"] > img{object-position:50% 55%;}
+/* the end: the front page and the verdict, then what to do next */
+#gameEnd #gGoverned,#gameEnd .eyebrow,#gameEnd #gStory,#gameEnd #gDossier,#gameEnd #gVersus,#gameEnd #gReveal,
+#gameEnd #gRest,#gameEnd #gPhilChips,#gameEnd figure.overheard,#gameEnd #gReturn{display:none !important;}
+#gameEnd #gEndTitle{display:none !important;}
+
+/* ===== the front door: always at night, like the game ===== */
+body.onhome{--paper:#0E1420;--stock:#151C2A;--stock-2:#1E2636;--ink:#F3F1E8;--ink-2:#B9BDC5;--ink-3:#8A9099;
+  --rule:#F3F1E8;--hair:#2C3546;--elu-mark:#6E93E0;--danfo:#FFC93F;background:#0E1420;color:var(--ink);}
+body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
+.home{display:flex;flex-direction:column;gap:16px;}
+.home-hero{position:relative;padding:8px 0 6px;}
+.home-hero::before{content:"";position:absolute;z-index:-1;top:-80px;right:-20px;bottom:-40px;width:75%;
+  background:url("art/desk.webp") 70% 22%/cover no-repeat;opacity:.32;
+  -webkit-mask-image:radial-gradient(ellipse 80% 75% at 75% 40%,#000 25%,transparent 75%);
+  mask-image:radial-gradient(ellipse 80% 75% at 75% 40%,#000 25%,transparent 75%);}
+#view-start .wrap{position:relative;z-index:2;isolation:isolate;}
+.home-h{font-size:clamp(2.6rem,1.8rem + 4vw,4.6rem);line-height:.98;margin:0;color:#fff;}
+.home-h em{font-style:normal;color:var(--danfo);}
+.ways{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;}
+.way{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:block;overflow:hidden;border-radius:12px;
+  min-height:400px;background:#121a2a;border:1.5px solid #2E3F66;transition:transform .15s ease,border-color .15s ease;}
+.way-play{border-color:var(--danfo);}
+.way:focus-visible{outline:3px solid var(--danfo);outline-offset:3px;}
+.way-img,.way-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+.way-play .way-img{object-position:62% 50%;}
+.way-play::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(10,14,22,.88) 0%,rgba(10,14,22,.55) 42%,rgba(10,14,22,0) 70%);}
+.way-quiz .way-img{left:40%;}
+.way-quiz .way-img img{object-position:50% 15%;}
+.way-quiz::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,#121a2a 0%,#121a2a 38%,rgba(18,26,42,0) 62%);}
+.way-body{position:relative;z-index:2;display:flex;flex-direction:column;gap:12px;padding:28px 24px;max-width:58%;min-height:100%;justify-content:center;}
+.way-k{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(2rem,1.4rem + 2vw,2.8rem);
+  line-height:.95;text-transform:uppercase;letter-spacing:-.01em;color:#fff;}
+.way-t{font-size:1rem;line-height:1.4;color:#E6E4DC;}
+.way-btn{align-self:flex-start;pointer-events:none;border-radius:8px;}
+.way-ghost{background:transparent;color:var(--danfo);border:1.5px solid var(--danfo);}
+@media (hover:hover) and (pointer:fine){.way:hover{transform:translateY(-2px);}.way-quiz:hover{border-color:var(--danfo);}}
+@media (prefers-reduced-motion:reduce){.way{transition:none;}}
+/* the menu on the phone home page */
+.menu{display:none;margin-left:auto;background:none;border:0;padding:8px;cursor:pointer;color:var(--ink);}
+.menu i{display:block;width:24px;height:2px;background:currentColor;margin:5px 0;}
+@media (max-width:860px){
+  .ways{grid-template-columns:1fr;gap:12px;}
+  .way-play{min-height:0;aspect-ratio:1/0.82;}
+  .way-quiz{min-height:0;aspect-ratio:1/0.62;}
+  .way-body{max-width:64%;padding:20px 18px;gap:10px;}
+  .way-quiz .way-img{left:38%;}
+  .way-t{font-size:.9rem;}
+}
+@media (max-width:720px){
+  #view-start{padding-block:10px 36px;}
+  .home{gap:12px;}
+  .home-h{font-size:clamp(2.4rem,11vw,3.1rem);}
+  body.onhome .menu{display:block;}
+  body.onhome nav.top{display:none;}
+  body.onhome.menuopen nav.top{display:flex;position:absolute;top:100%;right:14px;flex-direction:column;gap:4px;
+    background:var(--stock);border:1px solid var(--hair);padding:8px;z-index:50;}
+  body.onhome .mast .wrap{position:relative;flex-wrap:nowrap;}
+  .way-k{font-size:clamp(1.8rem,8vw,2.3rem);}
+  .way-btn{font-size:.88rem;padding:10px 14px;}
+}
+
 </style>
 
 <header class="mast">
@@ -1136,6 +1460,7 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
         <span>Know yourself. Know your country.</span>
       </span>
     </button>
+    <button class="menu" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><i></i><i></i><i></i></button>
     <nav class="top" id="nav">
       <button data-go="play"><i class="pip" hidden></i>Play President</button>
       <button data-go="quiz"><i class="pip" hidden></i>Take the Quiz</button>
@@ -1153,25 +1478,30 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <div class="cta" style="margin-top:14px" id="inviteGo"></div>
     </div>
 
-    <div class="hero">
-      <div class="hero-copy">
-        <h1>If na you,<br>wetin you go <em>do?</em></h1>
-        <p class="kick">Take a quiz to find out what you really believe about how Nigeria should be run. Or play President and run the country yourself.</p>
-        <p class="lede">In the game, the decisions are yours. Fix the economy. Handle insecurity. Deal with powerful people. Make compromises. Face the consequences. Stay in office if you can.</p>
-        <div class="cta">
-          <button class="btn go" data-go="play">Play President</button>
-          <button type="button" class="lnk" id="startBtn">Take the Quiz</button>
-        </div>
+    <div class="home">
+      <div class="home-hero">
+        <h1 class="home-h">If na you,<br>wetin you go <em>do?</em></h1>
       </div>
-      <div class="hero-art">
-        <picture>
-          <source type="image/avif" sizes="(min-width:861px) 46vw, 80vw"
-                  srcset="hero/hero3-620.avif 620w, hero/hero3-900.avif 900w, hero/hero3-1240.avif 1240w">
-          <source type="image/webp" sizes="(min-width:861px) 46vw, 80vw"
-                  srcset="hero/hero3-620.webp 620w, hero/hero3-900.webp 900w, hero/hero3-1240.webp 1240w">
-          <img src="hero/hero3-900.webp" width="1377" height="1125" decoding="async" fetchpriority="high"
-               alt="A young Nigerian woman with long braids, a pen held at her chin, looking up in thought, a notebook under her arm.">
-        </picture>
+      <div class="ways">
+        <button type="button" class="way way-play" data-go="play">
+          <img class="way-img" src="art/desk.webp" alt="The President’s empty chair at the desk, Abuja at sunrise through the window" decoding="async" fetchpriority="high">
+          <span class="way-body">
+            <span class="way-k">Play<br>President</span>
+            <span class="way-t">Run Nigeria. Make the hard decisions. Face the consequences.</span>
+            <span class="btn go way-btn">Play President →</span>
+          </span>
+        </button>
+        <button type="button" class="way way-quiz" id="startBtn">
+          <picture class="way-img">
+            <source type="image/webp" sizes="(min-width:861px) 30vw, 60vw" srcset="hero/hero3-620.webp 620w, hero/hero3-900.webp 900w">
+            <img src="hero/hero3-620.webp" alt="A young Nigerian woman with long braids, a pen held at her chin, looking up in thought" decoding="async">
+          </picture>
+          <span class="way-body">
+            <span class="way-k">Take<br>the quiz</span>
+            <span class="way-t">Discover what you believe about how Nigeria should be governed.</span>
+            <span class="btn way-btn way-ghost">Take the quiz →</span>
+          </span>
+        </button>
       </div>
     </div>
 
@@ -1360,16 +1690,17 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
   <div class="wrap"><div class="g-wrap">
 
     <div id="gameGate">
-      <h1 style="font-size:var(--s-3)">Eight years in office.<br>If you can manage it.</h1>
-      <p class="lead" style="margin-top:16px">You’re President now.</p>
-      <p style="margin-top:14px">Every decision has consequences. The Street wants results. The Palace wants influence. The Barracks want control. The Purse wants confidence. The Governors want power.</p>
-      <div class="gate-powers">
+      <div class="gate-scene"><img src="art/desk.webp" alt="The President’s empty chair at the desk in Aso Rock, Abuja at sunrise through the window" decoding="async"></div>
+      <span class="lab gate-kick">If Na You · Run Nigeria</span>
+      <h1 class="gate-title">The President’s Desk</h1>
+      <p class="gate-sub">You haven’t even settled into your office. Your Chief of Staff is already at the door.</p>
+      <p class="desk-line">Every morning, Nigeria comes to your desk. Every decision follows you out of the room.</p>
+      <div class="gate-powers" hidden>
         <div class="gate-faces" aria-hidden="true"></div>
-        <svg id="demo" viewBox="0 0 720 156" role="img" aria-label="The five powers a Nigerian president has to keep in balance: the Street, the Palace, the Barracks, the Purse and the Governors, each moving on its own"></svg>
+        <svg id="demo" viewBox="0 0 720 156" role="img" aria-label="The powers a Nigerian president has to keep in balance"></svg>
       </div>
-      <p style="margin-top:20px">You won’t keep everybody happy. The question is what you’ll sacrifice, who you’ll fight — and what happens to Nigeria while you do it.</p>
       <div class="cta" style="margin-top:22px">
-        <button class="btn go" id="gStart">Make my first decision →</button>
+        <button class="btn go" id="gStart">Begin your presidency →</button>
         <span class="lab" id="gLinkNote"></span>
       </div>
     </div>
@@ -1378,28 +1709,63 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <div class="season-veil" id="gSeason" hidden>
         <div class="sv-in"><span class="lab" id="gSeasonT"></span><p id="gSeasonS"></p></div>
       </div>
-      <div class="mwrap">
-        <div class="meters" id="gMeters"></div>
-        <div class="cwrap"><span class="clab">The country</span><div class="cmeters" id="gCountry"></div></div>
-        <div class="shift" id="gShift" hidden><img class="sface" id="gShiftF" alt="" decoding="async" hidden><div class="shift-b"><b id="gShiftT"></b><p id="gShiftP"></p><span class="att" id="gShiftA" hidden></span><span class="why" id="gShiftW" hidden></span><span class="clk" id="gShiftC" hidden></span></div></div>
+      <div class="rn-head">
+        <div class="g-clock"><span class="lab" id="gClock"></span><span class="lab" id="gTerm"></span>
+          <button class="sndbtn lab" id="gSnd" aria-pressed="false">Sound off</button></div>
+        <div class="mwrap">
+          <div class="meters" id="gMeters"></div>
+          <div class="cwrap" hidden><span class="clab">The country</span><div class="cmeters" id="gCountry"></div></div>
+          <div class="shift" id="gShift" hidden><img class="sface" id="gShiftF" alt="" decoding="async" hidden><div class="shift-b"><b id="gShiftT"></b><p id="gShiftP"></p><span class="att" id="gShiftA" hidden></span><span class="why" id="gShiftW" hidden></span><span class="clk" id="gShiftC" hidden></span></div></div>
+        </div>
       </div>
-      <div class="g-clock"><span class="lab" id="gClock"></span>
-        <button class="sndbtn lab" id="gSnd" aria-pressed="false">Sound off</button>
-        <span class="lab" id="gTerm"></span></div>
+      <p class="headline-strip" id="gHead" hidden></p>
+      <div class="scene" id="gScene" data-fmt="briefing">
+        <img id="gSceneImg" alt="" decoding="async">
+        <span class="scene-tag" id="gTag" hidden></span>
+        <div class="frame" id="gFrame" hidden></div>
+      </div>
       <div class="card" id="gCard">
         <span class="who" id="gWho"></span>
         <p class="says" id="gSays"></p>
       </div>
       <div class="g-choices">
-        <button class="g-choice" id="gL"><span class="dir">◀</span><span class="txt"></span></button>
-        <button class="g-choice" id="gR"><span class="txt"></span><span class="dir">▶</span></button>
+        <button class="g-choice" id="gL"><span class="ab">A</span><span class="txt"></span><span class="sub"></span></button>
+        <button class="g-choice" id="gR"><span class="ab">B</span><span class="txt"></span><span class="sub"></span></button>
+        <button class="g-choice" id="gC" hidden><span class="ab">C</span><span class="txt"></span><span class="sub"></span></button>
+      </div>
+      <div class="feed" id="gFeed" hidden aria-live="polite">
+        <div class="feed-h"><span class="clab">The country</span><button class="feed-why" id="gWhyBtn" aria-expanded="false" aria-controls="gWhy" hidden>Why?</button></div>
+        <div class="fmsgs" id="gFeedMsgs"></div>
+        <p class="fwhy" id="gWhy" hidden></p>
       </div>
       <div class="g-flag" id="gFlagBox" hidden>
         <b id="gFlagTitle"></b><p id="gFlag"></p>
       </div>
+
+      <div class="ov" id="gYear" hidden>
+        <div class="ov-in">
+          <span class="ov-lab" id="gYearLab"></span>
+          <h2 class="ov-h" id="gYearH">On your desk</h2>
+          <ol class="agenda" id="gAgenda"></ol>
+          <p class="ov-note">Something unexpected always comes up.</p>
+          <button class="btn go ov-go" id="gYearGo">Start the day →</button>
+        </div>
+      </div>
+
+      <div class="ov" id="gResult" hidden>
+        <div class="ov-in">
+          <span class="ov-lab" id="gResLab"></span>
+          <h2 class="ov-h" id="gResH"></h2>
+          <div class="res-nums" id="gResNums"></div>
+          <p class="res-lead" id="gResLead"></p>
+          <ul class="res-zones" id="gResZones"></ul>
+          <button class="btn go ov-go" id="gResGo">Continue →</button>
+        </div>
+      </div>
     </div>
 
     <div id="gameEnd" hidden>
+      <div class="front" id="gFront"></div>
       <span class="lab" id="gEndKick"></span>
       <h1 style="font-size:var(--s-3);margin-top:10px" id="gEndTitle"></h1>
       <p class="lead" id="gEndBody" style="margin-top:14px" hidden></p>
@@ -1408,6 +1774,14 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
         <div><b id="gEndYears"></b><span>in office</span></div>
         <div><b id="gEndCount"></b><span>decisions</span></div>
       </div>
+
+      <div class="governed" id="gGoverned" hidden>
+        <span class="lab">How you governed</span>
+        <h3 id="gGovernedT"></h3>
+      </div>
+
+      <div class="eyebrow" style="margin-top:30px"><span class="lab">The story of your presidency</span></div>
+      <ol class="story" id="gStory"></ol>
 
       <ul class="dossier" id="gDossier"></ul>
 
@@ -1443,7 +1817,8 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
       <div class="cta" style="margin-top:22px">
         <button class="btn go" id="gAgain">Play President again</button>
         <button class="btn ghost sm" id="gPresCard">Save my presidency</button>
-        <button class="btn ghost sm" id="gChallenge">Challenge someone</button>
+        <a class="btn ghost sm" id="gWhatsApp" href="#" target="_blank" rel="noopener">Send it on WhatsApp</a>
+        <button class="btn ghost sm" id="gChallenge">Copy a challenge</button>
         <button class="btn ghost sm" data-go="ballot">See who wants the job</button>
         <span class="toast" id="gToast"></span>
       </div>
@@ -1505,7 +1880,7 @@ var $=function(i){return document.getElementById(i);};
    or the President deck/values. Date-based, not semver: ships aren't
    backward compatible with each other in a way that makes semver meaningful
    here, and the date is what you'd want to know anyway. */
-var CONTENT_VERSION="2026-10-03.1";
+var CONTENT_VERSION="2026-10-21.1";
 function uuid(){
   if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
@@ -1886,6 +2261,7 @@ window.addEventListener("resize",function(){
    site halfway down with the hero cut in half. The page decides where it starts. */
 if("scrollRestoration" in history)history.scrollRestoration="manual";
 function show(n){
+  document.body.classList.toggle("onhome",n==="start");
   VIEWS.forEach(function(v){var e=$("view-"+v);if(e)e.hidden=(v!==n);});
   Array.prototype.forEach.call(document.querySelectorAll("nav.top button"),function(btn){
     btn.setAttribute("aria-current",btn.dataset.go===n?"true":"false");});
@@ -1893,17 +2269,59 @@ function show(n){
   marks();
   window.scrollTo({top:0,behavior:"instant"});
 }
+/* ---------- addressable views ----------
+   Everything here is one page, which meant every link anybody could share — an advert,
+   a post, a message — landed on the front door and asked for two more taps before the
+   thing being advertised appeared. Each half now has an address of its own:
+
+     ifnayou.com/#quiz       question one
+     ifnayou.com/#play       the office, one tap from the first decision
+     ifnayou.com/#play-now   straight into the first decision
+     ifnayou.com/#ballot     the register
+     ifnayou.com/#about      why this exists
+
+   The hash is used rather than a path because it needs no server configuration and
+   cannot 404, and because the challenge links already live there — a shared result
+   reads #g=32.40.caretaker and keeps working untouched. */
+var ROUTES={start:1,quiz:1,play:1,ballot:1,about:1};
+function routeFrom(str){
+  var out=null;
+  (str||"").replace(/^#/,"").split("&").forEach(function(p){
+    if(p==="play-now"||p==="playnow")out={view:"play",deep:true};
+    else if(ROUTES[p])out={view:p,deep:false};
+  });
+  /* a host that rewrites /play to this page gets the same treatment */
+  if(!out){
+    var seg=(location.pathname||"").replace(/\/+$/,"").split("/").pop();
+    if(ROUTES[seg])out={view:seg,deep:false};
+    else if(seg==="play-now")out={view:"play",deep:true};
+  }
+  return out;
+}
+/* Entering a view and recording where you are: one function, so a tap, a shared link
+   and the browser's own Back button all arrive the same way. */
+function enter(view,opts){
+  opts=opts||{};
+  if(view==="quiz"){ if(opts.fresh)reset(); show("quiz"); renderQ(); }
+  else{
+    show(view);
+    if(view==="ballot")renderBallot();
+    if(view==="play"){ startGame(); if(opts.deep)beginRun(); }
+  }
+  if(opts.history!==false){
+    var url=location.pathname+location.search+(view==="start"?"":"#"+view);
+    try{ history.pushState({v:view},"",url); }catch(e){}
+  }
+}
+window.addEventListener("popstate",function(){
+  var r=routeFrom(location.hash);
+  enter(r?r.view:"start",{deep:r&&r.deep,history:false});
+});
 document.addEventListener("click",function(e){
   var t=e.target.closest("[data-go]");
-  if(t){e.preventDefault();
-    /* The quiz view is the only one that cannot simply be shown — it needs a question
-       on it. Entering from the masthead resumes wherever you left off. */
-    if(t.dataset.go==="quiz"){show("quiz");renderQ();return;}
-    show(t.dataset.go);
-    if(t.dataset.go==="ballot")renderBallot();
-    if(t.dataset.go==="play")startGame();}
+  if(t){e.preventDefault();enter(t.dataset.go);}
 });
-$("home").addEventListener("click",function(){show("start");});
+$("home").addEventListener("click",function(){enter("start");});
 
 /* ---------- your own record, kept on this device only ---------- */
 var LS="manifesto.history";
@@ -1936,11 +2354,11 @@ function powersPlate(svg){
   /* Wide and shallow rather than tall: it sits above the button that starts the run,
      and a plate half a screen high pushed that button under the fold. The heights are
      fractions of the span so the shape survives any reproportioning. */
-  var W=720,TOP=8,BOT=152,GAP=36,BW=(W-4*GAP)/5,SPAN=BOT-TOP,X0=0;
+  var W=720,TOP=8,BOT=152,GAP=30,BW=(W-(BLOCS.length-1)*GAP)/BLOCS.length,SPAN=BOT-TOP,X0=0;
   var g=[];
   var LIFE=[
     {h:[.66,.38,.81,.53],d:17},{h:[.47,.69,.41,.63],d:21},{h:[.75,.56,.84,.63],d:19},
-    {h:[.53,.78,.44,.72],d:23},{h:[.63,.44,.72,.56],d:15}
+    {h:[.53,.78,.44,.72],d:23},{h:[.63,.44,.72,.56],d:15},{h:[.58,.71,.49,.66],d:18}
   ].map(function(L){return {d:L.d,h:L.h.map(function(f){return Math.round(f*SPAN);})};});
   BLOCS.forEach(function(b,i){
     var x=X0+i*(BW+GAP), L=LIFE[i], hs=L.h.concat([L.h[0]]);
@@ -1962,7 +2380,7 @@ function powersPlate(svg){
      can never end up attached to the wrong person. No names: they are introduced one
      at a time during the run, and printing them here would spend that. */
   var fr=svg.parentNode.querySelector(".gate-faces");
-  if(fr)fr.innerHTML=BLOCS.map(function(b){
+  if(fr)fr.innerHTML=BLOCS.filter(function(b){return FACEIMG[b.k];}).map(function(b){
     return '<img src="'+FACEIMG[b.k]+'" alt="" decoding="async" style="--gf:'+b.c+'">';
   }).join("");
 }
@@ -2059,7 +2477,9 @@ function beginCompass(){
   evt("compass_started",{session_id:CUR.compassSessionId});
   mpx("quiz_start",{content_name:"If Na You quiz"});
 }
-$("startBtn").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
+$("menuBtn").addEventListener("click",function(){var o=document.body.classList.toggle("menuopen");this.setAttribute("aria-expanded",String(o));});
+$("nav").addEventListener("click",function(){document.body.classList.remove("menuopen");$("menuBtn").setAttribute("aria-expanded","false");});
+$("startBtn").addEventListener("click",function(){beginCompass();enter("quiz",{fresh:true});});
 $("again").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
 $("part2").addEventListener("click",function(){st.part=2;st.i=0;show("quiz");renderQ();});
 
@@ -2397,9 +2817,7 @@ function shareLink(){
    needs: a position, an archetype, a length, a fidelity figure and an ending code.
    Fragments are never sent to a server and none of this names anybody. */
 function readInvite(){
-  var h=(window.__IFY_FRAG||location.hash||"");
-  if(!h){try{h=sessionStorage.getItem("ify_frag")||"";}catch(e){}}
-  h=h.replace(/^#/,"");
+  var h=(window.__IFY_FRAG||location.hash||"").replace(/^#/,"");
   if(!h)return null;
   var out=null;
   h.split("&").forEach(function(part){
@@ -2699,7 +3117,9 @@ function buildPresCard(){
   x.fillStyle=C.bg;x.fillRect(0,0,W,H);
   x.strokeStyle=C.hair;x.lineWidth=6;x.strokeRect(34,34,W-68,H-68);
   x.fillStyle=C.i3;x.font='500 22px "IBM Plex Mono", monospace';
-  x.fillText("IF NA YOU? · THE PRESIDENCY",80,112);
+  x.fillText("THE NATIONAL LEDGER · IF NA YOU?",80,112);
+  x.strokeStyle=C.ink;x.lineWidth=2;x.beginPath();x.moveTo(80,128);x.lineTo(W-80,128);x.stroke();
+  x.beginPath();x.moveTo(80,134);x.lineTo(W-80,134);x.stroke();
 
   var yy=182, nm=presName();
   if(nm){
@@ -3011,7 +3431,11 @@ var BLOCS=[
  {k:"gov", n:"The Governors", c:"var(--elu-mark)",
   d:"The thirty-six and the federation.",
   zero:"The federating units stopped pretending. What you had left was a capital city.",
-  full:"Abuja became ceremonial. You presided over a country that had quietly stopped needing a president."}
+  full:"Abuja became ceremonial. You presided over a country that had quietly stopped needing a president."},
+ {k:"nass", n:"The Assembly", c:"var(--pole-warm)",
+  d:"The Senate and the House of Representatives.",
+  zero:"Nothing you sent to the Assembly passed. A government that cannot pass a budget governs on paper.",
+  full:"The Assembly passed everything and examined nothing. Nobody believed a law of yours had been read."}
 ];
 
 /* The six things a government can do to a country. Prosperity is one of them.
@@ -3215,6 +3639,1264 @@ Array.prototype.push.apply(DECK,STATE_CARDS);
 Array.prototype.push.apply(DECK,CRISIS_CARDS);
 Array.prototype.push.apply(DECK,SHOCK_REPLIES);
 
+/* ---------- October 2026 redesign: the presidency that remembers ----------
+   Everything below extends the engine above rather than replacing it. The deck,
+   the postures, the fuses, section 143 and the third-term arithmetic are untouched;
+   what is added is a sixth power, a first morning, consequences that come back by
+   name, and a country that answers each decision in its own words. */
+
+/* The Assembly's stake in the existing deck, applied once here — the same reason the
+   bloc weights above are applied in one place rather than rewritten into forty cards.
+   Keyed by the words on the button so a reworded card simply stops matching. */
+var NASS_MOVES={
+ "Approve the state force":-8,"Keep policing under national control":4,
+ "Grant rulers a constitutional role":-8,"Keep their role advisory":4,
+ "Suspend the Minister":-8,"Keep him in place":6,
+ "File the charges":-10,"Hold the case":8,
+ "Back reserved seats":-12,"Oppose reserved seats":8,
+ "Restore INEC’s budget":6,"Make INEC run with the cut":-4,
+ "Order a full review":10,"Approve it now":-8,
+ "Take the IMF programme":-10,"Reject it":6,
+ "Approve the powers without scrutiny":-20,"Require legislative scrutiny":16,
+ "Take the loan":-6,"Expand tax collection":-8,"Protect small traders for now":4,
+ "Let states collect VAT":-6,"Cut him loose":-6,"Keep him in the coalition":6,
+ "Introduce diaspora voting now":-4
+};
+/* flags the callbacks below need, on cards that did not set one */
+var CHOICE_FLAGS={"Raise tariffs":"tariff_up","Keep tariffs down":"tariff_held","Keep the subsidy":"subsidy_kept"};
+/* short accounts of the mechanism, opened only if the player asks */
+var CHOICE_WHY={
+ "Remove the subsidy":"A fuel subsidy keeps pump prices below cost, and the treasury pays the difference. Removing it frees that money but raises the cost of transport and food straight away. Who gains depends on how fast the savings reach people.",
+ "Keep the subsidy":"Keeping the subsidy protects households from a price jump today. The cost rises and falls with the oil price and the exchange rate, and it competes with everything else the budget pays for.",
+ "Let the naira float":"A floating rate removes the gap between the official and the street price of dollars, which ends the profit in trading between them. Imports become more expensive at once, so prices rise before any benefit arrives.",
+ "Keep supporting the naira":"Defending the official rate uses foreign reserves and rationed dollars. It holds import prices down for those who can get dollars at that rate, while everyone else pays the street price.",
+ "Raise tariffs":"When electricity sells for less than it costs to supply, the companies cannot invest. Higher tariffs fund investment, but households feel the bill long before supply improves.",
+ "Keep tariffs down":"Low tariffs protect households now. The gap between price and cost has to be paid by someone: the companies, which then invest less, or the government.",
+ "Award it directly":"Direct awards are faster, but they skip the competition that keeps prices honest. Nigeria's procurement law exists because direct awards are where inflated contracts usually hide.",
+ "Put it out to tender":"Open tenders take longer and can be challenged, but competing bids tend to lower prices and leave a public record of why a contractor was chosen.",
+ "Restore INEC’s budget":"An election commission needs staff, materials and logistics in place months ahead. Funding that arrives late is the most common reason polls open late or not at all.",
+ "Make INEC run with the cut":"A cut to the election budget usually shows up as fewer polling staff, late materials and weaker result transmission — the things that decide whether losers accept the result."
+};
+DECK.forEach(function(c){
+  ["l","r"].forEach(function(s){
+    var ch=c[s]; if(!ch)return;
+    if(NASS_MOVES[ch.t]!==undefined){ ch.m=ch.m||{}; if(ch.m.nass===undefined)ch.m.nass=NASS_MOVES[ch.t]; }
+    if(CHOICE_FLAGS[ch.t]&&!ch.f)ch.f=CHOICE_FLAGS[ch.t];
+    if(CHOICE_WHY[ch.t]&&!ch.why)ch.why=CHOICE_WHY[ch.t];
+  });
+});
+
+/* ---------- the first morning ----------
+   No dashboard and no explanation. Someone walks in with a problem, and the powers are
+   introduced afterwards, by reacting to what you did about it. */
+var OPENING={w:"Your Chief of Staff, on your first morning",
+ s:"Your Excellency, we have a problem. The unions have called a nationwide strike from Monday over the minimum wage. The Finance Minister says the treasury cannot afford what they are asking. You promised Nigerians a better life.",
+ l:{t:"Meet their demand",m:{street:18,purse:-16,gov:-4},v:{pro:3,coh:6,cap:-4},ax:{econ:1},f:"opening_paid",
+    fd:[["Emeka, Aba trader","Strike called off! Government don agree. Make dem pay am o."],
+        ["Bimpe, Ibadan","Who is going to pay for this, though? Asking for the state governments."]],
+    why:"A higher minimum wage reaches millions of workers quickly, which is why unions push for it. Much of the cost lands on state payrolls, and many states already struggle to pay salaries on time."},
+ r:{t:"Hold the line and keep talking",m:{street:-16,purse:12,barracks:4},v:{pro:-3,coh:-6,cap:3},ax:{econ:-1},f:"opening_held",
+    fd:[["@Tolu_Lagos","Day one and he don already vex the unions? This one go hot."],
+        ["Musa, Jos","Strike from Monday. No buses, no banks. Stock up."]],
+    why:"Holding out protects the budget, but a general strike shuts ports, banks and transport, and every day it lasts costs the economy. Most strikes end in a deal; the question is what it costs to get there."},
+ c:{t:"Pay part now, agree a timetable for the rest",m:{street:6,purse:-6,nass:4},v:{coh:3,cap:-1},f:"opening_phased",
+    fd:[["Ngozi (Family group)","Half now, half later. We go dey watch that calendar."]],
+    why:"A phased deal spreads the cost and buys time, but it only works if the second payment arrives when promised. Unions remember missed timetables."}};
+
+/* ---------- storylines, and the past coming back ----------
+   `at` puts a storyline's first act on the desk at a set point in the term. `req`
+   (one flag or a list) holds a later act until the run has the history it answers.
+   `from` names the decision it is answering, which is how the story at the end can
+   say what came back. `alt` rewrites a card in the light of where things now stand. */
+var STORY_CARDS=[
+ {w:"Finance Minister",at:2,
+  s:"Your Excellency, we are spending far more than we collect. We can cut spending now and take the pain early, or borrow to keep everything running while we find new revenue.",
+  l:{t:"Cut spending now",m:{purse:14,street:-14,gov:-8},v:{pro:-3,cap:-5,sov:5,int:3},ax:{econ:-1},f:"pp_cut",
+     why:"Cutting early limits debt, but it lands immediately on salaries, contracts and services. Economists disagree about how much austerity costs when growth is already weak."},
+  r:{t:"Borrow and keep spending",m:{purse:-6,street:8,gov:8},v:{pro:3,cap:3,sov:-8},ax:{econ:1},f:"pp_borrow",
+     why:"Borrowing protects spending today, but every loan adds interest payments that later compete with schools, roads and salaries."}},
+
+ {w:"Hauwa Tijjani, Labour Leader",req:"pp_cut",from:"pp_cut",wait:4,
+  s:"You remember the spending cuts? Teachers and nurses in nine states have not been paid on time since. We are marching on Abuja on Friday.",
+  l:{t:"Release emergency funds for salaries",m:{street:16,purse:-14,gov:6},v:{cap:4,coh:4,pro:-2},f:"pp2_paid",
+     why:"Most teachers and nurses are paid by the states, which depend on monthly federal allocations. A cut in Abuja reaches a classroom through a state payroll."},
+  r:{t:"Hold the cuts and explain them",m:{street:-16,purse:8},v:{cap:-4,coh:-5,int:3},f:"pp2_held"}},
+
+ {w:"Finance Minister",req:"pp_borrow",from:"pp_borrow",wait:4,
+  s:"You remember the borrowing? Interest payments now take a large share of our revenue, and lenders want a credible plan before they lend again.",
+  l:{t:"Raise taxes to reassure the lenders",m:{purse:14,street:-16,nass:-4},v:{sov:5,pro:-3,cap:2},f:"pp2_tax"},
+  r:{t:"Borrow again to bridge the gap",m:{purse:-8,street:6},v:{sov:-10,pro:-6,int:-2},f:"pp2_reborrow",
+     why:"Lenders charge more when they doubt a government can repay, so each new loan costs more than the last one."}},
+
+ {w:"Senator Ladi Gyang, Leader of the Senate",req:["pp2_paid","pp2_held","pp2_tax","pp2_reborrow"],wait:3,
+  s:"Your revenue reform bill is with us. My members will pass it if their constituency projects are funded in return.",
+  alt:[{when:function(){return G.m.nass<35;},
+        s:"Your revenue reform bill is with us. My members have not forgotten how this government has treated them, and the price has gone up. Fund their constituency projects, all of them, or the bill waits."},
+       {when:function(){return G.m.nass>=60;},
+        s:"Your revenue reform bill is with us. You have treated this Assembly with respect, so I will be straight with you: most members will back it on its merits. A few still want their constituency projects funded."}],
+  l:{t:"Fund the constituency projects",m:{nass:16,purse:-12},v:{int:-8,cap:-2},f:"pp3_traded",
+     why:"Constituency projects let legislators deliver something visible at home. Critics say they are hard to audit and sit outside normal spending plans; supporters say they reach places ministries ignore."},
+  r:{t:"Withdraw the bill",m:{nass:-4,purse:-6},v:{cap:-6,pro:-4},f:"pp3_withdrew"},
+  c:{t:"Ask them to pass it on its merits",need:function(){return G.m.nass>=60;},m:{nass:-4,purse:8,street:4},v:{int:7,cap:6,pro:4},f:"pp3_merits",
+     why:"What a reform costs in concessions depends on the relationship the executive has built with the legislature. Trust is what lets a president ask for a vote without paying for it."}},
+
+ {w:"Minister of Power",req:"tariff_up",from:"tariff_up",
+  s:"You remember the tariff increase? Supply is up in most cities and investors are coming back. But poorer households are paying more for the same hours of light, and they are angry.",
+  l:{t:"Fund a lifeline tariff for poor households",m:{street:14,purse:-10},v:{cap:3,coh:5,pro:2},f:"lifeline",
+     why:"A lifeline tariff charges the smallest users less, paid for by larger customers or the treasury. It protects the poorest without undoing the price that funds investment."},
+  r:{t:"Hold the line: supply first, relief later",m:{purse:8,street:-12},v:{cap:4,coh:-4}}},
+
+ {w:"Minister of Power",req:"tariff_held",from:"tariff_held",
+  s:"You remember when you kept tariffs down? The distribution companies say they cannot cover their costs. Some have cut what they buy from the grid, and the outages are getting longer.",
+  l:{t:"Raise tariffs now",m:{purse:10,street:-18},v:{cap:8,pro:4,coh:-4},f:"tariff_up_late"},
+  r:{t:"Cover their losses from the treasury",m:{purse:-16,street:6},v:{cap:-3,pro:-5,sov:-2},
+     why:"When the price stays below the cost of supply, the gap is paid either by the companies, which then invest less, or by the government, which then spends less elsewhere."}},
+
+ {w:"Your Chief of Staff",req:"subsidy_gone",from:"subsidy_gone",
+  s:"You remember the subsidy? Transport fares have risen sharply since it went. The savings are real, and people are asking where they have gone.",
+  l:{t:"Spend the savings on buses and cash transfers",m:{street:14,purse:-10,gov:4},v:{pro:5,cap:6,coh:4},f:"savings_shared",
+     why:"The case for removing a subsidy rests on what the money does next. If the savings reach people quickly, the price rise is easier to carry."},
+  r:{t:"Use the savings to pay down debt",m:{purse:12,street:-14,nass:-4},v:{sov:6,pro:-2,coh:-4}}},
+
+ {w:"Accountant-General",req:"subsidy_kept",from:"subsidy_kept",
+  s:"You remember when you kept the fuel subsidy? Its cost has kept climbing with the price of fuel, and it is now crowding out spending on roads and power.",
+  l:{t:"Phase it out over two years",m:{purse:10,street:-12},v:{pro:4,cap:4,coh:-2},f:"subsidy_phased"},
+  r:{t:"Keep it and cut elsewhere",m:{purse:-12,street:8},v:{pro:-5,cap:-6}}},
+
+ {w:"Governor Bassey Ekanem",req:"opening_paid",from:"opening_paid",
+  s:"You remember the wage deal on your first morning? Several states cannot afford it. We need federal help to pay it, or salaries will be late.",
+  l:{t:"Help the states pay it",m:{gov:16,purse:-14},v:{coh:4,cap:-2,pro:2}},
+  r:{t:"The states must find the money",m:{gov:-16,street:-6,purse:8},v:{coh:-5,cap:-3}}},
+
+ {w:"Hauwa Tijjani, Labour Leader",req:"opening_held",from:"opening_held",
+  s:"You remember your first morning, when you held the line? My members have not forgotten. We will talk, but this time we want it in writing.",
+  l:{t:"Agree a wage review in writing",m:{street:14,purse:-10},v:{coh:5,int:3}},
+  r:{t:"No new commitments",m:{street:-14,purse:6},v:{coh:-5}}},
+
+ {w:"Finance Minister",req:"opening_phased",from:"opening_phased",
+  s:"You remember the timetable you agreed on your first day? The second payment is due. Paying it will cost us. Missing it will cost your word.",
+  l:{t:"Pay it on time",m:{street:10,purse:-12},v:{int:6,coh:3}},
+  r:{t:"Ask the unions for more time",m:{street:-14,purse:8},v:{int:-6,coh:-3}}},
+
+ {w:"Senator Ladi Gyang, Leader of the Senate",after:6,
+  s:"The budget is with us. Members want their constituency projects added before they vote. Leave them out and the budget will take a long time to pass.",
+  l:{t:"Add the constituency projects",m:{nass:16,purse:-12,street:4},v:{int:-9,cap:-3,pro:-3},f:"constituency",
+     why:"Constituency projects are popular with members because they show up at home. They are also among the hardest budget lines to audit."},
+  r:{t:"Send the budget back clean",m:{nass:-16,street:6,purse:6},v:{int:9,cap:3}}}
+];
+
+/* the Assembly's own postures, as the other five have theirs */
+var NASS_STATE=[
+ {req:"st_nass_hostile",now:true,w:"Senator Ladi Gyang, Leader of the Senate",
+  s:"Your Excellency, your bills are dying in committee and your nominees are not being confirmed. My members say you only call when you need a vote. Meet our leadership properly, or keep going around us.",
+  l:{t:"Agree a legislative agenda with the leadership",m:{nass:20,purse:-6,street:-4},v:{cap:5,int:3,coh:2},f:"nass_agenda"},
+  r:{t:"Govern by executive order where the law allows",m:{nass:-12,street:6,barracks:4},v:{cap:-5,int:-7,coh:-3},f:"exec_orders",
+     why:"Executive orders can only do what existing law already allows. Anything that needs money or a new power still has to pass the Assembly."}},
+ {req:"st_nass_captured",now:true,w:"Your Chief of Staff, quietly",
+  s:"The Assembly has passed everything we sent this year without a single amendment. It looks like strength. But nobody is checking our bills, and the papers have started calling them a rubber stamp.",
+  l:{t:"Ask the committees for real scrutiny",m:{nass:-18,street:8},v:{int:9,cap:4}},
+  r:{t:"Enjoy it while it lasts",m:{nass:6,street:-10},v:{int:-9,cap:-3},f:"rubber_stamp"}}
+];
+var NASS_CRISIS=[
+ {req:"st_nass_abandoned",now:true,w:"Senator Ladi Gyang, on the floor of the Senate",
+  s:"The budget has not passed. Until it does, the government is spending on last year's figures. My members will pass it with their amendments, all of them, or not at all.",
+  l:{t:"Accept their amendments in full",m:{nass:34,purse:-20,gov:-4},v:{cap:-5,int:-6,pro:-3},f:"budget_conceded"},
+  r:{t:"Run on last year's budget",m:{nass:10,purse:6,street:-10},v:{cap:-10,pro:-7,coh:-3}}},
+ {req:"st_nass_owned",now:true,w:"Your Chief of Staff, with the morning papers",
+  s:"The Assembly no longer argues with anything we send, and nobody believes our laws were examined. Even our allies say the institution has stopped working.",
+  l:{t:"Invite the opposition to chair key committees",m:{nass:-30,street:8,palace:4},v:{int:12,coh:6,cap:4},f:"opened_committees"},
+  r:{t:"Leave it as it is",m:{nass:-6,street:-12},v:{int:-10,coh:-4}}}
+];
+/* ---------- six first mornings ----------
+   Every presidency used to open on the same strike, which made the second run feel
+   like the first. One of six is drawn now, never the one you had last time, and each
+   comes back later in the term. None of them uses loss of life as drama, and none of
+   them is set in or aimed at a particular part of the country. */
+OPENING.dupe="Hauwa Tijjani, Labour Leader";
+var OPENINGS=[OPENING,
+ {w:"Your Chief of Staff, on your first morning",dupe:null,
+  s:"Your Excellency, there are fuel queues in every major city. The importers say the outgoing government never paid what it owed them, so they have stopped bringing cargoes in. The bill is now yours.",
+  l:{t:"Pay the importers what they are owed",m:{purse:-14,street:8},v:{pro:2,cap:-2,int:-2},f:"open_fuel_paid",
+     fd:[["@Tolu_Lagos","Queue don shorten small. Na day one o, make we see."]],
+     why:"Unpaid import claims stop cargoes quickly, so paying clears the queues fast. The risk is paying claims nobody has checked."},
+  r:{t:"Order a full review of what is owed first",m:{street:-14,purse:10},v:{int:4,pro:-2},f:"open_fuel_review",
+     fd:[["Seun, Okada rider","Three hours for queue. Review? Na fuel we want."]]},
+  c:{t:"Release the strategic reserve for two weeks",m:{street:6,purse:-4},v:{sov:-2},f:"open_fuel_reserve",
+     why:"A reserve buys time, not a solution. When it runs down the original problem is still there."}},
+ {w:"Your Chief of Staff, on your first morning",dupe:"Central Bank Governor",
+  s:"Your Excellency, the naira fell sharply overnight on the parallel market. Traders, importers and the newspapers are all waiting to hear what you will say.",
+  l:{t:"Announce that the naira will be defended",m:{street:8,purse:-12},v:{sov:2,pro:-4},f:"open_fx_defend",
+     fd:[["Emeka, Aba trader","President don talk. Make dollar come down abeg."]],
+     why:"Defending a currency spends foreign reserves. It can calm a market quickly, but only for as long as the reserves last."},
+  r:{t:"Say nothing and let the market settle",m:{street:-10,purse:8},v:{pro:2,int:2},f:"open_fx_silent",
+     fd:[["Bimpe, Ibadan","Day one and silence. Prices go don change by evening."]]},
+  c:{t:"Speak alongside the Central Bank Governor",m:{purse:4,street:2},v:{int:2},f:"open_fx_joint",
+     why:"Markets react to whether the government and the central bank are saying the same thing. Mixed signals usually cost more than either message alone."}},
+ {w:"Your Chief of Staff, on your first morning",dupe:null,
+  s:"Your Excellency, Governor Bassey Ekanem and four other governors stayed away from your swearing-in. They say the transition committee ignored the states. The cameras noticed.",
+  l:{t:"Invite them to Aso Rock this week",m:{gov:14,purse:-4,street:-2},v:{coh:2},f:"open_gov_invite",
+     fd:[["@AbujaInsider","So the governors' boycott worked? Noted."]]},
+  r:{t:"Ignore it and get on with governing",m:{gov:-14,nass:4},v:{coh:-3},f:"open_gov_snub",
+     fd:[["Uncle Femi (Family group)","New president no send them. I like am small."]]},
+  c:{t:"Give the states seats on the transition committee",m:{gov:8,nass:-4},v:{coh:4,cap:-1},f:"open_gov_seats",
+     why:"Most of what a president promises is delivered by state governments. A government that starts without them usually has to buy their cooperation later."}},
+ {w:"Your Chief of Staff, on your first morning",dupe:null,
+  s:"Your Excellency, the contractors are in the waiting room. The outgoing government left projects unpaid across the country, and many sites have stopped. Some of these debts are genuine. We do not know how many.",
+  l:{t:"Pay the verified debts in full",m:{purse:-14,gov:6},v:{cap:4,int:-2},f:"open_debts_paid",
+     fd:[["Chiamaka, nurse","The hospital extension near us don restart. God bless."]]},
+  r:{t:"Freeze every payment pending an audit",m:{purse:8,gov:-8},v:{cap:-4,int:6},f:"open_debts_frozen",
+     fd:[["@PH_Updates","Site don close again. Workers dey go home."]],
+     why:"Inherited contract debts often mix genuine work with inflated or fictitious claims. An audit protects public money but leaves genuine contractors, and their workers, waiting."},
+  c:{t:"Pay half now and audit the rest",m:{purse:-6,gov:2},v:{int:3,cap:1},f:"open_debts_half"}},
+ {w:"Your Chief of Staff, on your first morning",dupe:null,
+  s:"Your Excellency, the losing candidate has filed a petition against your election. The tribunal sits next month. How you handle it this week will set the tone.",
+  l:{t:"Say nothing and let the tribunal work",m:{street:-2},v:{int:6},f:"open_petition_quiet",
+     why:"Election petitions are decided by tribunals and then the appeal courts. A president who campaigns against a petition in public invites the charge of pressuring the judges."},
+  r:{t:"Answer the petition hard in public",m:{street:6,nass:2},v:{int:-4,coh:-2},f:"open_petition_loud",
+     fd:[["@KanoGist","Day one and dem don start to fight. Nigeria!"]]},
+  c:{t:"Offer the losing side places in government",m:{purse:-6,nass:6},v:{coh:4,int:-5},f:"open_petition_unity",
+     fd:[["Aisha, Class of 2019 group","Unity government? So the people we no vote for go still dey there."]]}}
+];
+var LS_OPEN="ifnayou.lastOpening";
+function pickOpening(){
+  var last=null; try{last=localStorage.getItem(LS_OPEN);}catch(e){}
+  var pool=OPENINGS.filter(function(o){return o.l.f!==last;});
+  var o=pool[Math.floor(Math.random()*pool.length)];
+  try{localStorage.setItem(LS_OPEN,o.l.f);}catch(e){}
+  /* the price-of-power storyline no longer opens on the same turn every time */
+  STORY_CARDS[0].at=2+Math.floor(Math.random()*6);
+  return o;
+}
+/* each first morning comes back */
+Array.prototype.push.apply(STORY_CARDS,[
+ {w:"Finance Minister",req:"open_fuel_paid",from:"open_fuel_paid",wait:4,
+  s:"You remember the fuel arrears you paid on your first morning? A second set of claims has arrived from the same importers, and some of the paperwork does not match the cargoes.",
+  l:{t:"Audit before paying anything more",m:{purse:6,street:-6},v:{int:8}},
+  r:{t:"Pay to keep the pumps running",m:{purse:-10,street:4},v:{int:-8}}},
+ {w:"Minister of Petroleum",req:"open_fuel_review",from:"open_fuel_review",wait:4,
+  s:"You remember the review you ordered on your first morning? It has reported. Much of what we owed was genuine, and the real cost of fuel is far above what people pay at the pump.",
+  l:{t:"Phase in the real price",m:{purse:12,street:-14},v:{pro:4,cap:3,coh:-3}},
+  r:{t:"Shelve the report for now",m:{purse:-10,street:6},v:{pro:-4,int:-3}}},
+ {w:"Minister of Petroleum",req:"open_fuel_reserve",from:"open_fuel_reserve",wait:4,
+  s:"You remember the reserve you released on your first morning? It has run down, and the queues are back. The importers are still owed.",
+  l:{t:"Pay the importers now",m:{purse:-12,street:8},v:{cap:-2}},
+  r:{t:"Ration fuel until the payments are sorted",m:{street:-12,purse:6},v:{pro:-4,coh:-2}}},
+ {w:"Central Bank Governor",req:"open_fx_defend",from:"open_fx_defend",wait:4,
+  s:"You remember the promise to defend the naira on your first morning? Reserves have fallen, and the markets are betting we cannot keep it up.",
+  l:{t:"Stop defending it and let it find its level",m:{purse:10,street:-14},v:{pro:4,int:4,sov:-3}},
+  r:{t:"Borrow to keep defending it",m:{purse:-6,street:6},v:{sov:-8,pro:-4}}},
+ {w:"Central Bank Governor",req:["open_fx_silent","open_fx_joint"],wait:4,
+  s:"The naira has settled since your first week, but importers say prices have not come back down. Traders are asking whether anything will be done for them.",
+  l:{t:"Cut import duties on food for six months",m:{street:10,purse:-8},v:{pro:3,sov:-2}},
+  r:{t:"Hold the line and let prices adjust",m:{street:-8,purse:4},v:{pro:-2,int:2}}},
+ {w:"Governor Bassey Ekanem",req:["open_gov_invite","open_gov_seats"],wait:4,
+  s:"You remember how you brought us in during your first week? We were grateful. Now we would like the revenue review you promised the states.",
+  l:{t:"Open the revenue review",m:{gov:10,purse:-10},v:{coh:3}},
+  r:{t:"Not this year",m:{gov:-12},v:{coh:-2}}},
+ {w:"Governor Bassey Ekanem",req:"open_gov_snub",from:"open_gov_snub",wait:4,
+  s:"You remember when we stayed away from your swearing-in and you said nothing? We have stopped attending the Council of State as well.",
+  l:{t:"Make the first move and meet them",m:{gov:12,nass:-2},v:{coh:3}},
+  r:{t:"Let them stay away",m:{gov:-10},v:{coh:-4}}},
+ {w:"Accountant-General",req:"open_debts_frozen",from:"open_debts_frozen",wait:4,
+  s:"You remember the payments you froze on your first morning? The audit is finished. Most of the claims are genuine. Some are not, and the names behind them are known.",
+  l:{t:"Pay the genuine claims and prosecute the rest",m:{purse:-8,gov:-4,street:6},v:{int:10,cap:3}},
+  r:{t:"Pay everything and move on",m:{purse:-12,gov:6},v:{int:-6}}},
+ {w:"Minister of Works",req:["open_debts_paid","open_debts_half"],wait:4,
+  s:"You remember the contractors you paid on your first morning? Several sites have still not restarted, and some of the same contractors are back asking for more.",
+  l:{t:"No more money until the work restarts",m:{gov:-6,purse:6},v:{int:5,cap:-2}},
+  r:{t:"Pay again to get the sites moving",m:{purse:-10,gov:6},v:{cap:3,int:-5}}},
+ {w:"Your Chief of Staff",req:["open_petition_quiet","open_petition_loud","open_petition_unity"],wait:3,
+  s:"The tribunal has upheld your election. The other side says it will appeal, but the country has heard the judgment.",
+  l:{t:"Reach out to the losing candidate",m:{street:4,nass:2},v:{coh:5}},
+  r:{t:"Declare the matter closed",m:{nass:2},v:{coh:-3}}}
+]);
+Array.prototype.push.apply(DECK,STORY_CARDS);
+Array.prototype.push.apply(DECK,NASS_STATE);
+Array.prototype.push.apply(DECK,NASS_CRISIS);
+
+/* ---------- dealing a card ---------- */
+function cardText(c){
+  if(c.alt)for(var i=0;i<c.alt.length;i++){ if(c.alt[i].when())return c.alt[i].s; }
+  return c.s;
+}
+function hideThird(){ var b=$("gC"); if(b)b.hidden=true; if(typeof frame==="function")frame(null); }
+function showCard(c){
+  G.curCard=c;
+  $("gWho").textContent=c.w;
+  $("gSays").textContent="“"+memoryLine(c)+cardText(c)+"”";
+  frame(c);
+  clearSubs();$("gL").querySelector(".txt").textContent=c.l.t;
+  $("gR").querySelector(".txt").textContent=c.r.t;
+  var third=c.c&&(!c.c.need||c.c.need());
+  $("gC").querySelector(".txt").textContent=third?c.c.t:"";
+  $("gC").hidden=!third;
+  $("gFlagBox").hidden=true;
+  $("gCard").classList.remove("tilt-l","tilt-r");
+  G.busy=false;
+}
+
+/* ---------- the record the story is told from ---------- */
+function record(c,ch){
+  var mag=0,k;
+  for(k in (ch.v||{}))mag+=Math.abs(ch.v[k]);
+  for(k in (ch.m||{}))mag+=Math.abs(ch.m[k])*0.3;
+  if(ch.f2)G.flags[ch.f2]=true;
+  if(typeof rememberSpeaker==="function")rememberSpeaker(c,ch);
+  var r={d:G.day,w:c.w,t:ch.t,f:ch.f||null,mag:mag,back:null,cb:!!c.from};
+  if(c.from){
+    for(var i=G.rec.length-1;i>=0;i--){ if(G.rec[i].f===c.from&&G.rec[i].back===null){ G.rec[i].back=G.rec.length; break; } }
+  }
+  G.rec.push(r);
+}
+
+/* ---------- the country, in its own words ---------- */
+var HANDLES=["@Tolu_Lagos","Ngozi (Family group)","@KanoGist","Emeka, Aba trader","Aisha, Class of 2019 group",
+ "@PH_Updates","Uncle Femi (Family group)","Bimpe, Ibadan","@AbujaInsider","Musa, Jos","Chiamaka, nurse",
+ "@ZariaTimeline","Tari, Yenagoa","Halima, Maiduguri","@CalabarCurrent","Seun, Okada rider"];
+var FEED={
+ pro:{up:["Omo, prices for market don calm small this week.","My shop finally made a profit this month. I no believe am.","My cousin just got hired. First job in two years."],
+      dn:["Transport fare don double. How person go survive?","Garri price don waka again.","Salary finished before the middle of the month. Again."]},
+ sec:{up:["Drove to Kaduna yesterday. The road was calm for once.","Farmers around us went back to their farms this season.","Night market is open late again."],
+      dn:["My parents say the road home isn't safe any more. We're not travelling this year.","People are scared to move after dark in our area now.","Farmers in my village didn't plant this season."]},
+ coh:{up:["Watched the match with neighbours from everywhere. That's Nigeria.","For once both sides are talking, not shouting.","Our governor and Abuja actually agreed on something. Write it down."],
+      dn:["Everybody on my timeline is fighting along the same old lines.","People are saying 'them' and 'us' again.","Nobody trusts anybody from the other side this week."]},
+ cap:{up:["Light don stay eighteen hours today. Who is this?","Renewed my passport in one visit. One.","My sister's school finally has a teacher for every class."],
+      dn:["Generator don work all week. Fuel money don finish me.","Hospital sent us away. No drugs, no doctor.","Queued at the office since 6am and they said come back Monday."]},
+ int:{up:["Didn't have to pay anybody at the checkpoint today. Strange times.","So they can actually prosecute big men? Interesting.","They published the contract online with the full price. First time I've seen that."],
+      dn:["Same story, different contract. Who is surprised?","If you know somebody you'll be fine. If not, wait.","The rules are for small people, as usual."]},
+ sov:{up:["We made this decision ourselves. Good.","Nobody abroad had to sign off on this one.","Made in Nigeria, paid for in Nigeria. I like the sound of that."],
+      dn:["So who exactly is running this country, us or the lenders?","Another agreement signed abroad. What did we give away?","Every big decision now seems to need a foreign signature."]}
+};
+/* when a measure falls far enough that someone in the building has to say it */
+var WARN={
+ pro:["Your Chief of Staff","Your Excellency, people can feel it at the market now. This is how presidencies lose elections."],
+ sec:["National Security Adviser","Your Excellency, whole stretches of road are becoming no-go areas, and people have noticed."],
+ coh:["Your Chief of Staff","The country is pulling in different directions. It is getting harder to speak to everyone at once."],
+ cap:["Head of the Civil Service","The ministries are not delivering. People are paying for it in queues and blackouts."],
+ int:["Attorney-General","People have stopped believing the rules apply to everyone, Your Excellency. That is hard to win back."],
+ sov:["Minister of Foreign Affairs","More of our big decisions are now being made outside Nigeria."]
+};
+var PRAISE={
+ pro:["Finance Minister","Your Excellency, the numbers are moving the right way, and for once people can feel it too."],
+ sec:["National Security Adviser","Travel and farming are returning in places that were empty a year ago."],
+ coh:["Your Chief of Staff","The country is arguing less about who it is. That is worth protecting."],
+ cap:["Head of the Civil Service","Services are working well enough that people have stopped talking about them."],
+ int:["Attorney-General","People are starting to believe the rules apply to everyone. Do not waste it."],
+ sov:["Minister of Foreign Affairs","Nigeria is being taken more seriously abroad because it is deciding for itself."]
+};
+function pickLine(k,dir){
+  var pool=FEED[k][dir],u=G.feedUsed[k+dir]||0;
+  G.feedUsed[k+dir]=u+1;
+  return pool[u%pool.length];
+}
+function pickHandle(taken){
+  var free=HANDLES.filter(function(h){return taken.indexOf(h)<0;});
+  return free[Math.floor(Math.random()*free.length)];
+}
+function feedFor(ch){
+  if(!G.live)return;
+  var msgs=[],taken=[];
+  /* someone in the building saying it out loud comes first */
+  VKEYS.forEach(function(k){
+    var v=G.v[k];
+    if(v<22&&!G.warned[k]){G.warned[k]=true;msgs.push({h:WARN[k][0],t:WARN[k][1],c:"warn"});}
+    else if(v>34)G.warned[k]=false;
+    if(v>62&&!G.praised[k]){G.praised[k]=true;msgs.push({h:PRAISE[k][0],t:PRAISE[k][1],c:"up"});}
+    else if(v<52)G.praised[k]=false;
+  });
+  msgs=msgs.slice(0,1);
+  /* said once, early in the second term, so the cooling has a reason the player can hear */
+  if(G.term===2&&!G.toldLame&&G.day>=PER_TERM+1){
+    G.toldLame=true;
+    msgs=[{h:"Your Chief of Staff",t:"Your Excellency, the Senate and the governors are already talking to the people who want your job. Their support will cost more every month from now on.",c:"warn"}];
+  }
+  (ch.fd||[]).forEach(function(m){taken.push(m[0]);msgs.push({h:m[0],t:m[1],c:""});});
+  /* then the measures this decision moved furthest, in the voices of people living it */
+  var moved=[];
+  for(var k in (ch.v||{}))if(FEED[k]&&Math.abs(ch.v[k])>=5)moved.push({k:k,d:ch.v[k]});
+  moved.sort(function(a,b){return Math.abs(b.d)-Math.abs(a.d);});
+  moved.forEach(function(m){
+    if(msgs.length>=3)return;
+    var h=pickHandle(taken);taken.push(h);
+    msgs.push({h:h,t:pickLine(m.k,m.d>0?"up":"dn"),c:m.d>0?"up":"dn"});
+  });
+  /* a decision that moved nothing far still leaves the country talking about itself */
+  if(!msgs.length){
+    var lo=VALUES.slice().sort(function(a,b){return (G.v[a.k]-a.s)-(G.v[b.k]-b.s);})[0];
+    var hi=VALUES.slice().sort(function(a,b){return (G.v[b.k]-b.s)-(G.v[a.k]-a.s);})[0];
+    var pick=(G.v[lo.k]-lo.s<=-(G.v[hi.k]-hi.s))?{k:lo.k,dir:"dn"}:{k:hi.k,dir:"up"};
+    msgs.push({h:pickHandle(taken),t:pickLine(pick.k,pick.dir),c:pick.dir});
+  }
+  var box=$("gFeedMsgs");
+  box.innerHTML=msgs.slice(0,3).map(function(m){
+    return '<div class="fmsg '+m.c+'"><i aria-hidden="true"></i><div><b></b><p></p></div></div>';
+  }).join("");
+  Array.prototype.forEach.call(box.children,function(el,i){
+    el.querySelector("b").textContent=msgs[i].h;
+    el.querySelector("p").textContent=msgs[i].t;
+  });
+  $("gFeed").hidden=false;
+  var w=$("gWhy"),wb=$("gWhyBtn"),hc=G.curCard&&G.curCard.hist;
+  w.textContent=ch.why||"";
+  /* this happened in Nigeria: shown only after the decision, never before */
+  if(hc){
+    var hs=document.createElement("span");hs.className="hist";
+    var hb=document.createElement("b");hb.textContent="This happened in Nigeria";hs.appendChild(hb);
+    hs.appendChild(document.createTextNode(hc.t));
+    var ha=document.createElement("a");ha.href=hc.u;ha.target="_blank";ha.rel="noopener noreferrer";ha.textContent="Source: "+hc.src;
+    hs.appendChild(document.createElement("br"));hs.appendChild(ha);
+    w.appendChild(hs);
+  }
+  w.hidden=true; wb.hidden=!(ch.why||hc); wb.textContent=(!ch.why&&hc)?"This happened":"Why?"; wb.setAttribute("aria-expanded","false");
+  if(typeof updateHeadline==="function")updateHeadline();
+}
+
+/* ---------- meeting the powers ----------
+   The first time a power is moved by something you did, its person introduces
+   themselves, in their own voice. Nobody is explained before they matter. */
+var MEET={
+ street:"I speak for the workers, the traders and the young people on the road. We will be watching what you do.",
+ palace:"I speak for the thrones and the pulpits. Our reach goes where your ministries do not.",
+ barracks:"I speak for the armed forces. We follow your orders. We also notice what they cost us.",
+ purse:"I speak for the business houses and the people who lend to your treasury. We pay for what you decide.",
+ gov:"I speak for the thirty-six states. Nothing you decide reaches a village without us.",
+ nass:"I speak for the Senate and the House. Every law and every budget you want passes through us."
+};
+function meetNext(deltas){
+  if(!deltas)return;
+  var best=null;
+  BLOCS.forEach(function(b){
+    if(G.met[b.k])return;
+    var d=Math.abs(deltas[b.k]||0);
+    if(d>=5&&(!best||d>best.d))best={b:b,d:d};
+  });
+  if(!best)return;
+  var b=best.b,k=b.k;
+  G.met[k]=true;
+  var box=$("gShift");
+  setFace(k,b.c);
+  $("gShiftT").textContent=b.n+" — "+POSTURE[k][G.stNow[k]||"holding"];
+  $("gShiftP").textContent="“"+MEET[k]+"”";
+  $("gShiftA").textContent=FACE[k].n+" · "+FACE[k].t;
+  $("gShiftA").hidden=false;$("gShiftW").hidden=true;$("gShiftC").hidden=true;
+  box.classList.toggle("good",(deltas[k]||0)>0);
+  clearTimeout(shiftT);
+  box.hidden=false;void box.offsetWidth;box.classList.add("on");
+  shiftT=setTimeout(function(){
+    box.classList.remove("on");
+    shiftT=setTimeout(function(){box.hidden=true;shiftT=null;},480);
+  },SHIFT_MS);
+}
+/* a posture announcement also counts as having met them */
+(function(){
+  var orig=announceShift;
+  announceShift=function(sh){ if(sh&&sh.b&&G.met)G.met[sh.b.k]=true; return orig(sh); };
+})();
+
+/* ---------- the story of the presidency ----------
+   Read off the record, in the order it happened. Callbacks bring the decision they
+   answered with them; the biggest remaining decisions fill the rest. Nothing here is
+   written that the run did not do. */
+function sentence(s){ s=String(s).toLowerCase(); return s.charAt(0).toUpperCase()+s.slice(1); }
+function presidencyStory(endTitle){
+  var rec=G.rec||[], keep={};
+  rec.forEach(function(r,i){ if(r.back!==null&&r.back!==undefined){ keep[i]=1; keep[r.back]=1; } });
+  /* at most two consequences that came back, so the story does not become a list of them */
+  var pairs=Object.keys(keep).map(Number).sort(function(a,b){return a-b;});
+  var cbIdx=pairs.filter(function(i){return rec[i].cb;}).slice(0,2);
+  keep={};
+  cbIdx.forEach(function(i){ keep[i]=1; for(var j=0;j<rec.length;j++)if(rec[j].back===i)keep[j]=1; });
+  var dec=rec.map(function(r,i){return {r:r,i:i};}).filter(function(x){return x.r.t&&!keep[x.i];})
+    .sort(function(a,b){return b.r.mag-a.r.mag;});
+  var n=Object.keys(keep).length;
+  for(var q=0;q<dec.length&&n<5;q++){keep[dec[q].i]=1;n++;}
+  rec.forEach(function(r,i){ if(r.ev)keep[i]=1; });
+  var rows=Object.keys(keep).map(Number).sort(function(a,b){return a-b;}).map(function(i){return rec[i];});
+  var html=rows.map(function(r){
+    var yr="Year "+(Math.floor(r.d/PER_YEAR)+1);
+    if(r.ev)return '<li class="ev"><span class="yr">'+yr+'</span><p data-t="'+encodeURIComponent(r.ev)+'"></p></li>';
+    var back="";
+    if(r.back!==null&&r.back!==undefined&&rec[r.back]){
+      back='<span class="back" data-t="'+encodeURIComponent("It came back in year "+(Math.floor(rec[r.back].d/PER_YEAR)+1)+".")+'"></span>';
+    }
+    return '<li'+(r.cb?' class="cb"':'')+'><span class="yr">'+yr+'</span><p><span class="w" data-t="'+
+      encodeURIComponent(r.w+(r.cb?", with the consequence":"")+":")+'"></span> <span data-t="'+
+      encodeURIComponent("“"+r.t.replace(/\.$/,"")+".”")+'"></span>'+back+'</p></li>';
+  }).join("");
+  html+='<li class="end"><span class="yr">Year '+(Math.floor(Math.max(0,G.day-1)/PER_YEAR)+1)+'</span><p data-t="'+encodeURIComponent(endTitle||"")+'"></p></li>';
+  var ol=$("gStory");
+  ol.innerHTML=html;
+  /* every string goes in as text, never as markup */
+  Array.prototype.forEach.call(ol.querySelectorAll("[data-t]"),function(el){
+    el.textContent=decodeURIComponent(el.getAttribute("data-t"));el.removeAttribute("data-t");
+  });
+  var gname=G.pn?pname(G.pn.c,G.pn.a):"";
+  $("gGoverned").hidden=!gname;
+  $("gGovernedT").textContent=gname?sentence(gname)+".":"";
+  /* the story travels by WhatsApp first */
+  var two=rows.filter(function(r){return r.t;}).slice(0,2).map(function(r){return "• “"+r.t.replace(/\.$/,"")+".”";});
+  var msg="I just ran Nigeria on If Na You?\n\n"+(gname?sentence(gname)+".\n":"")+
+    spanWords(G.day)+" in office. "+(endTitle||"")+"\n"+(two.length?"\n"+two.join("\n")+"\n":"")+
+    "\nYour turn. If na you, wetin you go do?\n"+gameLink();
+  $("gWhatsApp").href="https://wa.me/?text="+encodeURIComponent(msg);
+}
+
+/* ---------- difficulty ----------
+   Measured with a player who reads every option before choosing, the game was won
+   nine times in ten and nobody was ever removed. Four pressures, each one something
+   a real presidency lives with, make a good presidency earned rather than routine:
+   1. Gratitude fades. A power that is happy with you drifts back toward wanting more.
+   2. Standing still is going backwards. The country slips a little every quarter
+      unless something is done for it.
+   3. Nothing lands exactly as briefed. The same decision moves the powers by more or
+      less than the minister promised.
+   4. The second term is harder. Stakes rise and the world interrupts more often.
+   5. A president who cannot run again is already leaving. In the second term the
+      Assembly and the governors start positioning for whoever comes next, and their
+      loyalty cools every quarter unless it is earned again. */
+var PRESSURE={fade:0.9,fade2:1.6,fadeAbove:58,slip:0.2,slip2:0.3,spread:0.4,term2:1.6,shock1:0.13,shock2:0.26,lameDuck:1.4};
+var ELECT_BAR=46;
+blocMove=(function(orig){
+  return function(k,raw){
+    var d=orig(k,raw);
+    if(!G||!G.live)return d;
+    var noise=1+(Math.random()*2-1)*PRESSURE.spread;
+    var stake=(G.term>=2?PRESSURE.term2:1);
+    return Math.max(-30,Math.min(30,d*noise*stake));
+  };
+})(blocMove);
+function pressure(){
+  BLOCS.forEach(function(b){
+    var f=(G.term>=2?PRESSURE.fade2:PRESSURE.fade);
+    if(G.m[b.k]>PRESSURE.fadeAbove)G.m[b.k]=Math.max(PRESSURE.fadeAbove,G.m[b.k]-f);
+  });
+  if(G.term===2){ ["nass","gov"].forEach(function(k){G.m[k]=Math.max(0,G.m[k]-PRESSURE.lameDuck);}); }
+  var sl=(G.term>=2?PRESSURE.slip2:PRESSURE.slip);
+  VKEYS.forEach(function(k){G.v[k]=Math.max(0,G.v[k]-sl);});
+  SHOCK_P=(G.term>=2?PRESSURE.shock2:PRESSURE.shock1);
+}
+
+/* ---------- the re-election campaign ----------
+   Re-election used to be a single line of arithmetic at the end of term one. It is now
+   played: four decisions in the last weeks of the campaign, then a results night that
+   follows the constitution's rule for an outright win — the most votes, and at least a
+   quarter of the vote in two-thirds of the states. Miss either and there is a runoff.
+   The rivals are fictional. How each zone votes depends on the country you built, on
+   decisions earlier in the run that touched that zone, and on the campaign itself.
+   Zone sizes are rough relative weights for the model, not registration figures. */
+var ZONES=[
+ {k:"nw",n:"North West",st:7,w:0.25},{k:"ne",n:"North East",st:6,w:0.13},
+ {k:"nc",n:"North Central",st:6,w:0.15},{k:"sw",n:"South West",st:6,w:0.20},
+ {k:"se",n:"South East",st:5,w:0.11},{k:"ss",n:"South South",st:6,w:0.16}
+];
+var ELECT={base:0.45,slope:0.010,bar:42,stateNoise:0.12,zoneNoise:0.04,home:0.13};
+/* Which earlier decisions are remembered where. The rule is strict, because this is the
+   one place the game could start encoding what a region is assumed to believe: a decision
+   counts only in the zone where the card says it happened, and it counts the same way any
+   zone would count it — helped where you helped, hurt where you hurt. Nothing here says
+   what a zone wants. Everything else that separates the zones is drawn fresh each run. */
+var ZONE_MEMORY=[
+ ["state_police","nw",3,"you gave the governor there the state force he asked for"],
+ ["nw_refused","nw",-3,"you refused the governor there the state force he asked for"],
+ ["amnesty_kept","ss",3,"you kept the Niger Delta amnesty payments"],
+ ["creeks","ss",-4,"you ended the Niger Delta amnesty payments"],
+ ["delta_military","ss",-3,"you sent the military into the creeks"],
+ ["delta_talks","ss",2,"you reopened talks in the creeks"],
+ ["paid_ransom","nw",2,"the abducted schoolchildren came home"],
+ ["no_ransom","nw",-2,"you refused the ransom for the abducted schoolchildren"],
+ ["big_investment","sw",2,"the new industrial investment in Ogun"],
+ ["big_investment","nw",2,"the new industrial investment in Kano"]
+];
+[["Keep policing under national control","nw_refused"],["Keep the payments","amnesty_kept"],
+ ["Send in the military","delta_military"],["Reopen negotiations","delta_talks"]].forEach(function(x){
+  DECK.forEach(function(c){ ["l","r"].forEach(function(sd){ var ch=c[sd];
+    if(ch&&ch.t===x[0]){ if(!ch.f)ch.f=x[1]; else ch.f2=x[1]; } }); });
+});
+var CAMP=[
+ {w:"Your Chief of Staff, on the first day of the campaign",
+  s:"The two main opposition parties are talking about a joint ticket. If they unite behind one candidate, this becomes a very close race. One of their leaders could be persuaded to come across to us. It would not be cheap.",
+  l:{t:"Bring one of their leaders across",m:{purse:-12,nass:6,street:-4},v:{int:-6},f:"poached",
+     fx:function(){G.camp.unite=0.25;},
+     fd:[["@AbujaInsider","Another defection. Na so dem dey do am every four years."]],
+     why:"A divided opposition splits the votes against an incumbent. That is why defections before an election matter as much as the campaign itself."},
+  r:{t:"Let them unite. Campaign on the record",m:{street:4},v:{int:4},
+     fx:function(){G.camp.unite=0.65;},
+     fd:[["Ngozi (Family group)","So the opposition don join hand? This one go loud."]]}},
+ {w:"Your Campaign Director, with the internal polling",
+  s:"",
+  l:{t:"",fx:function(){var o=G.camp.order;
+       [o[0],o[1]].forEach(function(z){G.camp.z[z]+=6;});[o[4],o[5]].forEach(function(z){G.camp.z[z]-=1.5;});}},
+  r:{t:"",fx:function(){var o=G.camp.order;[o[4],o[5]].forEach(function(z){G.camp.z[z]+=4;});}},
+  c:{t:"Spread thin across all six zones",fx:function(){ZONES.forEach(function(z){G.camp.z[z.k]+=1.5;});},
+     why:"Winning outright needs a quarter of the vote in two-thirds of the states, not just the most votes. A campaign that is strong in one region and absent in another can win the count and still fall short."}},
+ {w:"Governor Bassey Ekanem, for the Governors' Forum",
+  s:"Several of us can deliver our states. Our people need to see federal money arrive before the vote — the road projects, the arrears, the allocations. Release them, and we will turn out the vote.",
+  alt:[{when:function(){return G.m.gov<35;},
+        s:"Your Excellency, you have not been kind to the states. Some of us are talking to the other side. Release the money we have been asking for, and we will remember whose campaign we are working for."}],
+  l:{t:"Release the money they are asking for",m:{gov:12,purse:-12},v:{int:-7,cap:2},f:"machine_paid",
+     fx:function(){G.camp.all+=2.5;},
+     why:"Governors control much of the party machinery that brings voters out on election day. That is why presidents court them, and why critics say the votes are bought rather than won."},
+  r:{t:"Win the voters, not the governors",m:{gov:-10},v:{int:5},
+     fx:function(){ if(G.m.gov<35)G.camp.all-=2; }}},
+ {w:"The INEC Chairman, election week",
+  s:"Materials are being moved to the polling units. Some areas are tense. The security agencies want soldiers at polling units in the hotspots. Others say soldiers there will keep voters at home.",
+  alt:[{when:function(){return !!G.flags.inec_cut;},
+        s:"You remember the election budget cut? Materials are arriving late in several states, and some polling units may not open on time. The security agencies want soldiers at polling units in the hotspots. Others say soldiers there will keep voters at home."}],
+  l:{t:"Deploy soldiers to polling units",m:{barracks:8,street:-8},v:{int:-6,sec:2},f:"troops_polls",
+     fx:function(){G.camp.all-=1;},
+     why:"The constitution gives election security to the police. Soldiers at polling units can deter violence, but they can also deter voters, and losing candidates often cite them in court."},
+  r:{t:"Leave it to the police and INEC",v:{int:4},
+     fx:function(){ if(G.flags.inec_cut)G.camp.all-=1.5; }}}
+];
+CHOICE_FLAGS["Make INEC run with the cut"]="inec_cut";
+CHOICE_FLAGS["Restore INEC’s budget"]="inec_funded";
+DECK.forEach(function(c){ ["l","r"].forEach(function(s){ var ch=c[s];
+  if(ch&&CHOICE_FLAGS[ch.t]==="inec_cut"&&ch.f==="dirty"){ ch.f2="inec_cut"; }
+  if(ch&&CHOICE_FLAGS[ch.t]==="inec_funded"&&!ch.f){ ch.f="inec_funded"; } }); });
+
+function campStart(){
+  G.camp={step:0,unite:0.5,z:{},all:0,local:{},home:{}};
+  ZONES.forEach(function(z){G.camp.z[z.k]=0;G.camp.local[z.k]=rnd(4);});
+  /* every opposition has strongholds: two neighbouring zones where its candidate is from
+     or where its machine is strongest. Which two is drawn fresh for every presidency. */
+  var hi=Math.floor(Math.random()*ZONES.length);
+  G.camp.hi=hi;
+  G.camp.home[ZONES[hi].k]=1;G.camp.home[ZONES[(hi+1)%ZONES.length].k]=1;
+  G.elecHome=[ZONES[hi].n,ZONES[(hi+1)%ZONES.length].n];
+  interstitial("The campaign","Six weeks until the vote. Everything you have done is on the ballot.",function(){});
+  dealCamp();
+}
+function dealCamp(){
+  $("gCard").className="card";
+  $("gL").parentNode.classList.remove("one");
+  G.cur=-3;
+  if(G.camp.step===1)briefing(CAMP[1]);
+  showCard(CAMP[G.camp.step]);
+}
+function mandateNow(){
+  var felt=G.v.pro*0.55+G.v.sec*0.25+G.v.cap*0.20;
+  return (G.m.street*0.5+felt*0.5)-8*(G.crisisN||0);
+}
+/* the share each zone would give you today, before anything on the day itself */
+function zoneEstimate(){
+  var mem=zoneMemory(),nat=ELECT.base+(mandateNow()-ELECT.bar)*ELECT.slope+G.camp.all/100,o={};
+  ZONES.forEach(function(z){
+    o[z.k]=nat+(mem[z.k]+G.camp.z[z.k]+G.camp.local[z.k])/100-(G.camp.home[z.k]?ELECT.home:0);
+  });
+  return o;
+}
+function zoneName(k){return ZONES.filter(function(z){return z.k===k;})[0].n;}
+/* The briefing is read off the same numbers the vote will use, so what the player is told
+   is true for this presidency and no other. */
+function briefing(c){
+  var est=zoneEstimate();
+  var order=ZONES.map(function(z){return z.k;}).sort(function(a,b){return est[a]-est[b];});
+  G.camp.order=order;
+  var short=0;
+  ZONES.forEach(function(z){ if(est[z.k]<0.21)short+=z.st; else if(est[z.k]<0.29)short+=Math.round(z.st/2); });
+  var why="";
+  var best=null;
+  ZONE_MEMORY.forEach(function(x){ if(G.flags[x[0]]&&(!best||Math.abs(x[2])>Math.abs(best[2])))best=x; });
+  if(best)why=" In the "+zoneName(best[1])+", people remember that "+best[3]+".";
+  c.s="Six weeks left, and we cannot be everywhere. We are strongest in the "+zoneName(order[5])+" and the "+zoneName(order[4])+
+    ", and weakest in the "+zoneName(order[0])+" and the "+zoneName(order[1])+". The opposition is strongest in the "+G.elecHome[0]+" and the "+G.elecHome[1]+"."+why+
+    (short===0?" On these numbers we have a quarter of the vote almost everywhere."
+      :(short>=28?" On these numbers we are short of a quarter of the vote almost everywhere. We need it in 24 of the 36 states to win outright."
+      :(short>12?" On these numbers we are short of a quarter of the vote in about "+short+" states. That is too many: we need it in 24 of the 36 to win outright."
+      :" On these numbers we are short of a quarter of the vote in about "+short+" states. We need it in 24 of the 36 to win outright.")));
+  c.l.t="Shore up the "+zoneName(order[0])+" and the "+zoneName(order[1]);
+  c.r.t="Turn out our base in the "+zoneName(order[5])+" and the "+zoneName(order[4]);
+}
+function campPlay(side){
+  var c=CAMP[G.camp.step],ch=side==="l"?c.l:(side==="c"&&c.c?c.c:c.r);
+  hideThird();
+  var deltas={};
+  BLOCS.forEach(function(b){
+    var before=G.m[b.k],d=blocMove(b.k,(ch.m&&ch.m[b.k])||0);
+    G.m[b.k]=Math.max(0,Math.min(100,before+d));
+    deltas[b.k]=G.m[b.k]-before;
+    G.hist[b.k].push(deltas[b.k]); if(G.hist[b.k].length>6)G.hist[b.k].shift();
+  });
+  applyV(ch.v||{});
+  if(ch.f)G.flags[ch.f]=true;
+  if(ch.fx)ch.fx();
+  record(c,ch);
+  feedFor(ch);
+  $("gameRun").classList.remove("fresh");
+  var shift=updateStates();
+  SFX.decide();
+  renderMeters(deltas);
+  if(shift)announceShift(shift);
+  G.camp.step++;
+  setTimeout(G.camp.step<CAMP.length?dealCamp:campResolve,800);
+}
+function rnd(a){return (Math.random()*2-1)*a;}
+function zoneMemory(){
+  var m={};ZONES.forEach(function(z){m[z.k]=0;});
+  ZONE_MEMORY.forEach(function(x){ if(G.flags[x[0]])m[x[1]]+=x[2]; });
+  return m;
+}
+function campResolve(){
+  var united=Math.random()<G.camp.unite,est=zoneEstimate(),home=G.camp.home,hi=G.camp.hi;
+  /* when the opposition unites, its candidate holds most of the vote against you; when it
+     splits, a third candidate takes a real share, and you can win with less */
+  var rivalCut=united?0.76:0.6;
+  var you=0,rival=0,yourStates=0,rivalStates=0,rows=[];
+  /* a split opposition means a third candidate, and third candidates have a home too */
+  var tz=united?null:ZONES[(hi+3)%ZONES.length].k;
+  ZONES.forEach(function(z){
+    var s=Math.max(0.08,Math.min(0.85,est[z.k]+rnd(ELECT.zoneNoise)));
+    var r=Math.min(1-s,(1-s)*(home[z.k]?Math.min(0.95,rivalCut+0.12):rivalCut));
+    if(z.k===tz){ s=Math.max(0.06,s-0.17); r=Math.max(0.06,r-0.17); }
+    you+=s*z.w; rival+=r*z.w;
+    for(var i=0;i<z.st;i++){
+      if(s+rnd(ELECT.stateNoise)>=0.25)yourStates++;
+      if(r+rnd(ELECT.stateNoise)>=0.25)rivalStates++;
+    }
+    G.elecZ.push({n:z.n,s:s,r:r});
+    rows.push(z.n+"   You "+Math.round(s*100)+"%  ·  Opposition "+Math.round(r*100)+"%");
+  });
+  var third=Math.max(0,1-you-rival);
+  var pY=Math.round(you*100),pR=Math.round(rival*100),pT=Math.round(third*100);
+  var youOut=(you>rival&&yourStates>=24), rivalOut=(rival>you&&rivalStates>=24);
+  var outcome=youOut?"won":(rivalOut?"lost":"runoff");
+  G.elec={you:pY,rival:pR,third:pT,states:yourStates,united:united,outcome:outcome,share:you,rshare:rival};
+  $("gCard").className="card";
+  $("gL").parentNode.classList.add("one");
+  G.cur=-1;G.busy=false;
+  $("gWho").textContent="The Returning Officer, results night";
+  var lead=(united?"The opposition went into the vote united behind one candidate":"The opposition went into the vote split between two candidates")+
+    ", strongest in the "+G.elecHome[0]+" and the "+G.elecHome[1]+". ";
+  var verdict=outcome==="won"
+    ? "You took "+pY+"% of the vote to the main opposition candidate's "+pR+"%, and at least a quarter of the vote in "+yourStates+" of the 36 states. You are re-elected."
+    : (outcome==="lost"
+      ? "The opposition candidate took "+pR+"% of the vote to your "+pY+"%, with at least a quarter of the vote in "+rivalStates+" states. You have lost."
+      : "Nobody met both conditions: the most votes, and a quarter of the vote in two-thirds of the states. You took "+pY+"% and "+yourStates+" states; the opposition took "+pR+"%. There will be a runoff in seven days.");
+  $("gSays").textContent="“"+lead+verdict+"”";
+  $("gFlagBox").classList.add("elec");
+  $("gFlagTitle").textContent="Results by zone";
+  $("gFlag").textContent=rows.join("\n")+(pT>=3?"\nThird candidate, nationally: "+pT+"%":"");
+  $("gFlagBox").hidden=false;
+  clearSubs();$("gL").querySelector(".txt").textContent="Continue.";
+  $("gR").querySelector(".txt").textContent="Continue.";
+  $("gL").onclick=$("gR").onclick=function(){
+    if(G.busy)return;G.busy=true;
+    $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
+    $("gL").parentNode.classList.remove("one");
+    $("gFlagBox").classList.remove("elec");$("gFlagBox").hidden=true;
+    if(outcome==="runoff"){dealRunoff();return;}
+    campDone(outcome==="won", outcome==="won"
+      ? "Re-elected with "+pY+"% of the vote."
+      : "Lost re-election: "+pY+"% to the opposition's "+pR+"%.");
+  };
+}
+var RUNOFF={w:"Your Chief of Staff, the night of the results",
+ s:"Seven days to the runoff. The third-placed candidate's people are willing to talk. Their price is ministries and a say in the next budget. Or we go back to the voters and ask them again.",
+ l:{t:"Make a deal with the third candidate",m:{purse:-10,nass:6},v:{int:-8},f:"runoff_deal",fx:function(){G.elec.boost=0.05;},
+    why:"In a runoff the votes of eliminated candidates decide the result, so their endorsement can matter more than anything the two finalists say."},
+ r:{t:"Go back to the voters",m:{street:6},v:{int:4},fx:function(){G.elec.boost=0.015;}}};
+function dealRunoff(){
+  $("gCard").className="card";
+  G.cur=-4;
+  showCard(RUNOFF);
+}
+function runoffPlay(side){
+  var ch=side==="l"?RUNOFF.l:RUNOFF.r;
+  hideThird();
+  var deltas={};
+  BLOCS.forEach(function(b){
+    var before=G.m[b.k],d=blocMove(b.k,(ch.m&&ch.m[b.k])||0);
+    G.m[b.k]=Math.max(0,Math.min(100,before+d));deltas[b.k]=G.m[b.k]-before;});
+  applyV(ch.v||{}); if(ch.f)G.flags[ch.f]=true; ch.fx();
+  record(RUNOFF,ch); feedFor(ch); updateStates(); SFX.decide(); renderMeters(deltas);
+  var two=G.elec.share/(G.elec.share+G.elec.rshare)+G.elec.boost+rnd(0.03);
+  var won=two>0.5, pc=Math.round(two*100);
+  G.elec.outcome=won?"won_runoff":"lost_runoff";
+  $("gFlagTitle").textContent=won?"You won the runoff.":"You lost the runoff.";
+  $("gFlag").textContent=won?"You took "+pc+"% of the runoff vote. Four more years.":"You took "+pc+"% of the runoff vote. It was not enough.";
+  $("gFlagBox").hidden=false;
+  setTimeout(function(){
+    $("gFlagBox").hidden=true;
+    campDone(won, won?"Re-elected after a runoff, with "+pc+"% of the second vote.":"Lost the runoff with "+pc+"% of the vote.");
+  },2600);
+}
+function campDone(won,line){
+  G.campDone=G.campDone||{}; G.campDone[G.term]=true;
+  G.elecLost=!won;
+  G.rec.push({d:Math.max(0,G.day-1),ev:line});
+  G.busy=false;
+  election();
+}
+
+/* ---------- the President's Desk ----------
+   How a problem reaches the president is part of the story, so it changes with the kind
+   of problem. How the president answers never changes: the same card, the same buttons.
+   The format is assigned by rule from who is bringing the problem, never at random, so
+   the same kind of crisis always arrives the same way. */
+var MASTHEAD="The National Ledger";
+var FMT_RULES=[
+ ["dossier",/Security Adviser|Military Intelligence|Defence Staff|Inspector-General|General Musa|Dangana/],
+ ["call",/Governor|Senator|Party Chairman|Three men|Chief Adewale|governors|Senate President/],
+ ["situation",/Finance Minister|Accountant-General|Central Bank|IMF|Revenue Service|Budget/],
+ ["briefing",/Minister|Attorney-General|Chief Justice|Comptroller|Regulator|Commission|INEC|Chief of Staff|Customs|Lender|Sponsor/]
+];
+function fmtOf(c){
+  if(c.fmt)return c.fmt;
+  if(c.vx)return "voices";
+  if(/first morning/.test(c.w))return "paper";
+  for(var i=0;i<FMT_RULES.length;i++)if(FMT_RULES[i][1].test(c.w))return FMT_RULES[i][0];
+  return "briefing";
+}
+/* the people themselves, before the decision: both sides, in their own words */
+var VOICES_BEFORE={
+ "Agree to the new wage":[["Chiamaka, nurse","The current wage cannot cover transport and rent any more."],["Emeka, Aba trader","If government raises the wage, my landlord will raise my rent the same week."],["Halima, Maiduguri","Our state never paid the last increase. Who will pay this one?"]],
+ "Fund the settlement":[["Aisha, Class of 2019 group","My brother has been at home for nine months. His friends at private universities have graduated."],["Uncle Femi (Family group)","Every year na strike. Fund it once and finish it."],["Bimpe, Ibadan","Money for the universities, fine. What will they cut to pay for it?"]],
+ "Reshuffle for younger voices":[["@Tolu_Lagos","Most of this country is under thirty and none of us is in that room."],["Uncle Femi (Family group)","Experience matters. You cannot learn to run a ministry overnight."]],
+ "Go out and speak to the protesters":[["@KanoGist","Let him come outside. These are the people who voted."],["Musa, Jos","If he goes out today, every group in the country will camp at that gate tomorrow."]],
+ "Keep the payments":[["Tari, Yenagoa","Since the payments started, the creeks have been calmer. Please do not spoil it."],["@PH_Updates","Who is really collecting that stipend? Not the ordinary people of the creeks."]],
+ "Open the market":[["Emeka, Aba trader","Cheap goods from abroad closed my workshop once already."],["Ngozi (Family group)","If the market opens, what I buy every week gets cheaper."]],
+ "Open the market temporarily":[["Ngozi (Family group)","One bag of rice now costs more than a week of my salary."],["Musa, Jos","Harvest is coming. If imports flood the market now, farmers will cry."]],
+ "Raise doctors’ pay":[["Chiamaka, nurse","Three of my colleagues left for the UK this year alone."],["Seun, Okada rider","The hospital near us has no drugs. Paying doctors more will not fix that."]],
+ "Let states use local languages":[["Halima, Maiduguri","My children understand much better when they learn first in the language we speak at home."],["Bimpe, Ibadan","English is the language of jobs. Please do not reduce it."]],
+ "Build on schedule":[["@AbujaInsider","That road will cut two hours off my journey every day."],["Seun, Okada rider","Our houses are on that route. The compensation will not buy land anywhere near here."]],
+ "Privatise it":[["Chiamaka, nurse","My uncle has worked there for twenty years. Will they sack him?"],["@Tolu_Lagos","Every year we pay for a company that never makes a profit."]]
+};
+/* This happened in Nigeria. Shown only after the decision, in the same panel as the
+   explanation, and only facts that were checked against the source named beside them.
+   The game does not say whether any of these decisions was right. */
+var HISTORY={
+ "Remove the subsidy":{t:"On 1 January 2012 the federal government removed the petrol subsidy, and pump prices rose from 65 naira a litre to at least 141. Protests and a nationwide strike followed, and after about a week the government restored part of the subsidy and cut the price by around 30 per cent. On 29 May 2023 the new President announced the end of the subsidy in his inauguration speech; in Lagos the pump price rose from 184 to 488 naira.",
+   src:"Al Jazeera, January 2012; BNN Bloomberg, May 2023",u:"https://www.aljazeera.com/news/2012/1/17/nigerian-unions-call-off-national-strike"},
+ "Let the naira float":{t:"In June 2023 the Central Bank loosened its control of the exchange rate. Banks were soon quoting about 700 naira to the dollar, against an official rate of 462.",
+   src:"TechCabal, 14 June 2023",u:"https://techcabal.com/2023/06/14/cbn-floats-the-naira/"},
+ "Close the borders":{t:"In August 2019 Nigeria closed its land borders with Benin, Cameroon, Chad and Niger to the movement of goods, saying it wanted to stop smuggling, particularly of rice. A partial reopening was announced on 16 December 2020. Analysts later reported that smuggling had continued through new routes.",
+   src:"ISS Africa",u:"https://issafrica.org/iss-today/nigerias-border-closures-havent-served-their-purpose"},
+ "Fund the settlement":{t:"University lecturers went on strike on 14 February 2022 over funding and pay. Classes resumed on 17 October 2022, after the Court of Appeal required the union to call off the strike and the government agreed to pay salary arrears and meet some of its other demands.",
+   src:"ThisDay, 15 October 2022",u:"https://www.thisdaylive.com/2022/10/15/asuus-eight-month-strike/"},
+ "Shut down the networks":{t:"On 4 June 2021 the federal government suspended Twitter in Nigeria, after the platform deleted a post by the President. Access was restored on 13 January 2022, once Twitter agreed to register a company in Nigeria and appoint a representative to work with the government.",
+   src:"Techpoint Africa, 13 January 2022",u:"https://techpoint.africa/2022/01/13/nigeria-lifts-twitter-ban"},
+ "Send funds directly to councils":{t:"On 11 July 2024 the Supreme Court ruled that federal allocations to Nigeria's 774 local governments must be paid to them directly rather than through state governments. The suit was brought by the Attorney-General of the Federation and opposed by the 36 states.",
+   src:"Nairametrics, 11 July 2024",u:"https://nairametrics.com/2024/07/11/supreme-court-grants-full-financial-autonomy-to-774-local-government-areas/?amp=1"},
+ "Back reserved seats":{t:"In March 2022 the National Assembly voted down a proposal to create special seats for women in the national and state legislatures. The idea returned in the next constitution review, where amendments need two-thirds of the National Assembly and the approval of 24 state assemblies.",
+   src:"PLAC Legist",u:"https://placng.org/Legist/special-seats-bill-for-women-back-in-focus-as-constitution-review-gathers-steam/"},
+ "Prepare to deploy troops":{t:"After soldiers seized power in Niger on 26 July 2023, ECOWAS imposed sanctions, gave the junta a one-week ultimatum and on 10 August activated a standby force. Nigeria's Senate declined the President's request to authorise military action, and no intervention took place. ECOWAS lifted most sanctions on 24 February 2024.",
+   src:"Wikipedia, Nigerien crisis (2023–2024)",u:"https://en.wikipedia.org/wiki/Nigerien_crisis_(2023%E2%80%932024)"},
+ "Let states collect VAT":{t:"On 9 August 2021 a Federal High Court ruled that Rivers State, not the federal tax service, could collect VAT in the state. Rivers passed its own VAT law on 19 August and Lagos followed on 10 September. The same day, the Court of Appeal ordered everyone to keep to the old arrangement while the appeal was heard.",
+   src:"Deloitte Nigeria",u:"https://www.deloitte.com/ng/en/services/tax/perspectives/vat-dispute-court-of-appeal-orders-all-parties-maintain-pre-dispute-position.html"},
+ "Keep the payments":{t:"On 25 June 2009 the federal government offered a pardon to militants in the Niger Delta. Those who surrendered their weapons between 6 August and 4 October 2009 were enrolled in a programme of monthly allowances and training.",
+   src:"IFRI, December 2010",u:"https://www.ifri.org/print/5458"},
+ "Raise tariffs":{t:"On 3 April 2024 the electricity regulator raised the tariff for Band A customers, those meant to receive at least 20 hours of supply a day, from 66 to 225 naira per kilowatt-hour.",
+   src:"TheCable, April 2024",u:"https://thecable.ng/breaking-electricity-tariff-triples-as-nerc-approves-new-rates-for-elite-customers"},
+ "Agree to the new wage":{t:"On 29 July 2024 the President signed a new national minimum wage of 70,000 naira a month, up from 30,000. Labour's opening demand in the negotiations had been 494,000.",
+   src:"Channels Television, 29 July 2024",u:"https://www.channelstv.com/2024/07/29/breaking-tinubu-signs-new-minimum-wage-bill-into-law"}
+};
+/* the same history applies whichever answer the player gave */
+var HIST_PAIRS={"Keep the subsidy":"Remove the subsidy","Keep supporting the naira":"Let the naira float","Keep them open":"Close the borders",
+ "Hold the budget line":"Fund the settlement","Keep them running":"Shut down the networks","Keep states in control":"Send funds directly to councils",
+ "Oppose reserved seats":"Back reserved seats","Stick to sanctions":"Prepare to deploy troops","Keep collection national":"Let states collect VAT",
+ "End the payments":"Keep the payments","Keep tariffs down":"Raise tariffs","Refuse the increase":"Agree to the new wage","Meet their demand":"Agree to the new wage",
+ "Hold the line and keep talking":"Agree to the new wage","Pay part now, agree a timetable for the rest":"Agree to the new wage"};
+function cardKey(c){ var k=c.l&&c.l.t; return k; }
+DECK.concat(OPENINGS).forEach(function(c){
+  var k=cardKey(c);
+  if(VOICES_BEFORE[k]&&!c.vx)c.vx=VOICES_BEFORE[k];
+  var hk=HISTORY[k]?k:(HIST_PAIRS[k]||(c.r&&HIST_PAIRS[c.r.t]));
+  if(hk&&HISTORY[hk])c.hist=HISTORY[hk];
+});
+
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;}
+function firstSentence(t){var m=String(t).match(/^[^.?!]*[.?!]/);var x=(m?m[0]:t).replace(/^(Your Excellency, )/,"").trim();return x.charAt(0).toUpperCase()+x.slice(1);}
+/* the first mornings get the headline a newspaper would actually run */
+(function(){
+  var H={opening_paid:"Unions call nationwide strike over minimum wage",open_fuel_paid:"Fuel queues return as importers halt cargoes",
+    open_fx_defend:"Naira falls sharply overnight",open_gov_invite:"Five governors stay away from swearing-in",
+    open_debts_paid:"Contractors demand payment for stalled projects",open_petition_quiet:"Losing candidate challenges election at tribunal"};
+  OPENINGS.forEach(function(o){ if(H[o.l.f])o.h=H[o.l.f]; });
+})();
+function quarterLabel(){var y=Math.floor(G.day/PER_YEAR)+1;return "Year "+y;}
+/* the measures and the treasury most at stake in this decision, as unnumbered gauges */
+function situationGauges(c){
+  var at={};
+  ["l","r","c"].forEach(function(s){var ch=c[s];if(!ch||!ch.v)return;for(var k in ch.v)at[k]=(at[k]||0)+Math.abs(ch.v[k]);});
+  var ks=Object.keys(at).sort(function(a,b){return at[b]-at[a];}).slice(0,3);
+  var rows=[{n:"The treasury",v:G.m.purse,s:50}];
+  ks.forEach(function(k){var v=valOf(k);if(v)rows.push({n:v.n,v:G.v[k],s:v.s});});
+  return rows;
+}
+function frame(c,kind){
+  var f=$("gFrame"); if(!f)return;
+  f.innerHTML="";
+  if(!c){f.hidden=true;return;}
+  var k=kind||fmtOf(c);
+  G.curFmt=k;
+  if(k==="paper"){
+    var m=el("div","fr-mast");m.appendChild(el("b",null,MASTHEAD));m.appendChild(el("span",null,quarterLabel()+(c.shock?" · Breaking":" · Morning edition")));
+    f.appendChild(m);f.appendChild(el("p","fr-head",c.h||firstSentence(cardText(c))));
+  } else if(k==="briefing"){
+    var b=el("div","fr-letter");b.appendChild(el("b",null,"Briefing for the President"));b.appendChild(el("span",null,"Prepared by "+c.w.split(",")[0]));f.appendChild(b);
+  } else if(k==="call"){
+    var cl=el("div","fr-call");cl.appendChild(el("i"));cl.appendChild(el("b",null,"Call holding"));cl.appendChild(el("span",null,c.w.split(",")[0]));f.appendChild(cl);
+  } else if(k==="dossier"){
+    var d=el("div","fr-file");d.appendChild(el("b",null,"Confidential"));d.appendChild(el("span",null,"File "+(1000+G.day*7+(c.w.length%7))+" · eyes only"));f.appendChild(d);
+  } else if(k==="voices"){
+    var v=el("div","fr-voices");v.appendChild(el("b",null,"What people are saying"));
+    (c.vx||[]).forEach(function(x){var r=el("div");r.appendChild(el("em",null,x[0]));r.appendChild(el("p",null,x[1]));v.appendChild(r);});
+    f.appendChild(v);
+  } else if(k==="situation"){
+    var s=el("div","fr-sit");s.appendChild(el("b",null,"Situation room"));
+    situationGauges(c).forEach(function(g){
+      var row=el("div","fr-g"+(g.v<g.s-4?" lo":(g.v>g.s+4?" hi":"")));
+      row.appendChild(el("span",null,g.n));var bar=el("div");var fill=el("i");fill.style.width=Math.max(2,Math.min(100,g.v))+"%";bar.appendChild(fill);row.appendChild(bar);s.appendChild(row);
+    });
+    f.appendChild(s);
+  }
+  f.hidden=false;
+}
+/* shocks are news, so they arrive as news */
+dealShock=(function(orig){return function(sk){orig(sk);frame({w:sk.w,s:sk.s,shock:true},"paper");};})(dealShock);
+
+/* ---------- characters remember you ----------
+   Not only in the storylines. The next time one of the six people who speak for the
+   powers walks in, they remember how you treated them the last time. */
+var SPEAKER=[["street",/Hauwa Tijjani/],["palace",/Chief Adewale Ogundipe/],["barracks",/General Musa Dangana|Chief of Defence Staff/],
+ ["purse",/Amaka Nwachukwu/],["gov",/Governor Bassey Ekanem/],["nass",/Senator Ladi Gyang|Senate President/]];
+function speakerBloc(w){for(var i=0;i<SPEAKER.length;i++)if(SPEAKER[i][1].test(w))return SPEAKER[i][0];return null;}
+var MEMO={
+ street:{hurt:"The last time I came to you, you chose “{t}”. My members have not forgotten.",help:"You stood with my members when you chose “{t}”. I am hoping you will do it again."},
+ palace:{hurt:"When we last spoke, you chose “{t}”. The Council remembers.",help:"The Council has not forgotten that you chose “{t}”."},
+ barracks:{hurt:"The last time I advised you, you chose “{t}”. I will say it plainly this time.",help:"You took my advice last time. I hope you will listen again."},
+ purse:{hurt:"Last time you chose “{t}”. My members are still counting what it cost them.",help:"Our members appreciated it when you chose “{t}”."},
+ gov:{hurt:"The last time we asked, you chose “{t}”. The states have long memories.",help:"The states remember that you chose “{t}”. We are asking again."},
+ nass:{hurt:"The last time this came to us, you chose “{t}”. My members took note.",help:"You chose “{t}” last time, and my members remember it kindly."}
+};
+function rememberSpeaker(c,ch){
+  var b=speakerBloc(c.w); if(!b||!ch||!ch.t)return;
+  var mv=(ch.m&&ch.m[b])||0; if(!mv)return;
+  G.memo=G.memo||{}; G.memo[b]={d:G.day,hurt:mv<0,t:ch.t.replace(/\.$/,"")};
+}
+function memoryLine(c){
+  if(c.from||c.alt)return "";
+  var b=speakerBloc(c.w); if(!b||!G.memo||!G.memo[b])return "";
+  var m=G.memo[b]; if(G.day-m.d<2)return "";
+  return MEMO[b][m.hurt?"hurt":"help"].replace("{t}",m.t)+" ";
+}
+
+/* ---------- the papers change ----------
+   One line above the desk, rewritten after every decision from the state of the country. */
+var HEAD={
+ crisis:{street:"General strike enters another week",palace:"Traditional and religious leaders break with the Villa",barracks:"Unease in the barracks as allowances go unpaid",
+   purse:"Salaries late as treasury runs dry",gov:"Governors stop remitting to Abuja",nass:"Budget stalls in the National Assembly"},
+ pro:{up:"Markets steady as prices ease",dn:"Prices climb again in the markets"},
+ sec:{up:"Roads quieter as attacks fall",dn:"Travellers avoid highways after new attacks"},
+ coh:{up:"Rare unity as leaders meet across the divide",dn:"Old divisions return to the national debate"},
+ cap:{up:"Power supply improves in major cities",dn:"Blackouts and closed clinics test patience"},
+ int:{up:"Prosecutions signal a change in Abuja",dn:"New contract questions dog the government"},
+ sov:{up:"Nigeria takes its own line abroad",dn:"Questions over foreign terms in new deals"}
+};
+function headline(){
+  for(var k in (G.crisis||{}))if(HEAD.crisis[k])return HEAD.crisis[k];
+  var best=null;
+  VALUES.forEach(function(v){var d=G.v[v.k]-v.s;if(!best||Math.abs(d)>Math.abs(best.d))best={k:v.k,d:d};});
+  if(!best||Math.abs(best.d)<3)return "A cautious start for the new government";
+  return HEAD[best.k][best.d>0?"up":"dn"];
+}
+function updateHeadline(){
+  var h=$("gHead"); if(!h||!G.live)return;
+  h.innerHTML="";h.appendChild(el("b",null,MASTHEAD));h.appendChild(document.createTextNode(headline()));
+  h.hidden=(G.day===0);
+}
+
+/* ---------- the last morning ----------
+   The presidency ends where it began, with the papers on the desk. This time the front
+   page is about you, and every word of it is read off the run. */
+
+/* ---------- the run, as a sequence of screens ----------
+   The engine underneath is unchanged. What changes is how a turn is seen: the scene the
+   problem arrives in, the person bringing it, two answers with what each one costs, then
+   a screen of what it did. Every year opens on what is already on the desk. */
+var ART={office:"art/office2.webp",officeWide:"art/office_wide.webp",officeTall:"art/desk.webp",
+ cabinet:"art/cabinet.webp",cabinet2:"art/cabinet2.webp",minister:"art/minister.webp",student:"art/student.webp",
+ street:"art/street2.webp",traffic:"art/traffic.webp",protest:"art/protest.webp",call:"art/call.webp",
+ hauwa:"art/hauwa.webp",confidential:"art/confidential.webp",sitroom:"art/sitroom.webp",
+ cabinetEmpty:"art/cabinet_empty.webp",cabinetMeeting:"art/cabinet_meeting3.webp",
+ hauwaBargain:"art/hauwa_bargain.webp",ogundipe:"art/ogundipe.webp",ogundipeCall:"art/ogundipe_call.webp",
+ dangana:"art/dangana.webp",danganaCall:"art/dangana_call.webp",
+ amaka:"art/amaka.webp",amakaCall:"art/amaka_call.webp",ekanem:"art/ekanem.webp",ekanemCall:"art/ekanem_call.webp",
+ gyang:"art/gyang.webp",gyangCall:"art/gyang_call.webp",
+ works:"art/works.webp",finance:"art/finance.webp",
+ farm:"art/farm.webp",hospital:"art/hospital.webp",fuel:"art/fuel.webp",market:"art/market.webp",campus:"art/campus.webp",polling:"art/polling.webp",
+ forum:"art/forum.webp",chairman:"art/chairman.webp",cbn:"art/cbn.webp",cos:"art/cos.webp"};
+/* the people who speak for the powers have their own pictures: composed when their
+   power is calm with you, under pressure when it is not */
+var PEOPLE=[
+ {re:/Hauwa Tijjani/,b:"street",calm:["hauwa","Labour House"],press:["hauwaBargain","Labour House"]},
+ {re:/Chief Adewale Ogundipe/,b:"palace",calm:["ogundipe","Council of Rulers"],press:["ogundipeCall","Phone call"]},
+ {re:/General Musa Dangana|Chief of Defence Staff/,b:"barracks",calm:["dangana","Defence Headquarters"],press:["danganaCall","Phone call"]},
+ {re:/Amaka Nwachukwu/,b:"purse",calm:["amaka","At the factory"],press:["amakaCall","Phone call"]},
+ {re:/Governor Bassey Ekanem/,b:"gov",calm:["ekanem","In his state"],press:["ekanemCall","Phone call"]},
+ {re:/Senator Ladi Gyang/,b:"nass",calm:["gyang","The Senate floor"],press:["gyangCall","Phone call"]}
+];
+/* ministers with a picture of their own: the same one whatever the mood */
+PEOPLE.push({re:/Minister of Works/,fixed:["works","On site"]},{re:/Finance Minister/,fixed:["finance","Ministry of Finance"]},
+ {re:/Central Bank/,fixed:["cbn","Central Bank"]},{re:/Party Chairman/,fixed:["chairman","Phone call"]},
+ {re:/Governor|governors/,fixed:["forum","Governors’ Forum"]},{re:/Chief of Staff/,fixed:["cos","Your office"]});
+var CALM={holding:1,warming:1,loyal:1,captured:1,owned:1};
+function personOf(c){
+  for(var i=0;i<PEOPLE.length;i++)if(PEOPLE[i].re.test(c.w)){
+    if(PEOPLE[i].fixed)return PEOPLE[i].fixed;
+    var p=PEOPLE[i],st=(G.stNow&&G.stNow[p.b])||"holding";
+    return CALM[st]?p.calm:p.press;
+  }
+  return null;
+}
+/* where the story is set decides the picture; nothing here is chosen at random */
+var TOPIC_ART=[
+ [/universit|student|lecturer|ASUU|school|graduat|teacher|exam/i,"campus"],
+ [/INEC|polling|ballot|election|voter|campaign/i,"polling"],
+ [/hospital|doctor|nurse|clinic|health|patient/i,"hospital"],
+ [/fuel|petrol|pump|kerosene|subsidy/i,"fuel"],
+ [/farm|harvest|herder|crop|fertili|planting|grain|rice/i,"farm"],
+ [/protest|strike|march|crowd|at the gate|demonstrat|occupy|union/i,"protest"],
+ [/transport|road|highway|traffic|danfo|okada|bus|fare|commut/i,"traffic"],
+ [/market|trader|price|garri|food|shop/i,"market"]
+];
+function topicArt(c){
+  var t=(c.w||"")+" "+(c.s?cardText(c):"")+" "+((c.l&&c.l.t)||"");
+  for(var i=0;i<TOPIC_ART.length;i++)if(TOPIC_ART[i][0].test(t))return TOPIC_ART[i][1];
+  return null;
+}
+function sceneFor(c,fmt){
+  if(!c)return "cabinetEmpty";
+  if(fmt==="paper")return topicArt(c)||"market";
+  var pp=personOf(c); if(pp)return pp[0];
+  if(fmt==="call")return "call";
+  if(fmt==="voices"||fmt==="paper")return topicArt(c)||"market";
+  if(fmt==="dossier")return "confidential";
+  if(fmt==="situation")return "sitroom";
+  if(/Chief of Staff|first morning/.test(c.w))return "officeTall";
+  var tp=topicArt(c); if(tp&&tp!=="traffic"&&tp!=="market")return tp;
+  return "cabinetMeeting";
+}
+var FMT_NAME={paper:"The morning papers",briefing:"Cabinet briefing",call:"Phone call",dossier:"Confidential file",
+ voices:"On the streets",situation:"Situation room"};
+var FMT_ICON={paper:"PRESS",briefing:"BRIEF",call:"CALL",dossier:"FILE",voices:"PEOPLE",situation:"ROOM"};
+
+/* what each answer costs, in one line under the button. Written lines take precedence;
+   otherwise it names the power the answer wins and the power it costs, and nothing about
+   the country — what a decision does to the country is found out, not read off a button. */
+var SUB={};
+var WIN_NAME={street:"the street",palace:"the palace",barracks:"the barracks",purse:"business and the treasury",
+ gov:"the governors",nass:"the Assembly"};
+function subFor(ch){
+  if(!ch)return "";
+  if(ch.sub)return ch.sub;
+  if(SUB[ch.t])return SUB[ch.t];
+  var m=ch.m||{},up=null,dn=null;
+  for(var k in m){ if(!WIN_NAME[k])continue;
+    if(m[k]>=4&&(!up||m[k]>m[up]))up=k;
+    if(m[k]<=-4&&(!dn||m[k]<m[dn]))dn=k; }
+  if(up&&dn)return "Wins "+WIN_NAME[up]+". Costs you "+WIN_NAME[dn]+".";
+  if(up)return "Wins "+WIN_NAME[up]+".";
+  if(dn)return "Costs you "+WIN_NAME[dn]+".";
+  return "";
+}
+function clearSubs(){ ["gL","gR","gC"].forEach(function(id){var s=$(id).querySelector(".sub");if(s)s.textContent="";}); }
+function setScene(key,fmt){
+  var sc=$("gScene"),im=$("gSceneImg"),src=ART[key]||ART.officeTall;
+  sc.setAttribute("data-fmt",fmt||"none");
+  sc.setAttribute("data-img",key||"");
+  if(im.getAttribute("src")!==src)im.src=src;
+  im.alt="";
+  if(fmt&&fmt!=="none")G.sceneImg=src;
+}
+/* months later, after something you chose: a consequence says where it came from */
+function laterTag(c){
+  var tag=$("gTag");
+  var f=c&&(c.from||(typeof c.req==="string"?c.req:null));
+  if(!f){tag.hidden=true;return;}
+  var r=null;
+  for(var i=G.rec.length-1;i>=0;i--){ if(G.rec[i].f===f&&G.rec[i].t){r=G.rec[i];break;} }
+  if(!r){tag.hidden=true;return;}
+  var mo=Math.max(3,(G.day-r.d)*3);
+  tag.textContent=(mo>=12&&mo%12===0?(mo/12===1?"A year":(mo/12)+" years"):mo+" months")+" later · after “"+r.t.replace(/\.$/,"")+"”";
+  tag.hidden=false;
+}
+/* One treatment for every scene: the picture, and one caption saying how the problem
+   arrived. The format is told in words, not drawn as a different object each time. */
+var KICK={paper:"The National Ledger",briefing:"Cabinet briefing",call:"Phone call",dossier:"Confidential file",
+ voices:"On the streets",situation:"Situation room"};
+function caption(kick,title,small){
+  var f=$("gFrame");f.innerHTML="";
+  if(kick)f.appendChild(el("span","cap-k",kick));
+  if(title)f.appendChild(el("b","cap-t",title));
+  if(small)f.appendChild(el("span","cap-s",small));
+  f.hidden=!(kick||title);
+}
+frame=function(c,kind){
+  var f=$("gFrame"); if(!f)return;
+  if(!c){caption(null);$("gTag").hidden=true;setScene("cabinetEmpty","none");return;}
+  var k=kind||fmtOf(c);
+  G.curFmt=k;
+  setScene(sceneFor(c,k),k);
+  if(!kind)laterTag(c); else $("gTag").hidden=true;
+  var who=c.w.split(",")[0];
+  if(k==="paper") caption(MASTHEAD+" · "+(c.shock?"Breaking":quarterLabel()), c.h||firstSentence(c.shock?c.s:cardText(c)));
+  else if(k==="voices"&&c.vx&&c.vx.length) caption(KICK.voices,"“"+c.vx[0][1]+"”",c.vx[0][0]);
+  else if(personOf(c)) caption(personOf(c)[1]+" · "+who);
+  else caption(KICK[k]+" · "+who);
+};
+/* ---------- what it did ----------
+   The board is read before every decision and again after it, so the screen after a
+   decision says, plainly, what moved. */
+function snap(){ var m={},v={}; BLOCS.forEach(function(b){m[b.k]=G.m[b.k];}); VALUES.forEach(function(x){v[x.k]=G.v[x.k];}); G.before={m:m,v:v}; }
+play=(function(orig){return function(side){ if(G.live&&!G.busy)snap(); return orig(side); };})(play);
+function impactRows(){
+  var b=G.before||{m:{},v:{}},rows={p:[],c:[]};
+  BLOCS.forEach(function(x){var d=Math.round(G.m[x.k]-(b.m[x.k]===undefined?G.m[x.k]:b.m[x.k]));if(d)rows.p.push({n:x.n,d:d});});
+  VALUES.forEach(function(x){var d=Math.round(G.v[x.k]-(b.v[x.k]===undefined?G.v[x.k]:b.v[x.k]));if(d)rows.c.push({n:x.n,d:d});});
+  rows.p.sort(function(a,c){return Math.abs(c.d)-Math.abs(a.d);});
+  rows.c.sort(function(a,c){return Math.abs(c.d)-Math.abs(a.d);});
+  return rows;
+}
+/* ---------- the year ahead ----------
+   At the start of each year the desk shows what is already waiting: two or three things
+   the government knows are coming, and the reminder that something it does not know
+   about always arrives too. What is listed is what will actually be dealt, unless
+   something more urgent pushes in front. */
+function planYear(n,first){
+  var pool=eligible().filter(function(i){var c=DECK[i];return !c.req&&!c.now&&c.at===undefined;});
+  var mean=0;KEYS.forEach(function(k){mean+=(G.gn[k]||0);});mean/=KEYS.length;
+  var scored=pool.map(function(i){var ak=DECK[i].l.ax?Object.keys(DECK[i].l.ax)[0]:null;
+    return {i:i,n:(ak?(G.gn[ak]||0):mean)+Math.random()*0.9};}).sort(function(a,b){return a.n-b.n;});
+  var out=[],axes={};
+  for(var j=0;j<scored.length&&out.length<n;j++){
+    var c=DECK[scored[j].i],ak=c.l.ax?Object.keys(c.l.ax)[0]:"_"+j;
+    if(axes[ak])continue; axes[ak]=1; out.push(scored[j].i);
+  }
+  G.agenda=out;
+  return out;
+}
+function agendaPick(pool){
+  while(G.agenda&&G.agenda.length){
+    var i=G.agenda.shift();
+    if(pool.indexOf(i)>=0)return i;
+  }
+  return null;
+}
+var WHEN=["Today","Next","Later this year"];
+function topicLine(c){
+  var t=firstSentence(cardText(c));
+  return t.length>78?t.slice(0,76).replace(/\s+\S*$/,"")+"…":t;
+}
+function showYear(go){
+  var y=Math.floor(G.day/PER_YEAR)+1,items=[];
+  if(G.day===0){ G.preOpen=pickOpening(); items.push(G.preOpen); }
+  planYear(G.day===0?2:3).forEach(function(i){items.push(DECK[i]);});
+  $("gYearLab").textContent="Term "+G.term+" · Year "+y;
+  $("gYearH").textContent=G.day===0?"Your first term: what’s on your desk":"Your second term: what’s on your desk";
+  var ol=$("gAgenda");ol.innerHTML="";
+  items.slice(0,3).forEach(function(c,n){
+    var f=fmtOf(c),li=el("li");li.setAttribute("data-f",f);
+    li.appendChild(el("span","ic",FMT_ICON[f]||"BRIEF"));
+    var d=el("div");d.appendChild(el("b",null,FMT_NAME[f]));d.appendChild(el("small",null,c.w.split(",")[0]+": "+topicLine(c)));li.appendChild(d);
+    li.appendChild(el("em",null,WHEN[n]));
+    ol.appendChild(li);
+  });
+  var ov=$("gYear");
+  $("gYearGo").onclick=function(){ ov.hidden=true; $("gYearGo").onclick=null; go(); };
+  ov.hidden=false; ov.scrollTop=0;
+  G.busy=false;
+}
+nextCard=(function(orig){return function(){
+  if(G.live&&!G.impRemoved&&G.day>0&&G.day%PER_TERM===0){
+    G.yrShown=G.yrShown||{};
+    if(!G.yrShown[G.day]){ G.yrShown[G.day]=1; showYear(orig); return; }
+  }
+  orig();
+};})(nextCard);
+
+/* ---------- results night ---------- */
+function showResult(o,go){
+  $("gResLab").textContent=o.lab;
+  $("gResH").textContent=o.h;
+  var nums=$("gResNums");nums.innerHTML="";
+  o.nums.forEach(function(x){var d=el("div",x.c);d.appendChild(el("b",null,x.v+"%"));d.appendChild(el("span",null,x.n));nums.appendChild(d);});
+  $("gResLead").textContent=o.lead||"";
+  var zl=$("gResZones");zl.innerHTML="";
+  (o.zones||[]).forEach(function(z){
+    var li=el("li");li.appendChild(el("span","zn",z.n));
+    var bar=el("div","zb"),y=el("i","y"),r=el("i","o"),t=el("i","t");
+    y.style.width=Math.round(z.s*100)+"%";r.style.width=Math.round(z.r*100)+"%";t.style.width=Math.max(0,100-Math.round(z.s*100)-Math.round(z.r*100))+"%";
+    bar.appendChild(y);bar.appendChild(r);bar.appendChild(t);li.appendChild(bar);
+    li.title=z.n+": you "+Math.round(z.s*100)+"%, opposition "+Math.round(z.r*100)+"%";
+    zl.appendChild(li);
+  });
+  var ov=$("gResult");
+  $("gResGo").textContent=o.go||"Continue →";
+  $("gResGo").onclick=function(){ ov.hidden=true; $("gResGo").onclick=null; go(); };
+  ov.hidden=false; ov.scrollTop=0;
+}
+campResolve=(function(orig){return function(){
+  G.elecZ=[];
+  orig();
+  var e=G.elec,h=$("gL").onclick;
+  var head=e.outcome==="won"?"You were re-elected.":(e.outcome==="lost"?"You were voted out.":"No outright winner. A runoff.");
+  var nums=[{n:"You",v:e.you,c:"you"},{n:"Opposition",v:e.rival,c:"opp"}];
+  if(e.third>=3)nums.push({n:"Third candidate",v:e.third,c:"third"});
+  showResult({lab:"Results night · Term "+G.term,h:head,nums:nums,
+    lead:$("gSays").textContent.replace(/^“|”$/g,""),zones:G.elecZ,
+    go:e.outcome==="runoff"?"To the runoff →":(e.outcome==="won"?"Begin your second term →":"See your legacy →")},function(){h();});
+};})(campResolve);
+function runoffPlay(side){
+  var ch=side==="l"?RUNOFF.l:RUNOFF.r;
+  hideThird();
+  var deltas={};
+  BLOCS.forEach(function(b){
+    var before=G.m[b.k],d=blocMove(b.k,(ch.m&&ch.m[b.k])||0);
+    G.m[b.k]=Math.max(0,Math.min(100,before+d));deltas[b.k]=G.m[b.k]-before;});
+  applyV(ch.v||{}); if(ch.f)G.flags[ch.f]=true; ch.fx();
+  record(RUNOFF,ch); feedFor(ch); updateStates(); SFX.decide(); renderMeters(deltas);
+  var two=G.elec.share/(G.elec.share+G.elec.rshare)+G.elec.boost+rnd(0.03);
+  var won=two>0.5, pc=Math.round(two*100);
+  G.elec.outcome=won?"won_runoff":"lost_runoff";
+  G.busy=false;
+  setTimeout(function(){
+    showResult({lab:"The runoff · seven days later",h:won?"You won the runoff.":"You lost the runoff.",
+      nums:[{n:"You",v:pc,c:"you"},{n:"Opposition",v:100-pc,c:"opp"}],
+      lead:won?"Four more years. Nobody who voted for you twice will expect less the second time.":"It was close enough to argue about, and not close enough to change.",
+      zones:[],go:won?"Begin your second term →":"See your legacy →"},
+      function(){ campDone(won, won?"Re-elected after a runoff, with "+pc+"% of the second vote.":"Lost the runoff with "+pc+"% of the vote."); });
+  },400);
+}
+/* a new run starts with nothing on screen but the desk */
+beginRun=(function(orig){return function(){
+  ["gYear","gResult"].forEach(function(id){$(id).hidden=true;});
+  orig();
+};})(beginRun);
+/* the Returning Officer announces from the polling unit, not an empty room */
+election=(function(orig){return function(){
+  orig();
+  if(/Returning Officer/.test($("gWho").textContent)){caption("Election day · The Returning Officer");setScene("polling","none");}
+};})(election);
+
+
+
+function frontPage(endTitle){
+  var f=$("gFront"); if(!f)return;
+  f.innerHTML="";
+  var m=el("div","fr-mast");m.appendChild(el("b",null,MASTHEAD));m.appendChild(el("span",null,"Your last morning in office"));f.appendChild(m);
+  var gname=G.pn?pname(G.pn.c,G.pn.a):"";
+  f.appendChild(el("h2",null,endTitle||""));
+  var span=spanWords(G.day);
+  f.appendChild(el("p","stand",(gname?sentence(gname)+". ":"")+span+" in office."));
+  var rec=(G.rec||[]).filter(function(r){return r.t;}).sort(function(a,b){return b.mag-a.mag;});
+  var cols=el("div","cols");
+  if(rec[0]){var a=el("p");a.appendChild(el("em",null,"The decision that defined it"));a.appendChild(document.createTextNode("“"+rec[0].t.replace(/\.$/,"")+".” — "+rec[0].w.split(",")[0]));cols.appendChild(a);}
+  var moved=VALUES.map(function(v){return {v:v,d:G.v[v.k]-v.s};}).sort(function(x,y){return Math.abs(y.d)-Math.abs(x.d);})[0];
+  if(moved){var b=el("p");b.appendChild(el("em",null,"What changed most"));b.appendChild(document.createTextNode(moved.v.n+(moved.d>=0?" rose":" fell")+" further than anything else while you were in office."));cols.appendChild(b);}
+  if(cols.children.length)f.appendChild(cols);
+}
+
 
 var G={live:false,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,queue:[]};
 
@@ -3226,7 +4908,7 @@ var G={live:false,m:{},v:{},day:0,year:0,term:1,flags:{},seen:[],contra:0,queue:
    two options balance against each other — the per-bloc weight is applied once, here,
    where it can be retuned and measured. A single card can still move a power a long
    way, but not further than 26. */
-var BLOC_W={street:0.72,purse:0.90,barracks:1.28,gov:1.23,palace:1.60};
+var BLOC_W={street:0.72,purse:0.90,barracks:1.28,gov:1.23,palace:1.60,nass:1.15};
 function blocMove(k,raw){
   var d=raw*0.75*(BLOC_W[k]||1);
   return Math.max(-26,Math.min(26,d));
@@ -3263,7 +4945,10 @@ var POSTURE={
    loyal:"Flush",warming:"Easing",restless:"Cautious",holding:"Solvent"},
  gov:{owned:"Ceremonial",abandoned:"Secession",
    captured:"The real power",plotting:"In revolt",hostile:"Defiant",sliding:"Breaking ranks",
-   loyal:"With you",warming:"Coming round",restless:"Bargaining",holding:"In line"}
+   loyal:"With you",warming:"Coming round",restless:"Bargaining",holding:"In line"},
+ nass:{owned:"Rubber stamp",abandoned:"Gridlock",
+   captured:"Your stamp",plotting:"Counting votes",hostile:"Blocking",sliding:"Cooling",
+   loyal:"Passing bills",warming:"Listening",restless:"Unconsulted",holding:"In session"}
 };
 /* What the shift actually means, in the room. Written per bloc because a Purse that
    has stopped lending is not the same event as a Barracks that has stopped saluting. */
@@ -3302,7 +4987,14 @@ var SHIFTWORD={
    plotting:"They have stopped pretending to consult you and started coordinating with each other.",
    hostile:"The federating units are openly defying the centre. What you have left is a capital city.",
    sliding:"The coalition is loosening. It always starts with one or two and it is never only one or two.",
-   loyal:"The states are with you, which means anything you decide can actually reach a village."}
+   loyal:"The states are with you, which means anything you decide can actually reach a village."},
+ nass:{owned:"The Assembly no longer examines anything you send it. Your laws pass, and nobody believes they were read.",
+   abandoned:"Nothing you send to the Assembly is passing, not even the budget. The government is running on last year's figures.",
+   captured:"The Assembly passes whatever arrives from the Villa. It looks like strength until someone asks who checked it.",
+   plotting:"Members are counting votes, and they are not counting them for you.",
+   hostile:"Your bills are dying in committee and your nominees are not being confirmed.",
+   sliding:"Members feel they are only called when a vote is needed, and the mood in both chambers has cooled.",
+   loyal:"Your bills are moving through both chambers. That is rarer than it should be."}
 };
 
 
@@ -3338,8 +5030,12 @@ var IMP_GAP=2;
    run six decisions earlier. Removal was unreachable content. Flattening the weights
    lets the Assembly reach two-thirds with all three powers merely low, which is both
    the realistic picture and the one that leaves the run alive to finish the process. */
+/* The Assembly is now a sixth bloc with a standing of its own, but it is still made of
+   members whose seats the governors, the party and the funders deliver. Its votes are
+   about a third the chamber's own mood and two thirds the arithmetic underneath it. */
+function nassDerived(){ return G.m.gov*0.40+G.m.palace*0.32+G.m.purse*0.28; }
 function navFor(){
-  var base=G.m.gov*0.40+G.m.palace*0.32+G.m.purse*0.28;
+  var base=nassDerived()*0.65+G.m.nass*0.35;
   /* A member who can point at a specific act can defend the vote at home. Your own
      record is worth votes against you. */
   return Math.max(0,base-particCount()*2.5);
@@ -3356,7 +5052,7 @@ function navAgainst(){ return Math.round(100-navFor()); }
    which is why they carry the state leg outright and still weigh in the federal one. */
 function amendLegs(){
   var p=particCount()*2.5;
-  var chambers=Math.max(0,(G.m.gov*0.34+G.m.palace*0.34+G.m.purse*0.32)-p);
+  var chambers=Math.max(0,((G.m.gov*0.34+G.m.palace*0.34+G.m.purse*0.32)*0.65+G.m.nass*0.35)-p);
   var states=Math.max(0,G.m.gov-p);
   return {c:Math.round(chambers),s:Math.round(states),ok:(chambers>=67&&states>=67)};
 }
@@ -3399,11 +5095,12 @@ function impCheck(){
    it consumes a decision. */
 function impCard(who,says,lt,rt){
   G.cur=-2;
+  hideThird();
   $("gCard").className="card imp";
   $("gL").parentNode.classList.remove("one");
   $("gWho").textContent=who;
   $("gSays").textContent="\u201c"+says+"\u201d";
-  $("gL").querySelector(".txt").textContent=lt;
+  clearSubs();$("gL").querySelector(".txt").textContent=lt;
   $("gR").querySelector(".txt").textContent=rt;
   $("gFlagBox").hidden=true;
   $("gCard").classList.remove("tilt-l","tilt-r");
@@ -3514,7 +5211,8 @@ function impPlay(side){
 }
 function impEnd(removed,where){
   G.imp=null;G.impCool=G.day;
-  if(!removed){G.impSurvived=(G.impSurvived||0)+1;G.impWhere=where;}
+  if(!removed){G.impSurvived=(G.impSurvived||0)+1;G.impWhere=where;
+    G.rec.push({d:G.day,ev:"The Assembly moved to remove you. You survived it."});}
 }
 /* One line in the ending, because surviving this is the thing a player will want to
    say out loud. */
@@ -3544,7 +5242,8 @@ var FACE={
  palace:{n:"Chief Adewale Ogundipe",t:"Secretary to the Council of Rulers"},
  barracks:{n:"General Musa Dangana",t:"Chief of Defence Staff"},
  purse:{n:"Mrs Amaka Nwachukwu",t:"Chair of the Chamber"},
- gov:{n:"Governor Bassey Ekanem",t:"Chair of the Governors' Forum"}
+ gov:{n:"Governor Bassey Ekanem",t:"Chair of the Governors' Forum"},
+ nass:{n:"Senator Ladi Gyang",t:"Leader of the Senate"}
 };
 /* [line, how it reached you]. Where the second element is present the words were not
    said to your face, which is most of the information in them. */
@@ -3552,7 +5251,7 @@ var VOICE={
  street:{
   owned:["Every hard thing now waits for me to say my members can live with it. That is not a presidency. That is a poll with a flag on it."],
   abandoned:["There is nothing left to discuss. From Monday nothing moves \u2014 not the ports, not the pumps, not the schools.","to the cameras"],
-  captured:["You have not upset us once. Sir, in four years, not once. Ask yourself what that says about what you have done."],
+  captured:["You have not upset us once. Your Excellency, in four years, not once. Ask yourself what that says about what you have done."],
   plotting:["We have stopped issuing statements. Statements are for people who still expect an answer.","in a room you were not in"],
   hostile:["They are on the road in Lagos, in Ibadan, in Kano. Not the kind with a permit.","to the cameras"],
   sliding:["Whatever you did last week, my members felt it before your ministers did."],
@@ -3560,15 +5259,15 @@ var VOICE={
  palace:{
   owned:["Nothing reaches this country now until a throne or a pulpit has agreed to it. Your Excellency might ask whether that is the government you ran for."],
   abandoned:["The Council has withdrawn. On Friday and on Sunday your name will not be spoken kindly, and that reaches further than any ministry you hold.","conveyed in writing"],
-  captured:["You are very well blessed, sir. You are also asking permission for everything, and permission is a thing that can be refused."],
+  captured:["You are very well blessed, Your Excellency. You are also asking permission for everything, and permission is a thing that can be refused."],
   plotting:["The Council has nothing to say about the President at this time.","the only statement issued"],
   hostile:["The emirs will not sit with you and the bishops will not stand with you. You may take that as our position."],
   sliding:["You stopped consulting. That is the only thing we have ever actually asked of you."],
   loyal:["They are speaking for you on Fridays and on Sundays. No ministry you control has that reach."]},
  barracks:{
-  owned:["With respect, sir, we decide and you announce. There has been no coup because nobody has seen the need for one."],
+  owned:["With respect, Your Excellency, we decide and you announce. There has been no coup because nobody has seen the need for one."],
   abandoned:["I no longer control what happens next. I am telling you that as a courtesy."],
-  captured:["You keep us very close, sir. Close enough that people have begun asking which of us is governing."],
+  captured:["You keep us very close, Your Excellency. Close enough that people have begun asking which of us is governing."],
   plotting:["Your own security people are bringing you the rumours now. I would listen to them.","reported to you by someone else"],
   hostile:["Officers are talking openly in the mess. You know what hour they come.","reported to you by someone else"],
   sliding:["Something you did landed badly with the officers. Nobody has said anything, which is the part I would worry about."],
@@ -3587,8 +5286,16 @@ var VOICE={
   captured:["You have given us everything we asked for. We have stopped asking for the things that are hard."],
   plotting:["We no longer come to Abuja to consult. We meet, and then we tell you.","from a meeting you were not at"],
   hostile:["The states are not remitting and they are not attending. What you have in Abuja is a capital city."],
-  sliding:["It begins with one or two of us, sir. It is never only one or two."],
-  loyal:["The states are with you, which is the only reason anything you decide can reach a village."]}
+  sliding:["It begins with one or two of us, Your Excellency. It is never only one or two."],
+  loyal:["The states are with you, which is the only reason anything you decide can reach a village."]},
+ nass:{
+  owned:["My members pass whatever you send. Your Excellency should ask whether that makes your laws stronger or weaker."],
+  abandoned:["The budget will not pass in its present form. Not this month, and not on your word alone.","on the floor of the Senate"],
+  captured:["We have not amended a single bill of yours this year. People are starting to call us your stamp."],
+  plotting:["Members are counting heads. I would not assume they are counting them for you.","in a corridor you were not in"],
+  hostile:["Your nominees will wait, and so will your bills. Members feel they are only called when a vote is needed."],
+  sliding:["You stopped consulting the leadership. Both chambers have noticed."],
+  loyal:["Your bills are moving and my members are defending them at home. Do not waste that."]}
 };
 
 /* ---------- which abandonments are terminal ----------
@@ -3687,7 +5394,8 @@ var LIFTED={
  palace:"They are taking your calls again. Not warmly, but they are taking them.",
  barracks:"The orders are being followed again. Nobody will ever tell you how close it was.",
  purse:"Salaries went out this month. That is the whole of the good news and it is not nothing.",
- gov:"The states are remitting again and attending again. The talk of leaving has stopped for now."
+ gov:"The states are remitting again and attending again. The talk of leaving has stopped for now.",
+ nass:"The budget has passed. Late, amended, and argued over, but passed."
 };
 function updateStates(){
   var loudest=null;
@@ -3746,8 +5454,8 @@ function brink(){
 /* Five composites, one per power. They are invented people standing in for
    institutions, which is why they are drawn in their own register and never in the
    one the twenty historical figures get. */
-var FACEIMG={street:"faces/street.webp",palace:"faces/palace.webp",
-  barracks:"faces/barracks.webp",purse:"faces/purse.webp",gov:"faces/gov.webp"};
+var FACEIMG={nass:"art/gyang_face.webp",street:"art/hauwa_face.webp",palace:"art/ogundipe_face.webp",
+  barracks:"art/dangana_face.webp",purse:"art/amaka_face.webp",gov:"art/ekanem_face.webp"};
 function setFace(k,colour){
   var f=$("gShiftF"); if(!f)return;
   var src=k&&FACEIMG[k];
@@ -3852,10 +5560,18 @@ function renderMeters(d){
   });
 }
 
+/* A requirement can be one flag or a list, any of which will do — which is how a
+   storyline's third act can follow whichever second act the run actually had. */
+function reqOk(c){
+  if(!c.req)return true;
+  if(Array.isArray(c.req))return c.req.some(function(f){return G.flags[f];});
+  return !!G.flags[c.req];
+}
 function eligible(){
   return DECK.filter(function(c,i){
     if(G.seen.indexOf(i)>=0)return false;
-    if(c.req && !G.flags[c.req])return false;
+    if(!reqOk(c))return false;
+    if(c.after!==undefined&&G.day<c.after)return false;
     return true;
   }).map(function(c){return DECK.indexOf(c);});
 }
@@ -3895,9 +5611,11 @@ function dealShock(sk){
   G.cur=-1;
   $("gCard").className="card shock";
   $("gL").parentNode.classList.add("one");
+  hideThird();
+  feedFor({v:sk.v});
   $("gWho").textContent=sk.w;
   $("gSays").textContent="“"+sk.s+"”";
-  $("gL").querySelector(".txt").textContent="Continue.";
+  clearSubs();$("gL").querySelector(".txt").textContent="Continue.";
   $("gR").querySelector(".txt").textContent="Continue.";
   $("gFlagBox").hidden=true;
   G.busy=false;
@@ -3916,6 +5634,17 @@ function nextCard(){
   if(G.impRemoved){endGame(null,"impeached");return;}
   $("gCard").className="card";
   $("gL").parentNode.classList.remove("one");
+  hideThird();
+  /* Day one: nobody has asked for anything yet except the people already at the door. */
+  if(G.day===0&&!G.opened){
+    G.opened=true;G.cur="open";
+    /* the deck's own minimum-wage card would now be the same argument twice */
+    OPENING=G.preOpen||pickOpening();G.preOpen=null;
+    /* the deck's own card on the same argument would now be the same argument twice */
+    DECK.forEach(function(c,i){if(OPENING.dupe&&c.w===OPENING.dupe&&!c.req&&G.seen.indexOf(i)<0)G.seen.push(i);});
+    showCard(OPENING);
+    return;
+  }
   /* An impeachment in progress outranks everything except the run ending. */
   if(G.imp){ if(impDue()){impDeal();return;} }
   else if(impCheck()){ impStart(); impDeal(); return; }
@@ -3925,7 +5654,7 @@ function nextCard(){
     G.cur="third";
     $("gWho").textContent=THIRD.w;
     $("gSays").textContent="“"+THIRD.s+"”";
-    $("gL").querySelector(".txt").textContent=THIRD.l.t;
+    clearSubs();$("gL").querySelector(".txt").textContent=THIRD.l.t;
     $("gR").querySelector(".txt").textContent=THIRD.r.t;
     $("gFlagBox").hidden=true;
     $("gCard").classList.remove("tilt-l","tilt-r");
@@ -3946,9 +5675,16 @@ function nextCard(){
   var pick;
   /* a chained card is the consequence arriving — it should arrive later, not next */
   forced.forEach(function(i){ if(G.owed[i]===undefined)G.owed[i]=G.day; });
-  var ripe=forced.filter(function(i){return (G.day-G.owed[i])>=3;});
+  var ripe=forced.filter(function(i){return (G.day-G.owed[i])>=(DECK[i].wait||3);});
+  /* Consequences arrive one at a time, with room between them, or a busy first year
+     turns into nothing but the past coming back. */
+  if(G.lastForced!==undefined&&G.day-G.lastForced<2)ripe=[];
+  /* the opening act of a storyline is put on the desk at a set point in the term */
+  var due=pool.filter(function(i){return DECK[i].at!==undefined&&G.day>=DECK[i].at&&!DECK[i].req;});
   if(urgent.length){pick=urgent[0];G.lastUrgent=G.day;}
-  else if(ripe.length) pick=ripe[0];
+  else if(ripe.length){ pick=ripe[0]; G.lastForced=G.day; }
+  else if(due.length) pick=due[0];
+  else if((pick=agendaPick(pool))!==null){}
   else {
     /* Cards that make no directional claim used to score 99 here, which meant they
        could only ever be dealt once every card that did make one was exhausted — they
@@ -3965,14 +5701,7 @@ function nextCard(){
     pick=bestI;
   }
   G.cur=pick;G.seen.push(pick);
-  var c=DECK[pick];
-  $("gWho").textContent=c.w;
-  $("gSays").textContent="“"+c.s+"”";
-  $("gL").querySelector(".txt").textContent=c.l.t;
-  $("gR").querySelector(".txt").textContent=c.r.t;
-  $("gFlagBox").hidden=true;
-  $("gCard").classList.remove("tilt-l","tilt-r");
-  G.busy=false;
+  showCard(DECK[pick]);
 }
 
 /* The levels are where the blocs ended. This is what living under you was like for
@@ -4012,7 +5741,11 @@ function play(side){
   if(SND&&AC&&AC.state!=="running")unlock();
   G.busy=true;
   if(G.cur===-2){impPlay(side);return;}
-  var c=(G.cur==="third")?THIRD:DECK[G.cur],ch=side==="l"?c.l:c.r;
+  if(G.cur===-3){campPlay(side);return;}
+  if(G.cur===-4){runoffPlay(side);return;}
+  var c=(G.cur==="third")?THIRD:((G.cur==="open")?OPENING:DECK[G.cur]);
+  var ch=side==="l"?c.l:(side==="c"&&c.c?c.c:c.r);
+  hideThird();
   /* Declining the amendment has to be recorded, or nextCard re-satisfies the same
      condition and deals this card again for ever. Saying no was an unwinnable loop. */
   if(G.cur==="third"&&!ch.third)G.third="declined";
@@ -4021,6 +5754,7 @@ function play(side){
     G.day++;
     if(leg.ok){
       G.third="passed";G.limit=48;G.term=3;season();
+      G.rec.push({d:G.day,ev:"You put a third term to the Assembly, and it passed."});
       G.m.street=Math.max(0,G.m.street-30);G.m.gov=Math.max(0,G.m.gov-12);
       applyV({pro:-8,int:-26,coh:-12,cap:-5},1);
       BLOCS.forEach(function(b){G.hist[b.k].push(0);G.cold[b.k]++;});
@@ -4030,6 +5764,7 @@ function play(side){
       $("gFlag").textContent="Two-thirds of all the members of each chamber, and then twenty-four of the thirty-six State Houses of Assembly. You have four more years and the country knows exactly how you got them. Nobody who votes for you again will be voting for the same thing.";
     } else {
       G.third="failed";
+      G.rec.push({d:G.day,ev:"You put a third term to the Assembly, and it was refused."});
       G.m.street=Math.max(0,G.m.street-22);G.m.palace=Math.max(0,G.m.palace-12);
       G.m.gov=Math.max(0,G.m.gov-12);
       applyV({pro:-6,int:-9,coh:-5},1);
@@ -4055,10 +5790,17 @@ function play(side){
   }
   var deltas={};
   BLOCS.forEach(function(b){
-    var before=G.m[b.k],d=blocMove(b.k,ch.m[b.k]||0);
+    var before=G.m[b.k],d=blocMove(b.k,(ch.m&&ch.m[b.k])||0);
     G.m[b.k]=Math.max(0,Math.min(100,before+d));
     deltas[b.k]=G.m[b.k]-before;
   });
+  /* The chamber drifts toward what the governors, the party and the funders would
+     deliver, a little each time, whatever was decided. */
+  var nb=G.m.nass;
+  G.m.nass=Math.max(0,Math.min(100,nb+(nassDerived()-nb)*0.12));
+  deltas.nass+=(G.m.nass-nb);
+  record(c,ch);
+  pressure();
   /* every choice is also a position — this is what you governed as, not what you said */
   /* Two different records. gax/gn is the running position, which is quantised and
      noisy at low n. gtest/gwith counts only decisions on axes where you actually
@@ -4089,6 +5831,7 @@ function play(side){
       G.cause[vk][dir]={mag:mag,who:c.w,txt:ch.t};
   }}
   applyV(ch.v);
+  feedFor(ch);
   /* a poor country turns on you whatever the blocs think — this is what stops
      pure bloc-balancing from being a winning strategy */
   var sb=G.m.street;
@@ -4107,9 +5850,10 @@ function play(side){
   if(ch.f)G.flags[ch.f]=true;
   G.day++;G.year=Math.floor((G.day-1)/PER_YEAR);
   SFX.decide();
+  $("gameRun").classList.remove("fresh");
   renderMeters(deltas);
   if(!(G.crisisN>=3&&G.prevN<3)){
-    announceShift(shift);
+    if(shift)announceShift(shift); else meetNext(deltas);
     if(shift&&SEV[shift.s]>=4)SFX.danger();
   }
   if(BLOCS.some(function(b){return G.m[b.k]<=20||G.m[b.k]>=80;}))SFX.danger();
@@ -4123,20 +5867,23 @@ function play(side){
 
 function election(){
   if(G.impRemoved){endGame(null,"impeached");return;}
+  /* the vote is now played: a campaign, then results night */
+  if(!G.campDone||!G.campDone[G.term]){campStart();return;}
   /* the country you are asking them to re-elect you on: mostly what it costs
      at the market, but not only that */
   var felt=G.v.pro*0.55+G.v.sec*0.25+G.v.cap*0.20;
   /* You can run a country through a general strike. You cannot get re-elected during
      one, and two at once is the end of the road. */
   var mandate=(G.m.street*0.5+felt*0.5)-8*(G.crisisN||0);
-  if(mandate<38){endGame(null,"lost");return;}
+  if(G.elecLost){endGame(null,"lost");return;}
   G.term++;season();
   interstitial(G.term===2?"Harmattan":"The long dry",
-    G.term===2?"Term two. The wind turns, the dust comes down, and nothing you promised has got easier."
+    G.term===2?"Term two. Everyone knows you cannot run again, and nothing you promised has got easier."
               :"The amended term. Nobody is pretending any more.");
+  hideThird();
   $("gWho").textContent="The Returning Officer";
-  $("gSays").textContent="“You have been returned for a second term. Four more years, and then the constitution says you go. The blocs reset nothing. Neither does the country.”";
-  $("gL").querySelector(".txt").textContent="Continue.";
+  $("gSays").textContent="“You have been returned for a second term. Four more years, and then the constitution says you go. Nobody has forgotten anything, and the people who want your job have already started.”";
+  clearSubs();$("gL").querySelector(".txt").textContent="Continue.";
   $("gR").querySelector(".txt").textContent="Continue.";
   G.cur=-1;G.busy=false;
   $("gL").onclick=$("gR").onclick=function(){
@@ -4174,6 +5921,7 @@ var PN={
  purse:"THE ONE WHO RAN OUT OF MONEY",
  palace:"THE ONE THE OLD MEN STOPPED BLESSING",
  gov:"THE ONE THE THIRTY-SIX WALKED AWAY FROM",
+ nass:"THE ONE THE ASSEMBLY STOPPED LISTENING TO",
  lost_saint:"THE ONE-TERM SAINT",
  lost_fixed:"THE ONE WHO FIXED IT AND LOST ANYWAY",
  lost_nobody:"THE ONE WHO PLEASED NOBODY",
@@ -4214,6 +5962,7 @@ function presidencyCode(bloc,why){
     if(bloc.k==="barracks") return {c:"barracks"};
     if(bloc.k==="purse")    return {c:"purse"};
     if(bloc.k==="palace")   return {c:"palace"};
+    if(bloc.k==="nass")     return {c:"nass"};
     return {c:"gov"};
   }
   if(why==="lost"){
@@ -4286,7 +6035,7 @@ function endGame(bloc,why){
     var live=[];for(var ck in G.crisis)live.push(blocOf(ck).n.toLowerCase());
     kick="THE STATE STOPPED FUNCTIONING";
     title="It came apart.";
-    body="Three of the five at once: "+live.slice(0,2).join(", ")+" and "+live[2]+
+    body="Three of the six at once: "+live.slice(0,2).join(", ")+" and "+live[2]+
       ". Nobody removed you. Every office still carried your name and not one of them could move, "+
       "because the money, the authority and the consent a government needs to act were all being fought for somewhere else at the same time. "+
       "You did not lose a vote or a barracks. You ran out of the things that make a decision possible.";
@@ -4306,6 +6055,7 @@ function endGame(bloc,why){
       "The street was "+Math.round(G.m.street)+
       " and people could not feel the difference in the market, on the road, or in a classroom. Nigerians have removed a sitting president before and the arithmetic was not complicated then either.";
     if(G.recovered)body+=" You had pulled the country back from the edge "+plural(G.recovered,"time")+" before this. It did not count for anything at the ballot.";
+    if(G.elec)body=(G.elec.outcome==="lost_runoff"?"You lost the runoff. ":"You took "+G.elec.you+"% of the vote to the opposition's "+G.elec.rival+"%. ")+body;
   } else if(bloc){
     var full=G.m[bloc.k]>=100;
     kick=full?("CAPTURED BY "+bloc.n.toUpperCase()):("ABANDONED BY "+bloc.n.toUpperCase());
@@ -4347,6 +6097,8 @@ function endGame(bloc,why){
   $("gEndYears").textContent=yrs+"y "+mos+"m";
   $("gEndCount").textContent=G.day;
   postMortem(bloc);
+  presidencyStory(title);
+  frontPage(title);
   ledger();
   philosophy();
   dossier();versus();
@@ -4366,14 +6118,16 @@ var DOSS_BAD={
  palace:"the Palace withheld its blessing",
  barracks:"officers were talking about you in the mess",
  purse:"there was not enough money for what you had decided",
- gov:"the Governors were in open revolt against Abuja"
+ gov:"the Governors were in open revolt against Abuja",
+ nass:"the Assembly was blocking what you sent it"
 };
 var DOSS_CAP={
  street:"the crowd decided what you could and could not do",
  palace:"nothing passed that the Palace had not blessed first",
  barracks:"the Barracks were governing alongside you",
  purse:"the business houses were writing what you announced",
- gov:"the thirty-six were running the country you presided over"
+ gov:"the thirty-six were running the country you presided over",
+ nass:"the Assembly passed whatever you sent without reading it"
 };
 /* Ordered by how rare the act is, not how dramatic it sounds. "Survived a story" fired
    in three runs out of four when it sat near the top, which is true to Nigerian
@@ -4517,36 +6271,41 @@ var SCENES={
  street:{
   served:{q:"My sister's school got teachers. Real ones, two years running.",
           at:"Overheard at a vendor's stand in Ogba"},
-  failed:{q:"He met darkness. He left darkness. In between he was very busy.",
+  failed:{q:"Met darkness. Left darkness. In between, very busy.",
           at:"Overheard at Alhaji's place, Surulere"}},
  palace:{
-  served:{q:"Quiet. That is what we gave him. It is not a small thing and he knew it.",
+  served:{q:"Quiet. That is what we gave this government. It is not a small thing, and the President knew it.",
           at:"Overheard in the anteroom, after the Friday crowd had gone"},
   failed:{q:"The old men are not finished. The old men simply wait.",
           at:"Overheard after the service, before the cars left"}},
  barracks:{
-  served:{q:"He gave us everything we asked for and nothing we needed. The boots still leak.",
+  served:{q:"The President gave us everything we asked for and nothing we needed. The boots still leak.",
           at:"Overheard in the officers' mess"},
-  failed:{q:"So we let him. Say it properly. We let him.",
+  failed:{q:"So we allowed it. Say it properly. We allowed it.",
           at:"Overheard in the officers' mess"}},
  purse:{
   served:{q:"And the country? The country is not my portfolio.",
           at:"Overheard in a boardroom on Kingsway Road"},
-  failed:{q:"He was protecting them with money he did not have, and they paid for it at the market anyway.",
+  failed:{q:"Protecting people with money that was not there, and they paid for it at the market anyway.",
           at:"Overheard in a boardroom on Kingsway Road"}},
  gov:{
   served:{q:"Abuja cannot move now without asking thirty-six people first. It is what we wanted.",
           at:"Overheard at the Forum, after the cameras"},
-  failed:{q:"He was not wrong. He was alone. That is the only difference that matters.",
-          at:"Overheard at the Forum, briefing the next man"}}
+  failed:{q:"Not wrong. Alone. That is the only difference that matters.",
+          at:"Overheard at the Forum, briefing the next one"}},
+ nass:{
+  served:{q:"Everything passed. Ask anyone what was in it and watch their face.",
+          at:"Overheard in the Senate lobby"},
+  failed:{q:"We were never asked. So we were never in a hurry.",
+          at:"Overheard in the House canteen"}}
 };
 
 /* the third term is the biggest thing about a presidency that tried it —
    it takes the line rather than sharing it */
 var THIRD_LINE={
- passed:{q:"Any man would have wanted it. Not any man did it.",
+ passed:{q:"Anyone would have wanted it. Not anyone would have done it.",
          at:"Overheard on the floor of the National Assembly"},
- failed:{q:"He asked them, and they refused him in public, like a child.",
+ failed:{q:"The President asked them, and they refused in public, like a child.",
          at:"Overheard on the floor of the National Assembly"}
 };
 
@@ -4682,14 +6441,16 @@ function season(){
   var t=G.term,n=(t===1?"rains":(t===2?"harmattan":"latedry"));
   $("view-play").setAttribute("data-season",n);
 }
-function interstitial(title,sub,after){
+function interstitial(title,sub,after,ms){
   SFX.term();
   var el=$("gSeason");
   $("gSeasonT").textContent=title;
   $("gSeasonS").textContent=sub;
   el.hidden=false;el.classList.remove("out");
-  setTimeout(function(){el.classList.add("out");
-    setTimeout(function(){el.hidden=true;if(after)after();},700);},2700);
+  var done=false,go=function(){ if(done)return; done=true; el.classList.add("out");
+    setTimeout(function(){el.hidden=true;if(after)after();},400); };
+  el.onclick=go;
+  setTimeout(go,ms||2700);
 }
 function beginRun(){
   CUR.presidentSessionId=uuid();
@@ -4711,9 +6472,14 @@ function beginRun(){
   runLock(true);
   $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
   if(SND)unlock();
+  G.rec=[];G.met={};G.warned={};G.praised={};G.feedUsed={};G.memo={};
+  $("gHead").hidden=true;
+  $("gameRun").classList.add("fresh");
+  $("gFeed").hidden=true;$("gFeedMsgs").innerHTML="";$("gWhy").hidden=true;$("gWhyBtn").hidden=true;
+  $("gC").onclick=function(){play("c");};
   season();buildMeters();buildCountry();clearShift();
   renderMeters();updateClock();nextCard();
-  interstitial("The rains","Term one. You arrive with everything still possible.");
+  interstitial("The rains","Term one. You arrive with everything still possible.",null,1400);
 }
 $("gSnd").addEventListener("click",sndToggle);
 (function(){var b=$("gSnd");b.textContent=SND?"Sound on":"Sound off";b.setAttribute("aria-pressed",String(SND));})();
@@ -4737,6 +6503,11 @@ $("gChallenge").addEventListener("click",function(){
     function(){gtoast("Your browser blocked the copy");});
 });
 $("gReturnBtn").addEventListener("click",function(){beginCompass();reset();show("quiz");renderQ();});
+$("gWhyBtn").addEventListener("click",function(){
+  var open=$("gWhy").hidden;
+  $("gWhy").hidden=!open;
+  $("gWhyBtn").setAttribute("aria-expanded",String(open));
+});
 $("gStart").addEventListener("click",beginRun);
 $("gAgain").addEventListener("click",beginRun);
 $("gL").addEventListener("mouseenter",function(){$("gCard").classList.add("tilt-l");});
@@ -4747,6 +6518,7 @@ document.addEventListener("keydown",function(e){
   if($("view-play").hidden||!G.live)return;
   if(e.key==="ArrowLeft"){e.preventDefault();$("gL").click();}
   if(e.key==="ArrowRight"){e.preventDefault();$("gR").click();}
+  if((e.key==="ArrowDown"||e.key==="ArrowUp")&&!$("gC").hidden){e.preventDefault();$("gC").click();}
 });
 
 /* ---------- boot ---------- */
@@ -4762,7 +6534,12 @@ function start(){
   $("officeSel").addEventListener("change",renderBallot);
   $("wWipe").addEventListener("click",wipeLocal);
   st.cmp=readInvite();
-  renderBallot();renderInvite();show("start");marks();
+  renderBallot();renderInvite();
+  /* An advert, a post or a shared link can name the half it is selling. */
+  var r0=routeFrom(location.hash);
+  if(r0)enter(r0.view,{deep:r0.deep,history:false});
+  else show("start");
+  marks();
   /* and again once the hero has its bytes, because a late image can move the page
      under a scroll position the browser set before it arrived */
   window.addEventListener("load",function(){window.scrollTo(0,0);},{once:true});
@@ -4778,5 +6555,6 @@ if(window.claude&&window.claude.hot){
 }else{start();}
 })();
 </script>
+
 
 </body></html>
