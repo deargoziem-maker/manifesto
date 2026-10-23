@@ -24,14 +24,15 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
 <script>
 /* A shared link carries the sender's reading (positions, archetype, a run's ending) in
-   the URL fragment, as c= and g= parts. The advertising pixel below sends the full page
+   the URL fragment, as c= and g= parts, and a ballot link carries the chosen state, LGA
+   or ward as at=. The advertising pixel below sends the full page
    URL, fragment included, with every event — so those parts are moved out of the address
    bar here, before the pixel exists, and read back by the page from this variable
    instead. Route parts (#play-now, #quiz ...) are not sensitive and stay in the URL. */
 (function(){
   try{
     var h=location.hash.replace(/^#/,""),keep=[],hide=[];
-    if(h)h.split("&").forEach(function(p){(/^[cg]=/.test(p)?hide:keep).push(p);});
+    if(h)h.split("&").forEach(function(p){(/^(c|g|at)=/.test(p)?hide:keep).push(p);});
     if(hide.length){
       window.__IFY_FRAG=hide.join("&");
       try{sessionStorage.setItem("ify_frag",window.__IFY_FRAG);}catch(e){}
@@ -1591,6 +1592,222 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
   .way-btn{font-size:.88rem;padding:10px 14px;}
 }
 
+/* ===== Know Your Politics: the woven quiz ===== */
+.kq{max-width:640px;margin:0 auto;}
+.kq[hidden]{display:none;}
+.kq-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;}
+.kq-dots{display:flex;gap:5px;margin-top:6px;}
+.kq-dots i{width:22px;height:4px;background:var(--hair);display:block;}
+.kq-dots i.done{background:var(--ink-3);} .kq-dots i.now{background:var(--danfo);}
+.kq-swatch{all:unset;cursor:pointer;width:38px;flex:none;border:1px solid var(--hair);line-height:0;}
+.kq-swatch:focus-visible{outline:2px solid var(--danfo);outline-offset:2px;}
+.kq-swatch svg{width:100%;height:auto;display:block;}
+.kq-swatch.pulse{animation:kqPulse .5s ease;}
+@keyframes kqPulse{50%{transform:scale(1.12)}}
+.kq-scene{position:relative;aspect-ratio:16/6;overflow:hidden;background:var(--stock-2);border-bottom:4px solid var(--danfo);margin-bottom:14px;}
+.kq-scene img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:camPush 26s ease-out both;}
+.kq-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,14,22,0) 40%,rgba(10,14,22,.75));}
+.kq-lens{position:absolute;left:12px;bottom:9px;z-index:2;font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:#F3F1E8;}
+.kq-lens::before{content:"";display:inline-block;width:12px;height:3px;background:var(--danfo);vertical-align:middle;margin-right:7px;}
+.kq-head{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(1.35rem,1rem + 1.6vw,1.9rem);line-height:1.05;margin:0 0 6px;}
+.kq-stem{margin:0 0 14px;font-size:1.04rem;line-height:1.45;color:var(--ink);}
+.kq-opts{display:grid;gap:8px;}
+.kq-o{all:unset;box-sizing:border-box;cursor:pointer;display:block;background:var(--stock);border:1.5px solid var(--hair);border-left:4px solid var(--elu-mark);
+  padding:13px 14px;font-family:"Literata",serif;font-size:1rem;line-height:1.4;color:var(--ink);transition:border-color .15s ease,background .15s ease;}
+.kq-o:nth-of-type(1){border-left-color:var(--danfo);}
+.kq-o:focus-visible{outline:2px solid var(--danfo);outline-offset:2px;}
+.kq-o.sel{border-color:var(--ink);background:var(--stock-2);}
+@media (hover:hover) and (pointer:fine){.kq-o:hover{border-color:var(--ink-3);}}
+.kq-str{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:4px 0 6px 6px;}
+.kq-str[hidden]{display:none;}
+.kq-str .lab{margin-right:4px;}
+.kq-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);flex-wrap:wrap;}
+.kq-foot span{display:flex;gap:14px;}
+.kq-l{all:unset;cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.06em;color:var(--ink-2);border-bottom:1px solid var(--hair);padding-bottom:1px;}
+.kq-l:hover,.kq-l:focus-visible{color:var(--ink);border-color:var(--danfo);}
+.kq-round,.kq-weave{display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:20px 0;}
+.kq-round[hidden],.kq-weave[hidden],.kq-peek[hidden]{display:none;}
+.kq-round h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.7rem;line-height:1.05;margin:6px 0 8px;}
+.kq-round p{margin:0 0 16px;color:var(--ink-2);}
+.kq-rcl svg,.kq-weave svg,.kq-peek svg{width:100%;height:auto;display:block;}
+.kq-weave{grid-template-columns:minmax(160px,260px);justify-content:center;}
+.kq-cloth .kq-cell.dyed{animation:none;}
+.kq-cloth.anim-on .kq-cell.dyed{animation:kqDye .5s ease both;}
+@keyframes kqDye{from{opacity:0}to{opacity:1}}
+.kq-peek{position:fixed;inset:0;z-index:60;background:rgba(10,14,22,.82);display:grid;place-items:center;padding:20px;}
+.kq-peek-in{background:var(--paper);padding:18px;max-width:300px;width:100%;}
+.kq-peek-in p{font-size:.88rem;color:var(--ink-2);margin:10px 0 12px;}
+@media (max-width:720px){
+  .kq-scene{aspect-ratio:auto;height:clamp(96px,17vh,150px);}
+  .kq-head{font-size:1.35rem;}
+  .kq-stem{font-size:.98rem;margin-bottom:10px;}
+  .kq-o{padding:11px 12px;font-size:.95rem;}
+  .kq-round,.kq-weave{grid-template-columns:120px minmax(0,1fr);gap:16px;}
+  .kq-weave{grid-template-columns:180px;}
+}
+/* the result: the cloth first */
+.kq-hero{display:grid;grid-template-columns:minmax(150px,300px) minmax(0,1fr);gap:28px;align-items:start;margin-bottom:26px;}
+.kq-hero-cl svg{width:100%;height:auto;display:block;box-shadow:0 10px 30px rgba(10,14,22,.25);}
+.kq-hero-t h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(1.8rem,1.2rem + 2.6vw,2.8rem);line-height:1;margin:6px 0 10px;}
+.kq-hero-p{margin:0 0 12px;color:var(--ink-2);}
+.kq-legend{list-style:none;margin:0 0 16px;padding:0;border-top:1px solid var(--hair);}
+.kq-legend li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--hair);}
+.kq-sw{width:30px;height:30px;display:block;}
+.kq-legend b{display:block;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);}
+.kq-legend span{font-size:.94rem;}
+.kq-hero-cl svg .kq-cell.dyed{animation:kqDye .45s ease both;}
+@media (max-width:640px){.kq-hero{grid-template-columns:1fr;gap:16px;}.kq-hero-cl{max-width:220px;}}
+@media (prefers-reduced-motion:reduce){.kq-hero-cl svg .kq-cell.dyed,.kq-scene img,.kq-swatch.pulse{animation:none;}}
+#view-result #aname{display:none;}
+#view-result .measure:has(#aname){margin-top:0;}
+.kq-echo-note{margin:0 0 12px;color:var(--ink-3);font-size:.9rem;}
+.kq-echoes{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+.kq-echo{border:1px solid var(--hair);border-top:3px solid var(--bronze);padding:12px 14px;background:var(--stock);}
+.kq-echo h4{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.05rem;margin:4px 0 6px;}
+.kq-echo p{margin:0 0 8px;font-size:.9rem;line-height:1.45;}
+.kq-echo .kq-you{color:var(--ink);} .kq-echo .kq-lim{color:var(--ink-3);font-size:.82rem;}
+.kq-echo a{font-size:.8rem;}
+#view-result .kq-cut,#view-result #fwhy,#view-result #fsec2,#view-result #strainBox,#view-result #civicWrap,#view-result #part2{display:none!important;}
+
+/* ===== Your ballot: always at night, like the front door ===== */
+body.onballot{--paper:#0E1420;--stock:#151C2A;--stock-2:#1E2636;--ink:#F3F1E8;--ink-2:#B9BDC5;--ink-3:#8A9099;
+  --rule:#F3F1E8;--hair:#2C3546;--elu-mark:#6E93E0;--danfo:#FFC93F;background:#0E1420;color:var(--ink);}
+body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
+.bl{display:flex;flex-direction:column;gap:18px;}
+.bl-hero{display:grid;grid-template-columns:minmax(280px,1fr) 1.35fr;gap:22px;align-items:stretch;}
+.bl-side{display:flex;flex-direction:column;justify-content:center;gap:14px;padding:6px 0;}
+.bl-when{color:var(--danfo);}
+.bl-h{font-size:clamp(2.3rem,1.6rem + 3vw,3.9rem);line-height:.98;margin:0;color:#fff;}
+.bl-h em{font-style:normal;color:var(--danfo);}
+.bl-p{margin:0;color:var(--ink-2);font-size:1.02rem;line-height:1.45;max-width:34ch;}
+.bl-find{position:relative;}
+.bl-find input{width:100%;box-sizing:border-box;font:inherit;font-size:1.05rem;padding:15px 16px 15px 44px;border-radius:10px;
+  border:1.5px solid #3A4A6E;background:#121a2a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23FFC93F' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") 14px 50%/20px no-repeat;
+  color:#fff;outline:none;-webkit-appearance:none;appearance:none;}
+.bl-find input::placeholder{color:#8A9099;}
+.bl-find input:focus{border-color:var(--danfo);}
+.bl-find ul{position:absolute;z-index:30;left:0;right:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;background:#151C2A;
+  border:1px solid #2C3546;border-radius:10px;box-shadow:0 18px 40px rgba(0,0,0,.45);max-height:340px;overflow:auto;}
+.bl-find li{padding:10px 12px;border-radius:7px;cursor:pointer;display:flex;flex-direction:column;gap:2px;}
+.bl-find li b{color:#fff;font-weight:600;}
+.bl-find li span{font-size:.82rem;color:var(--ink-3);}
+.bl-find li:hover,.bl-find li[aria-selected="true"]{background:#1E2636;}
+.bl-find li.none{cursor:default;color:var(--ink-3);}
+.bl-count{font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase;}
+.bl-count b{color:var(--ink);font-weight:600;}
+.bl-map{position:relative;min-height:520px;border-radius:14px;overflow:hidden;border:1px solid #233049;
+  background:radial-gradient(ellipse 70% 60% at 55% 50%,#131d31 0%,#0B111C 70%);}
+.bl-map canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;}
+.bl-crumb{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:4px;flex-wrap:wrap;z-index:3;max-width:calc(100% - 24px);}
+.bl-crumb button{all:unset;cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-2);padding:6px 9px;border-radius:6px;background:rgba(14,20,32,.75);border:1px solid #2C3546;}
+.bl-crumb button[aria-current="true"]{color:var(--danfo);border-color:rgba(255,201,63,.5);}
+.bl-crumb button:focus-visible{outline:2px solid var(--danfo);}
+.bl-crumb i{font-style:normal;color:var(--ink-3);}
+.bl-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:3;pointer-events:none;
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--danfo);
+  animation:blPulse 2.4s ease-in-out infinite;}
+.bl-hint[hidden]{display:none;}
+@keyframes blPulse{0%,100%{opacity:.45}50%{opacity:1}}
+.bl-tip{position:absolute;z-index:4;pointer-events:none;transform:translate(-50%,calc(-100% - 12px));background:#151C2A;border:1px solid #2C3546;
+  border-radius:8px;padding:7px 10px;display:flex;flex-direction:column;gap:1px;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.4);}
+.bl-tip b{color:#fff;font-size:.88rem;}
+.bl-tip span{color:var(--ink-3);font-size:.76rem;}
+.bl-parties{display:flex;align-items:center;gap:12px;}
+.bl-parties>div{display:flex;gap:6px;flex-wrap:wrap;}
+.bl-parties button{all:unset;cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.04em;padding:6px 9px;border-radius:6px;
+  color:var(--ink-2);border:1px solid #2C3546;background:#121a2a;}
+.bl-parties button[aria-pressed="true"]{color:#0E1420;background:var(--danfo);border-color:var(--danfo);}
+.bl-parties button:focus-visible{outline:2px solid var(--danfo);outline-offset:2px;}
+.bl-reach{margin:0;padding:12px 14px;border-left:3px solid var(--elu-mark);background:#121a2a;border-radius:0 8px 8px 0;color:var(--ink);font-size:.95rem;line-height:1.45;}
+.bl-reach span{display:block;color:var(--ink-3);font-size:.84rem;margin-top:3px;}
+.bl-wait{color:var(--ink-3);}
+.bl-lead{margin-top:10px;}
+.bl-lead h2{margin:4px 0 6px;font-size:var(--s-2);color:#fff;line-height:1.1;}
+.bl-lead h2 small{display:block;font-size:.55em;color:var(--ink-3);font-weight:500;margin-top:4px;}
+.bl-lead p{margin:0 0 10px;color:var(--ink-2);}
+.bl-you{padding:18px 18px 16px;border:1.5px solid var(--danfo);border-radius:12px;background:#121a2a;}
+.bl-you .lab{color:var(--danfo);}
+.bl-day{display:flex;align-items:center;gap:12px;margin-top:14px;}
+.bl-day::after{content:"";flex:1;height:1px;background:#2C3546;}
+.bl-day .lab{color:var(--danfo);}
+.bl-grid .lab{display:block;margin-bottom:10px;}
+.bl-grid>div{display:flex;flex-wrap:wrap;gap:7px;}
+.bl-grid button{all:unset;cursor:pointer;padding:9px 12px;border-radius:8px;border:1px solid #2C3546;background:#121a2a;color:var(--ink);font-size:.92rem;}
+.bl-grid button:hover{border-color:var(--danfo);}
+.bl-grid button:focus-visible{outline:2px solid var(--danfo);}
+.rc{border:1px solid #2C3546;border-radius:12px;background:#121a2a;overflow:hidden;}
+.rc-h{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:14px 16px 10px;}
+.rc-k{grid-column:1/-1;font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--danfo);}
+.rc-h h3{margin:0;font-size:1.22rem;color:#fff;line-height:1.2;}
+.rc-d{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--ink-3);align-self:end;}
+.rc-sum{margin:0;padding:0 16px 10px;color:var(--ink-3);font-size:.86rem;}
+.rc-sum b{color:var(--ink-2);font-weight:600;}
+.rc-note{margin:0;padding:0 16px 12px;color:var(--ink-2);font-size:.92rem;line-height:1.45;}
+.rc-pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:0 16px 12px;}
+.rc-pick span{width:100%;color:var(--ink-2);font-size:.88rem;margin-bottom:2px;}
+.rc-pick button{all:unset;cursor:pointer;padding:7px 11px;border-radius:7px;border:1px solid #2C3546;color:var(--ink-2);font-size:.86rem;}
+.rc-pick button[aria-selected="true"]{border-color:var(--danfo);color:#fff;background:#1E2636;}
+.rc-list{border-top:1px solid #2C3546;}
+.cd{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:62px 1fr auto 18px;gap:12px;align-items:center;
+  padding:11px 16px;border-bottom:1px solid #1E2636;transition:opacity .2s ease;}
+.cd:hover{background:#151f33;}
+.cd:focus-visible{outline:2px solid var(--danfo);outline-offset:-2px;}
+.cd.dim{opacity:.32;}
+.cd.hit{background:#17223a;box-shadow:inset 3px 0 0 var(--elu-mark);}
+.pp{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.03em;color:var(--ink);text-align:center;padding:4px 0;border-radius:5px;border:1px solid #3A4A6E;}
+.cn{color:#fff;font-size:.98rem;line-height:1.25;}
+.cn small{display:block;color:var(--ink-3);font-size:.8rem;margin-top:2px;}
+.ca{font-family:"IBM Plex Mono",monospace;font-size:.82rem;color:var(--ink-2);text-align:right;line-height:1.2;}
+.ca small{display:block;font-size:.66rem;color:var(--ink-3);}
+.chev{color:var(--ink-3);text-align:center;}
+.cdx{padding:4px 16px 14px 90px;border-bottom:1px solid #1E2636;background:#0f1726;}
+.cdx p{margin:8px 0;color:var(--ink-2);font-size:.92rem;line-height:1.5;}
+.cdf{display:grid;grid-template-columns:150px 1fr;gap:10px;padding:7px 0;font-size:.88rem;}
+.cdf b{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:500;padding-top:2px;}
+.cdf span{color:var(--ink);}
+.cdf-pos span{color:var(--ink-3);}
+.bl-src{margin:10px 0 0;color:var(--ink-3);font-size:.82rem;line-height:1.5;max-width:70ch;}
+#view-ballot .rc+.rc{margin-top:0;}
+#blBody{display:flex;flex-direction:column;gap:14px;}
+@media (max-width:860px){
+  .bl-hero{grid-template-columns:1fr;gap:14px;}
+  .bl-map{min-height:0;aspect-ratio:1/0.86;}
+  .bl-h{font-size:clamp(2.1rem,9.5vw,2.8rem);}
+  .bl-parties{flex-direction:column;align-items:flex-start;gap:8px;}
+  .bl-parties>div{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
+  .cd{grid-template-columns:50px 1fr auto 14px;gap:10px;padding:11px 12px;}
+  .cdx{padding:4px 12px 14px 12px;}
+  .cdf{grid-template-columns:1fr;gap:2px;}
+  .rc-h{padding:13px 12px 8px;}.rc-sum,.rc-note,.rc-pick{padding-left:12px;padding-right:12px;}
+}
+@media (prefers-reduced-motion:reduce){.bl-hint{animation:none;opacity:1;}.cd{transition:none;}}
+/* the third way in, on the front door */
+.way-ballot{grid-column:1/-1;min-height:220px;border-color:#3A4A6E;}
+.way-ballot .way-img{left:34%;}
+.way-ballot .way-img img{object-fit:contain;object-position:100% 50%;transform:scale(1.25);transform-origin:80% 50%;}
+.way-ballot::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,#0B111C 0%,#0B111C 32%,rgba(11,17,28,0) 62%);}
+.way-ballot .way-body{max-width:46%;}
+@media (hover:hover) and (pointer:fine){.way-ballot:hover{border-color:var(--danfo);}}
+@media (max-width:860px){
+  .way-ballot{min-height:0;aspect-ratio:1/0.62;}
+  .way-ballot .way-img{left:30%;}
+  .way-ballot::after{background:linear-gradient(to right,#0B111C 0%,#0B111C 30%,rgba(11,17,28,0) 70%);}
+  .way-ballot .way-body{max-width:64%;}
+}
+.rc-all{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;padding:12px 16px;text-align:center;color:var(--danfo);font-size:.9rem;}
+.rc-all:hover{background:#151f33;}.rc-all:focus-visible{outline:2px solid var(--danfo);outline-offset:-2px;}
+@media (max-width:720px){
+  body.onballot .menu{display:block;}
+  body.onballot nav.top{display:none;}
+  body.onballot.menuopen nav.top{display:flex;position:absolute;top:100%;right:14px;flex-direction:column;gap:4px;background:var(--stock);border:1px solid var(--hair);padding:8px;z-index:50;}
+  body.onballot .mast .wrap{position:relative;flex-wrap:nowrap;}
+}
+.bl-zoom{position:absolute;right:12px;bottom:12px;z-index:3;display:flex;flex-direction:column;border:1px solid #2C3546;border-radius:8px;overflow:hidden;background:rgba(14,20,32,.8);}
+.bl-zoom button{all:unset;cursor:pointer;width:38px;height:38px;display:grid;place-items:center;color:var(--ink);font-size:1.25rem;line-height:1;}
+.bl-zoom button+button{border-top:1px solid #2C3546;}
+.bl-zoom button:hover{color:var(--danfo);}.bl-zoom button:focus-visible{outline:2px solid var(--danfo);outline-offset:-2px;}
+
 </style>
 
 <header class="mast">
@@ -1612,6 +1829,7 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
     <nav class="top" id="nav">
       <button data-go="play"><i class="pip" hidden></i>Play President</button>
       <button data-go="quiz"><i class="pip" hidden></i>Take the Quiz</button>
+      <button data-go="ballot">Your Ballot</button>
     </nav>
   </div>
 </header>
@@ -1650,6 +1868,14 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
             <span class="btn way-btn way-ghost">Take the quiz →</span>
           </span>
         </button>
+        <button type="button" class="way way-ballot" data-go="ballot">
+          <img class="way-img" src="art/ballot_map.webp" alt="Nigeria drawn as thousands of small lights, one for each ward" decoding="async" loading="lazy">
+          <span class="way-body">
+            <span class="way-k">Your<br>ballot</span>
+            <span class="way-t">See everyone asking for your vote in 2027, from President down to your ward.</span>
+            <span class="btn way-btn way-ghost">Find your ballot →</span>
+          </span>
+        </button>
       </div>
     </div>
 
@@ -1658,6 +1884,38 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
 
 <section class="view" id="view-quiz" hidden>
   <div class="wrap">
+    <div class="kq" id="kq" hidden>
+      <div id="kqMain">
+        <div class="kq-top">
+          <div><span class="lab" id="kqCount"></span><div class="kq-dots" id="kqDots" aria-hidden="true"></div></div>
+          <button class="kq-swatch" id="kqSwatch" type="button" aria-label="Your cloth so far"></button>
+        </div>
+        <div class="kq-scene"><img id="kqImg" alt="" decoding="async"><span class="kq-lens" id="kqLens"></span></div>
+        <h2 class="kq-head" id="kqHead"></h2>
+        <p class="kq-stem" id="kqStem"></p>
+        <div class="kq-opts" role="group" aria-labelledby="kqStem">
+          <button class="kq-o" id="kqA" type="button" aria-pressed="false"><span class="kq-t"></span></button>
+          <button class="kq-o" id="kqB" type="button" aria-pressed="false"><span class="kq-t"></span></button>
+          <div class="kq-str" id="kqStr" hidden><span class="lab">How strongly?</span>
+            <button type="button" class="btn go sm" id="kqStrong">Strongly</button>
+            <button type="button" class="btn ghost sm" id="kqLean">Leaning</button></div>
+        </div>
+        <div class="kq-foot">
+          <button type="button" class="kq-l" id="kqBack">← Back</button>
+          <span><button type="button" class="kq-l" id="kqBoth">Both matter equally</button>
+          <button type="button" class="kq-l" id="kqSkip">Not sure</button></span>
+        </div>
+      </div>
+      <div class="kq-round" id="kqRoundBox" hidden>
+        <div class="kq-rcl" id="kqRoundCloth"></div>
+        <div class="kq-rt"><span class="lab">Your cloth</span><h2 id="kqRoundH"></h2><p id="kqRoundP"></p>
+          <button type="button" class="btn go" id="kqRoundGo">Continue →</button></div>
+      </div>
+      <div class="kq-weave" id="kqWeave" hidden><div id="kqWeaveCloth"></div></div>
+      <div class="kq-peek" id="kqPeek" hidden><div class="kq-peek-in"><div id="kqPeekCloth"></div>
+        <p>Each square is one of your answers. What the pattern says comes at the end.</p>
+        <button type="button" class="btn ghost sm" id="kqPeekClose">Back to the question</button></div></div>
+    </div>
     <div class="qshell">
       <div class="rail" id="rail" aria-hidden="true"></div>
       <span class="lab qcount" id="qcount"></span>
@@ -1692,9 +1950,15 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
 
 <section class="view" id="view-result" hidden>
   <div class="wrap">
-    <div class="measure">
-      <h1 style="font-size:var(--s-3)">Your political philosophy, based on your answers</h1>
-      <p style="color:var(--ink-2);margin-top:12px">These are the patterns in what you answered.</p>
+    <div class="kq-hero">
+      <div class="kq-hero-cl" id="kqHeroCloth"></div>
+      <div class="kq-hero-t">
+        <span class="lab" id="kqHeroN"></span>
+        <h1 id="aname2"></h1>
+        <p class="kq-hero-p">Your cloth, woven from your answers. Each band is one of the seven arguments Nigeria keeps having.</p>
+        <ul class="kq-legend" id="kqLegend"></ul>
+        <button type="button" class="btn ghost sm" id="kqDeep">Seven more questions to finish your cloth</button>
+      </div>
     </div>
 
     <div class="measure">
@@ -1726,12 +1990,18 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
     <div class="eyebrow" style="margin-top:34px" id="fsecHead" hidden><span class="lab">Others who argued this way</span></div>
     <div class="tsec" id="fsec"></div>
 
-    <div class="eyebrow" style="margin-top:30px"><span class="lab">Where this argument gets pushed back on</span></div>
-    <div class="measure"><p style="color:var(--ink-2);margin:0" id="tension"></p></div>
+    <div class="eyebrow kq-cut" style="margin-top:30px"><span class="lab">Where this argument gets pushed back on</span></div>
+    <div class="measure kq-cut"><p style="color:var(--ink-2);margin:0" id="tension"></p></div>
 
-    <div class="eyebrow" style="margin-top:34px"><span class="lab">What your answers actually said</span></div>
-    <div class="obs" id="obs"></div>
-    <div class="cta" style="margin-top:20px">
+    <div id="kqEchoWrap" hidden>
+      <div class="eyebrow" style="margin-top:34px"><span class="lab">Where your answers meet the record</span></div>
+      <p class="kq-echo-note">Moments in Nigeria's history that pointed the same way as one of your answers. An echo on one question, not a likeness.</p>
+      <div class="kq-echoes" id="kqEchoes"></div>
+    </div>
+
+    <div class="eyebrow kq-cut" style="margin-top:34px"><span class="lab">What your answers actually said</span></div>
+    <div class="obs kq-cut" id="obs"></div>
+    <div class="cta kq-cut" style="margin-top:20px">
       <button class="btn go" id="exploreBtn">Explore one of your views</button>
       <button class="btn ghost sm" id="backToAns">Review my answers</button>
     </div>
@@ -1760,15 +2030,15 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
       <button class="btn go" data-go="play">Play President</button>
     </div>
 
-    <div class="gap">
+    <div class="gap kq-cut">
       <div class="eyebrow"><span class="lab">The Gap</span></div>
       <h3>You have a position. Do they?</h3>
-      <p>You have just answered twenty-one questions about how Nigeria should be governed. Here is where the people asking for your vote on 16 January stand on the same twenty-one.</p>
+      <p>You have just answered questions about how Nigeria should be governed. Here is where the people asking for your vote on 16 January stand on the same questions.</p>
       <p style="font-size:.86rem;color:var(--ink-3)">Every name comes from INEC's final list, published on 12 September 2026. None of them has published a position on these questions — not because any of them was asked and refused. The register is its own page.</p>
       <div class="share" style="margin-top:18px"><button class="btn go sm" data-go="ballot">Meet your candidates</button></div>
     </div>
 
-    <div class="agg-panel">
+    <div class="agg-panel kq-cut">
       <div id="whoOut" hidden>
         <div class="eyebrow"><span class="lab">Your record · <span id="aggWho"></span></span></div>
         <p style="color:var(--ink);margin:0 0 10px;font-size:1.02rem" id="aggMine"></p>
@@ -1801,6 +2071,7 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
     <div class="share">
       <button class="btn go" id="card">Save my card</button>
       <div class="secondary">
+        <button class="btn ghost sm" data-go="ballot">Compare with the candidates</button>
         <button class="btn ghost sm" id="copy">Challenge someone</button>
         <button class="btn ghost sm" id="part2">Ten more questions</button>
         <button class="btn ghost sm" id="again">Start over</button>
@@ -1812,25 +2083,40 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
 
 <section class="view" id="view-ballot" hidden>
   <div class="wrap">
-    <div class="measure" style="margin-bottom:26px">
-      <h1 style="font-size:var(--s-3)">Meet your candidates</h1>
-      <p style="color:var(--ink-2)">Eighteen people are asking to be President on 16 January. Most Nigerians could name four of them.</p>
-      <p style="font-size:.86rem;color:var(--ink-3);margin-top:10px">This is INEC's final list of 12 September 2026. Several suits affecting party registration and candidate eligibility were pending on that date, so the field may yet change.</p>
+    <div class="bl">
+      <div class="bl-hero">
+        <div class="bl-side">
+          <span class="lab bl-when">16 January &amp; 6 February 2027</span>
+          <h1 class="bl-h">Who is asking<br>for <em>your</em> vote?</h1>
+          <p class="bl-p">Find your ward or local government. Your whole ballot appears, from President down to your State Assembly seat.</p>
+          <div class="bl-find" role="combobox" aria-haspopup="listbox" aria-owns="blSug">
+            <input id="blQ" type="search" placeholder="Your ward, LGA or state" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="blSug" aria-label="Find your ward, local government or state">
+            <ul id="blSug" role="listbox" hidden></ul>
+          </div>
+          <div class="bl-count" id="blCount"></div>
+        </div>
+        <div class="bl-map" id="blMapWrap">
+          <canvas id="blMap" aria-label="Map of Nigeria, one light for each of its 8,809 wards. Tap a state, then your area." role="img"></canvas>
+          <div class="bl-tip" id="blTip" hidden></div>
+          <div class="bl-crumb" id="blCrumb"></div>
+          <span class="bl-hint" id="blHint">Tap your state</span>
+          <div class="bl-zoom"><button type="button" id="blZin" aria-label="Zoom in">+</button><button type="button" id="blZout" aria-label="Zoom out">−</button></div>
+        </div>
+      </div>
+
+      <div class="bl-parties" id="blParties" aria-label="Show one party"></div>
+      <div class="bl-reach" id="blReach" hidden></div>
+
+      <div id="blBody"></div>
+
+      <p class="bl-src">Every name, age and qualification here is as INEC published it in the final lists of candidates for the 2027 elections. Seats are matched to local governments using INEC’s Information Kit; ward locations come from an open dataset and are approximate. Nothing you search for leaves this device.</p>
     </div>
 
-    <div class="picker">
-      <label><span class="lab">Office</span>
-        <select id="officeSel">
-          <option value="pres">President</option>
-          <option value="sen">Senate</option>
-          <option value="rep">House of Representatives</option>
-        </select></label>
-      <label id="stateWrap" hidden><span class="lab">State</span>
-        <select id="stateSel"></select></label>
+    <div hidden>
+      <select id="officeSel"><option value="pres">President</option></select>
+      <select id="stateSel"></select>
+      <div id="races"></div><div id="legend"></div>
     </div>
-
-    <div id="races"></div>
-    <div class="legend" id="legend"></div>
   </div>
 </section>
 
@@ -2032,7 +2318,7 @@ var $=function(i){return document.getElementById(i);};
    or the President deck/values. Date-based, not semver: ships aren't
    backward compatible with each other in a way that makes semver meaningful
    here, and the date is what you'd want to know anyway. */
-var CONTENT_VERSION="2026-10-23.1";
+var CONTENT_VERSION="2026-10-24.1";
 function uuid(){
   if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
@@ -2414,6 +2700,7 @@ window.addEventListener("resize",function(){
 if("scrollRestoration" in history)history.scrollRestoration="manual";
 function show(n){
   document.body.classList.toggle("onhome",n==="start");
+  document.body.classList.toggle("onballot",n==="ballot");
   VIEWS.forEach(function(v){var e=$("view-"+v);if(e)e.hidden=(v!==n);});
   Array.prototype.forEach.call(document.querySelectorAll("nav.top button"),function(btn){
     btn.setAttribute("aria-current",btn.dataset.go===n?"true":"false");});
@@ -3395,7 +3682,7 @@ function candRow(c,i){
       '<div class="pos" style="--e:var(--st-wait)"><b>Positions</b><span>None recorded yet. They have been sent the twenty-one questions.</span></div>'+
     '</div>';
 }
-function renderBallot(){
+function renderBallotOld(){
   var office=$("officeSel").value;
   $("stateWrap").hidden=(office==="pres");
   if(office!=="pres"){
@@ -5671,6 +5958,984 @@ pname=(function(orig){return function(c,a){
   if(c==="paid"&&MEASURE_WORD[a])return "THE PRESIDENT WHO PAID FOR IT IN "+MEASURE_WORD[a].replace("Nigeria's ","").toUpperCase();
   return orig(c,a);
 };})(pname);
+
+
+/* ====================================================================
+   Know Your Politics · the woven quiz
+   Twenty-eight everyday dilemmas on the seven lenses Play President already
+   measures. Each one is two arguments a real person makes, shown in a random
+   order. You pick the one closer to you and say how strongly; "both matter" and
+   "not sure" stay available. Every answer dyes one square of an adire cloth, so
+   the portrait at the end is woven from what you said and nobody else's is the
+   same. Twenty-one questions give the first cloth; seven more finish it.
+   ==================================================================== */
+var KQ_ITEMS=[
+ /* the economy: + is the state providing, - is the market providing */
+ {id:"E1",a:"econ",core:1,img:"works",h:"The new power plant",
+  s:"Government is building a new power plant with public money. When it is finished, who should own and run it?",
+  o:[{t:"A government company, with published targets it has to meet.",p:1},{t:"Private investors, under firm rules on prices and access.",p:-1}],
+  e:{"-1":"needs"}},
+ {id:"E2",a:"econ",core:1,img:"fuel",h:"The price of petrol",
+  s:"Government spends a fortune every year keeping petrol cheap. What should it do?",
+  o:[{t:"Keep the price down. Cheap fuel is how ordinary people feel the oil money.",p:1},{t:"Let the market set the price and spend the savings on roads, schools and clinics.",p:-1}],
+  e:{"1":"sub2012","-1":"sub2023"}},
+ {id:"E3",a:"econ",core:1,img:"hospital",h:"The health budget",
+  s:"There is one health budget and it cannot do everything. How should it be spent?",
+  o:[{t:"Free basic care for every Nigerian, even if it is modest.",p:1},{t:"Better care, but only for households that cannot afford to pay.",p:-1}],
+  e:{"1":"upn1979"}},
+ {id:"E4",a:"econ",core:0,img:"market",h:"Cheap imported cloth",
+  s:"Cheap imported cloth is closing Nigerian textile factories. What should government do?",
+  o:[{t:"Put a duty on the imports for a few years so the factories can recover.",p:1},{t:"Keep imports cheap for families, and help the workers find other jobs.",p:-1}]},
+
+ /* the federation: + is power to the states, - is a strong centre */
+ {id:"F1",a:"struct",core:1,img:"forum",h:"Who polices your street",
+  s:"Nigeria can change how policing is organised. Which would you choose?",
+  o:[{t:"State police forces, with national rules to stop them being abused.",p:1},{t:"One federal police force, with stronger local oversight.",p:-1}],
+  e:{"-1":"const214"}},
+ {id:"F2",a:"struct",core:1,img:"farm",h:"The oil money",
+  s:"Oil is pumped from under a community's land. Where should most of the money go?",
+  o:[{t:"More of it to the place it comes from, which carries the pollution and the risk.",p:1},{t:"Into one national pool, shared out to every state by need.",p:-1}],
+  e:{"1":"mosop"}},
+ {id:"F3",a:"struct",core:1,img:"campus",h:"Who runs the schools",
+  s:"National exams stay national. Who should set most of the other rules for schools?",
+  o:[{t:"Each state, so schools can fit what its children need.",p:1},{t:"The federal government, so a child gets the same system anywhere in Nigeria.",p:-1}]},
+ {id:"F4",a:"struct",core:0,img:"cbn",h:"Rich state, poor state",
+  s:"One state raises far more in taxes than another. What is fairer?",
+  o:[{t:"Let each state keep more of what it raises.",p:1},{t:"Share more of it out to the poorer states.",p:-1}]},
+
+ /* social order: + opens public life up, - keeps the inherited order */
+ {id:"S1",a:"social",core:1,img:"cabinetMeeting",h:"Choosing a leader",
+  s:"A party is choosing its national leader. What should count?",
+  o:[{t:"Ability only. Being a man or a woman should make no difference.",p:1},{t:"Men are better suited to lead, given how our society is organised.",p:-1}],
+  e:{"1":"awu"}},
+ {id:"S2",a:"social",core:1,img:"ogundipe",h:"The traditional rulers",
+  s:"Should traditional rulers have a formal role in how the country is governed?",
+  o:[{t:"Yes, a role written into law. People often trust them more than politicians.",p:-1},{t:"No. They can advise as respected citizens, but government should be elected.",p:1}]},
+ {id:"S3",a:"social",core:1,img:"cabinetEmpty",h:"Religion and the law",
+  s:"Some religious leaders say a proposed law goes against their teaching. What should lawmakers do?",
+  o:[{t:"Make laws on shared civic grounds that apply the same to everyone, whatever their faith.",p:1},{t:"Give religious teaching real weight, within the constitution.",p:-1}]},
+ {id:"S4",a:"social",core:0,img:"campus",h:"One set of school fees",
+  s:"A family can only afford school fees for one child this year. How should they decide?",
+  o:[{t:"Boy or girl, it should be whichever child is more ready.",p:1},{t:"The son first, because he will carry the family later.",p:-1}]},
+
+ /* security and liberty: + puts the citizen's rights first, - puts order first */
+ {id:"L1",a:"security",core:1,img:"protest",h:"The march",
+  s:"A peaceful protest is planned. The police fear people from outside will cause trouble.",
+  o:[{t:"Let it go ahead, and protect the marchers.",p:1},{t:"Restrict it for a few days, and let a court review the decision.",p:-1}]},
+ {id:"L2",a:"security",core:1,img:"confidential",h:"The suspect's phone",
+  s:"Police say a suspect is planning an attack. They want to read his private messages now.",
+  o:[{t:"Get a judge's permission first, even if it takes hours.",p:1},{t:"Let them look now and explain to a judge afterwards.",p:-1}]},
+ {id:"L3",a:"security",core:1,img:"traffic",h:"The checkpoint",
+  s:"Kidnappings are rising on a highway. What should police be allowed to do at checkpoints?",
+  o:[{t:"Stop and search everyone for a few months.",p:-1},{t:"Stop people only for a specific reason, and record why.",p:1}]},
+ {id:"L4",a:"security",core:0,img:"sitroom",h:"The story",
+  s:"A newspaper is about to publish embarrassing claims about the army in the middle of an operation.",
+  o:[{t:"Let it publish. A court can block particular details if it has to.",p:1},{t:"Let the security services hold it back for a short time.",p:-1}],
+  e:{"1":"foi"}},
+
+ /* representation: + a programme decided on need, - the constituency first */
+ {id:"R1",a:"represent",core:1,img:"hospital",h:"Two clinics, five towns",
+  s:"There is money for two new clinics, but five towns need one.",
+  o:[{t:"Publish a ranking of need and build where it is greatest.",p:1},{t:"Let the elected representatives weigh each town's case at an open hearing.",p:-1}]},
+ {id:"R2",a:"represent",core:1,img:"gyang",h:"Your senator's vote",
+  s:"Your senator must vote on a national reform that would cost your area something.",
+  o:[{t:"Vote the way the people back home want. That is the job.",p:-1},{t:"Vote for the national plan, then go home and explain why.",p:1}]},
+ {id:"R3",a:"represent",core:1,img:"campus",h:"Who counts as local",
+  s:"A family has lived and paid taxes in a state for fifteen years. Should their children get state scholarships?",
+  o:[{t:"Yes, on the same terms as families whose roots are there.",p:1},{t:"Keep some places for families from the state by origin.",p:-1}],
+  e:{"1":"cit2014"}},
+ {id:"R4",a:"represent",core:0,img:"works",h:"Constituency projects",
+  s:"Lawmakers want money in the budget for projects in their own constituencies.",
+  o:[{t:"Keep it. Representatives know what their own area needs.",p:-1},{t:"Put the money into national programmes decided on need.",p:1}]},
+
+ /* how change happens: + organised pressure from outside, - inside the institutions */
+ {id:"M1",a:"method",core:1,img:"gyang",h:"A reform is stuck",
+  s:"A popular reform is stuck in the National Assembly. Where should campaigners put their energy?",
+  o:[{t:"Lobby the lawmakers and work through the parties.",p:-1},{t:"Organise large, peaceful campaigns that raise public pressure.",p:1}],
+  e:{"1":"awu"}},
+ {id:"M2",a:"method",core:1,img:"hauwaBargain",h:"The wage talks",
+  s:"Wage talks between workers and government have been stuck for months.",
+  o:[{t:"Strike, within the law, to force a deal.",p:1},{t:"Stay at the table and try mediation before anything else.",p:-1}]},
+ {id:"M3",a:"method",core:1,img:"cabinetEmpty",h:"Changing the constitution",
+  s:"Nigerians disagree about the shape of the constitution itself. How should it change?",
+  o:[{t:"Amend the one we have, through the National Assembly and the states.",p:-1},{t:"Elect a new assembly of the people to write a new one.",p:1}]},
+ {id:"M4",a:"method",core:0,img:"polling",h:"A rule that hurts",
+  s:"A government rule is hurting people's livelihoods. A small group wants it changed.",
+  o:[{t:"Join a party and win at the next election.",p:-1},{t:"Petitions, court cases and campaigns outside the parties.",p:1}]},
+
+ /* Nigeria and Africa: + leading with the neighbours, - Nigeria first */
+ {id:"H1",a:"horizon",core:1,img:"traffic",h:"The borders",
+  s:"Should it be easier for people and goods from our West African neighbours to cross into Nigeria?",
+  o:[{t:"Yes. Open borders make the whole region richer.",p:1},{t:"No. Keep tighter control of who and what comes in.",p:-1}],
+  e:{"-1":"border2019"}},
+ {id:"H2",a:"horizon",core:1,img:"dangana",h:"Trouble next door",
+  s:"A neighbouring country is in a serious crisis. What should Nigeria do?",
+  o:[{t:"Put money and help into a joint response with the region.",p:1},{t:"Deal with our own problems first.",p:-1}]},
+ {id:"H3",a:"horizon",core:1,img:"market",h:"A trade deal for Africa",
+  s:"A continental trade deal would open bigger markets, and bring more competition at home.",
+  o:[{t:"Join now, with help for the firms that get hurt.",p:1},{t:"Wait until Nigerian producers are stronger.",p:-1}]},
+ {id:"H4",a:"horizon",core:0,img:"works",h:"The power line",
+  s:"There is money for electricity: a Nigeria-only upgrade, or a grid shared with our neighbours.",
+  o:[{t:"Nigeria first. Our own supply is not fixed yet.",p:-1},{t:"A shared regional grid that helps everyone over time.",p:1}]}
+];
+/* where an answer meets something Nigerians have argued, decided or written down.
+   Each is a dated, sourced document; an echo says the answer points the same way on
+   this one question, never that the person is like anyone. */
+var KQ_ECHO={
+ needs:{n:"NEEDS, the federal economic strategy",y:"2004",t:"A federal government strategy that proposed a smaller role for the state in running businesses directly, with stronger regulation and a bigger private sector.",
+   lim:"A government programme, not one person's view, and a proposal rather than a record of what happened.",src:"NEEDS 2004 draft, hosted by the Central Bank of Nigeria",u:"https://www.cbn.gov.ng/out/publications/communique/guidelines/rd/2004/needs.pdf"},
+ upn1979:{n:"The Unity Party of Nigeria programme",y:"1979",t:"Its election programme promised free health care, alongside free education, integrated rural development and full employment.",
+   lim:"A party programme reported at the time. It is a promise, not a measure of what was delivered.",src:"Nigeria Year Book 1979, p.29",u:"https://nigeriareposit.nln.gov.ng/bitstreams/941f0ebc-f377-4082-b492-4204ab07825a/download"},
+ sub2012:{n:"The fuel subsidy protests",y:"2012",t:"When the subsidy was removed on 1 January 2012 and pump prices more than doubled, a nationwide strike and protests followed, and the government restored part of it within about a week.",
+   lim:"A protest and a reversal, not a settled verdict on subsidies.",src:"Al Jazeera, January 2012",u:"https://www.aljazeera.com/news/2012/1/17/nigerian-unions-call-off-national-strike"},
+ sub2023:{n:"The end of the petrol subsidy",y:"2023",t:"On 29 May 2023 the incoming government announced the end of the petrol subsidy. In Lagos the pump price rose from 184 to 488 naira a litre.",
+   lim:"A government decision. What it achieved is still argued about.",src:"BNN Bloomberg, May 2023",u:"https://www.aljazeera.com/news/2012/1/17/nigerian-unions-call-off-national-strike"},
+ const214:{n:"The 1999 Constitution, section 214",y:"1999",t:"The Constitution provides for one Nigeria Police Force and says no other police force shall be established for the Federation or any part of it.",
+   lim:"The law as written. Whether it should change is exactly the argument.",src:"Constitution of the Federal Republic of Nigeria, 1999",u:"https://nigeriareposit.nln.gov.ng/items/399df25a-52d0-4972-9365-c618cd3ddf5f"},
+ mosop:{n:"The Ogoni Bill of Rights",y:"1990",t:"The Movement for the Survival of the Ogoni People demanded a fair proportion of the resources taken from Ogoni land for its development, and protection of its environment.",
+   lim:"A movement's collective demand, not the whole view of any one member, and not a general formula for sharing revenue.",src:"MOSOP, Ogoni Bill of Rights, p.1",u:"https://www.mosop.org/Ogoni_Bill_of_Rights_1990.pdf"},
+ awu:{n:"The Abeokuta Women's Union",y:"1946–1948",t:"Market women organised petitions, demonstrations and a sustained campaign against taxation imposed without women having a say.",
+   lim:"A historical account of a movement, not its own manifesto.",src:"Johnson-Odim and Mba, For Women and the Nation (1997)",u:"https://nigeriareposit.nln.gov.ng/items/b9966610-1ad9-4d6c-87c6-66b89810ca85"},
+ foi:{n:"The Freedom of Information Act",y:"2011",t:"The Act gave Nigerians a legal right to request information held by public institutions.",
+   lim:"A law on access to information. It does not show how well it is obeyed, and it is about records rather than the press.",src:"Freedom of Information Act 2011, sections 1–2",u:"https://placng.org/i/wp-content/uploads/2012/05/Freedom-of-Information-Act-2011.pdf"},
+ cit2014:{n:"The 2014 National Conference citizenship committee",y:"2014",t:"Its report considered stronger rights for long-term residents of a state, while still recognising the cultural claims of indigenous communities.",
+   lim:"Committee recommendations, never enacted, and not the view of every delegate.",src:"Report of the Committee on Citizenship, Immigration and Related Matters, pp.20–24",u:"https://citizenshiprightsafrica.org/wp-content/uploads/2020/08/Nigeria-National-Conference-2014-full-report-of-Citizenship-and-Immigration-Committee.pdf"},
+ border2019:{n:"The land border closure",y:"2019",t:"In August 2019 Nigeria closed its land borders to the movement of goods, saying it wanted to stop smuggling. A partial reopening was announced in December 2020.",
+   lim:"A government decision. Analysts later reported that smuggling continued through other routes.",src:"ISS Africa",u:"https://issafrica.org/iss-today/nigerias-border-closures-havent-served-their-purpose"}
+};
+KQ_ECHO.sub2023.u="https://www.bnnbloomberg.ca/nigeria-s-new-president-says-fuel-subsidy-is-gone-1.1925542";
+
+/* ---------- the cloth ----------
+   Seven bands, one for each lens, four squares in each. Every answer resists one
+   square in pale thread on indigo. Which way you leaned picks the motif, how strongly
+   picks its weight, "both matter" leaves a single ring, and a skipped question is
+   dyed plain. Nothing is drawn as a face and nothing is good or bad: the motifs are
+   simply different, and the legend says which is which. */
+var KQ_MOTIF={
+ econ:["rings","rays"], struct:["dots","lattice"], social:["leaves","bars"],
+ security:["waves","diamonds"], represent:["squares","chevrons"], method:["zigzag","scallops"], horizon:["crosses","spiral"]
+};
+var KQ_COL={dye:"#1D2B55",deep:"#13203F",mid:"#2C3D74",thread:"#ECE6D4",undyed:"#E7E0CC",fold:"#D5CCB3",edge:"#0E1630"};
+function kqPrims(name,str){
+  /* returns primitives in a 100x100 cell: {c:[cx,cy,r]}, {l:[x1,y1,x2,y2]}, {p:"path"}, {r:[x,y,w,h]} */
+  var P=[],s=str===2?1:0.62,w=str===2?4.2:2.6;
+  function C(x,y,r){P.push({c:[x,y,r],w:w});}
+  function L(a,b,c,d){P.push({l:[a,b,c,d],w:w});}
+  function D(d){P.push({p:d,w:w});}
+  var m=50,i,j,n;
+  switch(name){
+   case "rings": for(i=1;i<=(str===2?4:2);i++)C(m,m,i*10*(str===2?1:1.4)); C(m,m,3);break;
+   case "rays": for(i=0;i<(str===2?12:8);i++){var t=i/(str===2?12:8)*Math.PI*2;L(m+Math.cos(t)*10,m+Math.sin(t)*10,m+Math.cos(t)*40*s+Math.cos(t)*(1-s)*20,m+Math.sin(t)*40*s+Math.sin(t)*(1-s)*20);} C(m,m,6);break;
+   case "dots": n=str===2?4:3; for(i=0;i<n;i++)for(j=0;j<n;j++)C(16+i*(68/(n-1)),16+j*(68/(n-1)),str===2?4.5:3.5);break;
+   case "lattice": n=str===2?5:3; for(i=1;i<n;i++){L(i*100/n,6,i*100/n,94);L(6,i*100/n,94,i*100/n);} break;
+   case "leaves": n=str===2?3:2; for(i=0;i<n;i++){var y=20+i*(60/Math.max(1,n-1));D("M14 "+y+" Q50 "+(y-16)+" 86 "+y+" Q50 "+(y+16)+" 14 "+y+" Z");} break;
+   case "bars": n=str===2?6:3; for(i=0;i<n;i++)L(14+i*(72/(n-1||1)),12,14+i*(72/(n-1||1)),88);break;
+   case "waves": n=str===2?4:2; for(i=0;i<n;i++){var y2=22+i*(56/Math.max(1,n-1));D("M8 "+y2+" Q24 "+(y2-12)+" 40 "+y2+" T72 "+y2+" T104 "+y2);} break;
+   case "diamonds": D("M50 10 L90 50 L50 90 L10 50 Z"); if(str===2){D("M50 26 L74 50 L50 74 L26 50 Z");} C(m,m,4);break;
+   case "squares": for(i=0;i<(str===2?3:2);i++){var o=12+i*13;D("M"+o+" "+o+" H"+(100-o)+" V"+(100-o)+" H"+o+" Z");} break;
+   case "chevrons": n=str===2?4:2; for(i=0;i<n;i++){var y3=20+i*(60/Math.max(1,n-1));D("M12 "+(y3+12)+" L50 "+(y3-8)+" L88 "+(y3+12));} break;
+   case "zigzag": n=str===2?3:2; for(i=0;i<n;i++){var y4=24+i*(52/Math.max(1,n-1)),d4="M8 "+y4;for(j=0;j<6;j++)d4+=" L"+(8+(j+1)*14)+" "+(y4+(j%2?-10:10));D(d4);} break;
+   case "scallops": n=str===2?3:2; for(i=0;i<n;i++){var y5=30+i*(44/Math.max(1,n-1)),d5="M6 "+y5;for(j=0;j<4;j++)d5+=" A11 11 0 0 1 "+(6+(j+1)*22)+" "+y5;D(d5);} break;
+   case "crosses": n=str===2?3:2; for(i=0;i<n;i++)for(j=0;j<n;j++){var cx=20+i*(60/Math.max(1,n-1)),cy=20+j*(60/Math.max(1,n-1)),k=str===2?8:10;L(cx-k,cy,cx+k,cy);L(cx,cy-k,cx,cy+k);} break;
+   case "spiral": var d6="M50 50",a=0,r=2;for(i=0;i<(str===2?70:42);i++){a+=0.32;r+=0.62;d6+=" L"+(50+Math.cos(a)*r).toFixed(1)+" "+(50+Math.sin(a)*r).toFixed(1);}D(d6);break;
+  }
+  return P;
+}
+function kqCellPrims(k,v){
+  if(v===undefined)return {fill:null,prims:[]};
+  if(v===null)return {fill:KQ_COL.dye,prims:[{l:[30,50,70,50],w:2}]};          /* not sure: dyed plain, one stitch */
+  if(v===0)return {fill:KQ_COL.mid,prims:[{c:[50,50,22],w:3},{c:[50,50,4],w:3}]}; /* both matter */
+  var name=KQ_MOTIF[k][v>0?0:1];
+  return {fill:Math.abs(v)===2?KQ_COL.deep:KQ_COL.mid,prims:kqPrims(name,Math.abs(v))};
+}
+/* the answers, laid out by lens, in the order they were given */
+function kqGrid(){
+  var g={};KEYS.forEach(function(k){g[k]=[];});
+  Q.forEach(function(q,i){ if(st.a[i]!==null||st.sk[i])g[q.a].push(st.sk[i]?null:st.a[i]); });
+  return g;
+}
+function kqClothSVG(opt){
+  opt=opt||{};
+  var g=kqGrid(),cs=100,gap=6,pad=14,W=pad*2+4*cs+3*gap,H=pad*2+7*cs+6*gap,out=[],n=0;
+  out.push('<svg viewBox="0 0 '+W+' '+H+'" class="kq-cloth'+(opt.cls?" "+opt.cls:"")+'" role="img" aria-label="'+(opt.label||"Your cloth")+'">');
+  out.push('<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="'+KQ_COL.edge+'"/>');
+  KEYS.forEach(function(k,ri){
+    for(var ci=0;ci<4;ci++){
+      var x=pad+ci*(cs+gap),y=pad+ri*(cs+gap),cell=kqCellPrims(k,g[k][ci]);
+      var delay=opt.anim?(' style="animation-delay:'+(n*0.06).toFixed(2)+'s"'):"";
+      out.push('<g class="kq-cell'+(cell.fill?" dyed":"")+'" transform="translate('+x+' '+y+')"'+delay+'>');
+      if(!cell.fill){
+        out.push('<rect width="'+cs+'" height="'+cs+'" fill="'+KQ_COL.undyed+'"/><path d="M0 50 H100 M50 0 V100" stroke="'+KQ_COL.fold+'" stroke-width="1.2"/>');
+      } else {
+        out.push('<rect width="'+cs+'" height="'+cs+'" fill="'+cell.fill+'"/>');
+        cell.prims.forEach(function(p){
+          var st0=' fill="none" stroke="'+KQ_COL.thread+'" stroke-width="'+p.w+'" stroke-linecap="round" stroke-linejoin="round"';
+          if(p.c)out.push('<circle cx="'+p.c[0]+'" cy="'+p.c[1]+'" r="'+p.c[2]+'"'+st0+'/>');
+          if(p.l)out.push('<line x1="'+p.l[0]+'" y1="'+p.l[1]+'" x2="'+p.l[2]+'" y2="'+p.l[3]+'"'+st0+'/>');
+          if(p.p)out.push('<path d="'+p.p+'"'+st0+'/>');
+        });
+        n++;
+      }
+      out.push('</g>');
+    }
+  });
+  out.push('</svg>');
+  return out.join("");
+}
+/* the same cloth, painted onto the share card */
+function kqClothCanvas(x,X,Y,size){
+  var g=kqGrid(),cs=100,gap=6,pad=14,W=pad*2+4*cs+3*gap,H=pad*2+7*cs+6*gap,sc=size/H;
+  x.save();x.translate(X,Y);x.scale(sc,sc);
+  x.fillStyle=KQ_COL.edge;x.fillRect(0,0,W,H);
+  KEYS.forEach(function(k,ri){
+    for(var ci=0;ci<4;ci++){
+      var px=pad+ci*(cs+gap),py=pad+ri*(cs+gap),cell=kqCellPrims(k,g[k][ci]);
+      x.save();x.translate(px,py);
+      if(!cell.fill){x.fillStyle=KQ_COL.undyed;x.fillRect(0,0,cs,cs);x.strokeStyle=KQ_COL.fold;x.lineWidth=1.2;x.beginPath();x.moveTo(0,50);x.lineTo(100,50);x.moveTo(50,0);x.lineTo(50,100);x.stroke();}
+      else{
+        x.fillStyle=cell.fill;x.fillRect(0,0,cs,cs);
+        x.strokeStyle=KQ_COL.thread;x.lineCap="round";x.lineJoin="round";
+        cell.prims.forEach(function(p){
+          x.lineWidth=p.w;x.beginPath();
+          if(p.c){x.arc(p.c[0],p.c[1],p.c[2],0,Math.PI*2);}
+          if(p.l){x.moveTo(p.l[0],p.l[1]);x.lineTo(p.l[2],p.l[3]);}
+          if(p.p&&typeof Path2D!=="undefined"){x.stroke(new Path2D(p.p));return;}
+          x.stroke();
+        });
+      }
+      x.restore();
+    }
+  });
+  x.restore();
+  return {w:W*sc,h:size};
+}
+function kqSwatch(k,v){ /* one motif, for the legend */
+  var cell=kqCellPrims(k,v),o=['<svg viewBox="0 0 100 100" class="kq-sw" aria-hidden="true"><rect width="100" height="100" fill="'+(cell.fill||KQ_COL.undyed)+'"/>'];
+  cell.prims.forEach(function(p){var s0=' fill="none" stroke="'+KQ_COL.thread+'" stroke-width="'+(p.w+1)+'" stroke-linecap="round"';
+    if(p.c)o.push('<circle cx="'+p.c[0]+'" cy="'+p.c[1]+'" r="'+p.c[2]+'"'+s0+'/>');
+    if(p.l)o.push('<line x1="'+p.l[0]+'" y1="'+p.l[1]+'" x2="'+p.l[2]+'" y2="'+p.l[3]+'"'+s0+'/>');
+    if(p.p)o.push('<path d="'+p.p+'"'+s0+'/>');});
+  o.push('</svg>');return o.join("");
+}
+
+/* ---------- the session ----------
+   Three rounds of seven, one question from each lens per round, the lenses in a fresh
+   order each round, then an optional fourth round that finishes the cloth. The two
+   arguments are shown in a random order so that "A" never means anything. */
+function kqShuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function kqBuild(){
+  var by={};KEYS.forEach(function(k){by[k]={core:kqShuffle(KQ_ITEMS.filter(function(q){return q.a===k&&q.core;})),deep:KQ_ITEMS.filter(function(q){return q.a===k&&!q.core;})};});
+  var seq=[];
+  for(var r=0;r<3;r++)kqShuffle(KEYS).forEach(function(k){seq.push(by[k].core[r]);});
+  kqShuffle(KEYS).forEach(function(k){seq.push(by[k].deep[0]);});
+  Q=seq.map(function(it){return {a:it.a,w:1,t:it.h+". "+it.s,item:it,flip:Math.random()<0.5};});
+  MAX={};KEYS.forEach(function(k){MAX[k]=0;});Q.forEach(function(q){MAX[q.a]+=2;});
+  st.a=new Array(Q.length).fill(null);st.sk=new Array(Q.length).fill(false);st.ch=new Array(Q.length).fill(null);
+  st.deep=false;st.i=0;
+}
+var KQ_CORE=21;
+function kqOpts(q){ return q.flip?[q.item.o[1],q.item.o[0]]:[q.item.o[0],q.item.o[1]]; }
+function kqRound(i){return Math.floor(i/7)+1;}
+function kqRender(){
+  var q=Q[st.i],it=q.item,opts=kqOpts(q),ch=st.ch[st.i];
+  var lens=AXES.filter(function(x){return x.k===q.a;})[0];
+  $("kqImg").src=ART[it.img]||ART.cabinetEmpty;
+  $("kqLens").textContent=lens.n;
+  $("kqHead").textContent=it.h;
+  $("kqStem").textContent=it.s;
+  var r=kqRound(st.i),inR=st.i%7;
+  $("kqCount").textContent=(st.i<KQ_CORE?"Round "+r+" of 3":"Finishing your cloth")+" · "+(inR+1)+" of 7";
+  $("kqDots").innerHTML=Array.apply(null,Array(7)).map(function(_,j){return '<i class="'+(j<inR?"done":(j===inR?"now":""))+'"></i>';}).join("");
+  ["kqA","kqB"].forEach(function(id,j){
+    var b=$(id),o=opts[j];
+    b.querySelector(".kq-t").textContent=o.t;
+    b.dataset.p=o.p;
+    var sel=ch&&ch.side===j;
+    b.classList.toggle("sel",!!sel);
+    b.setAttribute("aria-pressed",String(!!sel));
+  });
+  $("kqStr").hidden=!(ch&&ch.side!==undefined&&ch.side!==null&&ch.str===undefined);
+  $("kqBack").style.visibility=st.i===0?"hidden":"visible";
+  $("kqSwatch").innerHTML=kqClothSVG({cls:"mini",label:"Your cloth so far"});
+  $("kqSwatch").setAttribute("aria-label","Your cloth so far: "+st.a.filter(function(v,i){return v!==null||st.sk[i];}).length+" squares dyed");
+}
+function kqChoose(j){
+  st.ch[st.i]={side:j};
+  ["kqA","kqB"].forEach(function(id,k){$(id).classList.toggle("sel",k===j);$(id).setAttribute("aria-pressed",String(k===j));});
+  var b=$(j===0?"kqA":"kqB");
+  $("kqStr").hidden=false;
+  b.parentNode.insertBefore($("kqStr"),b.nextSibling);
+  setTimeout(function(){try{$("kqStr").querySelector("button").focus({preventScroll:true});}catch(e){}},30);
+}
+function kqCommit(v,skip){
+  st.a[st.i]=skip?null:v;st.sk[st.i]=!!skip;
+  if(skip)st.ch[st.i]={skip:true};
+  else if(v===0)st.ch[st.i]={both:true};
+  $("kqSwatch").innerHTML=kqClothSVG({cls:"mini"});
+  $("kqSwatch").classList.remove("pulse");void $("kqSwatch").offsetWidth;$("kqSwatch").classList.add("pulse");
+  setTimeout(kqNext,260);
+}
+function kqStrength(s){
+  var ch=st.ch[st.i];if(!ch||ch.side===undefined)return;
+  var p=Number($(ch.side===0?"kqA":"kqB").dataset.p);
+  ch.str=s;kqCommit(p*s,false);
+}
+function kqNext(){
+  var last=st.deep?Q.length-1:KQ_CORE-1;
+  if(st.i>=last){ kqFinish(); return; }
+  st.i++;
+  if(st.i%7===0)kqInterlude(); else kqRender();
+}
+var KQ_ROUND_LINE=["The first band of every lens is dyed. Two more rounds and your cloth is ready to read.",
+ "Two-thirds of your cloth is dyed. One more round.",
+ "",""];
+function kqInterlude(){
+  var r=st.i/7;
+  $("kqRoundH").textContent=r===3?"Your first cloth is done.":"Round "+r+" of 3 done.";
+  $("kqRoundP").textContent=KQ_ROUND_LINE[r-1]||"";
+  $("kqRoundCloth").innerHTML=kqClothSVG({anim:false});
+  $("kqMain").hidden=true;$("kqRoundBox").hidden=false;
+  $("kqRoundGo").focus({preventScroll:true});
+}
+$("kqRoundGo").addEventListener("click",function(){$("kqRoundBox").hidden=true;$("kqMain").hidden=false;kqRender();});
+$("kqA").addEventListener("click",function(){kqChoose(0);});
+$("kqB").addEventListener("click",function(){kqChoose(1);});
+$("kqStrong").addEventListener("click",function(){kqStrength(2);});
+$("kqLean").addEventListener("click",function(){kqStrength(1);});
+$("kqBoth").addEventListener("click",function(){kqCommit(0,false);});
+$("kqSkip").addEventListener("click",function(){kqCommit(null,true);});
+$("kqBack").addEventListener("click",function(){ if(st.i>0){st.i--;st.ch[st.i]=st.ch[st.i]&&st.ch[st.i].str===undefined?null:st.ch[st.i];kqRender();} });
+$("kqSwatch").addEventListener("click",function(){
+  $("kqPeekCloth").innerHTML=kqClothSVG();$("kqPeek").hidden=false;$("kqPeekClose").focus({preventScroll:true});});
+$("kqPeekClose").addEventListener("click",function(){$("kqPeek").hidden=true;});
+document.addEventListener("keydown",function(e){
+  if($("view-quiz").hidden||st.part!==1||$("kqMain").hidden)return;
+  var k=(e.key||"").toLowerCase();
+  if(k==="a"||k==="arrowleft"){e.preventDefault();kqChoose(0);}
+  else if(k==="b"||k==="arrowright"){e.preventDefault();kqChoose(1);}
+  else if(k==="1"&&!$("kqStr").hidden){e.preventDefault();kqStrength(2);}
+  else if(k==="2"&&!$("kqStr").hidden){e.preventDefault();kqStrength(1);}
+  else if(k==="n"){e.preventDefault();kqCommit(0,false);}
+  else if(k==="s"){e.preventDefault();kqCommit(null,true);}
+},true);
+
+/* the old renderer still draws part two (the civic questions); part one is woven */
+renderQ=(function(orig){return function(){
+  var p1=st.part===1;
+  $("kq").hidden=!p1;
+  document.querySelector("#view-quiz .qshell").hidden=p1;
+  if(!p1)return orig();
+  if(!Q[0]||!Q[0].item)kqBuild();
+  $("kqRoundBox").hidden=true;$("kqMain").hidden=false;$("kqPeek").hidden=true;
+  kqRender();
+};})(renderQ);
+reset=(function(orig){return function(){ orig(); kqBuild(); };})(reset);
+/* answers are worded as choices now, so the evidence shows the choice */
+answerLabel=function(v){
+  return v===null||v===undefined?"Not answered":"";
+};
+function kqChoiceText(i){
+  var q=Q[i],ch=st.ch[i];
+  if(!q||!q.item)return "";
+  if(st.sk[i]||(ch&&ch.skip))return "Not sure";
+  if(st.a[i]===null)return "Not answered";
+  if(st.a[i]===0)return "Both matter equally";
+  var o=kqOpts(q)[ch.side];
+  return (ch.str===2?"Strongly: ":"Leaning: ")+o.t;
+}
+evidenceFor=function(k){
+  var rows=[];
+  Q.forEach(function(q,i){
+    if(q.a!==k||(st.a[i]===null&&!st.sk[i]))return;
+    rows.push('<li'+(st.a[i]===null?' class="un"':'')+'><span>'+q.item.s+'</span><b>'+kqChoiceText(i)+'</b></li>');
+  });
+  return rows.join("");
+};
+coverage=function(ans){
+  var c={};KEYS.forEach(function(k){c[k]={n:0,of:0};});
+  Q.forEach(function(q,i){ if(i>=KQ_CORE&&!st.deep)return; c[q.a].of++; if(scored(ans[i]))c[q.a].n++; });
+  return c;
+};
+renderReview=function(){
+  $("rvList").innerHTML=Q.map(function(q,i){
+    if(i>=KQ_CORE&&!st.deep)return "";
+    return '<li><p>'+q.item.s+'</p><div class="rv-a"><b>'+kqChoiceText(i)+'</b><button type="button" class="lab" data-i="'+i+'">Change</button></div></li>';
+  }).join("");
+  $("rvNote").textContent="";
+};
+
+/* ---------- the reveal ---------- */
+function kqFinish(){
+  $("kqRoundBox").hidden=true;$("kqMain").hidden=true;
+  $("kqWeave").hidden=false;
+  $("kqWeaveCloth").innerHTML=kqClothSVG({anim:true});
+  setTimeout(function(){$("kqWeave").hidden=true;finish();},1900);
+}
+var KQ_LEAN={
+ econ:["the state providing","the market providing"],struct:["power with the states","a strong centre"],
+ social:["opening public life up","the inherited order"],security:["rights first","order first"],
+ represent:["a programme decided on need","the constituency first"],method:["organised pressure","working inside the institutions"],
+ horizon:["leading with the neighbours","Nigeria first"]
+};
+function kqLegend(pos){
+  var g=kqGrid();
+  return KEYS.map(function(k){
+    var ax=AXES.filter(function(x){return x.k===k;})[0],v=pos[k],vals=g[k].filter(function(x){return x!==null&&x!==undefined;});
+    var dom=vals.length?(v>=20?2:(v<=-20?-2:0)):null;
+    var say=!vals.length?"Not answered":(Math.abs(v)<20?"Torn between "+KQ_LEAN[k][0]+" and "+KQ_LEAN[k][1]:
+      (Math.abs(v)>=60?"Strongly for ":"Leaning to ")+KQ_LEAN[k][v>0?0:1]);
+    return '<li>'+kqSwatch(k,dom===null?undefined:dom)+'<div><b>'+ax.n+'</b><span>'+say+'</span></div></li>';
+  }).join("");
+}
+function kqEchoes(){
+  var hits=[];
+  Q.forEach(function(q,i){
+    var v=st.a[i];if(!q.item.e||v===null||v===0)return;
+    var key=q.item.e[v>0?"1":"-1"];if(!key||!KQ_ECHO[key])return;
+    if(hits.some(function(h){return h.key===key;}))return;
+    hits.push({key:key,i:i,str:Math.abs(v)});
+  });
+  hits.sort(function(a,b){return b.str-a.str;});
+  return hits.slice(0,3).map(function(h){
+    var e=KQ_ECHO[h.key];
+    return '<article class="kq-echo"><span class="lab">'+e.y+'</span><h4>'+e.n+'</h4><p>'+e.t+'</p>'+
+      '<p class="kq-you"><b>Your answer.</b> '+kqChoiceText(h.i).replace(/^(Strongly|Leaning): /,"")+'</p>'+
+      '<p class="kq-lim">'+e.lim+'</p><a href="'+e.u+'" target="_blank" rel="noopener noreferrer">Source: '+e.src+'</a></article>';
+  }).join("");
+}
+renderResult=(function(orig){return function(){
+  orig();
+  var pos=st.r.pos,n=st.a.filter(function(v,i){return v!==null||st.sk[i];}).length;
+  $("kqHeroCloth").innerHTML=kqClothSVG({anim:true,label:"Your cloth, woven from your answers"});
+  $("kqHeroN").textContent="Woven from "+n+" answers";
+  $("kqLegend").innerHTML=kqLegend(pos);
+  var ech=kqEchoes();$("kqEchoes").innerHTML=ech;$("kqEchoWrap").hidden=!ech;
+  $("kqDeep").hidden=st.deep;
+  $("aname2").textContent=$("aname").textContent;
+};})(renderResult);
+$("kqDeep").addEventListener("click",function(){
+  st.deep=true;st.part=1;st.i=KQ_CORE;show("quiz");
+  $("kq").hidden=false;document.querySelector("#view-quiz .qshell").hidden=true;
+  $("kqRoundH").textContent="Seven more, to finish your cloth.";
+  $("kqRoundP").textContent="One more question on each lens. Your answers so far are kept.";
+  $("kqRoundCloth").innerHTML=kqClothSVG();
+  $("kqMain").hidden=true;$("kqRoundBox").hidden=false;
+});
+/* the review's "change" link returns to the woven question */
+$("rvList").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-i]");if(!b)return;
+  e.stopImmediatePropagation();
+  st.part=1;st.i=Number(b.dataset.i);st.ch[st.i]=null;show("quiz");renderQ();
+},true);
+
+/* ---------- the card people share: the cloth, the tradition, two lines ---------- */
+buildCard=function(face){
+  var W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;
+  var x=c.getContext("2d");
+  x.fillStyle="#0E1420";x.fillRect(0,0,W,H);
+  var cl=kqClothCanvas(x,60,60,1000);
+  var tx=60+cl.w+50,tw=W-tx-60;
+  x.fillStyle="#FFC93F";x.font='600 22px "IBM Plex Mono", monospace';x.fillText("MY CLOTH · IF NA YOU?",tx,100);
+  var wrap=function(t,font,lh,y,col){x.font=font;x.fillStyle=col;var w=String(t).split(" "),ln="";
+    w.forEach(function(s){var tt=ln?ln+" "+s:s;if(x.measureText(tt).width>tw&&ln){x.fillText(ln,tx,y);y+=lh;ln=s;}else ln=tt;});if(ln){x.fillText(ln,tx,y);y+=lh;}return y;};
+  var y=wrap(st.r.ranked[0].a.n,'800 48px "Bricolage Grotesque", sans-serif',54,170,"#FFFFFF");
+  y+=20;
+  var pos=st.r.pos,ks=KEYS.slice().sort(function(a,b){return Math.abs(pos[b])-Math.abs(pos[a]);}).slice(0,3);
+  ks.forEach(function(k){
+    var v=pos[k],ax=AXES.filter(function(q){return q.k===k;})[0];
+    x.fillStyle="#B9BDC5";x.font='500 18px "IBM Plex Mono", monospace';x.fillText(ax.n.toUpperCase(),tx,y);
+    y=wrap(Math.abs(v)<20?"Torn":KQ_LEAN[k][v>0?0:1].replace(/^./,function(m){return m.toUpperCase();}),'400 30px "Literata", serif',36,y+38,"#F0EDE4")+18;
+  });
+  x.fillStyle="#35B47C";x.fillRect(0,H-210,W,6);
+  x.fillStyle="#FFFFFF";x.font='800 46px "Bricolage Grotesque", sans-serif';x.fillText("If na you, wetin you go do?",60,H-130);
+  x.fillStyle="#B9BDC5";x.font='500 22px "IBM Plex Mono", monospace';x.fillText("WEAVE YOURS AT IFNAYOU.COM",60,H-80);
+  return c;
+};
+kqBuild();
+
+/* ---------- Your ballot: Nigeria as 8,809 lights, one per ward ----------
+   Data: ballot.json, built from INEC's final lists of candidates (2027) and the
+   2015 INEC Information Kit (which LGAs make up each Senate district and Reps seat).
+   State Assembly seats are matched to LGAs by name; seats that cannot be placed are
+   offered from the state's list. Nothing typed or chosen here is sent anywhere. */
+var BL={d:null,q:null,st:-1,lg:-1,wd:-1,party:"",fcPick:{},scPick:{},pts:null,
+  cur:null,from:null,to:null,t0:0,raf:0,hover:-1,rip:null,lastRip:0,idx:null,sugI:-1};
+window.BL=BL;
+var BL_OFF={ANAMBRA:1,BAYELSA:1,EDO:1,EKITI:1,IMO:1,KOGI:1,ONDO:1,OSUN:1};
+var BL_DATE={nat:"Saturday 16 January 2027",state:"Saturday 6 February 2027"};
+var BL_RM=false;try{BL_RM=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
+
+function blEsc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function blNorm(s){return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g," ").trim();}
+
+function blLoad(cb){
+  if(BL.d){cb();return;}
+  if(BL.q){BL.q.push(cb);return;}
+  BL.q=[cb];
+  $("blBody").innerHTML='<p class="bl-wait">Lighting up the map…</p>';
+  fetch("ballot.json").then(function(r){return r.json();}).then(function(d){
+    BL.d=d;blPrep();var q=BL.q;BL.q=null;q.forEach(function(f){f();});
+  }).catch(function(){
+    BL.q=null;$("blBody").innerHTML='<p class="bl-wait">The candidate lists did not load. Check your connection and try again.</p>';
+  });
+}
+
+function blPrep(){
+  var d=BL.d,xs=[],ys=[],st=[],lg=[],ph=[],wn=[];
+  d.states.forEach(function(s,si){
+    s.l.forEach(function(l,li){
+      l.w.forEach(function(w){
+        xs.push((w[2]-2.6)*0.988);ys.push(14.05-w[1]);st.push(si);lg.push(li);wn.push(w[0]);ph.push(Math.random()*6.283);
+      });
+    });
+  });
+  var n=xs.length;
+  BL.pts={n:n,x:Float32Array.from(xs),y:Float32Array.from(ys),s:Uint8Array.from(st),l:Uint16Array.from(lg),ph:Float32Array.from(ph),w:wn,
+    sp:Float32Array.from(xs.map(function(){return .6+Math.random()*1.1;}))};
+  /* bounding boxes, for the zoom */
+  BL.sbox=d.states.map(function(){return[1e9,1e9,-1e9,-1e9];});
+  BL.lbox={};
+  for(var i=0;i<n;i++){
+    var b=BL.sbox[st[i]];b[0]=Math.min(b[0],xs[i]);b[1]=Math.min(b[1],ys[i]);b[2]=Math.max(b[2],xs[i]);b[3]=Math.max(b[3],ys[i]);
+    var k=st[i]+":"+lg[i],c=BL.lbox[k]||(BL.lbox[k]=[1e9,1e9,-1e9,-1e9]);
+    c[0]=Math.min(c[0],xs[i]);c[1]=Math.min(c[1],ys[i]);c[2]=Math.max(c[2],xs[i]);c[3]=Math.max(c[3],ys[i]);
+  }
+  BL.all=[0,0,12.1*0.988,10.0];
+  BL.lcen={};Object.keys(BL.lbox).forEach(function(k){var b=BL.lbox[k];BL.lcen[k]=[(b[0]+b[2])/2,(b[1]+b[3])/2];});
+  BL.cur=BL.all.slice();
+  /* search index */
+  var ix=[];
+  d.states.forEach(function(s,si){
+    ix.push({t:0,s:si,l:-1,w:-1,a:s.n,b:"State",k:blNorm(s.n)});
+    s.l.forEach(function(l,li){
+      ix.push({t:1,s:si,l:li,w:-1,a:l.n,b:"Local government · "+s.n,k:blNorm(l.n)});
+      l.w.forEach(function(w,wi){ix.push({t:2,s:si,l:li,w:wi,a:w[0],b:"Ward · "+l.n+", "+s.n,k:blNorm(w[0])});});
+    });
+  });
+  BL.idx=ix;
+  /* who stands where: party reach */
+  var P={};
+  function add(p,kind,i){(P[p]||(P[p]={sd:{},fc:{},sc:{},gov:{}}))[kind][i]=1;}
+  ["sd","fc","sc"].forEach(function(k){d[k].forEach(function(r,i){r.c.forEach(function(c){add(c[1],k,i);});});});
+  Object.keys(d.gov).forEach(function(si){d.gov[si].forEach(function(c){add(c[1],"gov",si);});});
+  d.pres.forEach(function(c){(P[c[1]]||(P[c[1]]={sd:{},fc:{},sc:{},gov:{}})).pres=1;});
+  BL.reach=P;
+  var cands=d.pres.length+Object.keys(d.gov).reduce(function(a,k){return a+d.gov[k].length;},0)+
+    ["sd","fc","sc"].reduce(function(a,k){return a+d[k].reduce(function(b,r){return b+r.c.length;},0);},0);
+  BL.total=cands;
+}
+
+/* ---------- the map ---------- */
+function blCanvas(){
+  var c=$("blMap"),w=c.clientWidth,h=c.clientHeight,r=Math.min(window.devicePixelRatio||1,2);
+  if(c.width!==Math.round(w*r)||c.height!==Math.round(h*r)){c.width=Math.round(w*r);c.height=Math.round(h*r);}
+  return {c:c,x:c.getContext("2d"),w:w,h:h,r:r};
+}
+function blFit(box,w,h){
+  var pad=0.08,bw=Math.max(box[2]-box[0],0.35),bh=Math.max(box[3]-box[1],0.35);
+  var s=Math.min(w/(bw*(1+2*pad)),h/(bh*(1+2*pad)));
+  return {s:s,ox:w/2-s*(box[0]+box[2])/2,oy:h/2-s*(box[1]+box[3])/2};
+}
+function blZoom(box){
+  BL.from=BL.cur.slice();BL.to=box.slice();BL.t0=performance.now();
+  if(BL_RM){BL.cur=box.slice();BL.from=null;}
+  blKick();
+}
+function blKick(){if(!BL.raf)BL.raf=requestAnimationFrame(blDraw);}
+function blDraw(now){
+  BL.raf=0;
+  var v=$("view-ballot");if(!v||v.hidden||!BL.pts)return;
+  var C=blCanvas(),x=C.x,P=BL.pts;
+  if(BL.from){
+    var k=Math.min(1,(now-BL.t0)/800),e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+    for(var j=0;j<4;j++)BL.cur[j]=BL.from[j]+(BL.to[j]-BL.from[j])*e;
+    if(k>=1)BL.from=null;
+  }
+  var F=blFit(BL.cur,C.w,C.h);BL.fit=F;
+  x.setTransform(C.r,0,0,C.r,0,0);x.clearRect(0,0,C.w,C.h);
+  var t=now/1000,selS=BL.st,selL=BL.lg,party=BL.party,lit=party?BL.lit:null;
+  /* a slow wave crosses the country now and then */
+  if(!BL_RM&&now-BL.lastRip>4200){BL.lastRip=now;var q=(Math.random()*P.n)|0;BL.rip={x:P.x[q],y:P.y[q],t:now};}
+  var R=null;if(BL.rip){var age=(now-BL.rip.t)/2600;if(age>1)BL.rip=null;else R={x:BL.rip.x,y:BL.rip.y,r:age*3.2,a:1-age};}
+  var zoom=F.s/(C.w/12.6),dot=Math.max(1.6,Math.min(6,1.5*Math.sqrt(zoom))),round=dot>2.3,vis=[];
+  for(var i=0;i<P.n;i++){
+    var sx=F.ox+P.x[i]*F.s,sy=F.oy+P.y[i]*F.s;
+    if(sx<-4||sy<-4||sx>C.w+4||sy>C.h+4)continue;
+    vis.push(i);
+    var tw=BL_RM?0.5:0.5+0.5*Math.sin(t*P.sp[i]+P.ph[i]);
+    var a=0.42+0.48*tw,col="255,210,140",sz=dot;
+    if(R){var dx=P.x[i]-R.x,dy=P.y[i]-R.y,dd=Math.abs(Math.sqrt(dx*dx+dy*dy)-R.r);if(dd<0.22)a+=0.5*R.a*(1-dd/0.22);}
+    if(lit){ if(lit[P.s[i]+":"+P.l[i]]){col="132,170,250";a=0.45+0.4*tw;} else {col="150,155,165";a*=0.28;} }
+    if(selS>=0){
+      if(P.s[i]!==selS)a*=0.22;
+      else if(selL>=0){ if(P.l[i]===selL){col=lit?col:"255,201,63";a=0.8+0.2*tw;sz=dot*1.35;} else a*=0.5; }
+      else a=Math.min(1,a*1.35);
+    }
+    if(i===BL.hover){a=1;sz=dot*2;}
+    x.fillStyle="rgba("+col+","+Math.min(1,a).toFixed(3)+")";
+    if(round){x.beginPath();x.arc(sx,sy,sz/2,0,6.283);x.fill();}
+    else x.fillRect(sx-sz/2,sy-sz/2,sz,sz);
+  }
+  /* names appear as you come closer: local governments first, then wards */
+  var span=BL.cur[2]-BL.cur[0],occ=[];
+  function place(tx,ty,txt,font,fill){
+    x.font=font;var tw2=x.measureText(txt).width,r0=[tx-tw2/2-3,ty-8,tx+tw2/2+3,ty+8];
+    for(var g=0;g<occ.length;g++){var o=occ[g];if(r0[0]<o[2]&&r0[2]>o[0]&&r0[1]<o[3]&&r0[3]>o[1])return;}
+    occ.push(r0);
+    x.fillStyle="rgba(8,12,20,.65)";x.fillText(txt,tx-tw2/2+1,ty+1);x.fillStyle=fill;x.fillText(txt,tx-tw2/2,ty);
+  }
+  x.textBaseline="middle";
+  if(span<1.6&&vis.length<=260){
+    vis.sort(function(a,b){return ((P.s[b]===selS&&P.l[b]===selL)-(P.s[a]===selS&&P.l[a]===selL));});
+    vis.forEach(function(i){
+      var sx=F.ox+P.x[i]*F.s,sy=F.oy+P.y[i]*F.s,mine=(P.s[i]===selS&&P.l[i]===selL);
+      if(selS>=0&&P.s[i]!==selS)return;
+      place(sx,sy-dot-7,P.w[i],(mine?"600 ":"")+"11px 'IBM Plex Sans',system-ui,sans-serif",mine?"rgba(255,214,120,.95)":"rgba(225,228,236,.62)");
+    });
+  } else if(span<5.5){
+    var mk=selS+":"+selL;Object.keys(BL.lcen).sort(function(a,b){return (b===mk)-(a===mk);}).forEach(function(k){
+      var p2=k.split(":"),si=+p2[0],li=+p2[1];if(selS>=0&&si!==selS)return;
+      var c2=BL.lcen[k],sx=F.ox+c2[0]*F.s,sy=F.oy+c2[1]*F.s;if(sx<0||sy<0||sx>C.w||sy>C.h)return;
+      var mine=(si===selS&&li===selL);
+      place(sx,sy,BL.d.states[si].l[li].n,(mine?"700 ":"600 ")+"11.5px 'IBM Plex Sans',system-ui,sans-serif",mine?"#FFC93F":"rgba(243,241,232,.78)");
+    });
+  }
+  /* your ward, breathing */
+  if(BL.wd>=0&&BL.wpt>=0){
+    var i2=BL.wpt,px=F.ox+P.x[i2]*F.s,py=F.oy+P.y[i2]*F.s,b=BL_RM?0.5:(t*0.8)%1;
+    x.beginPath();x.arc(px,py,4+b*16,0,6.283);x.strokeStyle="rgba(255,201,63,"+(0.85*(1-b)).toFixed(3)+")";x.lineWidth=1.6;x.stroke();
+    x.beginPath();x.arc(px,py,3.2,0,6.283);x.fillStyle="#FFC93F";x.fill();
+  }
+  if(!BL_RM||BL.from)BL.raf=requestAnimationFrame(blDraw);
+}
+function blNearest(ev,maxPx){
+  if(!BL.pts||!BL.fit)return -1;
+  var r=$("blMap").getBoundingClientRect(),mx=ev.clientX-r.left,my=ev.clientY-r.top,F=BL.fit,P=BL.pts;
+  var wx=(mx-F.ox)/F.s,wy=(my-F.oy)/F.s,best=-1,bd=(maxPx/F.s)*(maxPx/F.s);
+  for(var i=0;i<P.n;i++){
+    var dx=P.x[i]-wx,dy=P.y[i]-wy,dd=dx*dx+dy*dy;if(dd<bd){bd=dd;best=i;}
+  }
+  return best;
+}
+function blMapEvents(){
+  var c=$("blMap");
+  c.addEventListener("pointermove",function(ev){
+    if(ev.pointerType==="touch")return;
+    var i=blNearest(ev,14);BL.hover=i;var tip=$("blTip");
+    if(i<0){tip.hidden=true;c.style.cursor="default";blKick();return;}
+    var P=BL.pts,s=BL.d.states[P.s[i]],l=s.l[P.l[i]];
+    tip.innerHTML=(BL.st===P.s[i]?'<b>'+blEsc(P.w[i])+'</b><span>'+blEsc(l.n)+'</span>':'<b>'+blEsc(s.n)+'</b><span>'+blEsc(l.n)+'</span>');
+    var r=c.getBoundingClientRect();tip.style.left=(ev.clientX-r.left)+"px";tip.style.top=(ev.clientY-r.top)+"px";tip.hidden=false;
+    c.style.cursor="pointer";blKick();
+  });
+  c.addEventListener("pointerleave",function(){BL.hover=-1;$("blTip").hidden=true;blKick();});
+  c.addEventListener("click",function(ev){
+    if(BL.dragged){BL.dragged=false;return;}
+    var i=blNearest(ev,BL.st<0&&!BL.manual?26:18);if(i<0)return;
+    var P=BL.pts,si=P.s[i];
+    var li=P.l[i],l=BL.d.states[si].l[li],wi=l.w.findIndex(function(w){return w[0]===P.w[i];});
+    /* once you have zoomed by hand, a tap picks the place under your finger and the map stays put */
+    if(BL.manual){blSelect(si,li,wi,false,true);return;}
+    if(BL.st!==si){blSelect(si,-1,-1);return;}
+    blSelect(si,li,wi);
+  });
+  /* pinch, drag and wheel */
+  var ptrs={},start=null;
+  function pts2(){return Object.keys(ptrs).map(function(k){return ptrs[k];});}
+  function snap(){
+    var p=pts2(),r=c.getBoundingClientRect();
+    if(!p.length){start=null;return;}
+    var mx=0,my=0;p.forEach(function(q){mx+=q.x;my+=q.y;});mx=mx/p.length-r.left;my=my/p.length-r.top;
+    var dist=p.length>1?Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y):0;
+    start={mx:mx,my:my,dist:dist,box:BL.cur.slice(),fit:BL.fit,n:p.length};
+  }
+  c.addEventListener("pointerdown",function(ev){
+    ptrs[ev.pointerId]={x:ev.clientX,y:ev.clientY};BL.moved=0;snap();
+    try{c.setPointerCapture(ev.pointerId);}catch(e){}
+  });
+  c.addEventListener("pointermove",function(ev){
+    if(!ptrs[ev.pointerId]||!start||!start.fit)return;
+    ptrs[ev.pointerId]={x:ev.clientX,y:ev.clientY};
+    var p=pts2();if(p.length!==start.n){snap();return;}
+    var r=c.getBoundingClientRect(),mx=0,my=0;p.forEach(function(q){mx+=q.x;my+=q.y;});mx=mx/p.length-r.left;my=my/p.length-r.top;
+    var k=1;if(p.length>1&&start.dist>0)k=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)/start.dist;
+    BL.moved=Math.max(BL.moved,Math.hypot(mx-start.mx,my-start.my),Math.abs(k-1)*100);
+    if(BL.moved<6)return;
+    blView(start.box,start.fit,start.mx,start.my,mx,my,k);
+  });
+  function up(ev){
+    delete ptrs[ev.pointerId];
+    if(BL.moved>=6){BL.dragged=true;setTimeout(function(){BL.dragged=false;},350);}
+    snap();
+  }
+  c.addEventListener("pointerup",up);c.addEventListener("pointercancel",up);
+  c.addEventListener("wheel",function(ev){
+    if(!BL.fit)return;ev.preventDefault();
+    var r=c.getBoundingClientRect(),mx=ev.clientX-r.left,my=ev.clientY-r.top;
+    var k=Math.exp(-ev.deltaY*(ev.ctrlKey?0.012:0.0025));
+    blView(BL.cur.slice(),BL.fit,mx,my,mx,my,k);
+  },{passive:false});
+  $("blZin").addEventListener("click",function(){blStep(1.6);});
+  $("blZout").addEventListener("click",function(){blStep(1/1.6);});
+  window.addEventListener("resize",blKick);
+}
+/* a new view from a gesture: the world point under (sx,sy) at the start ends under (mx,my), scaled by k */
+function blView(box,F,sx,sy,mx,my,k){
+  var wx=(sx-F.ox)/F.s,wy=(sy-F.oy)/F.s,bw=box[2]-box[0],bh=box[3]-box[1];
+  var full=BL.all[2]-BL.all[0],nw=Math.min(full*1.4,Math.max(0.4,bw/k)),kk=bw/nw;
+  var s2=F.s*kk;
+  /* keep (wx,wy) under the fingers */
+  var cx=(box[0]+box[2])/2,cy=(box[1]+box[3])/2;
+  var ncx=wx+(cx-wx)/kk-(mx-sx)/s2,ncy=wy+(cy-wy)/kk-(my-sy)/s2;
+  var nh=bh/kk;
+  /* do not let Nigeria leave the frame */
+  ncx=Math.max(BL.all[0]-0.5,Math.min(BL.all[2]+0.5,ncx));ncy=Math.max(BL.all[1]-0.5,Math.min(BL.all[3]+0.5,ncy));
+  BL.from=null;BL.cur=[ncx-nw/2,ncy-nh/2,ncx+nw/2,ncy+nh/2];BL.manual=true;
+  $("blTip").hidden=true;$("blHint").hidden=true;$("blMap").style.touchAction=nw<full*0.95?"none":"pan-y";
+  blKick();
+}
+function blStep(k){
+  if(!BL.fit)return;var c=$("blMap");
+  var from=BL.cur.slice(),F=BL.fit,mx=c.clientWidth/2,my=c.clientHeight/2;
+  blView(from,F,mx,my,mx,my,k);
+  var to=BL.cur.slice();BL.cur=from;BL.from=from;BL.to=to;BL.t0=performance.now();blKick();
+}
+
+/* ---------- choosing a place ---------- */
+function blWardPoint(si,li,wi){
+  if(wi<0)return -1;var P=BL.pts,nm=BL.d.states[si].l[li].w[wi][0];
+  for(var i=0;i<P.n;i++)if(P.s[i]===si&&P.l[i]===li&&P.w[i]===nm)return i;return -1;
+}
+function blSelect(si,li,wi,quiet,keep){
+  BL.st=si;BL.lg=li;BL.wd=wi;BL.wpt=(si>=0&&li>=0)?blWardPoint(si,li,wi):-1;
+  if(!keep){BL.manual=false;$("blMap").style.touchAction="pan-y";}
+  if(keep){}
+  else if(si<0)blZoom(BL.all);
+  else if(li<0)blZoom(BL.sbox[si]);
+  else{var b=BL.lbox[si+":"+li],s=BL.sbox[si],pad=0.9;
+    if(Math.max(s[2]-s[0],s[3]-s[1])<3)blZoom(s);
+    else blZoom([Math.max(s[0]-.3,b[0]-pad),Math.max(s[1]-.3,b[1]-pad),Math.min(s[2]+.3,b[2]+pad),Math.min(s[3]+.3,b[3]+pad)]);}
+  $("blTip").hidden=true;BL.hover=-1;
+  blCrumb();blRender();
+  if(!quiet){
+    var k=si<0?"":BL.d.states[si].k+(li>=0?"~"+BL.d.states[si].l[li].n+(wi>=0?"~"+BL.d.states[si].l[li].w[wi][0]:""):"");
+    /* The chosen place is kept out of the address bar: the advertising pixel sends the page URL
+       with every event, and where someone votes is theirs. A share link is built on demand. */
+    BL.at=k;
+    try{history.replaceState(history.state,"",location.pathname+location.search+"#ballot");}catch(e){}
+    try{localStorage.setItem("ifny_ballot_at",k);}catch(e){}
+    if(li>=0&&!keep){var b2=$("blBody");if(b2&&b2.getBoundingClientRect().top>window.innerHeight*0.7)b2.scrollIntoView({behavior:BL_RM?"auto":"smooth",block:"start"});}
+  }
+}
+function blCrumb(){
+  var d=BL.d,h=[];
+  h.push('<button type="button" data-bl="n"'+(BL.st<0?' aria-current="true"':'')+'>Nigeria</button>');
+  if(BL.st>=0)h.push('<button type="button" data-bl="s"'+(BL.lg<0?' aria-current="true"':'')+'>'+blEsc(d.states[BL.st].n)+'</button>');
+  if(BL.lg>=0)h.push('<button type="button" data-bl="l" aria-current="true">'+blEsc(d.states[BL.st].l[BL.lg].n)+'</button>');
+  $("blCrumb").innerHTML=h.join('<i>›</i>');
+  $("blHint").textContent=BL.st<0?"Tap your state":BL.lg<0?"Now tap your area":"";
+  $("blHint").hidden=BL.lg>=0;
+}
+function blFromKey(k){
+  if(!k||!BL.d)return false;
+  var p=k.split("~"),si=BL.d.states.findIndex(function(s){return s.k===p[0];});if(si<0)return false;
+  var li=p[1]?BL.d.states[si].l.findIndex(function(l){return l.n===p[1];}):-1;
+  var wi=(li>=0&&p[2])?BL.d.states[si].l[li].w.findIndex(function(w){return w[0]===p[2];}):-1;
+  blSelect(si,li,wi,true);return true;
+}
+
+/* ---------- search ---------- */
+function blSuggest(){
+  var q=blNorm($("blQ").value),ul=$("blSug");BL.sugI=-1;
+  if(q.length<2||!BL.idx){ul.hidden=true;ul.innerHTML="";return;}
+  var out=[];
+  for(var i=0;i<BL.idx.length&&out.length<400;i++){
+    var e=BL.idx[i],p=e.k.indexOf(q);if(p<0)continue;
+    var sc=e.t*10+(p===0?0:(e.k.charAt(p-1)===" "?3:8))+e.k.length/40;out.push([sc,e]);
+  }
+  out.sort(function(a,b){return a[0]-b[0];});out=out.slice(0,8);
+  if(!out.length){ul.innerHTML='<li class="none">No ward, LGA or state by that name. Try fewer letters.</li>';ul.hidden=false;return;}
+  ul.innerHTML=out.map(function(o,j){var e=o[1];return '<li role="option" id="blS'+j+'" data-s="'+e.s+'" data-l="'+e.l+'" data-w="'+e.w+'"><b>'+blEsc(e.a)+'</b><span>'+blEsc(e.b)+'</span></li>';}).join("");
+  ul.hidden=false;
+}
+function blPick(li){
+  if(!li||li.classList.contains("none"))return;
+  $("blQ").value="";$("blSug").hidden=true;$("blQ").blur();
+  blSelect(+li.dataset.s,+li.dataset.l,+li.dataset.w);
+}
+
+/* ---------- the races ---------- */
+function blSum(c,pair){
+  var n=c.length,f=c.filter(function(x){return x[3]==="F";}).length,ages=c.map(function(x){return x[2];}).filter(function(a){return a>0;});
+  var lo=Math.min.apply(null,ages),hi=Math.max.apply(null,ages);
+  return n+(n===1?" candidate":" candidates")+" · "+(f===0?"no women":f===1?"1 woman":f+" women")+(ages.length?" · aged "+lo+" to "+hi:"");
+}
+function blPresName(c){
+  var m=(typeof PRESIDENTIAL!=="undefined")&&PRESIDENTIAL.find(function(p){return p.p===c[1];});
+  return m?{n:m.n,r:m.r,b:m.b}:{n:c[0],r:c[4],b:""};
+}
+function blRow(c,kind,i){
+  var pair=(kind==="pres"||kind==="gov"),nm=c[0],dep=pair?c[4]:"",bio="";
+  if(kind==="pres"){var m=blPresName(c);nm=m.n;dep=m.r;bio=m.b;}
+  var dim=BL.party&&c[1]!==BL.party,hit=BL.party&&c[1]===BL.party;
+  var det='';
+  if(bio)det+='<p>'+blEsc(bio)+'</p>';
+  if(pair)det+='<div class="cdf"><b>'+(kind==="pres"?"Running mate":"Deputy")+'</b><span>'+blEsc(dep)+' · '+c[5]+(c[6]?' · '+(c[6]==="F"?"woman":"man"):'')+'</span></div>';
+  if(!pair&&c[4])det+='<div class="cdf"><b>Qualifications filed</b><span>'+blEsc(c[4])+'</span></div>';
+  if(!pair&&c[5])det+='<div class="cdf"><b>Disability declared</b><span>'+blEsc(c[5])+'</span></div>';
+  det+='<div class="cdf cdf-pos"><b>Positions</b><span>None recorded on the If Na You questions yet.</span></div>';
+  return '<button class="cd'+(dim?' dim':'')+(hit?' hit':'')+'" type="button" aria-expanded="false" data-k="'+kind+i+'">'+
+    '<span class="pp">'+blEsc(c[1])+'</span>'+
+    '<span class="cn">'+blEsc(nm)+(pair?'<small>with '+blEsc(dep)+'</small>':'')+'</span>'+
+    '<span class="ca">'+(c[2]||"")+(c[3]?'<small>'+(c[3]==="F"?"woman":"man")+'</small>':'')+'</span>'+
+    '<span class="chev" aria-hidden="true">+</span></button>'+
+    '<div class="cdx" hidden>'+det+'</div>';
+}
+function blRace(o){
+  /* o: {k,label,title,date,c,kind,pick,note,extra} */
+  var h='<section class="rc rc-'+o.kind+'"><header class="rc-h"><span class="rc-k">'+o.label+'</span>'+
+    '<h3>'+blEsc(o.title)+'</h3><span class="rc-d">'+o.date+'</span></header>';
+  if(o.pick)h+=o.pick;
+  if(o.note)h+='<p class="rc-note">'+o.note+'</p>';
+  if(o.c){
+    var has=!BL.party||o.c.some(function(c){return c[1]===BL.party;});
+    h+='<p class="rc-sum">'+blSum(o.c)+(BL.party&&!has?' · <b>no '+blEsc(BL.party)+' candidate</b>':'')+'</p>';
+    var cut=(!BL.party&&o.c.length>8)?6:o.c.length;
+    h+='<div class="rc-list">'+o.c.map(function(c,i){return (i===cut?'<div class="rc-more" hidden>':'')+blRow(c,o.kind,i);}).join("")+(cut<o.c.length?'</div><button type="button" class="rc-all">Show all '+o.c.length+' candidates</button>':'')+'</div>';
+  }
+  return h+'</section>';
+}
+function blTabs(kind,ids,cur,names){
+  return '<div class="rc-pick" role="tablist"><span>'+(kind==="fc"?"Your local government is split between "+ids.length+" Reps seats. Choose yours:":"Choose your Assembly seat:")+'</span>'+
+    ids.map(function(id,j){return '<button type="button" role="tab" aria-selected="'+(id===cur)+'" data-pick="'+kind+'" data-id="'+id+'">'+blEsc(names[j])+'</button>';}).join("")+'</div>';
+}
+function blRender(){
+  var d=BL.d,b=$("blBody");if(!d)return;
+  var h='';
+  if(BL.st<0){
+    h+='<div class="bl-lead"><h2>One race is on every ballot in Nigeria</h2><p>Choose your state on the map, or here, to see the rest of yours.</p></div>';
+    h+=blRace({kind:"pres",label:"President",title:"President of the Federal Republic",date:BL_DATE.nat,c:d.pres});
+    h+='<div class="bl-grid"><span class="lab">Choose your state</span><div>'+d.states.map(function(s,i){return '<button type="button" data-st="'+i+'">'+blEsc(s.n)+'</button>';}).join("")+'</div></div>';
+  } else if(BL.lg<0){
+    var s=d.states[BL.st];
+    h+='<div class="bl-lead"><h2>'+blEsc(s.n)+'</h2><p>'+s.l.length+' local governments. Choose yours to see your Senator, your Rep and your Assembly seat.</p></div>';
+    h+='<div class="bl-grid"><span class="lab">Choose your local government</span><div>'+s.l.map(function(l,i){return '<button type="button" data-lg="'+i+'">'+blEsc(l.n)+'</button>';}).join("")+'</div></div>';
+    h+=blGov(BL.st);
+  } else {
+    var s2=d.states[BL.st],l=s2.l[BL.lg],w=BL.wd>=0?l.w[BL.wd][0]:"";
+    h+='<div class="bl-lead bl-you"><span class="lab">Your ballot</span><h2>'+(w?blEsc(w)+', ':'')+blEsc(l.n)+'<small>'+blEsc(s2.n)+'</small></h2>'+
+      '<p>'+blCountRaces(s2,l)+'</p><button type="button" class="btn ghost sm" id="blShare">Share this ballot</button></div>';
+    h+='<div class="bl-day"><span class="lab">'+BL_DATE.nat+'</span></div>';
+    h+=blRace({kind:"pres",label:"President",title:"President of the Federal Republic",date:"",c:d.pres});
+    l.sd.forEach(function(id){var r=d.sd[id];h+=blRace({kind:"sd",label:"Senate",title:r.n,date:"",c:r.c});});
+    if(l.fc.length){
+      var fc=(BL.fcPick[BL.st+":"+BL.lg]!=null&&l.fc.indexOf(BL.fcPick[BL.st+":"+BL.lg])>=0)?BL.fcPick[BL.st+":"+BL.lg]:l.fc[0],r2=d.fc[fc];
+      h+=blRace({kind:"fc",label:"House of Representatives",title:r2.n,date:"",c:r2.c,
+        pick:l.fc.length>1?blTabs("fc",l.fc,fc,l.fc.map(function(id){return d.fc[id].n;})):""});
+    }
+    h+='<div class="bl-day"><span class="lab">'+BL_DATE.state+'</span></div>';
+    h+=blGov(BL.st);
+    h+=blAssembly(s2,l);
+  }
+  b.innerHTML=h;
+  blParties();
+}
+function blCountRaces(s,l){
+  var n=1+l.sd.length+(l.fc.length?1:0)+(s.g?1:0)+((l.sc.length||s.xsc.length)?1:0);
+  return n+" races on two election days. Tap any name for the details INEC published.";
+}
+function blGov(si){
+  var d=BL.d,s=d.states[si];
+  if(s.k==="FCT")return blRace({kind:"gov",label:"Governor",title:"No governorship election",date:"",note:"The FCT has no governor. It is run by a minister the President appoints."});
+  if(!s.g)return blRace({kind:"gov",label:"Governor",title:s.n+" does not elect a governor in 2027",date:"",note:BL_OFF[s.k]?s.n+" holds its governorship election on its own calendar, apart from the general election.":"No governorship list for "+blEsc(s.n)+" has been loaded yet."});
+  return blRace({kind:"gov",label:"Governor",title:"Governor of "+s.n,date:BL.lg<0?BL_DATE.state:"",c:d.gov[String(si)]});
+}
+function blAssembly(s,l){
+  var d=BL.d;
+  if(s.k==="FCT")return blRace({kind:"sc",label:"State House of Assembly",title:"No Assembly election",date:"",note:"The FCT has no State House of Assembly. Its area council elections are held separately."});
+  var ids=l.sc.length?l.sc:s.xsc;
+  if(!ids.length)return blRace({kind:"sc",label:"State House of Assembly",title:"Not available yet",date:"",note:"INEC’s published list of State Assembly candidates that we hold does not include "+blEsc(s.n)+"."});
+  var key=BL.st+":"+BL.lg,cur=(BL.scPick[key]!=null&&ids.indexOf(BL.scPick[key])>=0)?BL.scPick[key]:ids[0],r=d.sc[cur];
+  var note=l.sc.length?"":"We could not match an Assembly seat to "+blEsc(l.n)+" by name. These are the "+s.n+" seats we could not place; pick yours.";
+  if(l.sc.length>1)note="Seats in and around "+blEsc(l.n)+". Pick the one you vote in.";
+  return blRace({kind:"sc",label:"State House of Assembly",title:r.n,date:"",c:r.c,note:note,
+    pick:ids.length>1?blTabs("sc",ids,cur,ids.map(function(id){return d.sc[id].n;})):""});
+}
+
+/* ---------- parties ---------- */
+function blParties(){
+  var P=Object.keys(BL.reach).sort(),cur=BL.party;
+  $("blParties").innerHTML='<span class="lab">Show one party</span><div><button type="button" data-party=""'+(cur?'':' aria-pressed="true"')+'>All</button>'+
+    P.map(function(p){return '<button type="button" data-party="'+p+'"'+(cur===p?' aria-pressed="true"':'')+'>'+p+'</button>';}).join("")+'</div>';
+  var r=$("blReach");
+  if(!cur){r.hidden=true;return;}
+  var R=BL.reach[cur],c=function(o){return Object.keys(o).length;};
+  r.innerHTML='<b>'+blEsc(cur)+'</b> is on the ballot for '+(R.pres?'President, ':'')+
+    c(R.gov)+' of 28 governorships, '+c(R.sd)+' of 109 Senate seats, '+c(R.fc)+' of 360 Reps seats and '+c(R.sc)+' of '+BL.d.sc.length+' Assembly seats. '+
+    '<span>The blue lights are the local governments where it has a Reps or Assembly candidate.</span>';
+  r.hidden=false;
+}
+function blSetParty(p){
+  BL.party=p;BL.lit=null;
+  if(p){
+    var R=BL.reach[p],lit={};
+    BL.d.states.forEach(function(s,si){s.l.forEach(function(l,li){
+      if(l.fc.some(function(id){return R.fc[id];})||l.sc.some(function(id){return R.sc[id];}))lit[si+":"+li]=1;});});
+    BL.lit=lit;
+  }
+  blRender();blKick();
+}
+
+/* ---------- wiring ---------- */
+function renderBallot(){
+  var v=$("view-ballot");if(!v||v.hidden)return;
+  blLoad(function(){
+    if(!BL.wired){
+      BL.wired=true;blMapEvents();
+      var at=null;((window.__IFY_FRAG||"")+"&"+(location.hash||"").replace(/^#/,"")).split("&").forEach(function(p){if(p.indexOf("at=")===0)at=decodeURIComponent(p.slice(3));});
+      if(!at){try{at=localStorage.getItem("ifny_ballot_at");}catch(e){}}
+      BL.at=at||"";
+      $("blCount").innerHTML='<b>'+BL.total.toLocaleString("en-GB")+'</b> candidates · <b>'+Object.keys(BL.reach).length+'</b> parties · <b>'+
+        (1+28+109+360+BL.d.sc.length).toLocaleString("en-GB")+'</b> seats';
+      if(!blFromKey(at)){blCrumb();blRender();}
+    }
+    blKick();
+  });
+}
+document.addEventListener("click",function(e){
+  var t;
+  if((t=e.target.closest(".cd"))){
+    var x=t.nextElementSibling,o=t.getAttribute("aria-expanded")==="true";
+    t.setAttribute("aria-expanded",String(!o));t.querySelector(".chev").textContent=o?"+":"−";x.hidden=o;return;
+  }
+  if((t=e.target.closest(".rc-all"))){t.previousElementSibling.hidden=false;t.remove();return;}
+  if((t=e.target.closest("[data-st]"))&&t.closest("#view-ballot")){blSelect(+t.dataset.st,-1,-1);$("blMapWrap").scrollIntoView({behavior:BL_RM?"auto":"smooth",block:"center"});return;}
+  if((t=e.target.closest("[data-lg]"))&&t.closest("#view-ballot")){blSelect(BL.st,+t.dataset.lg,-1);return;}
+  if((t=e.target.closest("[data-bl]"))){var k=t.dataset.bl;if(k==="n")blSelect(-1,-1,-1);else if(k==="s")blSelect(BL.st,-1,-1);return;}
+  if((t=e.target.closest("[data-party]"))){blSetParty(t.dataset.party);return;}
+  if((t=e.target.closest("[data-pick]"))){(t.dataset.pick==="fc"?BL.fcPick:BL.scPick)[BL.st+":"+BL.lg]=+t.dataset.id;blRender();return;}
+  if((t=e.target.closest("#blSug li"))){blPick(t);return;}
+  if(e.target.closest("#blShare")){
+    var url=location.origin+location.pathname+location.search+"#ballot"+(BL.at?"&at="+encodeURIComponent(BL.at):""),d=BL.d,s=d.states[BL.st],l=s.l[BL.lg];
+    var txt="Who is asking for my vote in "+l.n+", "+s.n+"? If na you, wetin you go do?";
+    if(navigator.share){navigator.share({title:"Your ballot · If Na You",text:txt,url:url}).catch(function(){});}
+    else{try{navigator.clipboard.writeText(url);e.target.textContent="Link copied";}catch(err){}}
+    return;
+  }
+  if(!e.target.closest(".bl-find")){var u=$("blSug");if(u)u.hidden=true;}
+});
+(function(){
+  var q=$("blQ");if(!q)return;
+  q.addEventListener("input",function(){blLoad(blSuggest);});
+  q.addEventListener("focus",function(){blLoad(function(){});});
+  q.addEventListener("keydown",function(e){
+    var ul=$("blSug"),items=ul.querySelectorAll("li[role=option]");if(ul.hidden||!items.length)return;
+    if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();BL.sugI=(BL.sugI+(e.key==="ArrowDown"?1:-1)+items.length)%items.length;
+      items.forEach(function(li,j){li.setAttribute("aria-selected",String(j===BL.sugI));});q.setAttribute("aria-activedescendant","blS"+BL.sugI);}
+    else if(e.key==="Enter"){e.preventDefault();blPick(items[Math.max(0,BL.sugI)]);}
+    else if(e.key==="Escape"){ul.hidden=true;}
+  });
+})();
 
 function frontPage(endTitle){
   var f=$("gFront"); if(!f)return;
