@@ -6,6 +6,10 @@ A civic engagement tool and strategy game for Nigerian politics: a 21-question p
 
 Alongside it, `/api` holds two small Vercel serverless functions that add a minimum analytics/research backend: anonymous participant + session tracking, and the **outcome** of each experience (quiz archetype + dimension scores; President game final outcome, decisions, fidelity to stated positions). It does not record every individual answer or decision — see [ROADMAP.md](ROADMAP.md) for the fuller schema this can grow into if that's ever worth the added surface area.
 
+## Bringing in changes from the Claude artifact
+
+The game is edited in a Claude artifact, and the repo has things the artifact lacks (analytics, share tags, the home and ballot pages). Use `artifact-sync/merge.sh`, not a copy-over. See `artifact-sync/README.md`.
+
 ## Local development
 
 Frontend: no build tooling required — open `index.html` directly, or serve it locally:

@@ -1,0 +1,18 @@
+if(!c){G.busy=false;return;}
+fbq('init'
+function mpx(
+__IFY_FRAG
+(c|g|at)=
+var CONTENT_VERSION="
+og-share-2.jpg
+Could You Run Nigeria
+/api/track
+side-desk
+id="wayMap"
+wayPulse
+id="blStateSel"
+id="blLgSel"
+id="blPartySel"
+BL.at=
+blRetry
+padding-bottom:98%
