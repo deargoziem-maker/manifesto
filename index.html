@@ -1677,12 +1677,23 @@ body.onballot{--paper:#0E1420;--stock:#151C2A;--stock-2:#1E2636;--ink:#F3F1E8;--
   --rule:#F3F1E8;--hair:#2C3546;--elu-mark:#6E93E0;--danfo:#FFC93F;background:#0E1420;color:var(--ink);}
 body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 .bl{display:flex;flex-direction:column;gap:18px;}
-.bl-hero{display:grid;grid-template-columns:minmax(280px,1fr) 1.35fr;gap:22px;align-items:stretch;}
-.bl-side{display:flex;flex-direction:column;justify-content:center;gap:14px;padding:6px 0;}
+.bl-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:14px 32px;align-items:end;}
+.bl-side{display:flex;flex-direction:column;gap:10px;}
+/* the three ways to choose, as menus: the map stays the centrepiece and nothing competes with it */
+.bl-ctl{display:flex;flex-direction:column;gap:12px;}
+.bl-flds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.bl-fld{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.bl-fld select{width:100%;box-sizing:border-box;font:inherit;font-size:1rem;padding:12px 38px 12px 14px;border-radius:10px;color:#fff;
+  border:1.5px solid #3A4A6E;outline:none;-webkit-appearance:none;appearance:none;cursor:pointer;text-overflow:ellipsis;
+  background:#121a2a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23FFC93F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 14px center;}
+.bl-fld select:focus{border-color:var(--danfo);}
+.bl-fld select:disabled{opacity:.5;cursor:default;}
+.bl-fld select option{background:#121a2a;color:#fff;}
 .bl-when{color:var(--danfo);}
-.bl-h{font-size:clamp(2.3rem,1.6rem + 3vw,3.9rem);line-height:.98;margin:0;color:#fff;}
+.bl-h{font-size:clamp(1.9rem,1.2rem + 1.8vw,2.7rem);line-height:1;margin:0;color:#fff;}
+.bl-h br{display:none;}
 .bl-h em{font-style:normal;color:var(--danfo);}
-.bl-p{margin:0;color:var(--ink-2);font-size:1.02rem;line-height:1.45;max-width:34ch;}
+.bl-p{margin:0;color:var(--ink-2);font-size:.98rem;line-height:1.45;max-width:52ch;}
 .bl-find{position:relative;}
 .bl-find input{width:100%;box-sizing:border-box;font:inherit;font-size:1.05rem;padding:15px 16px 15px 44px;border-radius:10px;
   border:1.5px solid #3A4A6E;background:#121a2a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23FFC93F' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") 14px 50%/20px no-repeat;
@@ -1698,7 +1709,7 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 .bl-find li.none{cursor:default;color:var(--ink-3);}
 .bl-count{font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase;}
 .bl-count b{color:var(--ink);font-weight:600;}
-.bl-map{position:relative;min-height:520px;border-radius:14px;overflow:hidden;border:1px solid #233049;
+.bl-map{position:relative;height:clamp(420px,calc(100vh - 325px),800px);border-radius:14px;overflow:hidden;border:1px solid #233049;
   background:radial-gradient(ellipse 70% 60% at 55% 50%,#131d31 0%,#0B111C 70%);}
 .bl-map canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;}
 .bl-crumb{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:4px;flex-wrap:wrap;z-index:3;max-width:calc(100% - 24px);}
@@ -1716,12 +1727,6 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
   border-radius:8px;padding:7px 10px;display:flex;flex-direction:column;gap:1px;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.4);}
 .bl-tip b{color:#fff;font-size:.88rem;}
 .bl-tip span{color:var(--ink-3);font-size:.76rem;}
-.bl-parties{display:flex;align-items:center;gap:12px;}
-.bl-parties>div{display:flex;gap:6px;flex-wrap:wrap;}
-.bl-parties button{all:unset;cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.04em;padding:6px 9px;border-radius:6px;
-  color:var(--ink-2);border:1px solid #2C3546;background:#121a2a;}
-.bl-parties button[aria-pressed="true"]{color:#0E1420;background:var(--danfo);border-color:var(--danfo);}
-.bl-parties button:focus-visible{outline:2px solid var(--danfo);outline-offset:2px;}
 .bl-reach{margin:0;padding:12px 14px;border-left:3px solid var(--elu-mark);background:#121a2a;border-radius:0 8px 8px 0;color:var(--ink);font-size:.95rem;line-height:1.45;}
 .bl-reach span{display:block;color:var(--ink-3);font-size:.84rem;margin-top:3px;}
 .bl-wait{color:var(--ink-3);}
@@ -1776,15 +1781,22 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 .cdf-pos span{color:var(--ink-3);}
 .bl-src{margin:10px 0 0;color:var(--ink-3);font-size:.82rem;line-height:1.5;max-width:70ch;}
 #view-ballot .rc+.rc{margin-top:0;}
+#view-ballot{padding-top:20px;}
 #blBody{display:flex;flex-direction:column;gap:14px;}
 @media (max-width:860px){
-  .bl-hero{grid-template-columns:1fr;gap:14px;}
+  .bl-head{grid-template-columns:1fr;gap:14px;}
+  /* on a phone the map comes straight after the search box and the three menus sit under it,
+     so the map is on the first screen and zooms right above the menu you are using */
+  .bl-head,.bl-ctl{display:contents;}
+  .bl-find{order:1;}.bl-map{order:2;}.bl-flds{order:3;grid-template-columns:1fr 1fr;gap:10px;}
+  .bl-reach,#blBody,.bl-src{order:4;}
+  .bl-flds .bl-fld:nth-of-type(3){order:2;}
+  .bl-flds .bl-fld:nth-of-type(2){order:3;grid-column:1/-1;}
+  .bl-p{display:none;}
   /* The height comes from padding, not aspect-ratio: the canvas inside is absolutely positioned,
      so on a browser without aspect-ratio support the box collapsed to nothing and the map vanished. */
-  .bl-map{min-height:0;height:0;padding-bottom:86%;}
+  .bl-map{min-height:0;height:0;padding-bottom:98%;}
   .bl-h{font-size:clamp(2.1rem,9.5vw,2.8rem);}
-  .bl-parties{flex-direction:column;align-items:flex-start;gap:8px;}
-  .bl-parties>div{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
   .cd{grid-template-columns:50px 1fr auto 14px;gap:10px;padding:11px 12px;}
   .cdx{padding:4px 12px 14px 12px;}
   .cdf{grid-template-columns:1fr;gap:2px;}
@@ -2097,27 +2109,35 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 <section class="view" id="view-ballot" hidden>
   <div class="wrap">
     <div class="bl">
-      <div class="bl-hero">
+      <div class="bl-head">
         <div class="bl-side">
           <span class="lab bl-when">16 January &amp; 6 February 2027</span>
-          <h1 class="bl-h">Who is asking<br>for <em>your</em> vote?</h1>
+          <h1 class="bl-h">Who is asking <br>for <em>your</em> vote?</h1>
           <p class="bl-p">Find your ward or local government. Your whole ballot appears, from President down to your State Assembly seat.</p>
+          <div class="bl-count" id="blCount"></div>
+        </div>
+        <div class="bl-ctl">
           <div class="bl-find" role="combobox" aria-haspopup="listbox" aria-owns="blSug">
             <input id="blQ" type="search" placeholder="Your ward, LGA or state" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="blSug" aria-label="Find your ward, local government or state">
             <ul id="blSug" role="listbox" hidden></ul>
           </div>
-          <div class="bl-count" id="blCount"></div>
-        </div>
-        <div class="bl-map" id="blMapWrap">
-          <canvas id="blMap" aria-label="Map of Nigeria, one light for each of its 8,809 wards. Tap a state, then your area." role="img"></canvas>
-          <div class="bl-tip" id="blTip" hidden></div>
-          <div class="bl-crumb" id="blCrumb"></div>
-          <span class="bl-hint" id="blHint">Tap your state</span>
-          <div class="bl-zoom"><button type="button" id="blZin" aria-label="Zoom in">+</button><button type="button" id="blZout" aria-label="Zoom out">−</button></div>
+          <div class="bl-flds">
+            <label class="bl-fld"><span class="lab">State</span><select id="blStateSel" aria-label="State"><option value="">All states</option></select></label>
+            <label class="bl-fld"><span class="lab">Local government</span><select id="blLgSel" aria-label="Local government" disabled><option value="">Pick a state first</option></select></label>
+            <label class="bl-fld"><span class="lab">Party</span><select id="blPartySel" aria-label="Show one party"><option value="">All parties</option></select></label>
+          </div>
         </div>
       </div>
 
-      <div class="bl-parties" id="blParties" aria-label="Show one party"></div>
+      <div class="bl-map" id="blMapWrap">
+        <canvas id="blMap" aria-label="Map of Nigeria, one light for each of its 8,809 wards. Tap a state, then your area." role="img"></canvas>
+        <div class="bl-tip" id="blTip" hidden></div>
+        <div class="bl-crumb" id="blCrumb"></div>
+        <span class="bl-hint" id="blHint">Tap your state</span>
+        <div class="bl-zoom"><button type="button" id="blZin" aria-label="Zoom in">+</button><button type="button" id="blZout" aria-label="Zoom out">−</button></div>
+      </div>
+
+
       <div class="bl-reach" id="blReach" hidden></div>
 
       <div id="blBody"></div>
@@ -6691,6 +6711,9 @@ function blMapEvents(){
     var k=Math.exp(-ev.deltaY*(ev.ctrlKey?0.012:0.0025));
     blView(BL.cur.slice(),BL.fit,mx,my,mx,my,k);
   },{passive:false});
+  $("blStateSel").addEventListener("change",function(){blSelect(this.value===""?-1:+this.value,-1,-1);});
+  $("blLgSel").addEventListener("change",function(){if(BL.st>=0)blSelect(BL.st,this.value===""?-1:+this.value,-1);});
+  $("blPartySel").addEventListener("change",function(){blSetParty(this.value);});
   $("blZin").addEventListener("click",function(){blStep(1.6);});
   $("blZout").addEventListener("click",function(){blStep(1/1.6);});
   window.addEventListener("resize",blKick);
@@ -6751,6 +6774,24 @@ function blCrumb(){
   $("blCrumb").innerHTML=h.join('<i>›</i>');
   $("blHint").textContent=BL.st<0?"Tap your state":BL.lg<0?"Now tap your area":"";
   $("blHint").hidden=BL.lg>=0;
+  blSync();
+}
+/* the three menus: built once the data is in, and kept in step with whatever the map, the search or a link chose */
+function blSync(){
+  var d=BL.d,ss=$("blStateSel"),ls=$("blLgSel"),ps=$("blPartySel");if(!d)return;
+  if(ss.options.length<2){
+    ss.innerHTML='<option value="">All states</option>'+d.states.map(function(s,i){return '<option value="'+i+'">'+blEsc(s.n)+'</option>';}).join("");
+    ps.innerHTML='<option value="">All parties</option>'+Object.keys(BL.reach).sort().map(function(p){return '<option value="'+blEsc(p)+'">'+blEsc(p)+'</option>';}).join("");
+  }
+  ss.value=BL.st<0?"":String(BL.st);
+  if(BL.lsFor!==BL.st){
+    BL.lsFor=BL.st;
+    ls.innerHTML=BL.st<0?'<option value="">Pick a state first</option>':
+      '<option value="">All local governments</option>'+d.states[BL.st].l.map(function(l,i){return '<option value="'+i+'">'+blEsc(l.n)+'</option>';}).join("");
+    ls.disabled=BL.st<0;
+  }
+  ls.value=BL.lg<0?"":String(BL.lg);
+  ps.value=BL.party||"";
 }
 function blFromKey(k){
   if(!k||!BL.d)return false;
@@ -6829,13 +6870,11 @@ function blRender(){
   var d=BL.d,b=$("blBody");if(!d)return;
   var h='';
   if(BL.st<0){
-    h+='<div class="bl-lead"><h2>One race is on every ballot in Nigeria</h2><p>Choose your state on the map, or here, to see the rest of yours.</p></div>';
+    h+='<div class="bl-lead"><h2>One race is on every ballot in Nigeria</h2><p>Tap your state on the map, or choose it from the menu above, to see the rest of yours.</p></div>';
     h+=blRace({kind:"pres",label:"President",title:"President of the Federal Republic",date:BL_DATE.nat,c:d.pres});
-    h+='<div class="bl-grid"><span class="lab">Choose your state</span><div>'+d.states.map(function(s,i){return '<button type="button" data-st="'+i+'">'+blEsc(s.n)+'</button>';}).join("")+'</div></div>';
   } else if(BL.lg<0){
     var s=d.states[BL.st];
-    h+='<div class="bl-lead"><h2>'+blEsc(s.n)+'</h2><p>'+s.l.length+' local governments. Choose yours to see your Senator, your Rep and your Assembly seat.</p></div>';
-    h+='<div class="bl-grid"><span class="lab">Choose your local government</span><div>'+s.l.map(function(l,i){return '<button type="button" data-lg="'+i+'">'+blEsc(l.n)+'</button>';}).join("")+'</div></div>';
+    h+='<div class="bl-lead"><h2>'+blEsc(s.n)+'</h2><p>'+s.l.length+' local governments. Tap yours on the map, or choose it from the menu above, to see your Senator, your Rep and your Assembly seat.</p></div>';
     h+=blGov(BL.st);
   } else {
     var s2=d.states[BL.st],l=s2.l[BL.lg],w=BL.wd>=0?l.w[BL.wd][0]:"";
@@ -6880,9 +6919,7 @@ function blAssembly(s,l){
 
 /* ---------- parties ---------- */
 function blParties(){
-  var P=Object.keys(BL.reach).sort(),cur=BL.party;
-  $("blParties").innerHTML='<span class="lab">Show one party</span><div><button type="button" data-party=""'+(cur?'':' aria-pressed="true"')+'>All</button>'+
-    P.map(function(p){return '<button type="button" data-party="'+p+'"'+(cur===p?' aria-pressed="true"':'')+'>'+p+'</button>';}).join("")+'</div>';
+  var cur=BL.party;
   var r=$("blReach");
   if(!cur){r.hidden=true;return;}
   var R=BL.reach[cur],c=function(o){return Object.keys(o).length;};
@@ -6929,7 +6966,6 @@ document.addEventListener("click",function(e){
   if((t=e.target.closest("[data-st]"))&&t.closest("#view-ballot")){blSelect(+t.dataset.st,-1,-1);$("blMapWrap").scrollIntoView({behavior:BL_RM?"auto":"smooth",block:"center"});return;}
   if((t=e.target.closest("[data-lg]"))&&t.closest("#view-ballot")){blSelect(BL.st,+t.dataset.lg,-1);return;}
   if((t=e.target.closest("[data-bl]"))){var k=t.dataset.bl;if(k==="n")blSelect(-1,-1,-1);else if(k==="s")blSelect(BL.st,-1,-1);return;}
-  if((t=e.target.closest("[data-party]"))){blSetParty(t.dataset.party);return;}
   if((t=e.target.closest("[data-pick]"))){(t.dataset.pick==="fc"?BL.fcPick:BL.scPick)[BL.st+":"+BL.lg]=+t.dataset.id;blRender();return;}
   if((t=e.target.closest("#blSug li"))){blPick(t);return;}
   if(e.target.closest("#blShare")){
