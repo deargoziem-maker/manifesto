@@ -1722,6 +1722,10 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 .bl-reach{margin:0;padding:12px 14px;border-left:3px solid var(--elu-mark);background:#121a2a;border-radius:0 8px 8px 0;color:var(--ink);font-size:.95rem;line-height:1.45;}
 .bl-reach span{display:block;color:var(--ink-3);font-size:.84rem;margin-top:3px;}
 .bl-wait{color:var(--ink-3);}
+/* the map is blank until the candidate file arrives, so say so in the box itself, where people look */
+.bl-map.bl-load::after,.bl-map.bl-fail::after{content:"Lighting up the map\2026";position:absolute;inset:0;z-index:2;display:grid;place-items:center;
+  padding:0 24px;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:#C9B27A;pointer-events:none;}
+.bl-map.bl-fail::after{content:"The map did not load. Tap to try again.";pointer-events:auto;cursor:pointer;}
 .bl-lead{margin-top:10px;}
 .bl-lead h2{margin:4px 0 6px;font-size:var(--s-2);color:#fff;line-height:1.1;}
 .bl-lead h2 small{display:block;font-size:.55em;color:var(--ink-3);font-weight:500;margin-top:4px;}
@@ -1772,7 +1776,9 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 #blBody{display:flex;flex-direction:column;gap:14px;}
 @media (max-width:860px){
   .bl-hero{grid-template-columns:1fr;gap:14px;}
-  .bl-map{min-height:0;aspect-ratio:1/0.86;}
+  /* The height comes from padding, not aspect-ratio: the canvas inside is absolutely positioned,
+     so on a browser without aspect-ratio support the box collapsed to nothing and the map vanished. */
+  .bl-map{min-height:0;height:0;padding-bottom:86%;}
   .bl-h{font-size:clamp(2.1rem,9.5vw,2.8rem);}
   .bl-parties{flex-direction:column;align-items:flex-start;gap:8px;}
   .bl-parties>div{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
@@ -6472,11 +6478,14 @@ function blLoad(cb){
   if(BL.d){cb();return;}
   if(BL.q){BL.q.push(cb);return;}
   BL.q=[cb];
+  var mw=$("blMapWrap");if(mw){mw.classList.remove("bl-fail");mw.classList.add("bl-load");}
   $("blBody").innerHTML='<p class="bl-wait">Lighting up the map…</p>';
-  fetch("ballot.json").then(function(r){return r.json();}).then(function(d){
-    BL.d=d;blPrep();var q=BL.q;BL.q=null;q.forEach(function(f){f();});
-  }).catch(function(){
-    BL.q=null;$("blBody").innerHTML='<p class="bl-wait">The candidate lists did not load. Check your connection and try again.</p>';
+  fetch("ballot.json").then(function(r){if(!r.ok)throw new Error("ballot.json "+r.status);return r.json();}).then(function(d){
+    BL.d=d;blPrep();if(mw)mw.classList.remove("bl-load");var q=BL.q;BL.q=null;q.forEach(function(f){f();});
+  }).catch(function(err){
+    try{console.error("ballot",err);}catch(e){}
+    BL.q=null;if(mw){mw.classList.remove("bl-load");mw.classList.add("bl-fail");}
+    $("blBody").innerHTML='<p class="bl-wait">The candidate lists did not load. Check your connection and <button type="button" class="lnk" id="blRetry">try again</button>.</p>';
   });
 }
 
@@ -6904,6 +6913,7 @@ function renderBallot(){
 }
 document.addEventListener("click",function(e){
   var t;
+  if(e.target.closest("#blRetry")||e.target.closest("#blMapWrap.bl-fail")){renderBallot();return;}
   if((t=e.target.closest(".cd"))){
     var x=t.nextElementSibling,o=t.getAttribute("aria-expanded")==="true";
     t.setAttribute("aria-expanded",String(!o));t.querySelector(".chev").textContent=o?"+":"−";x.hidden=o;return;
