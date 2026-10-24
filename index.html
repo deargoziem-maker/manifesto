@@ -2351,7 +2351,7 @@ var $=function(i){return document.getElementById(i);};
    or the President deck/values. Date-based, not semver: ships aren't
    backward compatible with each other in a way that makes semver meaningful
    here, and the date is what you'd want to know anyway. */
-var CONTENT_VERSION="2026-10-24.1";
+var CONTENT_VERSION="2026-10-24.2";
 function uuid(){
   if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
@@ -4816,7 +4816,7 @@ function zoneMemory(){
   return m;
 }
 function campResolve(){
-  var united=Math.random()<G.camp.unite,est=zoneEstimate(),home=G.camp.home,hi=G.camp.hi;
+  var united=Math.random()<uniteNow(),est=zoneEstimate(),home=G.camp.home,hi=G.camp.hi;
   /* when the opposition unites, its candidate holds most of the vote against you; when it
      splits, a third candidate takes a real share, and you can win with less */
   var rivalCut=united?0.76:0.6;
@@ -5991,6 +5991,64 @@ pname=(function(orig){return function(c,a){
   if(c==="paid"&&MEASURE_WORD[a])return "THE PRESIDENT WHO PAID FOR IT IN "+MEASURE_WORD[a].replace("Nigeria's ","").toUpperCase();
   return orig(c,a);
 };})(pname);
+
+/* ---------- staying in power: four decisions about winning, not governing ----------
+   What a president is tempted to do to remain in office. All four are fictional: no
+   real candidate, party, state or event is named, and nothing here cites the 2027
+   campaign. None uses loss of life. */
+
+/* before the campaign: dealt in the last year of the first term */
+DECK.push(
+ {w:"Minister of Humanitarian Affairs",at:19,cond:function(){return G.term===1;},
+  s:"The cash transfer programme for the poorest households is ready to expand. The party wants it to reach the states we could lose first, before the vote, with your picture on the cards. The ministry wants to follow the register of need, which would take it to the poorest states first, whoever they vote for.",
+  l:{t:"Follow the register of need",m:{street:4,nass:-6,gov:-4},v:{int:8,pro:3,coh:3},ax:{represent:1}},
+  r:{t:"Send it to the swing states first",m:{nass:6,gov:6,street:2},v:{int:-10,coh:-4},ax:{represent:-1},f:"transfers_swing",
+     fd:[["@AbujaInsider","Money don land in the states wey dem fear to lose. Coincidence, abi?"]]}},
+ {w:"Your Party Chairman",at:21,cond:function(){return G.term===1;},
+  s:"Three opposition parties are close to agreeing on a single candidate against you. Two of the governors holding the talks together would take ministries in your cabinet if you offered them. Their people are not the ones you would have chosen.",
+  l:{t:"Offer them the ministries",m:{gov:8,nass:6,street:-6},v:{cap:-6,int:-6},f:"alliance_broken",
+     fd:[["Ngozi (Family group)","So the people wey dey shout against government don collect minister. Wonderful."]]},
+  r:{t:"Keep your cabinet as it is",m:{gov:-6,nass:-4,street:4},v:{int:5,cap:2},f:"alliance_refused"}}
+);
+
+/* during the campaign: two more conversations the draw can bring */
+CAMP_EXTRA.push(
+ {w:"National Security Adviser, during the campaign",
+  alt:[{when:function(){return !!G.flags.state_police;},
+    s:"The opposition candidate's convoy was stopped and stoned on a highway in a state your party holds. Several people were injured. Witnesses say the men who blocked the road wore the uniforms of the governor's new state police. The governor says his officers were keeping order, and that if you open an investigation you can forget his state on election day."}],
+  s:"The opposition candidate's convoy was stopped and stoned on a highway in a state your party holds. Several people were injured and dozens were arrested, and some of those arrested carry our party's card. The governor wants it left to his police, and says that if you send federal investigators you can forget his state on election day.",
+  l:{t:"Send federal investigators",m:{gov:-10,street:8},v:{int:8,sec:2},
+     fx:function(){G.camp.all+=rnd(1.5)-0.5;},
+     why:"Violence against an opponent rarely stays in one state. Investigating your own side costs you a machine. Leaving it alone tells every other camp that the rules are off."},
+  r:{t:"Leave it to the state",m:{gov:8,street:-8},v:{int:-9,sec:-3},f:"convoy_ignored",
+     fx:function(){G.camp.all+=1;if(G.flags.state_police)applyV({int:-4,sec:-2});},
+     fd:[["@AbujaInsider","Dem stone convoy, nobody arrest anybody. Election season don start."]]}},
+ {w:"Finance Minister, during the campaign",
+  s:"The main opposition candidate has promised cheaper fuel and a higher minimum wage, and the crowds love it. Matching the promise could win the vote back. Paying for it would mean cutting next year's road and hospital budgets.",
+  l:{t:"Match the promise",m:{street:10,purse:-10},v:{pro:-3,int:-3},f:"matched_promise",
+     fx:function(){G.camp.all+=2;}},
+  r:{t:"Defend your reforms",m:{purse:6,street:-4},v:{int:4},
+     fx:function(){G.camp.all+=(national()-45)/5+rnd(1.5)-0.75;},
+     why:"A government asking voters to stay the course is judged on whether their own lives got better while it was in charge. If they did, the argument holds. If they did not, the promise wins."}}
+);
+
+/* the bill for the promise arrives in the second term */
+DECK.push(
+ {w:"Finance Minister",req:"matched_promise",from:"matched_promise",wait:2,cond:function(){return G.term===2;},
+  s:"You remember matching the opposition's promise during the campaign? Fuel and wages now cost far more than we budgeted. Keep the promise in full and borrow to pay for it, or tell the country it can only be kept in part.",
+  l:{t:"Keep the promise in full",m:{street:8,purse:-14},v:{pro:-5,int:4}},
+  r:{t:"Keep it only in part",m:{street:-12,purse:8},v:{int:-6,pro:3}}}
+);
+
+/* what the earlier choices do to the race itself */
+campStart=(function(orig){return function(){
+  orig();
+  if(G.flags.transfers_swing)G.camp.all+=1.5;
+};})(campStart);
+function uniteNow(){
+  var u=G.camp.unite+(G.flags.alliance_broken?-0.2:0)+(G.flags.alliance_refused?0.08:0);
+  return Math.max(0.05,Math.min(0.95,u));
+}
 
 
 /* ====================================================================
