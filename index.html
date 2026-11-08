@@ -959,6 +959,8 @@ tr:last-child td{border-bottom:0;}
 
 .g-flag{border-left:5px solid var(--danfo);background:var(--stock-2);padding:14px 16px;margin-top:16px;}
 #gameRun.holding .g-flag{order:5;max-height:none;overflow:visible;}
+.g-flag .hold{display:block;height:3px;margin-top:11px;background:var(--hair);}
+.g-flag .hold i{display:block;height:100%;width:0;background:var(--danfo);transition:width .1s linear;}
 #gameRun.holding .g-choices{order:6;}
 #gameRun.holding .feed{order:7;}
 .g-flag b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;display:block;font-size:.9rem;margin-bottom:5px;}
@@ -8045,26 +8047,44 @@ function play(side){
 function afterDecision(c,go,delay){
   var hc=c&&c.hist;
   if(!hc){setTimeout(go,delay);return;}
+  var run=G;
   setTimeout(function(){
-    if(!G.live)return;
+    if(G!==run||!G.live)return;
     var box=$("gFlagBox"),f=$("gFlag");
     $("gFlagTitle").textContent="This happened in Nigeria";
     f.textContent=hc.t+" ";
     var a=document.createElement("a");a.href=hc.u;a.target="_blank";a.rel="noopener noreferrer";a.textContent="Source: "+hc.src;
     f.appendChild(a);
+    /* Nobody has to tap: the note is held for about as long as it takes to read, and the thin line under it
+       shows what is left. Continue is only a way to skip ahead. The clock stops while the tab is hidden, so
+       opening the source does not cost the reader the next question. */
+    var total=Math.max(6000,Math.min(15000,3000+hc.t.length*30)),left=total;
+    var bar=document.createElement("span");bar.className="hold";bar.setAttribute("aria-hidden","true");
+    var fill=document.createElement("i");bar.appendChild(fill);box.appendChild(bar);
     box.hidden=false;
     $("gameRun").classList.add("holding");
     clearSubs();$("gL").querySelector(".txt").textContent="Continue.";$("gR").querySelector(".txt").textContent="Continue.";
     $("gL").parentNode.classList.add("one");
     G.busy=false;
-    $("gL").onclick=$("gR").onclick=function(){
-      if(G.busy)return;G.busy=true;
+    var tick=null,done=false;
+    function finish(){
+      if(done)return;done=true;clearInterval(tick);
+      if(bar.parentNode)bar.parentNode.removeChild(bar);
+      if(G!==run)return;
+      G.busy=true;
       $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
       $("gL").parentNode.classList.remove("one");
       $("gameRun").classList.remove("holding");
       box.hidden=true;
       go();
-    };
+    }
+    $("gL").onclick=$("gR").onclick=function(){if(!G.busy)finish();};
+    tick=setInterval(function(){
+      if(G!==run||!G.live){done=true;clearInterval(tick);if(bar.parentNode)bar.parentNode.removeChild(bar);return;}
+      if(document.hidden)return;
+      left-=100;fill.style.width=Math.max(0,Math.min(100,100*(1-left/total)))+"%";
+      if(left<=0)finish();
+    },100);
   },Math.min(delay,500));
 }
 
