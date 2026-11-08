@@ -44,6 +44,20 @@
     }
   }catch(e){}
 })();
+/* Where this visit came from, for the owner's own analytics (sent to /api/track as
+   participant_seen, never to the advertising pixel). Only the utm_* tags on the ad's link,
+   WHICH kind of ad click id was present (never its value) and the referring site's host.
+   The address bar is left alone: the Meta pixel reads fbclid from it to credit the ad. */
+(function(){
+  try{
+    var q=new URLSearchParams(location.search),s={src_v:1};
+    ["utm_source","utm_medium","utm_campaign"].forEach(function(k){var v=q.get(k);if(v)s[k]=v.slice(0,100);});
+    var c=(q.has("gclid")||q.has("gbraid")||q.has("wbraid"))?"gclid":q.has("fbclid")?"fbclid":q.has("msclkid")?"msclkid":null;
+    if(c)s.click_id=c;
+    if(document.referrer){try{s.referrer=new URL(document.referrer).hostname;}catch(e){}}
+    window.__IFY_SRC=s;
+  }catch(e){}
+})();
 </script>
 <!-- Meta Pixel Code -->
 <script>
@@ -55,6 +69,10 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
+/* Meta's automatic event collection would send the text of every button a visitor clicks
+   (a quiz answer, a game choice) and parts of the page. Turned off: only PageView and the
+   generic events sent through mpx() below ever leave this page for Meta. */
+fbq('set', 'autoConfig', false, '1122995333574337');
 fbq('init', '1122995333574337');
 fbq('track', 'PageView');
 /* Product-event helper for the six If Na You events below. Fails silently like
@@ -8728,6 +8746,188 @@ document.addEventListener("keydown",function(e){
   if((e.key==="ArrowDown"||e.key==="ArrowUp")&&!$("gC").hidden){e.preventDefault();$("gC").click();}
 });
 
+/* ---------- product analytics: funnel, decisions, answers, drop-off (repo-only) ----------
+   Everything here hooks the game and quiz from the outside, by wrapping functions the
+   rest of the page already calls by name, so the artifact's game code stays untouched
+   and artifact-sync merges keep working. Same rules as track()/evt(): anonymous id only,
+   no names, emails or places finer than what the page already holds, fails silently,
+   and nothing here goes to the ad pixels (mpx keeps its own allow-list).
+   Event names follow the analytics plan; the older names (landing_viewed,
+   compass_started, president_completed, result_viewed, result_shared ...) are kept so
+   the series that started in September does not break. */
+(function(){
+  var A={starts:{president:0,compass:0},done:{president:false,compass:false},
+         live:{president:null,compass:null},view:null,endSent:{}};
+  /* the exact words, whitespace tidied; capped only so one stray node cannot bloat a row */
+  function cut(t){t=String(t==null?"":t).replace(/\s+/g," ").trim();return t.length>600?t.slice(0,599)+"…":t;}
+  function took(from){return from?Math.min(Date.now()-from,600000):null;} /* ms, capped at ten minutes */
+  function txt(id){try{var e=$(id);var t=e&&(e.querySelector(".txt")||e);return cut(t.textContent);}catch(e){return "";}}
+
+  /* experience_restarted, and which session is live, read off the existing start/complete events */
+  evt=(function(orig){return function(name,data){
+    data=data||{};
+    var exp=name==="president_started"?"president":name==="compass_started"?"compass":null;
+    if(exp){
+      if(A.starts[exp]++>0)orig("experience_restarted",{session_id:data.session_id,experience:exp,
+        after:A.done[exp]?"completed":"unfinished"});
+      A.live[exp]=data.session_id;A.done[exp]=false;
+    }
+    if(name==="president_completed")A.done.president=true;
+    if(name==="compass_completed")A.done.compass=true;
+    return orig(name,data);
+  };})(evt);
+
+  /* experience_selected: the home cards, the tabs, or a link that names the experience */
+  var EXP={play:"president",quiz:"compass",ballot:"ballot"};
+  enter=(function(orig){return function(view,opts){
+    var r=orig(view,opts);
+    if(EXP[view]&&A.view!==view)evt("experience_selected",{experience:EXP[view],
+      via:(opts&&opts.history===false)?"link":"click",deep:!!(opts&&opts.deep)});
+    A.view=view;
+    return r;
+  };})(enter);
+
+  /* game_decision_made: every real choice, numbered, with the words on the card and the
+     button. A one-button "Continue" screen is not a decision and is skipped. */
+  play=(function(orig){return function(side){
+    try{
+      if(G&&G.live&&!G.busy&&!$("gL").parentNode.classList.contains("one")){
+        var kind=G.cur===-2?"impeachment":G.cur===-3?"campaign":G.cur===-4?"runoff":G.cur===-5?"amendment"
+          :G.cur==="third"?"third_term":G.cur==="open"?"opening":"desk";
+        evt("game_decision_made",{session_id:CUR.presidentSessionId,content_version:CONTENT_VERSION,
+          n:G.day+1,term:G.term||1,year:(G.year||0)+1,kind:kind,card:(typeof G.cur==="number"&&G.cur>=0)?G.cur:null,
+          who:txt("gWho"),says:txt("gSays"),choice:side,choice_text:txt(side==="l"?"gL":side==="c"?"gC":"gR"),
+          ms:took(A.cardAt)});
+      }
+    }catch(e){}
+    return orig(side);
+  };})(play);
+
+  /* game_ending_viewed: the title the player actually sees ("The President Who Never
+     Left", "The Caretaker" ...), which the coarser final_outcome does not carry */
+  endGame=(function(orig){return function(bloc,why){
+    var was=G&&G.done,r=orig(bloc,why);
+    try{
+      if(!was&&G.done&&!A.endSent[CUR.presidentSessionId]){
+        A.endSent[CUR.presidentSessionId]=1;
+        evt("game_ending_viewed",{session_id:CUR.presidentSessionId,content_version:CONTENT_VERSION,
+          presidency:(G.pn&&G.pn.c)||null,title:txt("gEndTitle"),why:why||null,decisions:G.day,term:G.term||1,
+          third_term:G.third||null,clean_handover:!!(G.flags&&G.flags.clean_handover)});
+      }
+    }catch(e){}
+    return r;
+  };})(endGame);
+
+  /* quiz_answer_submitted: each answer in the woven quiz ("Know Your Politics"). Its
+     order is shuffled per person, so the question is identified by its fixed id (E1,
+     S3 ...), not its position. value: -2..2 as scored (sign already corrected for the
+     A/B flip), 0 for "both", null for a skip. n counts 1-21, then 22-28 for the seven
+     optional deeper questions. */
+  kqCommit=(function(orig){return function(v,skip){
+    try{
+      /* Only the home card and "again" started a quiz session. The menu tab, the
+         invite's "Explore my politics", the game's "take the quiz" link and #quiz links
+         went straight in, so those quizzes had no session and their results were
+         refused by /api/track. Start one at the first answer instead. */
+      if(!CUR.compassSessionId)beginCompass();
+      flushHeld();
+      var q=Q[st.i],it=(q&&q.item)||{},ch=st.ch[st.i],side=(!skip&&v!==0&&ch&&typeof ch.side==="number")?ch.side:null;
+      evt("quiz_answer_submitted",{session_id:CUR.compassSessionId,content_version:CONTENT_VERSION,
+        q:it.id||null,axis:(q&&q.a)||null,n:st.i+1,deep:st.i>=KQ_CORE,
+        value:skip?null:(typeof v==="number"?v:null),answer:skip?"skip":(v===0?"both":(Math.abs(v)===2?"strong":"lean")),
+        picked:side===null?null:kqOpts(q)[side].t,ms:took(A.qAt)});
+    }catch(e){}
+    return orig(v,skip);
+  };})(kqCommit);
+
+  /* quiz_question_viewed: each question as it appears, with its exact wording and both
+     options in the order shown. Wording is stored with the event so the dashboard can say
+     exactly what people were asked, whichever build they saw. A quiz entered from the menu
+     has no session until the first answer, so those views wait and are sent then. */
+  var HELD=[];
+  function flushHeld(){
+    while(HELD.length){var p=HELD.shift();p.session_id=CUR.compassSessionId;evt("quiz_question_viewed",p);}
+  }
+  kqRender=(function(orig){return function(){
+    var r=orig.apply(this,arguments);
+    try{
+      var q=Q[st.i],it=q.item,o=kqOpts(q);
+      A.qAt=Date.now();
+      var p={content_version:CONTENT_VERSION,q:it.id,axis:q.a,n:st.i+1,deep:st.i>=KQ_CORE,
+        head:it.h,stem:it.s,a:o[0].t,b:o[1].t,revisit:st.ch[st.i]!=null};
+      if(CUR.compassSessionId){p.session_id=CUR.compassSessionId;evt("quiz_question_viewed",p);}
+      else if(HELD.length<40)HELD.push(p);
+    }catch(e){}
+    return r;
+  };})(kqRender);
+
+  /* game_card_viewed / game_consequence_viewed: watched from the outside by looking at what
+     the game puts on screen, so every kind of card (the desk, impeachment, the campaign, the
+     runoff, the amendment) is covered without touching the functions that deal them. The
+     text is set in one go, so the observer sees the finished card. */
+  try{
+    new MutationObserver(function(){
+      if(!G||!G.live)return;
+      A.cardAt=Date.now();
+      evt("game_card_viewed",{session_id:CUR.presidentSessionId,content_version:CONTENT_VERSION,
+        n:G.day+1,term:G.term||1,kind:G.cur===-2?"impeachment":G.cur===-3?"campaign":G.cur===-4?"runoff":G.cur===-5?"amendment"
+          :G.cur==="third"?"third_term":G.cur==="open"?"opening":"desk",
+        card:(typeof G.cur==="number"&&G.cur>=0)?G.cur:null,who:txt("gWho"),says:txt("gSays"),
+        l:txt("gL"),c:$("gC").hidden?null:txt("gC"),r:txt("gR"),continue_only:$("gL").parentNode.classList.contains("one")});
+    }).observe($("gSays"),{childList:true,characterData:true,subtree:true});
+    new MutationObserver(function(){
+      if(!G||!G.live||$("gFlagBox").hidden)return;
+      A.flagAt=Date.now();
+      evt("game_consequence_viewed",{session_id:CUR.presidentSessionId,content_version:CONTENT_VERSION,
+        n:G.day,who:txt("gWho"),title:txt("gFlagTitle"),text:txt("gFlag")});
+    }).observe($("gFlagBox"),{attributes:true,attributeFilter:["hidden"]});
+    $("gHistBtn").addEventListener("click",function(){
+      if(G&&G.live&&$("gHistBtn").getAttribute("aria-expanded")==="true")
+        evt("game_history_opened",{session_id:CUR.presidentSessionId,content_version:CONTENT_VERSION,
+          n:G.day+1,who:txt("gWho")});
+    });
+  }catch(e){}
+
+  /* invite_link_opened: someone arrived on a shared result (c= quiz, g= game) */
+  readInvite=(function(orig){return function(){
+    var r=orig.apply(this,arguments);
+    try{ if(r)evt("invite_link_opened",{kind:r.a?"compass":"president"}); }catch(e){}
+    return r;
+  };})(readInvite);
+
+  /* share_completed: only where the phone's own share sheet reports that it was sent */
+  try{
+    if(navigator.share){
+      var ns=navigator.share.bind(navigator);
+      navigator.share=function(d){
+        var exp=EXP[A.view]||A.view||null;
+        evt("share_clicked",{experience:exp,method:"share_sheet"});
+        return ns(d).then(function(x){evt("share_completed",{experience:exp,method:"share_sheet"});return x;});
+      };
+    }
+  }catch(e){}
+
+  /* return_visit: a new visit more than 30 minutes after the last one on this browser */
+  try{
+    var now=Date.now(),last=+localStorage.getItem("ify_lastvisit")||0;
+    if(last&&now-last>18e5)evt("return_visit",{days_since:Math.floor((now-last)/864e5)});
+    localStorage.setItem("ify_lastvisit",String(now));
+    window.addEventListener("pagehide",function(){try{localStorage.setItem("ify_lastvisit",String(Date.now()));}catch(e){}});
+  }catch(e){}
+
+  /* experience_abandoned: best effort, on leaving the page mid-run. Phones often close a
+     tab without telling the page, so the dashboard also counts any session left
+     unfinished for an hour as abandoned; this event adds where they stopped. */
+  window.addEventListener("pagehide",function(){
+    try{
+      if(A.live.president&&!A.done.president&&G&&G.live)
+        evt("experience_abandoned",{session_id:A.live.president,experience:"president",at:G.day,who:txt("gWho")});
+      if(A.live.compass&&!A.done.compass)
+        evt("experience_abandoned",{session_id:A.live.compass,experience:"compass",at:st.i+1});
+    }catch(e){}
+  });
+})();
+
 /* ---------- boot ---------- */
 /* Whatever a previous version stored for the map that never existed goes on the first
    load after this one, not on the first result. */
@@ -8750,7 +8950,7 @@ function start(){
   /* and again once the hero has its bytes, because a late image can move the page
      under a scroll position the browser set before it arrived */
   window.addEventListener("load",function(){window.scrollTo(0,0);},{once:true});
-  track("participant_seen",{});
+  track("participant_seen",window.__IFY_SRC||{});
   evt("landing_viewed",{});
 }
 if(window.claude&&window.claude.hot){

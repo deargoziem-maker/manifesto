@@ -18,3 +18,8 @@ blRetry
 padding-bottom:98%
 #view-play .shift:not(.on){transform:translateY(7px);}
 function offerHist(c){
+window.__IFY_SRC
+autoConfig
+quiz_question_viewed
+game_card_viewed
+product analytics: funnel, decisions, answers

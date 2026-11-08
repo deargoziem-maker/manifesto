@@ -31,7 +31,8 @@ the public-site wrapper. Do not copy the artifact over `index.html`; these would
 | Page title, description, canonical, link-preview and social tags in `<head>` | Share cards and search belong to the public site |
 | Meta Pixel, the `mpx()` allow-list, and the script that hides `c=`, `g=` and `at=` from the URL | The pixel would fire from inside the artifact viewer and pollute the ad data; the artifact page has no such URL to hide |
 | `/api/track` calls, `CONTENT_VERSION`, `beginCompass()` and the other `evt()` / `track()` hooks | Anonymous analytics only make sense on the live site |
-| Any product-analytics block above `boot` (wraps `evt`, `enter`, `play`, `endGame`, `kqCommit`, `readInvite`) | Same. If the artifact renames one of those functions, update the block or that event stops |
+| Source capture (`window.__IFY_SRC`, sent with `participant_seen`) and the pixel's `autoConfig` off switch | Ad-source tracking; keeps button text (quiz answers) out of Meta |
+| The product-analytics block above `boot` (wraps `evt`, `enter`, `play`, `endGame`, `kqCommit`, `kqRender`, `readInvite`; watches `#gSays` and `#gFlagBox`) | Same. If the artifact renames one of those functions, update the block or that event stops |
 
 Everything else is in both. These are guarded by `LOCAL_MARKERS.txt` so an artifact-side edit cannot silently drop them:
 the `play()` no-card guard; the live home ballot map (`#wayMap`); the ballot page with its State / Local government /

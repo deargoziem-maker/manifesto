@@ -1,6 +1,7 @@
 const { supabaseAdmin } = require("../_lib/supabaseAdmin");
 const { sendJson } = require("../_lib/util");
 const { isAuthorizedAdmin } = require("../_lib/requireAdmin");
+const { buildReport } = require("../_lib/report");
 
 // Early-stage volume — fetching raw rows and aggregating in JS is simpler
 // and plenty fast at this scale. Revisit with real GROUP BY / pagination
@@ -24,6 +25,91 @@ function mean(nums) {
   return xs.reduce((a, b) => a + b, 0) / xs.length;
 }
 
+
+// Supabase's API returns at most 1000 rows per request however high .limit() is set, so
+// every table is read a page at a time (pages run side by side). `truncated` says the cap
+// was hit and the numbers below it are a sample, not everything.
+const PAGE = 1000;
+async function fetchAll(make, cap) {
+  cap = cap || ROW_CAP;
+  const first = await make().range(0, PAGE - 1);
+  if (first.error) return { error: first.error, data: [] };
+  let rows = first.data || [];
+  if (rows.length < PAGE) return { data: rows, truncated: false };
+  const starts = [];
+  for (let from = PAGE; from < cap; from += PAGE) starts.push(from);
+  let truncated = true;
+  for (let i = 0; i < starts.length; i += 8) {
+    const batch = await Promise.all(starts.slice(i, i + 8).map((f) => make().range(f, f + PAGE - 1)));
+    for (const r of batch) {
+      if (r.error) return { error: r.error, data: rows };
+      rows = rows.concat(r.data || []);
+      if ((r.data || []).length < PAGE) truncated = false;
+    }
+    if (!truncated) break;
+  }
+  return { data: rows, truncated };
+}
+
+// Sessions with their progress marker (migration 0003). If that migration has not
+// been run yet, fall back to the original columns so the dashboard keeps working.
+async function fetchSessions(supabase, sinceIso) {
+  const base = "id, participant_id, experience_type, completion_status, started_at, completed_at";
+  const make = (cols) => () => {
+    let q = supabase.from("sessions").select(cols);
+    if (sinceIso) q = q.gte("started_at", sinceIso);
+    return q.order("started_at", { ascending: false }).order("id");
+  };
+  const r = await fetchAll(make(base + ", progress, last_activity_at"));
+  if (!r.error) return r;
+  return fetchAll(make(base));
+}
+
+// Every event the report reads, over the window. Rows are fetched by name so the one-off
+// "landing" and "viewed" volume is bounded by what the report actually uses.
+const REPORT_EVENTS = [
+  "quiz_question_viewed", "quiz_answer_submitted", "game_card_viewed", "game_decision_made",
+  "game_consequence_viewed", "game_history_opened", "game_ending_viewed", "result_shared", "share_completed",
+];
+const EVENT_CAP = 60000;
+async function fetchReportEvents(supabase, sinceIso) {
+  const make = () => {
+    let q = supabase
+      .from("event_log")
+      .select("event_name, session_id, participant_id, properties, occurred_at")
+      .in("event_name", REPORT_EVENTS);
+    if (sinceIso) q = q.gte("occurred_at", sinceIso);
+    return q.order("id", { ascending: true });
+  };
+  return fetchAll(make, EVENT_CAP);
+}
+
+// Exact counts for the analytics-plan events over a recent window, one cheap
+// head-only count per name (not limited by the 500-row recent-events sample).
+const PLAN_EVENTS = [
+  "landing_viewed", "return_visit", "experience_selected", "compass_started", "president_started",
+  "experience_restarted", "experience_abandoned", "game_decision_made", "game_ending_viewed",
+  "quiz_answer_submitted", "compass_completed", "president_completed", "result_viewed",
+  "result_shared", "share_clicked", "share_completed", "invite_link_opened",
+  "quiz_question_viewed", "game_card_viewed", "game_consequence_viewed", "game_history_opened",
+];
+async function countEvents(supabase, sinceIso) {
+  const out = {};
+  await Promise.all(
+    PLAN_EVENTS.map(async (name) => {
+      const { count, error } = await supabase
+        .from("event_log")
+        .select("id", { count: "exact", head: true })
+        .eq("event_name", name)
+        .gte("occurred_at", sinceIso);
+      out[name] = error ? null : count || 0;
+    })
+  );
+  return out;
+}
+
+const ABANDON_AFTER_MS = 60 * 60 * 1000;
+
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
     return sendJson(res, 405, { error: "method not allowed" });
@@ -35,34 +121,44 @@ module.exports = async function handler(req, res) {
   try {
     const supabase = supabaseAdmin();
 
-    const [participantsQ, sessionsQ, compassQ, presidentQ, eventsQ] = await Promise.all([
-      supabase
-        .from("participants")
-        .select("id, first_seen_at, last_seen_at, device_type, country, acquisition_source, acquisition_medium")
-        .order("first_seen_at", { ascending: false })
-        .limit(ROW_CAP),
-      supabase
-        .from("sessions")
-        .select("id, experience_type, completion_status, started_at, completed_at")
-        .order("started_at", { ascending: false })
-        .limit(ROW_CAP),
-      supabase
-        .from("compass_results")
-        .select("archetype, archetype_share, tied_archetypes, final_dimension_scores, completed_at")
-        .order("completed_at", { ascending: false })
-        .limit(ROW_CAP),
-      supabase
-        .from("president_results")
-        .select(
-          "final_outcome, outcome_reason, ending_bloc, decisions_count, years_served, contradictions, fidelity_tested, fidelity_kept, completed_at"
-        )
-        .order("completed_at", { ascending: false })
-        .limit(ROW_CAP),
+    // ?days=30 (default; 0 = everything) and ?cohort=all|paid|<channel name>
+    const url = new URL(req.url, "http://x");
+    const daysRaw = Number(url.searchParams.get("days"));
+    const days = Number.isFinite(daysRaw) && url.searchParams.has("days") ? Math.max(0, Math.min(3650, Math.floor(daysRaw))) : 30;
+    const cohort = (url.searchParams.get("cohort") || "all").slice(0, 40);
+    const sinceIso = days ? new Date(Date.now() - days * 24 * 3600 * 1000).toISOString() : null;
+
+    const [participantsQ, sessionsQ, compassQ, presidentQ, eventsQ, reportEventsQ] = await Promise.all([
+      fetchAll(() =>
+        supabase
+          .from("participants")
+          .select("id, first_seen_at, last_seen_at, device_type, country, acquisition_source, acquisition_medium, acquisition_campaign, referrer")
+          .order("first_seen_at", { ascending: false })
+          .order("id")
+      ),
+      fetchSessions(supabase, null),
+      fetchAll(() =>
+        supabase
+          .from("compass_results")
+          .select("session_id, archetype, archetype_share, tied_archetypes, final_dimension_scores, completed_at")
+          .order("completed_at", { ascending: false })
+          .order("id")
+      ),
+      fetchAll(() =>
+        supabase
+          .from("president_results")
+          .select(
+            "session_id, final_outcome, outcome_reason, ending_bloc, decisions_count, years_served, contradictions, fidelity_tested, fidelity_kept, completed_at"
+          )
+          .order("completed_at", { ascending: false })
+          .order("id")
+      ),
       supabase
         .from("event_log")
         .select("event_name, properties, occurred_at")
         .order("occurred_at", { ascending: false })
         .limit(500),
+      fetchReportEvents(supabase, sinceIso),
     ]);
 
     for (const [name, q] of [
@@ -71,6 +167,7 @@ module.exports = async function handler(req, res) {
       ["compass_results", compassQ],
       ["president_results", presidentQ],
       ["event_log", eventsQ],
+      ["event_log (report)", reportEventsQ],
     ]) {
       if (q.error) throw new Error(`${name}: ${q.error.message}`);
     }
@@ -117,6 +214,43 @@ module.exports = async function handler(req, res) {
       .map((p) => p.fidelity_kept / p.fidelity_tested);
     const avgFidelityRate = mean(fidelityRates);
 
+    // Funnel per experience. A session still "in_progress" with no activity for an
+    // hour is counted as abandoned: phones rarely tell the page they are closing.
+    const nowMs = Date.now();
+    function funnel(type) {
+      const rows = sessions.filter((x) => x.experience_type === type);
+      let completed = 0, abandoned = 0, active = 0;
+      const stopped = counter();
+      rows.forEach((x) => {
+        if (x.completion_status === "completed") { completed++; return; }
+        const lastMs = Date.parse(x.last_activity_at || x.started_at);
+        if (nowMs - lastMs < ABANDON_AFTER_MS) { active++; return; }
+        abandoned++;
+        if (x.progress === undefined) return; // migration 0003 not run yet
+        stopped.add(x.progress == null ? "before the first choice" : x.progress);
+      });
+      const order = (a, b) =>
+        a[0] === "before the first choice" ? -1 : b[0] === "before the first choice" ? 1 : Number(a[0]) - Number(b[0]);
+      return {
+        started: rows.length,
+        completed,
+        abandoned,
+        in_progress: active,
+        completion_rate: rows.length ? completed / rows.length : null,
+        abandoned_stopped_at: Object.entries(stopped.get()).sort(order),
+        progress_tracked: rows.some((x) => x.progress !== undefined),
+      };
+    }
+    const funnels = { president: funnel("president"), compass: funnel("compass") };
+
+    // Returning visitors: last seen more than 30 minutes after first seen.
+    const returning = participants.filter(
+      (p) => Date.parse(p.last_seen_at) - Date.parse(p.first_seen_at) > 30 * 60 * 1000
+    ).length;
+
+    const since = new Date(nowMs - 30 * 24 * 3600 * 1000).toISOString();
+    const eventCounts30 = await countEvents(supabase, since);
+
     // Raw counts by event_name over the last 500 rows. This is an inventory,
     // not a cohort funnel: a session's start can fall outside this window
     // while its completion is still inside it. The session-linked
@@ -149,8 +283,22 @@ module.exports = async function handler(req, res) {
       .reverse()
       .map((d) => [d, dayCounts[d]]);
 
+    // Report window: sessions that started inside it (the funnel tables above stay all-time).
+    const windowSessions = sinceIso ? sessions.filter((x) => x.started_at >= sinceIso) : sessions;
+    const report = buildReport(
+      { participants, sessions: windowSessions, events: reportEventsQ.data || [], compass, president },
+      { cohort }
+    );
+    report.window = { days, since: sinceIso };
+    report.truncated = {
+      participants: !!participantsQ.truncated,
+      sessions: !!sessionsQ.truncated,
+      events: !!reportEventsQ.truncated,
+    };
+
     sendJson(res, 200, {
       generated_at: new Date().toISOString(),
+      report,
       participants: {
         total: participants.length,
         note: "A participant is one anonymous browser identifier (a UUID stored in localStorage), not a verified person — the same person on two devices counts twice, and a cleared browser creates a new one. A tracking regression from 2026-09-19 to 2026-09-26 likely dropped some session/result rows; participant and event rows were unaffected.",
@@ -160,7 +308,10 @@ module.exports = async function handler(req, res) {
         by_country: byCountry.get(),
         by_acquisition_source: bySource.get(),
         signups_by_day: signupsByDay,
+        returning,
       },
+      funnels,
+      events_30d: eventCounts30,
       sessions: {
         total: sessions.length,
         compass: sessionBreakdown.compass.get(),

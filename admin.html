@@ -69,6 +69,19 @@ tr:last-child td{border-bottom:0;}
 td.mono{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--ink-2);}
 .empty{padding:20px;text-align:center;color:var(--ink-3);font-family:"IBM Plex Mono",monospace;
   font-size:.72rem;border:1px dashed var(--hair);}
+.ctl{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin:-8px 0 24px;font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--ink-3);letter-spacing:.06em;}
+.ctl select{font:inherit;color:var(--ink);background:var(--stock);border:2px solid var(--ink);padding:5px 8px;border-radius:0;}
+.tw{overflow-x:auto;margin-bottom:8px;}
+table.dt td,table.dt th{vertical-align:top;}
+table.dt td.n,table.dt th.n{text-align:right;white-space:nowrap;font-family:"IBM Plex Mono",monospace;font-size:.74rem;}
+.q-w{max-width:46ch;line-height:1.4;}
+.q-w small{display:block;color:var(--ink-3);font-family:"IBM Plex Mono",monospace;font-size:.62rem;margin-top:3px;letter-spacing:.04em;}
+.opt{display:flex;gap:8px;align-items:baseline;margin-top:5px;font-size:.78rem;}
+.opt i{flex:none;display:inline-block;height:8px;background:var(--elu-mark);}
+.dim{opacity:.55;}
+.flag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.05em;text-transform:uppercase;
+  border:1px solid var(--laterite);color:var(--laterite-text);padding:1px 5px;margin:2px 4px 0 0;}
+.hl td{background:var(--stock-2);font-weight:600;}
 #loading,#err{font-family:"IBM Plex Mono",monospace;font-size:.8rem;color:var(--ink-3);
   padding:40px 0;text-align:center;}
 #err{color:var(--laterite-text);}
@@ -92,6 +105,11 @@ td.mono{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--ink-2
       <button class="btn ghost" id="refreshBtn">Refresh</button>
       <button class="btn ghost" id="signOutBtn">Sign out</button>
     </div>
+  </div>
+  <div class="ctl">
+    <label>Period <select id="selDays"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="0">All time</option></select></label>
+    <label>Players from <select id="selCohort"></select></label>
+    <span id="ctlNote"></span>
   </div>
   <div id="loading">Loading…</div>
   <div id="err" hidden></div>
@@ -133,6 +151,154 @@ function note(text){
 function fmtPct(n){return n===null||n===undefined?"—":Math.round(n*100)+"%";}
 function fmtNum(n,d){return n===null||n===undefined?"—":(d?n.toFixed(d):Math.round(n));}
 
+
+var AXIS_LABELS={econ:["Market-led","State-led"],struct:["Centralist","Restructurist"],social:["Traditionalist","Reformist"],
+  security:["Order-first","Rights-first"],represent:["Community-first","Programme-first"],horizon:["Nigeria-first","Pan-African"]};
+var COHORTS=[["all","Everyone"],["paid","All paid (Google + Meta + other)"],["Google ads","Google ads"],["Meta ads","Meta ads"],
+  ["Meta click (untagged)","Meta click (untagged)"],["Other paid","Other paid"],["Referral","Referral"],["Direct","Direct"],
+  ["Tagged, not paid","Tagged, not paid"],["Before source tracking","Before source tracking"]];
+var VIEW={days:30,cohort:"all"};
+var LAST=null;
+
+function pc(a,b){return b?Math.round(a/b*100)+"%":"—";}
+function frac(a,b){return b?pc(a,b)+' <small style="color:var(--ink-3)">('+a+'/'+b+')</small>':"—";}
+function secsFmt(x){return x===null||x===undefined?"—":(x>=60?(Math.round(x/6)/10)+" min":x+" s");}
+function dtable(heads,rows,cls){
+  if(!rows.length)return '<div class="empty">No data in this period yet</div>';
+  return '<div class="tw"><table class="dt"><thead><tr>'+heads.map(function(h){
+    return '<th'+(h.n?' class="n"':'')+'>'+esc(h.t)+'</th>';}).join("")+'</tr></thead><tbody>'+rows.join("")+'</tbody></table></div>';
+}
+function flags(f){return (f||[]).map(function(x){return '<span class="flag">'+esc(x)+'</span>';}).join("");}
+function optionBars(opts,total){
+  return (opts||[]).map(function(o){
+    var w=total?Math.max(2,Math.round(o.count/total*100)):0;
+    return '<div class="opt"><i style="width:'+Math.round(w*0.9)+'px"></i><span><b>'+pc(o.count,total)+'</b> '+esc(o.text)+' <small style="color:var(--ink-3)">('+o.count+')</small></span></div>';
+  }).join("");
+}
+
+function sourceSection(rp){
+  var rows=rp.channels.map(function(c){
+    var hl=(c.channel==="All paid"||c.channel==="Everyone else"||c.channel==="Everyone");
+    return '<tr'+(hl?' class="hl"':'')+'><td>'+esc(c.channel)+'</td><td class="n">'+c.visitors+'</td><td class="n">'+frac(c.players,c.visitors)+'</td>'+
+      '<td class="n">'+c.president.sessions+' · '+pc(c.president.completed,c.president.sessions)+'</td>'+
+      '<td class="n">'+c.compass.sessions+' · '+pc(c.compass.completed,c.compass.sessions)+'</td>'+
+      '<td class="n">'+(c.replay_rate===null?"—":pc(c.replay_rate,1))+'</td>'+
+      '<td class="n">'+(c.share_rate===null?"—":pc(c.share_rate,1))+'</td></tr>';
+  });
+  var h='<section><h2>Where players come from, and how they differ</h2>'+
+    dtable([{t:"Channel"},{t:"Visitors",n:1},{t:"Played anything",n:1},{t:"President: sessions · finished",n:1},{t:"Quiz: sessions · finished",n:1},{t:"Replayed",n:1},{t:"Shared a result",n:1}],rows)+
+    note('Each visitor is counted once, under the channel of their first visit. "Before source tracking" is everyone who first arrived before this was switched on, so it is the comparison group for "earlier players". "Meta click (untagged)" arrived with a Facebook click id but no utm tags on the link; that includes unpaid clicks from Facebook posts. "Replayed" is people with more than one session of the same experience, out of those who played. "Shared" is finished sessions with a copied, downloaded or sent result, out of finished sessions. Paid visitors may be less motivated than people sent by a friend, so read the finished and replay columns before the volume. This table always shows every channel; the Players-from menu above filters the tables below it.')+'</section>';
+  var camp=rp.campaigns.filter(function(c){return c.source!=="(unknown)";}).map(function(c){
+    return '<tr><td>'+esc(c.source)+'</td><td>'+esc(c.medium)+'</td><td>'+esc(c.campaign||"—")+'</td><td class="n">'+c.visitors+'</td><td class="n">'+frac(c.players,c.visitors)+'</td><td class="n">'+frac(c.completed,c.players)+'</td></tr>';
+  });
+  h+='<section><h2>Campaigns</h2>'+dtable([{t:"Source"},{t:"Medium"},{t:"Campaign"},{t:"Visitors",n:1},{t:"Played",n:1},{t:"Finished one (of those who played)",n:1}],camp)+
+    note('Only visitors since source tracking began. Visits with no utm tags are grouped as the source "google" (Google click id), "meta" (Facebook click id), a referring site, or "direct".')+'</section>';
+  return h;
+}
+
+function compareSection(rp){
+  var P=rp.experiences.president,C=rp.experiences.compass;
+  function row(label,f){return '<tr><td>'+label+'</td><td class="n">'+f(P)+'</td><td class="n">'+f(C)+'</td></tr>';}
+  var rows=[
+    row("Players (people)",function(x){return x.players;}),
+    row("Sessions started",function(x){return x.sessions;}),
+    row("Finished",function(x){return frac(x.completed,x.sessions);}),
+    row("Left unfinished (idle 1 hour+)",function(x){return frac(x.abandoned,x.sessions);}),
+    row("Still in progress",function(x){return x.still_active;}),
+    row("Median time to finish",function(x){return x.median_minutes_to_finish===null?"—":x.median_minutes_to_finish+" min";}),
+    row("Played it more than once",function(x){return x.replay_rate===null?"—":pc(x.replay_rate,1);}),
+    row("Of those who finished, played again",function(x){return x.replayed_after_finishing===null?"—":pc(x.replayed_after_finishing,1);}),
+    row("Shared a result",function(x){return frac(x.shared_sessions,x.completed);}),
+  ];
+  var h='<section><h2>Play President vs Explore Your Beliefs'+(rp.cohort!=="all"?' — '+esc(rp.cohort):'')+'</h2>'+
+    dtable([{t:""},{t:"Play President",n:1},{t:"Explore Your Beliefs (quiz)",n:1}],rows)+
+    note('The two are different lengths and do different jobs, so they are not expected to perform alike: a presidency is dozens of decisions, the quiz is 21 questions plus 7 optional ones. Compare each with its own history rather than against the other.')+'</section>';
+  [["Play President","president",P,"decision"],["Explore Your Beliefs","compass",C,"answer"]].forEach(function(t){
+    var x=t[2];
+    if(x.stopped_at&&x.stopped_at.length)
+      h+='<section><h2>Where unfinished '+esc(t[0])+' sessions stopped (after how many '+t[3]+'s)</h2>'+
+        barRowsOrdered(x.stopped_at.map(function(e){return [isNaN(Number(e[0]))?e[0]:"after "+e[0],e[1]];}),x.abandoned)+'</section>';
+  });
+  return h;
+}
+
+var Q_SORT="answered",D_SORT="decided";
+function sortRows(rows,key,mode){
+  var f={answered:function(r){return -r[key];},
+    divided:function(r){return r.minority_share===null||r.small_sample?1:-r.minority_share;},
+    slow:function(r){return r.median_seconds===null||r.small_sample?1:-r.median_seconds;},
+    left:function(r){return r.left_here?-r.left_share:1;}}[mode]||function(){return 0;};
+  return rows.slice().sort(function(a,b){return f(a)-f(b);});
+}
+function sortMenu(id,cur){
+  return '<div class="ctl" style="margin:0 0 12px"><label>Sort by <select id="'+id+'">'+
+    [["answered","Most answered"],["divided","Most evenly split"],["slow","Slowest"],["left","Most people left here"]].map(function(o){
+      return '<option value="'+o[0]+'"'+(o[0]===cur?' selected':'')+'>'+o[1]+'</option>';}).join("")+'</select></label></div>';
+}
+function quizTable(rp){
+  var qs=sortRows(rp.quiz.questions,"answered",Q_SORT);
+  var rows=qs.map(function(r){
+    return '<tr class="'+(r.small_sample?'dim':'')+'"><td class="q-w"><b>'+esc(r.head||r.q)+'</b> '+esc(r.stem||'(wording not recorded)')+
+      '<small>'+esc(r.q)+' · '+esc(r.axis||"")+' · '+(r.deep?'optional deeper question':'core question')+' · build '+esc(r.version||"?")+'</small>'+
+      optionBars(r.picked,r.answered)+
+      (r.both?'<div class="opt"><span>'+pc(r.both,r.answered)+' said both / neither <small style="color:var(--ink-3)">('+r.both+')</small></span></div>':'')+
+      '</td>'+
+      '<td class="n"><b>'+r.answered+'</b><br><small>of '+r.viewed+' who saw it</small>'+(r.skipped?'<br><small>'+r.skipped+' skipped</small>':'')+'</td>'+
+      '<td class="n">'+secsFmt(r.median_seconds)+'</td>'+
+      '<td class="n">'+r.left_here+(r.viewed?'<br><small>'+pc(r.left_here,r.viewed)+' of viewers</small>':'')+'</td>'+
+      '<td>'+(r.small_sample?'<span class="flag" style="border-color:var(--ink-3);color:var(--ink-3)">under '+rp.min_sample+' answers</span>':flags(r.flags))+'</td></tr>';
+  });
+  return '<section><h2>Quiz — every question'+(rp.cohort!=="all"?' — '+esc(rp.cohort):'')+'</h2>'+sortMenu("sortQ",Q_SORT)+
+    dtable([{t:"Question, exactly as asked, and how people answered"},{t:"Answered",n:1},{t:"Median time",n:1},{t:"Left here",n:1},{t:"Signals"}],rows)+
+    note('Percentages are of the people who answered that question, not of everyone who played: if many played but only some answered, the base is the some. "Saw it" and "skipped" are shown beside, never inside. Signals are prompts to look, not verdicts: "divided" means the smaller side holds 35%+ of answers; a question can divide people because it is a real dividing line or because it is confusing, so read it with time and skips. "Many unsure" is 20%+ skipping or choosing both/neither. "Slow" is 1.5x the typical question time. "People leave here" is twice the usual share of viewers who stopped on this question. Time is capped at 10 minutes. Rows under '+rp.min_sample+' answers are dimmed and carry no signals. A question reworded between builds appears once per build.')+'</section>';
+}
+function gameTable(rp){
+  var ds=sortRows(rp.game.decisions.filter(function(r){return r.kind!=="continue";}),"decided",D_SORT);
+  var rows=ds.map(function(r){
+    var kind={desk:"",opening:"first morning",impeachment:"impeachment",campaign:"campaign",runoff:"runoff",amendment:"amendment",third_term:"third term"}[r.kind]||r.kind;
+    return '<tr class="'+(r.small_sample?'dim':'')+'"><td class="q-w"><b>'+esc(r.who||"")+'</b> '+esc(r.says||"(wording not recorded)")+
+      '<small>'+(kind?esc(kind)+' · ':'')+(r.avg_position?'typically decision '+r.avg_position+' · ':'')+'build '+esc(r.version||"?")+'</small>'+
+      optionBars(r.choices,r.decided)+'</td>'+
+      '<td class="n"><b>'+r.decided+'</b><br><small>of '+r.shown+' who saw it</small></td>'+
+      '<td class="n">'+secsFmt(r.median_seconds)+'</td>'+
+      '<td class="n">'+r.left_here+(r.shown?'<br><small>'+pc(r.left_here,r.shown)+' of viewers</small>':'')+'</td>'+
+      '<td class="n">'+(r.history_opened?r.history_opened+'<br><small>'+pc(r.history_opened,r.shown)+'</small>':'—')+'</td>'+
+      '<td>'+(r.small_sample?'<span class="flag" style="border-color:var(--ink-3);color:var(--ink-3)">under '+rp.min_sample+' decisions</span>':flags(r.flags))+'</td></tr>';
+  });
+  var h='<section><h2>Play President — every decision'+(rp.cohort!=="all"?' — '+esc(rp.cohort):'')+'</h2>'+sortMenu("sortD",D_SORT)+
+    dtable([{t:"Decision, exactly as shown, and what people chose"},{t:"Decided",n:1},{t:"Median time",n:1},{t:"Left here",n:1},{t:"Opened history note",n:1},{t:"Signals"}],rows)+
+    note('As with the quiz, percentages are of the sessions that made that decision. "Left here" counts unfinished runs whose last card was this one. A card is only counted when a choice was made on it; story and Continue-only screens are not decisions.')+'</section>';
+  var cons=rp.game.consequences.map(function(c){
+    return '<tr><td class="q-w"><b>'+esc(c.title)+'</b> '+esc(c.text||"")+'</td><td class="n">'+c.sessions+'</td><td class="n">'+secsFmt(c.median_seconds)+'</td></tr>';
+  });
+  h+='<section><h2>Consequence screens — how long people stay on them</h2>'+dtable([{t:"What the player was told"},{t:"Sessions",n:1},{t:"Median time",n:1}],cons)+
+    note('Time from the consequence appearing to the next card. Consequence text that includes numbers specific to a run is grouped by its headline.')+'</section>';
+  return h;
+}
+function outcomeSection(rp){
+  var o=rp.outcomes;
+  function bars(b){return barRowsOrdered(b.rows.map(function(r){return [r.label,r.count];}),b.n);}
+  var h='<section><h2>Most common outcomes'+(rp.cohort!=="all"?' — '+esc(rp.cohort):'')+'</h2>'+
+    '<h2 style="margin-top:6px">Presidency endings the player saw ('+o.endings.n+' runs)</h2>'+bars(o.endings)+
+    '<h2 style="margin-top:18px">Presidency outcome category ('+o.president_outcomes.n+' finished runs)</h2>'+bars(o.president_outcomes)+
+    '<h2 style="margin-top:18px">Quiz — nearest tradition ('+o.archetypes.n+' finished quizzes)</h2>'+bars(o.archetypes)+
+    note('Descriptive only. These are the nearest classification under the current scoring and describe whoever played through these routes in this period, not Nigerians in general. Endings are recorded from the day source events began; the category and tradition tables go back to the start.')+'</section>';
+  var ax=rp.quiz.axes.map(function(a){
+    var L=AXIS_LABELS[a.axis]||["negative","positive"],sided=a.negative+a.positive;
+    return '<tr><td>'+esc(a.axis)+'</td><td class="n">'+a.answers+'</td><td class="n">'+pc(a.negative,a.answers)+' '+esc(L[0])+'</td><td class="n">'+pc(a.positive,a.answers)+' '+esc(L[1])+'</td><td class="n">'+pc(a.both,a.answers)+'</td></tr>';
+  });
+  h+='<section><h2>Which way answers lean, by dimension</h2>'+dtable([{t:"Dimension"},{t:"Answers",n:1},{t:"Leaned one way",n:1},{t:"Leaned the other",n:1},{t:"Both / neither",n:1}],ax)+
+    note('Share of answers (skips excluded) that leaned each way. The quiz shows each pair in random order, so neither side is favoured by position.')+'</section>';
+  return h;
+}
+function reportHtml(rp){
+  var h='';
+  var tr=rp.truncated||{};
+  if(tr.participants||tr.sessions||tr.events)
+    h+=note('Some tables hit the row limit ('+['participants','sessions','events'].filter(function(k){return tr[k];}).join(", ")+'), so these figures are a sample of the period. Narrow the period or move the counting into the database.');
+  return h+sourceSection(rp)+compareSection(rp)+quizTable(rp)+gameTable(rp)+outcomeSection(rp);
+}
+
 function render(data){
   var p=data.participants,s=data.sessions,c=data.compass,pr=data.president,ev=data.events;
   var compassCompleted=(s.compass&&s.compass.completed)||0;
@@ -148,6 +314,35 @@ function render(data){
     '<div class="stat"><b>'+presCompleted+' / '+presStarted+'</b><span>Presidency completed / started</span></div>'+
     '</div>';
   if(p.note)html+=note(p.note);
+  if(data.report)html+=reportHtml(data.report);
+
+  function funnelBlock(title,f,unit){
+    if(!f)return '';
+    var h='<section><h2>'+esc(title)+'</h2><div class="grid">'+
+      '<div class="stat"><b>'+f.started+'</b><span>Started</span></div>'+
+      '<div class="stat"><b>'+f.completed+'</b><span>Completed</span></div>'+
+      '<div class="stat"><b>'+fmtPct(f.completion_rate)+'</b><span>Completion rate</span></div>'+
+      '<div class="stat"><b>'+f.abandoned+'</b><span>Abandoned (idle 1 hour+)</span></div>'+
+      '</div>';
+    if(f.progress_tracked){
+      h+='<h2 style="margin-top:18px">Where unfinished '+esc(unit)+' stopped</h2>'+
+        barRowsOrdered((f.abandoned_stopped_at||[]).map(function(e){
+          return [isNaN(Number(e[0]))?e[0]:("after "+e[0]),e[1]];}),f.abandoned);
+    } else {
+      h+=note('Run supabase/migrations/0003_session_progress.sql to see where unfinished '+unit+' stopped.');
+    }
+    if(f.in_progress)h+=note(f.in_progress+' still in progress (active in the last hour).');
+    return h+'</section>';
+  }
+  html+=funnelBlock('Play President — funnel',data.funnels&&data.funnels.president,'presidencies');
+  html+=funnelBlock('Quiz — funnel',data.funnels&&data.funnels.compass,'quizzes');
+  if(data.events_30d){
+    var e30=data.events_30d;
+    html+='<section><h2>Events — last 30 days (exact counts)</h2>'+
+      barRowsOrdered(Object.keys(e30).map(function(k){return [k,e30[k]===null?0:e30[k]];}))+
+      note('Visits: landing_viewed. Returning: return_visit. Shares: result_shared (copy or card) and share_completed (phone share sheet confirmed). '+
+        (p.returning!==undefined?p.returning+' of '+p.total+' participants have come back at least once.':''))+'</section>';
+  }
 
   html+='<section><h2>Participants — by device</h2>'+barRows(p.by_device)+'</section>';
   html+='<section><h2>Participants — by country</h2>'+barRows(p.by_country)+'</section>';
@@ -192,7 +387,7 @@ function load(){
   var token=sessionStorage.getItem(TOKEN_KEY);
   if(!token){ showGate(); return; }
   $("loading").hidden=false; $("err").hidden=true; $("content").hidden=true;
-  fetch("/api/admin/stats",{headers:{Authorization:"Bearer "+token}})
+  fetch("/api/admin/stats?days="+VIEW.days+"&cohort="+encodeURIComponent(VIEW.cohort),{headers:{Authorization:"Bearer "+token}})
     .then(function(r){
       if(r.status===401){ sessionStorage.removeItem(TOKEN_KEY); showGate("That token was rejected."); throw new Error("unauthorized"); }
       if(!r.ok) throw new Error("Request failed ("+r.status+")");
@@ -200,7 +395,9 @@ function load(){
     })
     .then(function(data){
       $("loading").hidden=true; $("content").hidden=false;
+      LAST=data;
       render(data);
+      wireSorts();
     })
     .catch(function(e){
       if(e.message==="unauthorized")return;
@@ -208,6 +405,16 @@ function load(){
       $("err").textContent="Could not load analytics: "+e.message;
     });
 }
+
+function wireSorts(){
+  [["sortQ",function(v){Q_SORT=v;}],["sortD",function(v){D_SORT=v;}]].forEach(function(x){
+    var el=$(x[0]);if(!el)return;
+    el.addEventListener("change",function(){x[1](el.value);render(LAST);wireSorts();});
+  });
+}
+$("selCohort").innerHTML=COHORTS.map(function(c){return '<option value="'+esc(c[0])+'">'+esc(c[1])+'</option>';}).join("");
+$("selDays").addEventListener("change",function(){VIEW.days=Number($("selDays").value);load();});
+$("selCohort").addEventListener("change",function(){VIEW.cohort=$("selCohort").value;load();});
 
 function showGate(msg){
   $("gate").hidden=false; $("dash").hidden=true;

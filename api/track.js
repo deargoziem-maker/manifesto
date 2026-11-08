@@ -1,5 +1,6 @@
 const { supabaseAdmin } = require("./_lib/supabaseAdmin");
 const { isUuid, isPlausibleAnonId, geo, deviceTypeFromUA, sendJson } = require("./_lib/util");
+const { classifySource } = require("./_lib/source");
 
 const EXPERIENCE_TYPES = new Set(["compass", "president"]);
 const COMPLETION_STATUSES = new Set(["in_progress", "completed", "abandoned"]);
@@ -13,16 +14,25 @@ const COMPLETION_STATUSES = new Set(["in_progress", "completed", "abandoned"]);
 async function ensureParticipant(supabase, anonymousId, meta) {
   const { data: existing, error: selErr } = await supabase
     .from("participants")
-    .select("id")
+    .select("id, first_seen_at, acquisition_source")
     .eq("anonymous_id", anonymousId)
     .maybeSingle();
   if (selErr) throw selErr;
 
   if (existing) {
-    await supabase
-      .from("participants")
-      .update({ last_seen_at: new Date().toISOString() })
-      .eq("id", existing.id);
+    const patch = { last_seen_at: new Date().toISOString() };
+    // The page sends participant_seen and its first event at the same moment, so the
+    // event can create the row before the source arrives. Let the source fill that gap,
+    // but only within the first couple of minutes: a person who first came before source
+    // tracking existed, and returns through an ad, keeps their original (unknown) touch.
+    const justCreated = Date.now() - Date.parse(existing.first_seen_at) < 2 * 60 * 1000;
+    if (meta.acquisition_source && !existing.acquisition_source && justCreated) {
+      patch.acquisition_source = meta.acquisition_source;
+      patch.acquisition_medium = meta.acquisition_medium || null;
+      patch.acquisition_campaign = meta.acquisition_campaign || null;
+      patch.referrer = meta.referrer || null;
+    }
+    await supabase.from("participants").update(patch).eq("id", existing.id);
     return existing.id;
   }
 
@@ -57,11 +67,13 @@ async function ensureParticipant(supabase, anonymousId, meta) {
 }
 
 async function handleParticipantSeen(supabase, body, req) {
+  // classifySource is null for a page that predates source tracking: those stay unknown.
+  const src = classifySource(body) || {};
   const meta = {
-    acquisition_source: body.utm_source,
-    acquisition_medium: body.utm_medium,
-    acquisition_campaign: body.utm_campaign,
-    referrer: body.referrer,
+    acquisition_source: src.source,
+    acquisition_medium: src.medium,
+    acquisition_campaign: src.campaign,
+    referrer: src.referrer,
     device_type: body.device_type || deviceTypeFromUA(req.headers["user-agent"]),
     country: geo(req).country,
   };
@@ -156,19 +168,57 @@ async function handlePresidentResult(supabase, body) {
   return { ok: true };
 }
 
+// Events that mark how far a session has got. Each one also moves the session's
+// progress marker, so the dashboard can say where unfinished runs stopped without
+// scanning every event row.
+const PROGRESS_EVENTS = new Set(["game_decision_made", "quiz_answer_submitted"]);
+
+// Read-only participant lookup for high-volume events (one per decision or answer):
+// no last_seen write on every click. Creates the participant only if it is missing.
+async function findParticipant(supabase, anonymousId) {
+  const { data, error } = await supabase
+    .from("participants")
+    .select("id")
+    .eq("anonymous_id", anonymousId)
+    .maybeSingle();
+  if (error) throw error;
+  if (data) return data.id;
+  return ensureParticipant(supabase, anonymousId, {});
+}
+
 async function handleEvent(supabase, body) {
-  if (!body.event_name) throw httpError(400, "event_name is required");
+  if (typeof body.event_name !== "string" || !/^[a-z0-9_]{1,64}$/.test(body.event_name))
+    throw httpError(400, "event_name is required (lowercase letters, digits, underscores)");
   let participantId = null;
   if (isPlausibleAnonId(body.anonymous_id)) {
-    participantId = await ensureParticipant(supabase, body.anonymous_id, {});
+    participantId = await findParticipant(supabase, body.anonymous_id);
   }
-  const { error } = await supabase.from("event_log").insert({
-    participant_id: participantId,
-    session_id: isUuid(body.session_id) ? body.session_id : null,
-    event_name: body.event_name,
-    properties: body.properties ?? {},
-  });
+  const props = body.properties ?? {};
+  if (typeof props !== "object" || Array.isArray(props) || JSON.stringify(props).length > 8000)
+    throw httpError(400, "properties must be an object under 8 kB");
+  // The page's evt() helper puts session_id inside properties, not beside it, so
+  // until now every event_log row had a null session_id. Accept either place.
+  const rawSession = body.session_id || props.session_id;
+  const sessionId = isUuid(rawSession) ? rawSession : null;
+  const row = { participant_id: participantId, session_id: sessionId, event_name: body.event_name, properties: props };
+  let { error } = await supabase.from("event_log").insert(row);
+  // The first events of a run are sent in the same instant as its session_start, so the session
+  // row may not exist yet (foreign key). The id is also inside properties, which the dashboard
+  // reads, so store the event unlinked rather than lose it.
+  if (error && error.code === "23503" && sessionId) {
+    ({ error } = await supabase.from("event_log").insert({ ...row, session_id: null }));
+  }
   if (error) throw error;
+
+  // Best effort: needs migration 0003. Until it is run this update fails quietly and
+  // the event above is still stored.
+  if (sessionId && PROGRESS_EVENTS.has(body.event_name) && Number.isFinite(props.n)) {
+    const { error: pErr } = await supabase
+      .from("sessions")
+      .update({ progress: props.n, last_activity_at: new Date().toISOString() })
+      .eq("id", sessionId);
+    if (pErr) console.warn("session progress not saved (run migration 0003?)", pErr.message);
+  }
   return { ok: true };
 }
 
