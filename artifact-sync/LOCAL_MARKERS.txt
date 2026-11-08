@@ -17,4 +17,4 @@ BL.at=
 blRetry
 padding-bottom:98%
 #view-play .shift:not(.on){transform:translateY(7px);}
-function afterDecision(c,go,delay){
+function offerHist(c){

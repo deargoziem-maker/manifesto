@@ -958,11 +958,14 @@ tr:last-child td{border-bottom:0;}
   border-left:5px solid var(--danfo);padding-left:14px;}
 
 .g-flag{border-left:5px solid var(--danfo);background:var(--stock-2);padding:14px 16px;margin-top:16px;}
-#gameRun.holding .g-flag{order:5;max-height:none;overflow:visible;}
-.g-flag .hold{display:block;height:3px;margin-top:11px;background:var(--hair);}
-.g-flag .hold i{display:block;height:100%;width:0;background:var(--danfo);transition:width .1s linear;}
-#gameRun.holding .g-choices{order:6;}
-#gameRun.holding .feed{order:7;}
+/* "This happened in Nigeria": offered on the question it belongs to, closed until asked for */
+.hist-btn{align-self:flex-start;margin-top:12px;background:none;border:0;border-bottom:1px solid var(--bronze);padding:0 0 1px;cursor:pointer;
+  font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze-text);}
+.hist-btn::after{content:" +";}
+.hist-btn[aria-expanded="true"]::after{content:" \2212";}
+.hist-btn[hidden],.hist-note[hidden]{display:none;}
+.hist-note{margin-top:10px;padding:10px 12px;border-left:3px solid var(--danfo);background:var(--stock-2);font-size:.86rem;line-height:1.5;color:var(--ink);}
+.hist-note a{display:inline-block;margin-top:3px;}
 .g-flag b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;display:block;font-size:.9rem;margin-bottom:5px;}
 .g-flag p{margin:0;font-size:.88rem;color:var(--ink-2);line-height:1.5;}
 
@@ -2199,6 +2202,8 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
       <div class="card" id="gCard">
         <span class="who" id="gWho"></span>
         <p class="says" id="gSays"></p>
+        <button type="button" class="hist-btn" id="gHistBtn" aria-expanded="false" aria-controls="gHistNote" hidden>This happened in Nigeria</button>
+        <div class="hist-note" id="gHistNote" hidden></div>
       </div>
       <div class="g-choices">
         <button class="g-choice" id="gL"><span class="ab">A</span><span class="txt"></span><span class="sub"></span></button>
@@ -4419,9 +4424,27 @@ function showCard(c){
   $("gC").querySelector(".txt").textContent=third?c.c.t:"";
   $("gC").hidden=!third;
   $("gFlagBox").hidden=true;
+  offerHist(c);
   $("gCard").classList.remove("tilt-l","tilt-r");
   G.busy=false;
 }
+/* "This happened in Nigeria" belongs to the question it was written for. It is offered there, closed until the
+   player asks for it, and gone the moment an answer is chosen, so it can never turn up under the next question. */
+function hideHist(){
+  var b=$("gHistBtn"),n=$("gHistNote");if(!b)return;
+  b.hidden=true;b.setAttribute("aria-expanded","false");n.hidden=true;n.textContent="";
+}
+function offerHist(c){
+  hideHist();
+  if(c&&c.hist)$("gHistBtn").hidden=false;
+}
+$("gHistBtn").addEventListener("click",function(){
+  var hc=G&&G.curCard&&G.curCard.hist,n=$("gHistNote");
+  if(this.getAttribute("aria-expanded")==="true"||!hc){this.setAttribute("aria-expanded","false");n.hidden=true;fitCard();return;}
+  n.textContent=hc.t+" ";
+  var a=document.createElement("a");a.href=hc.u;a.target="_blank";a.rel="noopener noreferrer";a.textContent="Source: "+hc.src;
+  n.appendChild(a);n.hidden=false;this.setAttribute("aria-expanded","true");fitCard();
+});
 
 /* ---------- the record the story is told from ---------- */
 function record(c,ch){
@@ -7910,6 +7933,7 @@ function play(side){
   if(!G.live||G.busy)return;
   if(SND&&AC&&AC.state!=="running")unlock();
   G.busy=true;
+  hideHist();
   if(G.cur===-2){impPlay(side);return;}
   if(G.cur===-3){campPlay(side);return;}
   if(G.cur===-4){runoffPlay(side);return;}
@@ -8036,56 +8060,9 @@ function play(side){
   if(G.burnt){setTimeout(function(){endGame(null,"fuse");},1200);return;}
   if(G.crisisN>=3&&G.prevN>=3){setTimeout(function(){endGame(null,"collapse");},1200);return;}
   if(G.crisisN>=3&&G.prevN<3)brink();
-  if(G.day>=G.limit){afterDecision(c,function(){endGame(null,"legacy");},1000);return;}
-  if(G.day%PER_TERM===0){afterDecision(c,election,1000);return;}
-  afterDecision(c,nextCard,800);
-}
-
-/* "This happened in Nigeria". A decision that has a real counterpart keeps its own question on screen, with
-   the note under it, until the player moves on. It used to sit in the country feed and was shown 800 ms
-   later, under the NEXT question, where it read as being about that one. */
-function afterDecision(c,go,delay){
-  var hc=c&&c.hist;
-  if(!hc){setTimeout(go,delay);return;}
-  var run=G;
-  setTimeout(function(){
-    if(G!==run||!G.live)return;
-    var box=$("gFlagBox"),f=$("gFlag");
-    $("gFlagTitle").textContent="This happened in Nigeria";
-    f.textContent=hc.t+" ";
-    var a=document.createElement("a");a.href=hc.u;a.target="_blank";a.rel="noopener noreferrer";a.textContent="Source: "+hc.src;
-    f.appendChild(a);
-    /* Nobody has to tap: the note is held for about as long as it takes to read, and the thin line under it
-       shows what is left. Continue is only a way to skip ahead. The clock stops while the tab is hidden, so
-       opening the source does not cost the reader the next question. */
-    var total=Math.max(6000,Math.min(15000,3000+hc.t.length*30)),left=total;
-    var bar=document.createElement("span");bar.className="hold";bar.setAttribute("aria-hidden","true");
-    var fill=document.createElement("i");bar.appendChild(fill);box.appendChild(bar);
-    box.hidden=false;
-    $("gameRun").classList.add("holding");
-    clearSubs();$("gL").querySelector(".txt").textContent="Continue.";$("gR").querySelector(".txt").textContent="Continue.";
-    $("gL").parentNode.classList.add("one");
-    G.busy=false;
-    var tick=null,done=false;
-    function finish(){
-      if(done)return;done=true;clearInterval(tick);
-      if(bar.parentNode)bar.parentNode.removeChild(bar);
-      if(G!==run)return;
-      G.busy=true;
-      $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
-      $("gL").parentNode.classList.remove("one");
-      $("gameRun").classList.remove("holding");
-      box.hidden=true;
-      go();
-    }
-    $("gL").onclick=$("gR").onclick=function(){if(!G.busy)finish();};
-    tick=setInterval(function(){
-      if(G!==run||!G.live){done=true;clearInterval(tick);if(bar.parentNode)bar.parentNode.removeChild(bar);return;}
-      if(document.hidden)return;
-      left-=100;fill.style.width=Math.max(0,Math.min(100,100*(1-left/total)))+"%";
-      if(left<=0)finish();
-    },100);
-  },Math.min(delay,500));
+  if(G.day>=G.limit){setTimeout(function(){endGame(null,"legacy");},1000);return;}
+  if(G.day%PER_TERM===0){setTimeout(election,1000);return;}
+  setTimeout(nextCard,800);
 }
 
 function election(){
@@ -8700,7 +8677,7 @@ function beginRun(){
   $("gameGate").hidden=true;$("gameEnd").hidden=true;$("gameRun").hidden=false;
   runLock(true);
   $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
-  $("gameRun").classList.remove("holding");$("gL").parentNode.classList.remove("one");
+  hideHist();
   if(SND)unlock();
   G.rec=[];G.met={};G.warned={};G.praised={};G.feedUsed={};G.memo={};
   $("gHead").hidden=true;

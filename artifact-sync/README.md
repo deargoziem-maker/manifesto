@@ -33,7 +33,7 @@ Do not copy the artifact over `index.html`; these would be lost.
 | Home ballot card as a live canvas map (`#wayMap`, baked ward points), pulsing button, phone cards sized to content | Home screen |
 | Ballot page: map as the centrepiece, State / Local government / Party menus (`blStateSel`, `blLgSel`, `blPartySel`), phone map height from padding, load and retry states (`blRetry`), `at=` kept out of the address bar (`BL.at`) | Ballot page |
 | In-game notices ("The street is turning", "Purse - Capital flight") sit below the bars on phones and laptops, never over them | Game screen: the bars must stay visible so you can see what your choice did |
-| "This happened in Nigeria" notes (`afterDecision`): the answered question stays on screen with the note under it, held for about as long as it takes to read (8 to 15 s, with a progress line; Continue only skips) and then advances by itself, instead of the note appearing under the next question | The note belongs to the decision just made |
+| "This happened in Nigeria" notes (`offerHist` / `hideHist`, `#gHistBtn`): offered on the question they belong to, closed until tapped, and gone the moment an answer is chosen. No hold, no extra tap, and it can never appear under the next question | The note belongs to its own question |
 | `ballot.json`, `art/ballot_map.webp`, `art/end_bad.webp`, `art/end_good.webp` in the repo | The artifact publishes them as files; the repo has to hold copies |
 
 If a new repo-only feature is added, add a distinctive string from it to `LOCAL_MARKERS.txt` and a row here.
