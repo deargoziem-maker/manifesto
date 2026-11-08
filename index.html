@@ -1358,13 +1358,12 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 #view-play .shift-b{min-width:0;}
 #view-play .shift b{margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 #view-play .shift p,#view-play .shift .att,#view-play .shift .why,#view-play .shift .clk{display:none !important;}
-/* On a phone the notice drops below the bars, over the top of the picture where the term and sound labels
-   sit, so the bars it is talking about are never covered: you can watch the one that moved. */
-@media (max-width:720px){
-  #view-play .shift{top:100%;bottom:auto;min-height:42px;}
-  /* and it rises into place from below, never down from over the bars */
-  #view-play .shift:not(.on){transform:translateY(7px);}
-}
+/* The notice drops below the bars, never over them, so the bars it is talking about stay visible and you
+   can watch the one that moved. On a phone it lands on the top of the picture, where the term and sound
+   labels sit; on a laptop, on the top of the card. */
+#view-play .shift{top:100%;bottom:auto;min-height:42px;}
+/* and it rises into place from below, never down from over the bars */
+#view-play .shift:not(.on){transform:translateY(7px);}
 /* the answers are just the answers */
 #view-play .g-choice .sub{display:none !important;}
 /* each picture framed on what matters in it when the strip is slim */

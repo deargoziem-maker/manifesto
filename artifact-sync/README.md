@@ -32,7 +32,7 @@ Do not copy the artifact over `index.html`; these would be lost.
 | The `play()` no-card guard | A fast second press on a Continue screen threw with the controls locked |
 | Home ballot card as a live canvas map (`#wayMap`, baked ward points), pulsing button, phone cards sized to content | Home screen |
 | Ballot page: map as the centrepiece, State / Local government / Party menus (`blStateSel`, `blLgSel`, `blPartySel`), phone map height from padding, load and retry states (`blRetry`), `at=` kept out of the address bar (`BL.at`) | Ballot page |
-| In-game notices ("The street is turning", "Purse - Capital flight") sit below the bars on phones, never over them | Phone game screen: the bars must stay visible so you can see what your choice did |
+| In-game notices ("The street is turning", "Purse - Capital flight") sit below the bars on phones and laptops, never over them | Game screen: the bars must stay visible so you can see what your choice did |
 | `ballot.json`, `art/ballot_map.webp`, `art/end_bad.webp`, `art/end_good.webp` in the repo | The artifact publishes them as files; the repo has to hold copies |
 
 If a new repo-only feature is added, add a distinctive string from it to `LOCAL_MARKERS.txt` and a row here.
