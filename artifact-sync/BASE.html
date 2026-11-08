@@ -1,5 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 
+
 <title>If Na You</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -882,6 +883,14 @@ tr:last-child td{border-bottom:0;}
   border-left:5px solid var(--danfo);padding-left:14px;}
 
 .g-flag{border-left:5px solid var(--danfo);background:var(--stock-2);padding:14px 16px;margin-top:16px;}
+/* "This happened in Nigeria": offered on the question it belongs to, closed until asked for */
+.hist-btn{align-self:flex-start;margin-top:12px;background:none;border:0;border-bottom:1px solid var(--bronze);padding:0 0 1px;cursor:pointer;
+  font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze-text);}
+.hist-btn::after{content:" +";}
+.hist-btn[aria-expanded="true"]::after{content:" \2212";}
+.hist-btn[hidden],.hist-note[hidden]{display:none;}
+.hist-note{margin-top:10px;padding:10px 12px;border-left:3px solid var(--danfo);background:var(--stock-2);font-size:.86rem;line-height:1.5;color:var(--ink);}
+.hist-note a{display:inline-block;margin-top:3px;}
 .g-flag b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;display:block;font-size:.9rem;margin-bottom:5px;}
 .g-flag p{margin:0;font-size:.88rem;color:var(--ink-2);line-height:1.5;}
 
@@ -1282,6 +1291,12 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 #view-play .shift-b{min-width:0;}
 #view-play .shift b{margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 #view-play .shift p,#view-play .shift .att,#view-play .shift .why,#view-play .shift .clk{display:none !important;}
+/* The notice drops below the bars, never over them, so the bars it is talking about stay visible and you
+   can watch the one that moved. On a phone it lands on the top of the picture, where the term and sound
+   labels sit; on a laptop, on the top of the card. */
+#view-play .shift{top:100%;bottom:auto;min-height:42px;}
+/* and it rises into place from below, never down from over the bars */
+#view-play .shift:not(.on){transform:translateY(7px);}
 /* the answers are just the answers */
 #view-play .g-choice .sub{display:none !important;}
 /* each picture framed on what matters in it when the strip is slim */
@@ -1497,8 +1512,11 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
 .menu i{display:block;width:24px;height:2px;background:currentColor;margin:5px 0;}
 @media (max-width:860px){
   .ways{grid-template-columns:1fr;gap:12px;}
-  .way-play{min-height:0;aspect-ratio:1/0.82;}
-  .way-quiz{min-height:0;aspect-ratio:1/0.62;}
+  /* The cards used to be a fixed aspect ratio with overflow hidden, so on a phone the text and button
+     were taller than the card and the button was cut off. They now take their height from the content. */
+  .way{display:flex;flex-direction:column;justify-content:center;}
+  .way-play{min-height:280px;}
+  .way-quiz{min-height:210px;}
   .way-body{max-width:64%;padding:20px 18px;gap:10px;}
   .way-quiz .way-img{left:38%;}
   .way-t{font-size:.9rem;}
@@ -1598,12 +1616,23 @@ body.onballot{--paper:#0E1420;--stock:#151C2A;--stock-2:#1E2636;--ink:#F3F1E8;--
   --rule:#F3F1E8;--hair:#2C3546;--elu-mark:#6E93E0;--danfo:#FFC93F;background:#0E1420;color:var(--ink);}
 body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 .bl{display:flex;flex-direction:column;gap:18px;}
-.bl-hero{display:grid;grid-template-columns:minmax(280px,1fr) 1.35fr;gap:22px;align-items:stretch;}
-.bl-side{display:flex;flex-direction:column;justify-content:center;gap:14px;padding:6px 0;}
+.bl-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:14px 32px;align-items:end;}
+.bl-side{display:flex;flex-direction:column;gap:10px;}
+/* the three ways to choose, as menus: the map stays the centrepiece and nothing competes with it */
+.bl-ctl{display:flex;flex-direction:column;gap:12px;}
+.bl-flds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.bl-fld{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.bl-fld select{width:100%;box-sizing:border-box;font:inherit;font-size:1rem;padding:12px 38px 12px 14px;border-radius:10px;color:#fff;
+  border:1.5px solid #3A4A6E;outline:none;-webkit-appearance:none;appearance:none;cursor:pointer;text-overflow:ellipsis;
+  background:#121a2a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23FFC93F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 14px center;}
+.bl-fld select:focus{border-color:var(--danfo);}
+.bl-fld select:disabled{opacity:.5;cursor:default;}
+.bl-fld select option{background:#121a2a;color:#fff;}
 .bl-when{color:var(--danfo);}
-.bl-h{font-size:clamp(2.3rem,1.6rem + 3vw,3.9rem);line-height:.98;margin:0;color:#fff;}
+.bl-h{font-size:clamp(1.9rem,1.2rem + 1.8vw,2.7rem);line-height:1;margin:0;color:#fff;}
+.bl-h br{display:none;}
 .bl-h em{font-style:normal;color:var(--danfo);}
-.bl-p{margin:0;color:var(--ink-2);font-size:1.02rem;line-height:1.45;max-width:34ch;}
+.bl-p{margin:0;color:var(--ink-2);font-size:.98rem;line-height:1.45;max-width:52ch;}
 .bl-find{position:relative;}
 .bl-find input{width:100%;box-sizing:border-box;font:inherit;font-size:1.05rem;padding:15px 16px 15px 44px;border-radius:10px;
   border:1.5px solid #3A4A6E;background:#121a2a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23FFC93F' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") 14px 50%/20px no-repeat;
@@ -1619,7 +1648,7 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 .bl-find li.none{cursor:default;color:var(--ink-3);}
 .bl-count{font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase;}
 .bl-count b{color:var(--ink);font-weight:600;}
-.bl-map{position:relative;min-height:520px;border-radius:14px;overflow:hidden;border:1px solid #233049;
+.bl-map{position:relative;height:clamp(420px,calc(100vh - 325px),800px);border-radius:14px;overflow:hidden;border:1px solid #233049;
   background:radial-gradient(ellipse 70% 60% at 55% 50%,#131d31 0%,#0B111C 70%);}
 .bl-map canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;}
 .bl-crumb{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:4px;flex-wrap:wrap;z-index:3;max-width:calc(100% - 24px);}
@@ -1637,15 +1666,13 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
   border-radius:8px;padding:7px 10px;display:flex;flex-direction:column;gap:1px;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.4);}
 .bl-tip b{color:#fff;font-size:.88rem;}
 .bl-tip span{color:var(--ink-3);font-size:.76rem;}
-.bl-parties{display:flex;align-items:center;gap:12px;}
-.bl-parties>div{display:flex;gap:6px;flex-wrap:wrap;}
-.bl-parties button{all:unset;cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.04em;padding:6px 9px;border-radius:6px;
-  color:var(--ink-2);border:1px solid #2C3546;background:#121a2a;}
-.bl-parties button[aria-pressed="true"]{color:#0E1420;background:var(--danfo);border-color:var(--danfo);}
-.bl-parties button:focus-visible{outline:2px solid var(--danfo);outline-offset:2px;}
 .bl-reach{margin:0;padding:12px 14px;border-left:3px solid var(--elu-mark);background:#121a2a;border-radius:0 8px 8px 0;color:var(--ink);font-size:.95rem;line-height:1.45;}
 .bl-reach span{display:block;color:var(--ink-3);font-size:.84rem;margin-top:3px;}
 .bl-wait{color:var(--ink-3);}
+/* the map is blank until the candidate file arrives, so say so in the box itself, where people look */
+.bl-map.bl-load::after,.bl-map.bl-fail::after{content:"Lighting up the map\2026";position:absolute;inset:0;z-index:2;display:grid;place-items:center;
+  padding:0 24px;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:#C9B27A;pointer-events:none;}
+.bl-map.bl-fail::after{content:"The map did not load. Tap to try again.";pointer-events:auto;cursor:pointer;}
 .bl-lead{margin-top:10px;}
 .bl-lead h2{margin:4px 0 6px;font-size:var(--s-2);color:#fff;line-height:1.1;}
 .bl-lead h2 small{display:block;font-size:.55em;color:var(--ink-3);font-weight:500;margin-top:4px;}
@@ -1693,13 +1720,22 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 .cdf-pos span{color:var(--ink-3);}
 .bl-src{margin:10px 0 0;color:var(--ink-3);font-size:.82rem;line-height:1.5;max-width:70ch;}
 #view-ballot .rc+.rc{margin-top:0;}
+#view-ballot{padding-top:20px;}
 #blBody{display:flex;flex-direction:column;gap:14px;}
 @media (max-width:860px){
-  .bl-hero{grid-template-columns:1fr;gap:14px;}
-  .bl-map{min-height:0;aspect-ratio:1/0.86;}
+  .bl-head{grid-template-columns:1fr;gap:14px;}
+  /* on a phone the map comes straight after the search box and the three menus sit under it,
+     so the map is on the first screen and zooms right above the menu you are using */
+  .bl-head,.bl-ctl{display:contents;}
+  .bl-find{order:1;}.bl-map{order:2;}.bl-flds{order:3;grid-template-columns:1fr 1fr;gap:10px;}
+  .bl-reach,#blBody,.bl-src{order:4;}
+  .bl-flds .bl-fld:nth-of-type(3){order:2;}
+  .bl-flds .bl-fld:nth-of-type(2){order:3;grid-column:1/-1;}
+  .bl-p{display:none;}
+  /* The height comes from padding, not aspect-ratio: the canvas inside is absolutely positioned,
+     so on a browser without aspect-ratio support the box collapsed to nothing and the map vanished. */
+  .bl-map{min-height:0;height:0;padding-bottom:98%;}
   .bl-h{font-size:clamp(2.1rem,9.5vw,2.8rem);}
-  .bl-parties{flex-direction:column;align-items:flex-start;gap:8px;}
-  .bl-parties>div{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
   .cd{grid-template-columns:50px 1fr auto 14px;gap:10px;padding:11px 12px;}
   .cdx{padding:4px 12px 14px 12px;}
   .cdf{grid-template-columns:1fr;gap:2px;}
@@ -1707,17 +1743,21 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 }
 @media (prefers-reduced-motion:reduce){.bl-hint{animation:none;opacity:1;}.cd{transition:none;}}
 /* the third way in, on the front door */
-.way-ballot{grid-column:1/-1;min-height:220px;border-color:#3A4A6E;}
-.way-ballot .way-img{left:34%;}
-.way-ballot .way-img img{object-fit:contain;object-position:100% 50%;transform:scale(1.25);transform-origin:80% 50%;}
+.way-ballot{grid-column:1/-1;min-height:270px;border-color:#3A4A6E;background:#0B111C;}
+.way-ballot .way-img{left:34%;width:66%;}
 .way-ballot::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,#0B111C 0%,#0B111C 32%,rgba(11,17,28,0) 62%);}
 .way-ballot .way-body{max-width:46%;}
 @media (hover:hover) and (pointer:fine){.way-ballot:hover{border-color:var(--danfo);}}
+/* the button breathes, so the card reads as something to press */
+.way-ballot .way-btn{animation:wayPulse 2.6s ease-out infinite;}
+@keyframes wayPulse{0%{box-shadow:0 0 0 0 rgba(240,179,35,.55);}70%{box-shadow:0 0 0 12px rgba(240,179,35,0);}100%{box-shadow:0 0 0 0 rgba(240,179,35,0);}}
+@media (prefers-reduced-motion:reduce){.way-ballot .way-btn{animation:none;}}
 @media (max-width:860px){
-  .way-ballot{min-height:0;aspect-ratio:1/0.62;}
-  .way-ballot .way-img{left:30%;}
-  .way-ballot::after{background:linear-gradient(to right,#0B111C 0%,#0B111C 30%,rgba(11,17,28,0) 70%);}
-  .way-ballot .way-body{max-width:64%;}
+  /* on a phone the map sits above the words, whole, rather than behind them and cropped */
+  .way-ballot{min-height:0;justify-content:flex-start;}
+  .way-ballot::after{display:none;}
+  .way-ballot .way-live{position:relative;inset:auto;left:auto;width:100%;height:clamp(150px,50vw,240px);flex:none;}
+  .way-ballot .way-body{max-width:100%;min-height:0;padding:2px 18px 20px;}
 }
 .rc-all{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;padding:12px 16px;text-align:center;color:var(--danfo);font-size:.9rem;}
 .rc-all:hover{background:#151f33;}.rc-all:focus-visible{outline:2px solid var(--danfo);outline-offset:-2px;}
@@ -1793,10 +1833,10 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
           </span>
         </button>
         <button type="button" class="way way-ballot" data-go="ballot">
-          <img class="way-img" src="art/ballot_map.webp" alt="Nigeria drawn as thousands of small lights, one for each ward" decoding="async" loading="lazy">
+          <canvas class="way-img way-live" id="wayMap" role="img" aria-label="Nigeria drawn as thousands of small lights, one for each ward. The lights twinkle, and now and then one flares as a vote is cast."></canvas>
           <span class="way-body">
             <span class="way-k">Your<br>ballot</span>
-            <span class="way-t">See everyone asking for your vote in 2027, from President down to your ward.</span>
+            <span class="way-t">See everyone asking for your vote in 2027.</span>
             <span class="btn way-btn way-ghost">Find your ballot →</span>
           </span>
         </button>
@@ -2008,27 +2048,35 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 <section class="view" id="view-ballot" hidden>
   <div class="wrap">
     <div class="bl">
-      <div class="bl-hero">
+      <div class="bl-head">
         <div class="bl-side">
           <span class="lab bl-when">16 January &amp; 6 February 2027</span>
-          <h1 class="bl-h">Who is asking<br>for <em>your</em> vote?</h1>
+          <h1 class="bl-h">Who is asking <br>for <em>your</em> vote?</h1>
           <p class="bl-p">Find your ward or local government. Your whole ballot appears, from President down to your State Assembly seat.</p>
+          <div class="bl-count" id="blCount"></div>
+        </div>
+        <div class="bl-ctl">
           <div class="bl-find" role="combobox" aria-haspopup="listbox" aria-owns="blSug">
             <input id="blQ" type="search" placeholder="Your ward, LGA or state" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="blSug" aria-label="Find your ward, local government or state">
             <ul id="blSug" role="listbox" hidden></ul>
           </div>
-          <div class="bl-count" id="blCount"></div>
-        </div>
-        <div class="bl-map" id="blMapWrap">
-          <canvas id="blMap" aria-label="Map of Nigeria, one light for each of its 8,809 wards. Tap a state, then your area." role="img"></canvas>
-          <div class="bl-tip" id="blTip" hidden></div>
-          <div class="bl-crumb" id="blCrumb"></div>
-          <span class="bl-hint" id="blHint">Tap your state</span>
-          <div class="bl-zoom"><button type="button" id="blZin" aria-label="Zoom in">+</button><button type="button" id="blZout" aria-label="Zoom out">−</button></div>
+          <div class="bl-flds">
+            <label class="bl-fld"><span class="lab">State</span><select id="blStateSel" aria-label="State"><option value="">All states</option></select></label>
+            <label class="bl-fld"><span class="lab">Local government</span><select id="blLgSel" aria-label="Local government" disabled><option value="">Pick a state first</option></select></label>
+            <label class="bl-fld"><span class="lab">Party</span><select id="blPartySel" aria-label="Show one party"><option value="">All parties</option></select></label>
+          </div>
         </div>
       </div>
 
-      <div class="bl-parties" id="blParties" aria-label="Show one party"></div>
+      <div class="bl-map" id="blMapWrap">
+        <canvas id="blMap" aria-label="Map of Nigeria, one light for each of its 8,809 wards. Tap a state, then your area." role="img"></canvas>
+        <div class="bl-tip" id="blTip" hidden></div>
+        <div class="bl-crumb" id="blCrumb"></div>
+        <span class="bl-hint" id="blHint">Tap your state</span>
+        <div class="bl-zoom"><button type="button" id="blZin" aria-label="Zoom in">+</button><button type="button" id="blZout" aria-label="Zoom out">−</button></div>
+      </div>
+
+
       <div class="bl-reach" id="blReach" hidden></div>
 
       <div id="blBody"></div>
@@ -2079,6 +2127,8 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
       <div class="card" id="gCard">
         <span class="who" id="gWho"></span>
         <p class="says" id="gSays"></p>
+        <button type="button" class="hist-btn" id="gHistBtn" aria-expanded="false" aria-controls="gHistNote" hidden>This happened in Nigeria</button>
+        <div class="hist-note" id="gHistNote" hidden></div>
       </div>
       <div class="g-choices">
         <button class="g-choice" id="gL"><span class="ab">A</span><span class="txt"></span><span class="sub"></span></button>
@@ -2322,12 +2372,6 @@ var MEASURES=[
    measured centrism. The scale below is five substantive positions; the other three
    states are separate, and none of them is scored. */
 var SCALE=[{v:2,l:"Strongly agree"},{v:1,l:"Agree"},{v:0,l:"Neither agree nor disagree"},{v:-1,l:"Disagree"},{v:-2,l:"Strongly disagree"}];
-/* Two, not three. "I am not sure" and "Rather not say" were separate buttons that
-   behaved identically to each other and to a skip everywhere in the code — the same
-   exclusion from the reading, the same mark on the review, the same dimmed row in the
-   evidence. A distinction the product never acts on is not a distinction. "It depends"
-   stays separate because it is the one that says something: the person has a view and
-   it is conditional, which the results now report rather than swallow. */
 /* The scale is the whole instrument now. “It depends” and “Skip this one” are gone:
    every one of the twenty-one is answered on the five, the middle is a scored zero, and
    nothing is left out of a denominator. */
@@ -2985,7 +3029,6 @@ function renderObs(pos){
     var v=pos[k],p=PLAIN[k],e=Math.abs(v)<20?p.mid:(v>0?p.pos:p.neg);
     var strength=Math.abs(v)>=60?"strongly ":(Math.abs(v)>=30?"":"mildly ");
     var head=/^would /.test(e[0])?e[0].replace(/^would /,"would "+strength):strength+e[0];
-    var c=cov[k];
     return '<section class="ob">'+
       '<span class="lab">'+ax.n+'</span>'+
       '<p class="ob-say">You '+head+(e[1]?", and "+e[1]:"")+'.</p>'+
@@ -3100,7 +3143,7 @@ function renderResult(){
   $("fdid").innerHTML=t.did||"";
   $("fcrit").innerHTML=t.crit||"";
   $("fq").hidden=!t.q;
-  if(t.q){$("fqt").textContent="\u201c"+t.q+"\u201d";$("fqs").textContent=t.qs||"";}
+  if(t.q){$("fqt").textContent="“"+t.q+"”";$("fqs").textContent=t.qs||"";}
   var srt=AXES.slice().sort(function(x,y){return Math.abs(pos[y.k])-Math.abs(pos[x.k]);});
   var diff=tradDiff(top,pos);
   $("fsec2").innerHTML=diff;$("fsec2").hidden=!diff;
@@ -3243,12 +3286,13 @@ function renderCivic(){
 
 /* ---------- who you are, and the aggregate ---------- */
 /* This panel used to invite you to "help build Nigeria's political map" and collect a
-   state and an age group for it. There is no map. There is no server, nothing is
-   aggregated, and the two fields were read by nothing — so the one justification for
+   state and an age group for it. There is no map, nothing is aggregated by those
+   fields, and the two fields were read by nothing — so the one justification for
    asking a person for anything about themselves on a page about their politics did not
    exist. The invitation is gone, the collection is gone, and any value a previous
    version stored is deleted the next time the page loads. What is left is the true
-   thing: your own readings, on your own device, and a button that removes them. */
+   thing: your own readings, on your own device, and a button that removes them. The
+   server-side summary described in aggNote is separate and is not removed by it. */
 function renderWho(){
   dropWho();
   st.who=null;
@@ -3274,7 +3318,7 @@ function renderAgg(){
   /* Precise, because the methodology page was not: this browser keeps the last
      twenty-four of each, and a shared link carries a reading in the part of a URL
      that is never sent to a server. */
-  $("aggNote").textContent="Kept in this browser only — the last twenty-four readings and the last twenty-four presidencies. There is no account and no server behind this page. A link you choose to share carries your reading inside it.";
+  $("aggNote").textContent="This browser keeps your last twenty-four readings and presidencies. When you finish the quiz or a run, the site also sends a summary to its server — your result and scores, or how the run ended — with a random ID for this browser, your country and your device type, but no name, email or account. Clearing this device does not remove what the server already holds. Meta’s advertising pixel is told that someone started or finished something, never what you answered or got. A link you choose to share carries your reading inside it.";
 }
 
 /* ---------- traditions ---------- */
@@ -3340,12 +3384,27 @@ function buildCard(face){
   x.lineWidth=1;
   for(var i=1;i<4;i++){x.beginPath();x.moveTo(X+S*i/4,Y);x.lineTo(X+S*i/4,Y+S);x.stroke();
     x.beginPath();x.moveTo(X,Y+S*i/4);x.lineTo(X+S,Y+S*i/4);x.stroke();}
+  /* The two centre axes are what make it a compass rather than a grid; they were
+     missing, as were the left/right labels and the quadrant names the on-screen
+     compass carries. */
+  x.strokeStyle=C.i3;x.lineWidth=2;
+  x.beginPath();x.moveTo(X+S/2,Y);x.lineTo(X+S/2,Y+S);x.stroke();
+  x.beginPath();x.moveTo(X,Y+S/2);x.lineTo(X+S,Y+S/2);x.stroke();
+  x.fillStyle=C.i3;x.font='500 13px "IBM Plex Mono", monospace';x.textAlign="center";
+  [["Developmental centre",.25,.09],["Ordered market",.75,.09],["Regional welfare",.25,.95],["Devolved enterprise",.75,.95]]
+    .forEach(function(q){x.fillText(q[0],X+S*q[1],Y+S*q[2]);});
   var ux=X+S/2+(-pos.econ/100)*(S/2),uy=Y+S/2+(pos.struct/100)*(S/2);
+  x.save();x.strokeStyle=C.red;x.lineWidth=2;x.setLineDash([7,6]);
+  x.beginPath();x.moveTo(ux,Y);x.lineTo(ux,Y+S);x.stroke();
+  x.beginPath();x.moveTo(X,uy);x.lineTo(X+S,uy);x.stroke();x.restore();
   x.fillStyle=C.red;x.globalAlpha=.25;x.beginPath();x.arc(ux,uy,32,0,6.3);x.fill();x.globalAlpha=1;
   x.beginPath();x.arc(ux,uy,14,0,6.3);x.fill();
   x.fillStyle=C.i3;x.font='500 16px "IBM Plex Mono", monospace';x.textAlign="center";
-  x.fillText("CENTRALIST",X+S/2,Y-16);x.fillText("RESTRUCTURIST",X+S/2,Y+S+30);x.textAlign="left";
-  var RX=X+S+52,RY=Y+16;
+  x.fillText("CENTRALIST",X+S/2,Y-16);x.fillText("RESTRUCTURIST",X+S/2,Y+S+30);
+  x.save();x.translate(X-20,Y+S/2);x.rotate(-Math.PI/2);x.fillText("STATE-LED",0,0);x.restore();
+  x.save();x.translate(X+S+20,Y+S/2);x.rotate(Math.PI/2);x.fillText("MARKET-LED",0,0);x.restore();
+  x.textAlign="left";
+  var RX=X+S+64,RY=Y+16;
   AXES.forEach(function(a,i){
     var yy=RY+i*74;
     x.fillStyle=C.i3;x.font='500 16px "IBM Plex Mono", monospace';x.fillText(a.n.toUpperCase(),RX,yy);
@@ -3376,13 +3435,12 @@ function saveCard(canvas,name,say){
 function canvasToBlob(canvas,name,say){
   canvas.toBlob(function(b){
     if(!b){say("Could not render the card");return;}
-    if(!(window.claude&&window.claude.use)){say("Saving is unavailable here");return;}
-    b.arrayBuffer().then(function(buf){
-      claude.use("downloads").then(function(dl){
-        if(!dl){say("Saving is unavailable here");return;}
-        return dl.save({filename:name,data:new Uint8Array(buf)}).then(function(){say("Saved");});
-      }).catch(function(){say("Save declined");});
-    });
+    var url=URL.createObjectURL(b);
+    var a=document.createElement("a");
+    a.href=url;a.download=name;document.body.appendChild(a);a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    say("Saved");
   },"image/png");
 }
 /* If the portrait ever taints the canvas — a CDN move, a redirect off-origin — the
@@ -4234,9 +4292,27 @@ function showCard(c){
   $("gC").querySelector(".txt").textContent=third?c.c.t:"";
   $("gC").hidden=!third;
   $("gFlagBox").hidden=true;
+  offerHist(c);
   $("gCard").classList.remove("tilt-l","tilt-r");
   G.busy=false;
 }
+/* "This happened in Nigeria" belongs to the question it was written for. It is offered there, closed until the
+   player asks for it, and gone the moment an answer is chosen, so it can never turn up under the next question. */
+function hideHist(){
+  var b=$("gHistBtn"),n=$("gHistNote");if(!b)return;
+  b.hidden=true;b.setAttribute("aria-expanded","false");n.hidden=true;n.textContent="";
+}
+function offerHist(c){
+  hideHist();
+  if(c&&c.hist)$("gHistBtn").hidden=false;
+}
+$("gHistBtn").addEventListener("click",function(){
+  var hc=G&&G.curCard&&G.curCard.hist,n=$("gHistNote");
+  if(this.getAttribute("aria-expanded")==="true"||!hc){this.setAttribute("aria-expanded","false");n.hidden=true;fitCard();return;}
+  n.textContent=hc.t+" ";
+  var a=document.createElement("a");a.href=hc.u;a.target="_blank";a.rel="noopener noreferrer";a.textContent="Source: "+hc.src;
+  n.appendChild(a);n.hidden=false;this.setAttribute("aria-expanded","true");fitCard();
+});
 
 /* ---------- the record the story is told from ---------- */
 function record(c,ch){
@@ -4339,18 +4415,9 @@ function feedFor(ch){
     el.querySelector("p").textContent=msgs[i].t;
   });
   $("gFeed").hidden=false;
-  var w=$("gWhy"),wb=$("gWhyBtn"),hc=G.curCard&&G.curCard.hist;
+  var w=$("gWhy"),wb=$("gWhyBtn");
   w.textContent=ch.why||"";
-  /* this happened in Nigeria: shown only after the decision, never before */
-  if(hc){
-    var hs=document.createElement("span");hs.className="hist";
-    var hb=document.createElement("b");hb.textContent="This happened in Nigeria";hs.appendChild(hb);
-    hs.appendChild(document.createTextNode(hc.t));
-    var ha=document.createElement("a");ha.href=hc.u;ha.target="_blank";ha.rel="noopener noreferrer";ha.textContent="Source: "+hc.src;
-    hs.appendChild(document.createElement("br"));hs.appendChild(ha);
-    w.appendChild(hs);
-  }
-  w.hidden=true; wb.hidden=!(ch.why||hc); wb.textContent=(!ch.why&&hc)?"This happened":"Why?"; wb.setAttribute("aria-expanded","false");
+  w.hidden=true; wb.hidden=!ch.why; wb.textContent="Why?"; wb.setAttribute("aria-expanded","false");
   if(typeof updateHeadline==="function")updateHeadline();
 }
 
@@ -6389,11 +6456,14 @@ function blLoad(cb){
   if(BL.d){cb();return;}
   if(BL.q){BL.q.push(cb);return;}
   BL.q=[cb];
+  var mw=$("blMapWrap");if(mw){mw.classList.remove("bl-fail");mw.classList.add("bl-load");}
   $("blBody").innerHTML='<p class="bl-wait">Lighting up the map…</p>';
-  fetch("ballot.json").then(function(r){return r.json();}).then(function(d){
-    BL.d=d;blPrep();var q=BL.q;BL.q=null;q.forEach(function(f){f();});
-  }).catch(function(){
-    BL.q=null;$("blBody").innerHTML='<p class="bl-wait">The candidate lists did not load. Check your connection and try again.</p>';
+  fetch("ballot.json").then(function(r){if(!r.ok)throw new Error("ballot.json "+r.status);return r.json();}).then(function(d){
+    BL.d=d;blPrep();if(mw)mw.classList.remove("bl-load");var q=BL.q;BL.q=null;q.forEach(function(f){f();});
+  }).catch(function(err){
+    try{console.error("ballot",err);}catch(e){}
+    BL.q=null;if(mw){mw.classList.remove("bl-load");mw.classList.add("bl-fail");}
+    $("blBody").innerHTML='<p class="bl-wait">The candidate lists did not load. Check your connection and <button type="button" class="lnk" id="blRetry">try again</button>.</p>';
   });
 }
 
@@ -6592,6 +6662,9 @@ function blMapEvents(){
     var k=Math.exp(-ev.deltaY*(ev.ctrlKey?0.012:0.0025));
     blView(BL.cur.slice(),BL.fit,mx,my,mx,my,k);
   },{passive:false});
+  $("blStateSel").addEventListener("change",function(){blSelect(this.value===""?-1:+this.value,-1,-1);});
+  $("blLgSel").addEventListener("change",function(){if(BL.st>=0)blSelect(BL.st,this.value===""?-1:+this.value,-1);});
+  $("blPartySel").addEventListener("change",function(){blSetParty(this.value);});
   $("blZin").addEventListener("click",function(){blStep(1.6);});
   $("blZout").addEventListener("click",function(){blStep(1/1.6);});
   window.addEventListener("resize",blKick);
@@ -6636,7 +6709,10 @@ function blSelect(si,li,wi,quiet,keep){
   blCrumb();blRender();
   if(!quiet){
     var k=si<0?"":BL.d.states[si].k+(li>=0?"~"+BL.d.states[si].l[li].n+(wi>=0?"~"+BL.d.states[si].l[li].w[wi][0]:""):"");
-    try{history.replaceState(history.state,"",location.pathname+location.search+"#ballot"+(k?"&at="+encodeURIComponent(k):""));}catch(e){}
+    /* The chosen place is kept out of the address bar: the advertising pixel sends the page URL
+       with every event, and where someone votes is theirs. A share link is built on demand. */
+    BL.at=k;
+    try{history.replaceState(history.state,"",location.pathname+location.search+"#ballot");}catch(e){}
     try{localStorage.setItem("ifny_ballot_at",k);}catch(e){}
     if(li>=0&&!keep){var b2=$("blBody");if(b2&&b2.getBoundingClientRect().top>window.innerHeight*0.7)b2.scrollIntoView({behavior:BL_RM?"auto":"smooth",block:"start"});}
   }
@@ -6649,6 +6725,24 @@ function blCrumb(){
   $("blCrumb").innerHTML=h.join('<i>›</i>');
   $("blHint").textContent=BL.st<0?"Tap your state":BL.lg<0?"Now tap your area":"";
   $("blHint").hidden=BL.lg>=0;
+  blSync();
+}
+/* the three menus: built once the data is in, and kept in step with whatever the map, the search or a link chose */
+function blSync(){
+  var d=BL.d,ss=$("blStateSel"),ls=$("blLgSel"),ps=$("blPartySel");if(!d)return;
+  if(ss.options.length<2){
+    ss.innerHTML='<option value="">All states</option>'+d.states.map(function(s,i){return '<option value="'+i+'">'+blEsc(s.n)+'</option>';}).join("");
+    ps.innerHTML='<option value="">All parties</option>'+Object.keys(BL.reach).sort().map(function(p){return '<option value="'+blEsc(p)+'">'+blEsc(p)+'</option>';}).join("");
+  }
+  ss.value=BL.st<0?"":String(BL.st);
+  if(BL.lsFor!==BL.st){
+    BL.lsFor=BL.st;
+    ls.innerHTML=BL.st<0?'<option value="">Pick a state first</option>':
+      '<option value="">All local governments</option>'+d.states[BL.st].l.map(function(l,i){return '<option value="'+i+'">'+blEsc(l.n)+'</option>';}).join("");
+    ls.disabled=BL.st<0;
+  }
+  ls.value=BL.lg<0?"":String(BL.lg);
+  ps.value=BL.party||"";
 }
 function blFromKey(k){
   if(!k||!BL.d)return false;
@@ -6727,13 +6821,11 @@ function blRender(){
   var d=BL.d,b=$("blBody");if(!d)return;
   var h='';
   if(BL.st<0){
-    h+='<div class="bl-lead"><h2>One race is on every ballot in Nigeria</h2><p>Choose your state on the map, or here, to see the rest of yours.</p></div>';
+    h+='<div class="bl-lead"><h2>One race is on every ballot in Nigeria</h2><p>Tap your state on the map, or choose it from the menu above, to see the rest of yours.</p></div>';
     h+=blRace({kind:"pres",label:"President",title:"President of the Federal Republic",date:BL_DATE.nat,c:d.pres});
-    h+='<div class="bl-grid"><span class="lab">Choose your state</span><div>'+d.states.map(function(s,i){return '<button type="button" data-st="'+i+'">'+blEsc(s.n)+'</button>';}).join("")+'</div></div>';
   } else if(BL.lg<0){
     var s=d.states[BL.st];
-    h+='<div class="bl-lead"><h2>'+blEsc(s.n)+'</h2><p>'+s.l.length+' local governments. Choose yours to see your Senator, your Rep and your Assembly seat.</p></div>';
-    h+='<div class="bl-grid"><span class="lab">Choose your local government</span><div>'+s.l.map(function(l,i){return '<button type="button" data-lg="'+i+'">'+blEsc(l.n)+'</button>';}).join("")+'</div></div>';
+    h+='<div class="bl-lead"><h2>'+blEsc(s.n)+'</h2><p>'+s.l.length+' local governments. Tap yours on the map, or choose it from the menu above, to see your Senator, your Rep and your Assembly seat.</p></div>';
     h+=blGov(BL.st);
   } else {
     var s2=d.states[BL.st],l=s2.l[BL.lg],w=BL.wd>=0?l.w[BL.wd][0]:"";
@@ -6778,9 +6870,7 @@ function blAssembly(s,l){
 
 /* ---------- parties ---------- */
 function blParties(){
-  var P=Object.keys(BL.reach).sort(),cur=BL.party;
-  $("blParties").innerHTML='<span class="lab">Show one party</span><div><button type="button" data-party=""'+(cur?'':' aria-pressed="true"')+'>All</button>'+
-    P.map(function(p){return '<button type="button" data-party="'+p+'"'+(cur===p?' aria-pressed="true"':'')+'>'+p+'</button>';}).join("")+'</div>';
+  var cur=BL.party;
   var r=$("blReach");
   if(!cur){r.hidden=true;return;}
   var R=BL.reach[cur],c=function(o){return Object.keys(o).length;};
@@ -6808,6 +6898,7 @@ function renderBallot(){
       BL.wired=true;blMapEvents();
       var at=null;(location.hash||"").replace(/^#/,"").split("&").forEach(function(p){if(p.indexOf("at=")===0)at=decodeURIComponent(p.slice(3));});
       if(!at){try{at=localStorage.getItem("ifny_ballot_at");}catch(e){}}
+      BL.at=at||"";
       $("blCount").innerHTML='<b>'+BL.total.toLocaleString("en-GB")+'</b> candidates · <b>'+Object.keys(BL.reach).length+'</b> parties · <b>'+
         (1+28+109+360+BL.d.sc.length).toLocaleString("en-GB")+'</b> seats';
       if(!blFromKey(at)){blCrumb();blRender();}
@@ -6817,6 +6908,7 @@ function renderBallot(){
 }
 document.addEventListener("click",function(e){
   var t;
+  if(e.target.closest("#blRetry")||e.target.closest("#blMapWrap.bl-fail")){renderBallot();return;}
   if((t=e.target.closest(".cd"))){
     var x=t.nextElementSibling,o=t.getAttribute("aria-expanded")==="true";
     t.setAttribute("aria-expanded",String(!o));t.querySelector(".chev").textContent=o?"+":"−";x.hidden=o;return;
@@ -6825,11 +6917,10 @@ document.addEventListener("click",function(e){
   if((t=e.target.closest("[data-st]"))&&t.closest("#view-ballot")){blSelect(+t.dataset.st,-1,-1);$("blMapWrap").scrollIntoView({behavior:BL_RM?"auto":"smooth",block:"center"});return;}
   if((t=e.target.closest("[data-lg]"))&&t.closest("#view-ballot")){blSelect(BL.st,+t.dataset.lg,-1);return;}
   if((t=e.target.closest("[data-bl]"))){var k=t.dataset.bl;if(k==="n")blSelect(-1,-1,-1);else if(k==="s")blSelect(BL.st,-1,-1);return;}
-  if((t=e.target.closest("[data-party]"))){blSetParty(t.dataset.party);return;}
   if((t=e.target.closest("[data-pick]"))){(t.dataset.pick==="fc"?BL.fcPick:BL.scPick)[BL.st+":"+BL.lg]=+t.dataset.id;blRender();return;}
   if((t=e.target.closest("#blSug li"))){blPick(t);return;}
   if(e.target.closest("#blShare")){
-    var url=location.href,d=BL.d,s=d.states[BL.st],l=s.l[BL.lg];
+    var url=location.origin+location.pathname+location.search+"#ballot"+(BL.at?"&at="+encodeURIComponent(BL.at):""),d=BL.d,s=d.states[BL.st],l=s.l[BL.lg];
     var txt="Who is asking for my vote in "+l.n+", "+s.n+"? If na you, wetin you go do?";
     if(navigator.share){navigator.share({title:"Your ballot · If Na You",text:txt,url:url}).catch(function(){});}
     else{try{navigator.clipboard.writeText(url);e.target.textContent="Link copied";}catch(err){}}
@@ -7689,7 +7780,6 @@ function heldBy(){
   return " For "+mo+" of your "+totalW+" months "+worst.b.n.toLowerCase()+
     (worst.kind==="cap"?" effectively governed alongside you.":" wanted you gone.");
 }
-
 var PER_YEAR=6,PER_TERM=24,BASE_LIMIT=48,MPD=12/PER_YEAR;
 /* Obasanjo put a third term to the National Assembly in 2006 and it died on the floor.
    Whether yours passes depends on whether you have the Palace, the Barracks and the
@@ -7711,11 +7801,16 @@ function play(side){
   if(!G.live||G.busy)return;
   if(SND&&AC&&AC.state!=="running")unlock();
   G.busy=true;
+  hideHist();
   if(G.cur===-2){impPlay(side);return;}
   if(G.cur===-3){campPlay(side);return;}
   if(G.cur===-4){runoffPlay(side);return;}
   if(G.cur===-5){amendPlay(side);return;}
   var c=(G.cur==="third")?THIRD:((G.cur==="open")?OPENING:DECK[G.cur]);
+  /* A second quick press on "Continue" lands while the next card is still being dealt:
+     there is no card yet, and without this the lookup below throws with the controls
+     already locked, so the run freezes for good. */
+  if(!c){G.busy=false;return;}
   var ch=side==="l"?c.l:(side==="c"&&c.c?c.c:c.r);
   hideThird();
   /* Declining the amendment has to be recorded, or nextCard re-satisfies the same
@@ -8053,8 +8148,6 @@ function endGame(bloc,why){
   var yrs=Math.floor(G.day/PER_YEAR),mos=Math.round((G.day%PER_YEAR)*(12/PER_YEAR));
   $("gEndYears").textContent=yrs+"y "+mos+"m";
   $("gEndCount").textContent=G.day;
-  /* The number the run can actually support: of the decisions that tested something
-     you had committed to, the share you took on your own side. */
   postMortem(bloc);
   presidencyStory(title);
   frontPage(title);
@@ -8126,12 +8219,6 @@ function dossier(){
     if(x.bad<3)return;
     rows.push({c:"hot",t:"For "+Math.min(mo,x.bad*MPD)+" of your "+mo+" months, "+DOSS_BAD[x.b.k]+"."});
   });
-  /* Fidelity is already one of the three big numbers above and gets a full breakdown
-     below, so the dossier says the one thing neither of those can: that there was
-     nothing to measure. */
-  if(!st.r){
-    rows.push({c:"",t:"You never put a position on the record, so nothing you did could contradict you."});
-  }
   /* what you lived through, which is now a thing you can live through */
   if(G.crisisTurns){
     var everList=[];for(var ek in G.everCrisis)everList.push(blocOf(ek).n.toLowerCase());
@@ -8432,6 +8519,7 @@ function beginRun(){
   $("gameGate").hidden=true;$("gameEnd").hidden=true;$("gameRun").hidden=false;
   runLock(true);
   $("gL").onclick=function(){play("l");};$("gR").onclick=function(){play("r");};
+  hideHist();
   if(SND)unlock();
   G.rec=[];G.met={};G.warned={};G.praised={};G.feedUsed={};G.memo={};
   $("gHead").hidden=true;
@@ -8451,10 +8539,10 @@ $("gPresCard").addEventListener("click",function(){
 });
 $("gChallenge").addEventListener("click",function(){
   var nm=presName();
-  var t="My presidency ended: "+$("gEndTitle").textContent.replace(/\.$/,"")+" \u2014 "+
+  var t="My presidency ended: "+$("gEndTitle").textContent.replace(/\.$/,"")+" — "+
     $("gEndKick").textContent.toLowerCase()+".\n\n"+
     spanWords(G.day)+" in office, "+G.day+" decisions.\n"+
-    (nm?"\n\u2014 "+nm+"\n":"")+
+    (nm?"\n— "+nm+"\n":"")+
     "\nIf na you, wetin you for do?\n"+gameLink();
   navigator.clipboard.writeText(t).then(function(){gtoast("Challenge copied");},
     function(){gtoast("Your browser blocked the copy");});
@@ -8509,7 +8597,77 @@ if(window.claude&&window.claude.hot){
   }):start();
 }else{start();}
 })();
-</script>
 
+/* ---------- the front door's ballot card: Nigeria as lights that twinkle, ripple and flare ----------
+   The points are real ward positions, in the same projection as the ballot map, thinned to an even spread
+   and baked in below (4 characters a point), so the front door needs no download. The loop runs only while the
+   card is on screen, at about thirty frames a second, and under reduced motion it draws once and stops. */
+(function(){
+  var cv=document.getElementById("wayMap");if(!cv||!cv.getContext)return;
+  try{
+  var card=cv.parentNode,D="kz45dsm22khbcnpx7fd198ggfrhjq56ygsi8eznv949hc4p19dhqj38ouc8s54guls2bbajg7r1afu62ebokh24rel3hemlyhpeya6kod9k5j5jjb3a7dc7vfcps6jhhtaaiae2fml9obslgnxfe52177vi0dd4hkf4g5n6qa0oh9wp03kifapcftx6i687xvh7frz5gcnnt5whtc6pq5dfei8ikehpo54hl98jzg65ydgl6ex4jgjc4q75u4ogh6fgjfq3kg9dwuc42cdn70hjo4qgr0lhd58dhi8e0ctq28jhtnqa54aiqeooiddnqa5ax55ile9pvcgmo88lm8jnx74hzgc9devpm7li8f1mlhabhr3ez632behpdtg6hc0mbge5ycdm3d1pgcpk6t95vi15vlcav3th9d8p08qq7gx6hqqcmi7j66e2b3w4zw45bet5xopdwp8cm37inm66t5ehfc6fssh2vodeb1pkt1fl86s2cr8ci23l3bvpvef8j3qimcfg7cqmddx39jre2iekuf43e923smg6nldbvfacr5yhicz4wcdks3kk64hhpd2ot8zh4d1nvh17ikvfu0hkpb8nqfv7mhy89gtbldb3sli4mk84q6nkiecjibkm2fc8l1si7ip3g9j3pnd6le3kp57hcji6se656fop95mfo7khvftph9dgsqpf7i74b4biib6i1gk6b6rhpla3ia3nxbznd5ii0gdpedbn7oqbvuy4aa8hjgj53j46h6d5ddzmofjpea9e1j3c6i1jxdxkt8qnmcypk97oo0hk0e74vc4or31iba0cg7mhkdx8ii1lkfhdx8w0w5ge2gg5gnqaea9o9s54gmt63pb2edcnhha6fetopky3tfj664kgj8nisbwn35ai6duo7drqg39jy6yhnfzi95vh2fk5l4rkvnb9jq4cfg82x5j3le9ixbdluewl1ajpj5w8qgt4ons7hegehcfnd72ihak1mc0kpk5jo2sl2oseg64ly8ckvdjjobd4g6cgrwt5vbxlwapqf8tobdf7mkn5ipkc17c2rfrd1hl5zgwjsk6h39vm6b2p342hzbfpre9nt81i9b696ew6ac5hljzew9o3bjm7zc3nh2zdabvgrfplplh7bpa3e94g8424fdmi64h3h8gi3aj27gg39sk9821kkq4g1hi7jdbld7q3c68g6knicbaludmpo5nhqbvnpexq2de315gf6h7614c46t163elq5calmc5m4o3bh5ees9oibg3j1h2huh3499vofdppie8mz9shy4f2y1tj3cqksbucufy3wcl6odpjxmf6zdno8jw6nt71rq59mj83lim3vgl76cgpo71n8fm5o76i76j2f43eokmjdchdjeko28wixfio42aiq6hjpfnh8cvd80ojb3biud03kduoq89hhpub3ko7jhvhf4bh2ou37f7msug3kdyq47g15belmp18s9aavdmoce287cylw7t7s2sgrchmz73h0d9o2ehoj9dqef932qocenag8ex5mp79pf0lxjw4idd9vdh426ygv7yl5q3c2u63ab2o5ce7jeupz70ix5r7jc0lrby7n5xlyeumt7u4tcp789115ppbwbkmie42lhn6eaqov4oh1jf70i4chfk7fa9j8c9nzb02xbfk46pghcv6mi7hq8la4cppyhyc4kk3xegnhdy4yg6i4b09k93mjcddr3ki943l75qgfww646b4h3wks8qii6nj34m429pm04ljiaynp5ggw83dhg5pu5oflcx70ctn7i6l2c4kv6f6x9z191kkrdz88gyc5ridkbwo9pea8m85m9npbo85odricccq2aa1fic4dazpjbpk3785kg0iq4kez6sdske2iefmde96e8gj6i8cbe5qg2mkpfim7pkdtcml2jndlfk8b4giqgclihl5gamp9ud34ezm2d3j6g55n2u6jb34ijm3eazmle7cql96x344x9endfcq7ifclncbt5wh0mf8mekm9o09euq84e7n64dik72gcb5n61ykiva5gavc5nd6cqy6gcsozhafvggoo6ylb5fikhqdp5ian5vi0a9jinie60pkn0sl74y507p2k38kf23j09oi88kl2v64qmb38lpb37hgpdfn4ay3wh1mig7fgd5kda7q4v07tgybua2khd8mhlkgbfyafdd77fh8wtn68fphzl15o6e32h9kycpnwg8iks739bfq2cwnn9mh7gg6dbv55b5pk8scy6h9wg54vg1hk6u4593isepml9dcn3mjtaxhtgwlb1zl3dfmut62c1ek59uj1ep3tfp524l7giihvpbbok1dadvdkj0b64g4fmgf2k980czpbafp0abn4oj3kcm7zecluda55pke2c1mugngcnxkpe07vcxl2ahiicceipg6mclfxe1p22ffkezflhl4gced48u1otv5v7dh18o15djp3ac587t78n13fe1oqo6a9d17wii5ifa4knnbji7frovab4dfwadd6ts47cwcz9uknrv4a3mhzk85hcecgea3lgv5j0xic5f5vdgiq8b1gdhlog456l572au2ac2q96aedj7cecilphyi8jaid0nf4enl29hl83ti2535qm2ccaxkmtk9jd0dlaldzsf82lq3ciihls48or07k753lfcpjhkd9h3b28jnadwlprt839pdil1i9dl5gdjp0ckqo84m8ky3iccfhe1mn3eiqrudz7b2q8wjjpw9xi3ivh98qbf5wto9o2xki3ohna3oy3jj8fyc8bkpljxageucsdm4x5hgif0m8dedopmetecmuiwhjb7oigjg7g0814tia1wikmzgnpwe1et5027gibygg6dm8hwjqkz7ogs6zel63g6dd1dkg7ql02bkphwbd91ehnwbqcvo1il8mhkip62h5jr43bvmd8gmodenicgo7bche3qb71wg7g7er5cbg8kiiedesga6f31ef9wpej09nr841jk5rgy5p4wl8f4lksobu82iccl4vigipnr704q7q74j3fkgr13kius5d657781kyo06n7qhq9o5nqf798hmet66wmsj4cklga0dmhrbb7r803gdt7579e6o8751zbcmrk06u9ch89ak5ep6enp94fs7b0rgy86gkdkqmim75dv3y9f52fr5e96j1erf2b3inec5gffqcfihgd99tb1oxd771c97ej34afnkt2ekl995id8kxso376s1zey4wp77gbimvm77f501xdzgc2lhnaaln8yprdq47jh9ecsmbhs5xp3duob8m9eoped422oirot722tk8lf4bjdg8grjhhakfd6ql19h33pkfkg49hki1azjjalodeo2tdpnac8pm90n0bumz29i2d1frfa90a6puahqxhljifz5w850meip489mwjqbodgq92yjlj7fjdgpw6ti6lk7ga096ggbiin3li8kk7vfnqrbxjv6bf0cfen2e5u6t793afqfl9cjpp94bf43z9ymz3wc71cgioa6peinq42kn0xhkckozj75h3oh8bvp6gnlpihc6ot4191id7jif3y8ncthzb1465d5ibbpxptdfe47n5n7811e5bve3dzjkm59z7o5f5yb81qey7b2m6ojc7aen71iqdi6va5lqfk2gbcl38mh39mfuesj9ip3zjgf5h1c8d7m09nn0fc2y7j38gwiz8tmvgykeiod0d8ohadgoerpbm5fqf9pxo79wic4u6mg09kf1dzlen4bibeoss89h98flmljja2nn1ndtore2dxp4olaxmnc2fa5xayogiy4bbpfz58ldtk3sd6jm95n69oabildz40jvcpk0ec7kb1nkj74fmi7w8zb8d7jug1kug6hu4mhm8j35l7idgvmpmx24gln0edldgc3ja8k9o599ebj7pp6l6qkefglk6nlt4w7j0siy7jnnjzdfc1n8b96odbqbkq2k5cef81fg59g4gs4upqd00oi56754f5hje47p8jdrf7gld5la6hjd1ngw6k3g8s2qmcafge9ps3az61hxorbkez7drrenezibeykuaji7j85x8sibc1db97o7s5cn6viinpfsjkcx7rovr4det99p85lb16jtux4y9oic9gbf6ff2pc9koffxbbiv9so7hkca45fp5q5agffg6l2z40jsgoml7wiukc5194e5hn759nq1decz6ai180202afaf7ic67ki5xejgrk7aqqwt354kc3rsdamc24yotan4c5go84oh36pgrgqevgbsh1tdl6c2xhubl57fpcj7g7slnf6dbfc7w9pgpa4f7ken0ju6hgtc8jy7eaeao5i3vhv61a89kmioc36dy62evelki9a6mkulz30g4644lh76rm9grn3cip59rnxotb9ml7g8q4zd9c86bcds947iacte4366hl4573b2ji37togwh5lur7soq96iodebsposza5dchwhsgfh4dv9pnmk66i60jcghbva4ibk74chxjademl3wgre0qa4f6vkn6edm8z5353b1d7egfp8meok27srz578ggpcm2t6gi1rb4rj56sbcjcce5or7dc5oj5gim3iofmo826e5loegji7umrnoerwk4t6135aq40cqix4zkkcsmyfkq1nye4u79441k9siceqh9vlm7osg8qcp2oe2efbmj7g7c9bkfeehhbkgbhq16b98hgd6pycfoo9toteshffhlrk2jb8rp0jl4bhha1k6ds18l0d3eb4y32iue2feorkjiz1uj0fo6k5wjtgb4lko39p8gokofbaum9hd3qgv3caib9gse55al2rl7c1ygo3oip2fjnbjcq7r24itgcfll4vj67nw7vayi5hy5jh5ddmq6fo9dk9adrmx4b7056q8995y9nge4eefn0hjinc0qqafps52hojme9cvh24egyazl7ohdedscrfi37or5wjd4lju37g9jh9no6r3769ykxrqagg1chh25v4tade6jp6wjyrq2hj76717k6kaii56eyvb5950668alxs13qgh976w74lb9dftjl2ahsnhax1af888iuk6bzjd8560he6wfebajc88529npwqv3o2jep5gh5f57nr82q9nknh6ipqa2v9jodo877tz9qebi164ght7ba4bg7bd4yum3u8dekageva12895pag9f5fom7k3gk4p2h1xi025g8pg577o6tmeiabrdaeamb6rh4a96x35f0gt3pa1jtc043qlb0dxk99ngnfi7z9dds6iitrk3ws1a4fc6x3zj7alo3b5m993jkrpdj3fkx5glh6kh11nhn564x8o1f6vmnd7ms6z34id70g0eepkgffpe1djckn26phxe2h2bznkc8dq78m0997uf2jqfxdn3ig8kkjt7f8wgf6qmt99q0m054d37kcbocbzowedfb7tac2egjgg6rjm3pecpjouflorieimbdr668e1760hhvdyohkk5xc6mhor8thiknfq6mbyfhjei91ped5w3mhw8w2jl6gg41i45chpifhmdd517hhi6zbah117l5joh4cw42ombhlg53w24xg0p88z5378hah23oij7snm8np8d2wk59cf3tahipg38y9dg27v3zp1aid3fmddk7cs838f5m7lj7agco7vg4ked375ki8xhf7knz9kijfq2wda6o54is4k5slp5ta0l39wn5fpozog2l1xgs2x65b6e4j37hh4jtnz8wfhiuq13devljf2n4cq8qktili078oqhkf389jwi3h2ch6j4cqc8m7uikf5p1l44wemhp58fofkjgblh7hd63f866rdd4c7e31zk07r2qfx37832nds7imk367xnsm8j7574kcuf8h45jqwa7do5z1ahtej7spsfmgjdae4ac7xa2op8ih0ey9l5cg174eravdsnu8oee5nitdlkdo0dteh54fskxgmala14c3z57gi3s5pbzjsdba9id3qk5c5qklj3ebxbfnzef618kfnk69b1d4yhve5k3brimdoa5b0hjay4whkd0dejpb6byku74c65n5aj75r99mshddyl0fo7p8mjuqd9kf8ez5nj0qt9tg4k8cy9dekqchkbcivfvjz5h729z44jcby6pap3ms0d5lv7ja31whsaj8bp8lpia73lunp6nmqbnhe4pktca9tdsc0cf2w5z3dke6k9jasllgvd9t7878f0to97giv71iz615pg1cf8bdre2d1aobyjcazj7pgcehqg5dv2tm7774bgs65ipa5mgm52mdmh8plfarjc3fs96tgas9lphqo8x9mkxq2bb2rijb2b95ia438l0cwonagmmpy464iku9m4dqsd3bccb5timcjf4jcjn9yej41i4ep7tqb9siai87f7f0skva0mzcafcjq6pj859amhscwlnl92fdzhjdzjcipk5mz8eeb46tv3zg4bw9fhklk2zdmm1c7cl9mji6ihxgafq2hgy6jbkbo6d7q358glfrb9tjhdxbakq8x3f7ebo9xanwq56fgmmkc72fijpgq41ac2v1ojpt6cciqekdddu3fdn4dkg2vf27k41bfi6pta2hv3picdz8xfxfd56alqegicyfu6ylp3qiq4njh7mf2qck15qfvk8gl7lul5liq5u3lg17s0o4ljqarp3lf856u1aecgd1mg77jku511nghhdh354eg83fqneccisp8canb669cqvidb11kj2ts2dthadfd42gx9fakjgfydojkij8pho5370hrknlufx4aefill9fka3f96jvx4seoqd86hqea6vci43dj6jjx3vebihrqa7tx7tewlw6i4g8m3tgnnx3p3ul42v5w7tqx6rlxgtizchng2jt65kbip8ez6z5s36rq4riw4x88j3g63u9tbunlb1o7ed2vghn08yd8a3aq35dyd2gy653a40dlewdopwdw6qixkwj33s5k4mecowma6ksaaj9zmmgxcyq3bkajj8lm3bquay3phgnv594j4rh7ffj14wfo43i7f5o9clff9p6ie9lx4vidgmdskger463a487ugg4phghr50itc3ewnaf15npseh8c6z15j3jwhif6c26l7j6l3qd16cczjhkqgkau4ce9f3cti9kkj58dhjt06f9e4oaec8af3l5b9m5d97oj8t9mmw4t4e6t89r3cs7ke86c1lsh56hdk05l5c9gc0b42hfn9ji95kb0fw23d4ub75dgacem5ya2iudu5f4m54hs3idritksehr16z2ljy90kqckjopg3o7yd0tqaghy7hddkv8rnsfxjxcz3c883w92nk3dgvn7djkk7w5bfagicmqsbngx77dwfegmdvel24ccjf56kp29fxey38l43o7tkn5fl4ly6xfe4qc3hwg2cxnae09p45pb865m4x7zho0fl8pqasc3o79dnqh83lnsineqebh8ahcbgrqkdofwef683gkt4r2rg4cyked7i9co4eh0l0fqq7to4n9gka74hkghfzhlj48gfc9w6sf398o5i8aqg3i86uk6hoeej3a75p4q3tpl39nrcaf130ezcageef51gd92by8p1vq2ctc6kbcq2njd5a7g2jdc9j5siz9xf7f3okfg3ydu6d9xjg93i8bkgvdt3jb1li27fjivj8ephxmyae8d92gedibgbg6bl071cfh5gw80p3exkkaxn0gs7e8lon5bfka0erqz9acyfy8f8rhi80ddhqkd2wt06bbp4me1hygje6e2khhmk7ei38binyuw613z5nhg51mqh0t14jih565b3ndhearrcm9eljrt9k34jmfrmsqhc3lviyqketb959jgceh3mr68ey7ooele3xo8bwkl3hgb7ppt6b9pq6ebhbemdeo3ca7n1d86nd648p652zben7dmlvr456ee4k9mjboggn6k8xex2fktddab4387gxb25qbwq0ckfn3hjl68ii4v5i9a500uiiuk889anq87101aik1lid4cdw4z3jgqika4p2o6b35qkuh9j9f2h6fof9kj57f84zmx5sama37y42777e356e4sg4c1ibo94bbrjtjhelf9hs2nizd44bgjere660a4gwuh2uasfhf2isnh4kvv7b9gc687ogd6mc8ope6efydsmo5pjfofeileal3y4n3q71a0qjc5l821idl83am14k39drer8yefix0gh3rncy9dd3ev8197l42xbwct3zena1gbe4js57f2o7dn308n8a4870662jnhakf4bqst9js396nlkbaqpvh1e5j6djrb5qeueve8a7kv5gagnnh1l8cp5cpxbkm4437iivgp5a1sjt3gen0reqc3jobtom7s4gcj3jpy30ghkh5i3wjaee5h38gum56idtaynmipidfyerha7wcr58od7qoic68hozi679cu7k4tk2lo9uvh4lhdhsg2gw5tl683e0qw4okb7gt93y2ver4ric8ek6jn5c5nkwf09hb2gl8mki6pm0jj4uth10eacgiy5eed4rf0jdqhfkn6k8bj48hzgt5saq3o52s14xjvfeak3953jfd2dqf08j1ijiu98w63au8o4ik0496ze36w4pe33phvbxcme5ul4phz6z9x39i9by6yjg8zdldxi4456r4bhji83t6elcv86se5c5t9a7b13eoz7ph5k9do4dmy366al9bgf0ql2uozcd8zk1941qid6m7sngdxanjvcvb2cwmp867l3cu13s7ek5r230i1bm78cueci9qt89j6eyqeaspnb1ps2pbw3pfzmlj1d9eh3y9qkaajdj8242beokt9az7xceq282cc61i99q6vejeq3dh7giagn43pl2bvl56zfy7mjl9k1ijchlbhkeavdvt43b5xd0jp7yua4sov86ebe43e6a967q6v2xgh8vhicfn1eevv6iqi7s8kfu9bov8f166tafhmbx59c6hh3h2pkrp7eig86rjxcegd80hxkvfen1c56giqf18vlxlbab6ld5mr98tk3jcpcj9f731khz6o3t7amy4sfehujkuq4ig77flc8fc7dogshjjs4r7l21f3dfbykc9rl5ei5ldd3w8dng4p6vf6f8abm8avbnalkbgiibagh7icjfbubsgq819j6g8xlkl9b4676qkh7g7qel922d2ci0cl7ai0d9gshwh19z5ye3epk7i7g9fm732yfpf859d64pfefpjacyhscwc67trf2gd6318c1xh54fgf2xcrqrnibwa9dqj0ht2hk166fpdrngjtc194de9mixchet82or8klo9sbikj4oifd7f1ik8vosaolgnlkqt93m7mb3hv6guh6llu7zbmhsms745o49rk3887kkbxdtin40d5cqivbtrvcukx9ofzftmy5b28cha0pw5jkl756ub5l88qomegbhivdcg0obmyd3tr6t1mixu95tjr3cv363i36893agv55pfsg4jpjojrist09tddgxdy52tn55kp6wkpat9sllfm6qanmy86g7e6l8iv6m5q69bri35z47or4il966rx8o5t8d6c1waxq6op9vpq7feq713wey3yjkrhbbncc7nubfrfclatcvc7g1ond8qm3y7lf54zfs8rl7c8c1bnf1cgcsnodsadnugn3e92kgekkcf8kw96gtmkfjomj2vr7nciqij5brg9po77ky9afv37hyb0dv5hg4da5qmf62p88k68e6lf9yrtc5hjl9adec9im2s07xcch7sg4ujcj1queoft4d784ir3dv9a9u7e3pj5k72jf16wg8i7kvgooe7jg2ncd533e9n6hwmi3q3k4hdiifbckmlx8bjl6j31k182efq2gworc5605pirbek3dnedhk97hyid5r547wpk9riw7kai8zgumhri642qjvcec8ei6xq5angg4s2ej164jwr2aj6s7x5v4yfnbhahl2n475g73ah9hj9ve1rdewhyclnui0cvdwma4v8u77ow6l8lp56qewfb7wcgiamqb2b3enkgdephat4ncvln8t7uh54hj4faeoo9etb9jur9b1pae41vfxbz8sgydiee78cuqo7k0ukvj1be3uc55afi3g9vqimc3h8rezit52up78i76gcg35lb5l7y8hjkc65f6lej971qfk6c69t03o7ajo779hlu8k85frdnjcnhdbmmioa5pe6bjaa09pice7317kedd25hauq8e35vfrpscr87mnu85dhjfuti9si9eo7g8itha4orf74n78hs4qnk847ofwpwc4gqh36razn3av7ogq5bkiq75e7qn5dd9mau2rjpdthfh425jxm03lab2l0jkh9cdcbfnkgkkyb4dioh53fsllo53j793w95300tk2pyfsvo50nb7d7wk6gi8bmaegiihbmfddeuh4bth27dgdmretmg2xri6f3aj8mv3qwv5ea9fid8dbbnaw8ldk2v6tf3k8sp4lebnn7l750tgjjr7bcc9u655dd7hcn05tb0qpkv6kkfhej8hz3x6yaxlvfq4shriuejik8rgznx9y3i5goi9l851s3maa6a19m22ck3ir4699jadxbgo7jw845g8boeczsd5q2fg3hyd48r96fncppeftkc2ogcp05tf0uz557b7uj8ko598g1sf7jreobxdje9bmn9816z3obmkqfobwtl1udphrku938z6a7gl6u32nftdqf7b945ggjbf48i4sakjosz4sdnd9cabbnx41on67gvb3huk5ejdq62dmntkeow4tm68jkzcnjjagdf53kz8886o64g6lb7bjc3cqjkd4tz8soogy3q68k32tkd8utv33d7im3q6na3g19n60lha5fecgkxhmpwai9ke9joh85mjs6almpmaetp5lj1b8d390s0bmfpih94f7tj4465kasgazfjkmc7kmghjrldh2s06f38hhqbfrefgq7a85a7canb4083h7cn6c7y5784eqq3f6iii6halmo9khal4ybxqk7km17f5qbmivut6r9mctf72desilcdgdqea8tsa20iin4ml2gbar8njdl76h6xn3sn4a4d1u791bebdarj8n3w5rkyh3allw3w7ubq5u9pr2t4bl7kaqgzatajkj6imek8ia8mg8mi487ldt446cq5gjr7asri6vtu4uac4qggj3fwaxbzizvd4zhkky444tf148mv2m4u9x8yjqg6lwm6bb28grb7f9si3rgv7tre9cnfkne68jenky9tqs3h5pdf8mqabxj288fki3w35xfajpohjok3efieknvm6zbjeerb2ogsdohq46nw2u8bpl8no8g8l3n26l3zgjs42bdt2ee82aea689c8m9hltjhetjj607s7llk6h866afvl9alhnhkdq0ljtbfijag4f8le6nzjv3ydckmhtgihqq8a2c1ioni7i7k1v9pcenj7y7u93be36by63p8b5itdwenb84r5sha71iqjq5ykncmbbibh2ifj4j7728w805m2dvn5q4uf061dult77b6k2bdfqf328plhgm28zq36m3we67e6sbamndo87te1d9z1lpcbfdx8yff4drq94838m9n2d7g8vbdql5144o7afri4a5dk7g9adqzc9kbfnozesfmhtlldohrfq4kg9dfbilg70e78t1qh6ji8pf278pe2vgq8tmi4nntatpu9chsaxk4685p1jcoii375x8occ4uis8f2e1zjkbsah4857bmgl4z6intgzah9uovd6ewdzsa7jd7iy4l809vd3i8k3ks35h9edl44bnudaow3kcej4dlhh3cew34ktl8hyb424n1f6fjoobe6978gbckbnrn57cwghkxcwgqnif9ebh8ga83jh87nw366pwl5t0sjpcjehuh73f7j4ak5ziz83jfbpnqhj7566by5oa8qz68m3esixg48it3464xe96791hu4eeujwgdfal257cr32sl2ge7gwn84tcjkem5jepo6bdy9y8gd18fq0ta30j0ju4abrbedb7k56u68gngj77t5rca79ks4hqo6ve32q5kbc7vdwni3j35fb7hlj5i7pasbzk7bd3f6r8h7kiydnti11no5ypog75seqp3cu5l9slm5ipscfkg6yra8455embng6q0ayfkeq6gihsv1sdtfuk8f7uj8f4k5daom66afk5w71jmgcuk54bphggqf8ju5wfd96ex2tomaebe3if69pj6i7nb7qku6112ffcnhoet25asaspzg6n72ne699fhe8lzhi8z5dg242lajcnn50tg95nv82sg6zgt97rfbpbahuuq5wkjabk875qx71gufl9tgb7bnidqf6gfh0rb4e85a8lw9k47jkoidr0yfx6ga9gxcklnjaptdo6c4tvx5hg8bhg7mok93c4rbf72f6jyaxg1jsm67p542dapeg718xkubjd2hmgdb43zg7ib7fabbou54bb58gpw7qpidafvivepaf728ecl5wb17gtw9aa9hr4ji49lqofybnpabwar1wpfcv7yj4ibeg29je27kbbq9djwg7qc4uh6croz2tdqedafq2i0dgkacm4m26mcexog82sg9hh7i97x1g0thwnbcdfoeg8qmj3obqaso6gk9f9qh0bkdqog9bel6jn437nwdl4kfjdg2kt397kyezml51nd5n9vhg7l88cqc8gdl8d35nfuj1h03aa13x7lmip45k45fb4tj8q8ee8n6acydghxecauk2pgemp2di6j589s51iahdjnhvox9hh0817xmgbn9xbuc1gsfvczj96r5geqbupl8y3z46oxcpob8uf9nv578pa93bikbq7ldklhcn11i5jnb2cy9t9b41aaabrw1z5wldrhed736ncp644sauhcatqibo7vle2xh9b035au559fee850uhgm3770zsi9y3ge2gdk4fdj87zlupo8ejnfkkkct26hep2atq8d7ag3vbsgai83jkyjletd285n58ydwqn6bls4aawf2fbl2i2jlf1ckwj74b64tj6hg2jdvea9mh8d4asguu065f3nh8b80ii66683x13jftk6r3el2q0dv9ob37oa64f6b0oe3iuadjc7zts7799cd7v1xab19c9ax2yja2ti8qgeo771m5y87bseoub7remcq7efqp057d3cd5691o38bjpgjjy948re6a5828933p4a1caiicqgxg8g9i0bbrkdolx6bivcp862tbsefcadgnn386wd8gna9pg5z6m7bo3e7hg9fbd5fd76iqncrqm388hggfvny7t0zi24lj68dhkb49w4nkpdvcseovs59kncjqte99uh8ld4v8bahnf6seeanjl9yjkj6ky8obs7xq0er5l9jaridbibvm3f1r1bwjyie6m0xfbd8c682455sbfjqp837c14lg59vp4954lcavi5kd28bpgdnsraz8h2qnn9p453qn8b8f5oubu33863ks68wu23hnncpa2h97c9yt7bx2iegipkj5y4jjok9pm4xaxjtb23rjuf3fhaqltaf8w44gcpad4ewmwcnniejmq3easipq5dol5fb39h4v27frkarggmp9kaqqhal63f5dqgxcek4j1e9c2ev99lv71meoyg6izgxankt4y4w3scme3ayo7as8c564qf6ti5ymr6u54jrgwgbs2dkka8c8zqi5n1047kqrj26r1bf8ebghx665p2vl54n86k0tw4hlc9q6fepfid3d02u34714r1gnca3eejwdgggwd6nesnij2iukb9v";
+  var N=D.length>>2,X=new Float32Array(N),Y=new Float32Array(N),PH=new Float32Array(N),SP=new Float32Array(N),B=new Float32Array(N);
+  for(var i=0;i<N;i++){X[i]=parseInt(D.substr(i*4,2),36)/100;Y[i]=parseInt(D.substr(i*4+2,2),36)/100;
+    PH[i]=Math.random()*6.283;SP[i]=.7+Math.random()*1.6;B[i]=.55+Math.random()*.45;}
+  var RM=false;try{RM=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
+  var ctx=cv.getContext("2d"),W=0,H=0,R=1,S=1,OX=0,OY=0,raf=0,last=0,rips=[],pings=[],nextRip=0,nextPing=0,ptr=null;
+  var LV=8,FILL=[],bk=[];for(var l=0;l<LV;l++){FILL.push("rgba(255,214,150,"+(.1+.9*l/(LV-1)).toFixed(2)+")");bk.push([]);}
+  function fit(){
+    var w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return false;
+    R=Math.min(window.devicePixelRatio||1,2);
+    if(cv.width!==Math.round(w*R)||cv.height!==Math.round(h*R)){cv.width=Math.round(w*R);cv.height=Math.round(h*R);}
+    W=w;H=h;var pad=Math.min(14,h*.06);S=Math.min((W-2*pad)/11.9,(H-2*pad)/9.9);
+    OX=getComputedStyle(cv).position==="absolute"?W-11.9*S-pad*2:(W-11.9*S)/2;OY=(H-9.9*S)/2;return true;
+  }
+  function draw(now){
+    if(!W&&!fit())return;
+    var t=now/1000,dot=Math.max(1.3,Math.min(2.1,S*.065)),br=.92+.08*Math.sin(t*1.1);
+    ctx.setTransform(R,0,0,R,0,0);ctx.clearRect(0,0,W,H);
+    var k;
+    rips=rips.filter(function(q){return now-q.t<2800;});pings=pings.filter(function(q){return now-q.t<1700;});
+    var rr=rips.map(function(q){var ag=(now-q.t)/2800;return{x:q.x,y:q.y,r:ag*7,a:1-ag};});
+    var pp=pings.map(function(q){return{x:q.x,y:q.y,g:(now-q.t)/1700};});
+    for(k=0;k<LV;k++)bk[k].length=0;
+    for(var i=0;i<N;i++){
+      var a=B[i]*(.38+.62*(.5+.5*Math.sin(t*SP[i]+PH[i])))*br;
+      for(k=0;k<rr.length;k++){var dx=X[i]-rr[k].x,dy=Y[i]-rr[k].y,dd=Math.abs(Math.sqrt(dx*dx+dy*dy)-rr[k].r);if(dd<.3)a+=.65*rr[k].a*(1-dd/.3);}
+      for(k=0;k<pp.length;k++){var ex=X[i]-pp[k].x,ey=Y[i]-pp[k].y,e2=ex*ex+ey*ey;if(e2<.36)a+=.9*(1-pp[k].g)*(1-Math.sqrt(e2)/.6);}
+      if(ptr){var qx=OX+X[i]*S-ptr.x,qy=OY+Y[i]*S-ptr.y,q2=qx*qx+qy*qy;if(q2<3600)a+=.8*(1-Math.sqrt(q2)/60);}
+      var lv=Math.floor(a*LV);bk[lv<0?0:lv>=LV?LV-1:lv].push(i);
+    }
+    for(var b=0;b<LV;b++){
+      var arr=bk[b],sz=b>=LV-2?dot*1.45:dot;ctx.fillStyle=FILL[b];
+      for(var j=0;j<arr.length;j++){var n=arr[j];ctx.fillRect(OX+X[n]*S-sz/2,OY+Y[n]*S-sz/2,sz,sz);}
+    }
+    for(k=0;k<pp.length;k++){
+      var cx=OX+pp[k].x*S,cy=OY+pp[k].y*S;
+      ctx.strokeStyle="rgba(255,226,170,"+(.75*(1-pp[k].g)).toFixed(3)+")";ctx.lineWidth=1.4;
+      ctx.beginPath();ctx.arc(cx,cy,3+pp[k].g*S*1.1,0,6.283);ctx.stroke();
+    }
+  }
+  function frame(now){
+    raf=requestAnimationFrame(frame);
+    if(now-last<32)return;last=now;
+    if(now>nextRip){var m=(Math.random()*N)|0;rips.push({x:X[m],y:Y[m],t:now});nextRip=now+3200+Math.random()*1800;}
+    if(now>nextPing){var p=(Math.random()*N)|0;pings.push({x:X[p],y:Y[p],t:now});nextPing=now+550+Math.random()*700;}
+    draw(now);
+  }
+  function start(){if(raf||RM)return;last=0;raf=requestAnimationFrame(frame);}
+  function stop(){if(raf){cancelAnimationFrame(raf);raf=0;}}
+  function still(){if(fit()){draw(0);}}
+  function go(){if(!fit())return;card.classList.add("live");if(RM)draw(0);else start();}
+  if(window.IntersectionObserver){
+    new IntersectionObserver(function(es){if(es[0].isIntersecting)go();else stop();},{threshold:.01}).observe(cv);
+  }else go();
+  window.addEventListener("resize",function(){W=0;if(RM)still();});
+  card.addEventListener("pointermove",function(ev){if(ev.pointerType==="touch"||RM)return;var r=cv.getBoundingClientRect();ptr={x:ev.clientX-r.left,y:ev.clientY-r.top};});
+  card.addEventListener("pointerleave",function(){ptr=null;});
+  card.addEventListener("pointerdown",function(ev){
+    if(RM||!W)return;var r=cv.getBoundingClientRect();
+    rips.push({x:(ev.clientX-r.left-OX)/S,y:(ev.clientY-r.top-OY)/S,t:performance.now()});
+  });
+  }catch(e){}
+})();
+</script>
 
 </body></html>

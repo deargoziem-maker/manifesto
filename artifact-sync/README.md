@@ -20,23 +20,28 @@ over it. This folder is what keeps the two from drifting apart unnoticed.
 applied, so the next merge always starts from the right place. `artifact-sync/` is in `.vercelignore`,
 so none of this is served on the live site.
 
-## What the repo has that the artifact does not (as of artifact `1792854145-cae8`)
+## Where the repo and the artifact stand (artifact `1794151043-8acf`, 2026-11-08)
 
-Do not copy the artifact over `index.html`; these would be lost.
+On 2026-11-08 the artifact was updated to match the live site, so the game, the home screen, the ballot page and
+every layout fix now exist in both places. What the artifact deliberately does **not** have is the analytics and
+the public-site wrapper. Do not copy the artifact over `index.html`; these would be lost.
 
-| Repo-only | Why |
+| Repo only | Why it stays out of the artifact |
 |---|---|
-| Page title, description, canonical, link-preview and social tags in `<head>` | Share cards and search |
-| Meta Pixel, the `mpx()` allow-list, and the script that hides `c=`, `g=` and `at=` from the URL | Advertising, and keeping results and a voter's place out of what the pixel sees |
-| `/api/track` calls and `CONTENT_VERSION` | Anonymous analytics; bump the version when outcomes could change |
-| The `play()` no-card guard | A fast second press on a Continue screen threw with the controls locked |
-| Home ballot card as a live canvas map (`#wayMap`, baked ward points), pulsing button, phone cards sized to content | Home screen |
-| Ballot page: map as the centrepiece, State / Local government / Party menus (`blStateSel`, `blLgSel`, `blPartySel`), phone map height from padding, load and retry states (`blRetry`), `at=` kept out of the address bar (`BL.at`) | Ballot page |
-| In-game notices ("The street is turning", "Purse - Capital flight") sit below the bars on phones and laptops, never over them | Game screen: the bars must stay visible so you can see what your choice did |
-| "This happened in Nigeria" notes (`offerHist` / `hideHist`, `#gHistBtn`): offered on the question they belong to, closed until tapped, and gone the moment an answer is chosen. No hold, no extra tap, and it can never appear under the next question | The note belongs to its own question |
-| `ballot.json`, `art/ballot_map.webp`, `art/end_bad.webp`, `art/end_good.webp` in the repo | The artifact publishes them as files; the repo has to hold copies |
+| Page title, description, canonical, link-preview and social tags in `<head>` | Share cards and search belong to the public site |
+| Meta Pixel, the `mpx()` allow-list, and the script that hides `c=`, `g=` and `at=` from the URL | The pixel would fire from inside the artifact viewer and pollute the ad data; the artifact page has no such URL to hide |
+| `/api/track` calls, `CONTENT_VERSION`, `beginCompass()` and the other `evt()` / `track()` hooks | Anonymous analytics only make sense on the live site |
+| Any product-analytics block above `boot` (wraps `evt`, `enter`, `play`, `endGame`, `kqCommit`, `readInvite`) | Same. If the artifact renames one of those functions, update the block or that event stops |
 
-If a new repo-only feature is added, add a distinctive string from it to `LOCAL_MARKERS.txt` and a row here.
+Everything else is in both. These are guarded by `LOCAL_MARKERS.txt` so an artifact-side edit cannot silently drop them:
+the `play()` no-card guard; the live home ballot map (`#wayMap`); the ballot page with its State / Local government /
+Party menus (`blStateSel`, `blLgSel`, `blPartySel`), load and retry states (`blRetry`), phone map height from padding and
+`at=` kept out of the address bar (`BL.at`); in-game notices that sit below the bars (`#view-play .shift`, phones and
+laptops); and the "This happened in Nigeria" note offered on its own question (`offerHist` / `hideHist`, `#gHistBtn`).
+
+Images and data (`ballot.json`, `art/*`) are published files of the artifact and copies in the repo; keep both in step.
+
+If a new repo-only feature is added, add a distinctive string from it to `LOCAL_MARKERS.txt` and a row above.
 
 ## Getting repo-only work back into the artifact
 
