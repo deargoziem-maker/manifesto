@@ -20,7 +20,7 @@ over it. This folder is what keeps the two from drifting apart unnoticed.
 applied, so the next merge always starts from the right place. `artifact-sync/` is in `.vercelignore`,
 so none of this is served on the live site.
 
-## Where the repo and the artifact stand (artifact `1794151043-8acf`, 2026-11-08)
+## Where the repo and the artifact stand (artifact `1794232580-a024`, 2026-11-09)
 
 On 2026-11-08 the artifact was updated to match the live site, so the game, the home screen, the ballot page and
 every layout fix now exist in both places. What the artifact deliberately does **not** have is the analytics and
@@ -32,10 +32,11 @@ the public-site wrapper. Do not copy the artifact over `index.html`; these would
 | Meta Pixel, the `mpx()` allow-list, and the script that hides `c=`, `g=` and `at=` from the URL | The pixel would fire from inside the artifact viewer and pollute the ad data; the artifact page has no such URL to hide |
 | `/api/track` calls, `CONTENT_VERSION`, `beginCompass()` and the other `evt()` / `track()` hooks | Anonymous analytics only make sense on the live site |
 | Source capture (`window.__IFY_SRC`, sent with `participant_seen`) and the pixel's `autoConfig` off switch | Ad-source tracking; keeps button text (quiz answers) out of Meta |
+| "Play with friends" (the artifact's group games and Cabinet night) is hidden until `/api/room` answers | It calls `/api/room` and `/api/group`, which this repo does not have yet; without them Cabinet night can only fail. Delete the guard just above `boot` once they exist |
 | The product-analytics block above `boot` (wraps `evt`, `enter`, `play`, `endGame`, `kqCommit`, `kqRender`, `readInvite`; watches `#gSays` and `#gFlagBox`) | Same. If the artifact renames one of those functions, update the block or that event stops |
 
 Everything else is in both. These are guarded by `LOCAL_MARKERS.txt` so an artifact-side edit cannot silently drop them:
-the `play()` no-card guard; the live home ballot map (`#wayMap`); the ballot page with its State / Local government /
+the `play()` no-card guard; the "Play with friends" hide-until-`/api/room` guard; the live home ballot map (`#wayMap`); the ballot page with its State / Local government /
 Party menus (`blStateSel`, `blLgSel`, `blPartySel`), load and retry states (`blRetry`), phone map height from padding and
 `at=` kept out of the address bar (`BL.at`); in-game notices that sit below the bars (`#view-play .shift`, phones and
 laptops); and the "This happened in Nigeria" note offered on its own question (`offerHist` / `hideHist`, `#gHistBtn`).

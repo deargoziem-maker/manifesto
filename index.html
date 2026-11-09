@@ -1002,6 +1002,104 @@ tr:last-child td{border-bottom:0;}
   border-bottom:1px solid var(--hair);}
 .feed-why:hover,.feed-why[aria-expanded="true"]{color:var(--ink);border-color:var(--danfo);}
 .fmsgs{display:grid;gap:7px;}
+.ftrend{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:0 0 9px;padding:7px 10px;
+  border-radius:8px;background:color-mix(in srgb,var(--palm) 10%,transparent);animation:feedIn .38s ease forwards;}
+.ftrend[hidden]{display:none;}
+/* ---------- playing together ---------- */
+.together{margin-top:18px;max-width:640px;}
+.tg-toggle{font:inherit;font-size:.92rem;font-weight:600;color:var(--ink-2);background:none;border:0;padding:4px 0;cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--hair);}
+.tg-toggle:hover{color:var(--ink);}
+.tg-toggle span{display:inline-block;transition:transform .2s;}
+.together.open .tg-toggle span{transform:rotate(180deg);}
+.tg-body{margin-top:12px;}
+.tg-body[hidden]{display:none;}
+.tg-invite{font-size:var(--s-0);margin:0 0 12px;}
+.tg-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media (max-width:560px){.tg-opts{grid-template-columns:1fr;}}
+.tg-opt{text-align:left;background:var(--stock);border:1px solid var(--hair);border-radius:10px;padding:13px 14px;cursor:pointer;
+  font:inherit;color:var(--ink);display:grid;gap:5px;transition:border-color .15s,transform .07s;}
+.tg-opt:hover{border-color:var(--ink-3);}
+.tg-opt.on{border-color:var(--palm);box-shadow:0 0 0 1px var(--palm) inset;}
+.tg-opt b{font-family:"Bricolage Grotesque",sans-serif;font-size:1.02rem;}
+.tg-opt span{font-size:.86rem;color:var(--ink-2);line-height:1.4;}
+.tg-join{margin-top:12px;display:grid;gap:6px;}
+.tg-join[hidden]{display:none;}
+#tgCode{flex:0 1 120px;text-transform:uppercase;letter-spacing:.2em;font-weight:700;}
+.tg-form,.tg-share{margin-top:14px;display:grid;gap:8px;}
+.tg-row{display:flex;gap:8px;flex-wrap:wrap;}
+.tg-row input{flex:1 1 180px;min-width:0;font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--hair);border-radius:8px;background:var(--stock);color:var(--ink);}
+.tg-err{color:var(--laterite-text);font-size:.88rem;margin:0;}
+.tg-link{font-family:"IBM Plex Mono",monospace;font-size:.8rem;padding:9px 11px;border-radius:8px;background:var(--stock-2);word-break:break-all;}
+.tg-share p{margin:0;}
+/* the room */
+.cab-ov{position:fixed;inset:0;z-index:9000;background:var(--paper);overflow:auto;-webkit-overflow-scrolling:touch;}
+.cab-in{max-width:560px;margin:0 auto;padding:28px 16px 48px;display:grid;gap:12px;}
+.cab-h{font-family:"Bricolage Grotesque",sans-serif;font-size:var(--s-2);line-height:1.1;margin:0;}
+.cab-p{margin:0;color:var(--ink-2);}
+.cab-code{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(3rem,14vw,5.2rem);letter-spacing:.12em;line-height:1;
+  padding:14px 0;text-align:center;border:1px dashed var(--ink-3);border-radius:12px;background:var(--stock);}
+.cab-sub{margin-top:6px;}
+.cab-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;}
+.cab-list li{padding:6px 11px;border-radius:999px;background:var(--stock);border:1px solid var(--hair);font-weight:600;}
+.cab-list li.me{border-color:var(--palm);}
+.cab-list li.empty{font-weight:400;color:var(--ink-3);border-style:dashed;}
+.cab-note{margin:0;font-size:.88rem;color:var(--ink-3);}
+.cab-seat{display:grid;gap:7px;padding:12px;border-radius:10px;background:var(--stock);border:1px solid var(--hair);}
+.cab-bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;font-size:.88rem;}
+.cab-bar i{display:block;height:7px;border-radius:4px;background:var(--palm);min-width:2px;}
+.cab-bar em{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.78rem;}
+.cab-secret{justify-self:start;font:inherit;font-size:.82rem;font-weight:700;background:none;border:1px solid var(--ink-3);border-radius:999px;padding:5px 11px;color:var(--ink);cursor:pointer;}
+.cab-agenda{margin:0;padding:9px 11px;border-radius:8px;background:var(--elu);color:var(--on-elu);font-size:.92rem;}
+.cab-card{padding:14px;border-radius:10px;background:var(--stock);border:1px solid var(--hair);}
+.cab-card .who{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);}
+.cab-card .says{margin:6px 0 0;font-size:1.02rem;line-height:1.45;}
+.cab-opts{display:grid;gap:8px;}
+.cab-opt{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;text-align:left;font:inherit;color:var(--ink);background:var(--stock);
+  border:1px solid var(--hair);border-radius:10px;padding:12px;cursor:pointer;}
+.cab-opt .ab{grid-row:span 3;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--stock-2);}
+.cab-opt.on{border-color:var(--palm);box-shadow:0 0 0 2px var(--palm) inset;}
+.cab-opt.on .ab{background:var(--palm);color:#fff;}
+.cab-opt .t{font-weight:600;}
+.stk{font-size:.8rem;color:var(--ink-3);}
+.stk.up{color:var(--palm-text);} .stk.dn{color:var(--laterite-text);}
+.vw{font-size:.78rem;color:var(--ink-2);}
+.cab-last{margin:0;padding:9px 11px;border-left:3px solid var(--bronze);background:var(--stock);}
+.cab-big{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:var(--s-1);margin:0;}
+.cab-big.won{color:var(--palm-text);} .cab-big.lost{color:var(--laterite-text);}
+.cab-reveal{display:grid;gap:8px;margin-top:14px;}
+.cab-rv{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
+.cab-rv li{padding:11px 12px;border-radius:10px;background:var(--stock);border:1px solid var(--hair);border-left:4px solid var(--laterite);}
+.cab-rv li.won{border-left-color:var(--palm);}
+.cab-rv li.sab{background:color-mix(in srgb,var(--laterite) 9%,var(--stock));}
+.cab-rv li span{color:var(--ink-3);font-size:.85rem;}
+.cab-rv li p{margin:4px 0;font-size:.92rem;}
+.cab-rv li i{font-style:normal;font-size:.8rem;color:var(--ink-3);}
+.cab-tally{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px;}
+.cab-tally[hidden]{display:none;}
+.cab-tally .lab{flex-basis:100%;}
+.cab-chip{font-size:.8rem;padding:4px 9px;border-radius:999px;border:1px dashed var(--hair);color:var(--ink-3);}
+.cab-chip.in{border-style:solid;border-color:var(--ink-3);color:var(--ink);}
+.cab-chip i{font-style:normal;font-weight:800;}
+.cab-chip i.wait{font-weight:400;}
+.g-choice{position:relative;}
+.g-choice .cv{position:absolute;top:-7px;right:-7px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--elu);color:var(--on-elu);
+  font-size:.78rem;font-weight:800;display:grid;place-items:center;}
+.g-choice .cv[hidden]{display:none;}
+.grp-board{display:grid;gap:8px;margin:18px 0;}
+.grp-rows{list-style:none;margin:0;padding:0;display:grid;gap:7px;}
+.grp-rows li{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:10px 12px;border-radius:10px;background:var(--stock);border:1px solid var(--hair);}
+.grp-rows li.me{border-color:var(--palm);}
+.grp-n{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.2rem;}
+.grp-rows p{margin:2px 0;font-size:.92rem;}
+.grp-rows em{font-size:.86rem;color:var(--bronze-text);}
+.grp-m{font-size:.8rem;color:var(--ink-3);}
+body.cab-on{overflow:hidden;}
+
+.ftrend.hot{background:color-mix(in srgb,var(--laterite) 11%,transparent);}
+.ftrend span{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);flex-basis:100%;}
+.ftrend b{font-size:.98rem;font-weight:700;color:var(--ink);}
+.ftrend i{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.62rem;color:var(--ink-3);}
 .fmsg{display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px;align-items:start;
   opacity:0;transform:translateY(5px);animation:feedIn .38s ease forwards;}
 .fmsg:nth-child(2){animation-delay:.18s;}
@@ -1691,6 +1789,60 @@ body.onhome .mast{background:#0E1420;border-bottom-color:transparent;}
 .kq-legend b{display:block;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);}
 .kq-legend span{font-size:.94rem;}
 .kq-hero-cl svg .kq-cell.dyed{animation:kqDye .45s ease both;}
+/*kqi*/
+/* ---------- the quiz's front door ---------- */
+.kq-intro{max-width:880px;margin:0 auto;padding:6px 0 30px;}
+.kq-intro[hidden]{display:none;}
+.kq-intro .gate-title{max-width:20ch;}
+.kq-intro .gate-sub{max-width:62ch;}
+.kqi-wall{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px 10px;margin:26px 0 6px;}
+.kqi-f{display:grid;justify-items:center;gap:3px;background:none;border:0;padding:0;color:var(--ink);font:inherit;text-align:center;
+  opacity:0;animation:kqiIn .5s ease forwards;}
+.kqi-f:nth-child(2){animation-delay:.05s}.kqi-f:nth-child(3){animation-delay:.1s}.kqi-f:nth-child(4){animation-delay:.15s}.kqi-f:nth-child(5){animation-delay:.2s}
+.kqi-f:nth-child(6){animation-delay:.25s}.kqi-f:nth-child(7){animation-delay:.3s}.kqi-f:nth-child(8){animation-delay:.35s}.kqi-f:nth-child(9){animation-delay:.4s}.kqi-f:nth-child(10){animation-delay:.45s}.kqi-f:nth-child(11){animation-delay:.5s}.kqi-f:nth-child(12){animation-delay:.55s}
+@keyframes kqiIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kqi-ph{position:relative;width:min(100%,104px);aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--elu);
+  box-shadow:0 0 0 2px var(--paper),0 0 0 3px var(--hair);transition:box-shadow .25s,transform .25s;}
+.kqi-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:filter .3s ease;}
+.kqi-ph i{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;color:var(--on-elu);z-index:-0;}
+.kqi-ph img{z-index:1;}
+.kqi-f b{font-family:"Bricolage Grotesque",sans-serif;font-size:.86rem;line-height:1.15;margin-top:5px;}
+.kqi-f em{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);}
+.kqi-f{outline:none;}
+.kqi-f:hover .kqi-ph,.kqi-f:focus .kqi-ph,.kqi-f:active .kqi-ph{box-shadow:0 0 0 2px var(--paper),0 0 0 5px var(--danfo);transform:scale(1.14);position:relative;z-index:2;}
+.kqi-f:hover .kqi-ph img,.kqi-f:focus .kqi-ph img,.kqi-f:active .kqi-ph img{filter:none;}
+.kqi-f{position:relative;}
+.kqi-f:hover,.kqi-f:focus{z-index:2;}
+.kqi-f.on em{color:var(--bronze-text);}
+.kqi-q{margin:16px auto 0;max-width:640px;text-align:center;min-height:7.2em;}
+.kqi-q blockquote.arg{font-style:italic;}
+.kqi-q blockquote{margin:0;font-family:"Literata",Georgia,serif;font-size:clamp(1.08rem,1rem + .6vw,1.4rem);line-height:1.4;}
+.kqi-q figcaption{margin-top:8px;font-size:.86rem;color:var(--ink-2);}
+.kqi-q figcaption span{display:block;font-size:.76rem;color:var(--ink-3);}
+.kqi-q.in{animation:kqiIn .45s ease both;}
+.kqi-how{display:grid;grid-template-columns:minmax(140px,240px) minmax(0,1fr);gap:26px;align-items:center;}
+.kqi-cl{display:grid;gap:8px;justify-items:center;}
+.kqi-cl svg{width:100%;height:auto;display:block;box-shadow:0 10px 30px rgba(10,14,22,.25);}
+.kqi-cl svg .kq-cell.dyed{animation:kqDye .45s ease both;}
+.kqi-cl .lab{text-align:center;}
+.kqi-steps{margin:0;padding:0;list-style:none;counter-reset:k;display:grid;gap:14px;}
+.kqi-steps li{counter-increment:k;display:grid;grid-template-columns:34px 1fr;gap:4px 12px;color:var(--ink-2);line-height:1.45;}
+.kqi-steps li::before{content:counter(k);grid-row:span 2;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:800;background:var(--elu);color:var(--on-elu);}
+.kqi-steps b{color:var(--ink);display:block;}
+.kqi-diff{margin:26px 0 0;padding:12px 14px;border-left:3px solid var(--danfo);background:var(--stock);font-size:.95rem;}
+.kq-intro .cta{margin-top:20px;}
+.kq-intro .kqi-top{justify-content:center;align-items:center;flex-direction:column;gap:10px;margin:26px 0 4px;}
+.kqi-meta{text-align:center;}
+@media (max-width:640px){
+  .kqi-wall{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 6px;}
+  .kqi-f b{font-size:.72rem;}
+  .kqi-f em{display:none;}
+  .kqi-how{grid-template-columns:1fr;gap:18px;}
+  .kqi-cl{max-width:210px;margin:0 auto;}
+}
+@media (prefers-reduced-motion:reduce){.kqi-f,.kqi-q.in{animation:none;opacity:1;}}
+
 @media (max-width:640px){.kq-hero{grid-template-columns:1fr;gap:16px;}.kq-hero-cl{max-width:220px;}}
 @media (prefers-reduced-motion:reduce){.kq-hero-cl svg .kq-cell.dyed,.kq-scene img,.kq-swatch.pulse{animation:none;}}
 #view-result #aname{display:none;}
@@ -2012,7 +2164,7 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
       <div class="kq-hero-t">
         <span class="lab" id="kqHeroN"></span>
         <h1 id="aname2"></h1>
-        <p class="kq-hero-p">Your cloth, woven from your answers. Each band is one of the seven arguments Nigeria keeps having.</p>
+        <p class="kq-hero-p">Your cloth, woven from your answers. Each band is one of the seven arguments Nigeria keeps having, and each square is one question. The border belongs to your tradition, the depth of the indigo is how firmly you hold your views, and the hand is yours alone: no two cloths are dyed the same.</p>
         <ul class="kq-legend" id="kqLegend"></ul>
         <button type="button" class="btn ghost sm" id="kqDeep">Seven more questions to finish your cloth</button>
       </div>
@@ -2242,6 +2394,7 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
       </div>
       <div class="feed" id="gFeed" hidden aria-live="polite">
         <div class="feed-h"><span class="clab">The country</span><button class="feed-why" id="gWhyBtn" aria-expanded="false" aria-controls="gWhy" hidden>Why?</button></div>
+        <div class="ftrend" id="gTrend" hidden><span>Trending in Nigeria</span><b></b><i></i></div>
         <div class="fmsgs" id="gFeedMsgs"></div>
         <p class="fwhy" id="gWhy" hidden></p>
       </div>
@@ -2367,7 +2520,7 @@ body.onballot .mast{background:#0E1420;border-bottom-color:transparent;}
 <footer class="site">
   <div class="wrap">
     <span>If Na You · ifnayou.com</span>
-    <span class="mono"><a href="#" data-go="ballot">The ballot</a> · <a href="#" data-go="about">Why this exists</a></span>
+    <span class="mono"><a href="#" data-go="about">Why this exists</a></span>
   </div>
 </footer>
 
@@ -2385,7 +2538,7 @@ var $=function(i){return document.getElementById(i);};
    or the President deck/values. Date-based, not semver: ships aren't
    backward compatible with each other in a way that makes semver meaningful
    here, and the date is what you'd want to know anyway. */
-var CONTENT_VERSION="2026-10-24.2";
+var CONTENT_VERSION="2026-11-09.1";
 function uuid(){
   if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
@@ -4369,13 +4522,13 @@ var LS_BAG="ifnayou.openingsSeen";
 function pickOpening(){
   var seen=[],last=null;
   try{seen=JSON.parse(localStorage.getItem(LS_BAG)||"[]");last=localStorage.getItem(LS_OPEN);}catch(e){seen=[];}
-  var pool=OPENINGS.filter(function(o){return seen.indexOf(o.l.f)<0;});
+  var pool=G.seed!==undefined?OPENINGS.slice():OPENINGS.filter(function(o){return seen.indexOf(o.l.f)<0;});
   if(!pool.length){seen=[];pool=OPENINGS.filter(function(o){return o.l.f!==last;});}
-  var o=pool[Math.floor(Math.random()*pool.length)];
+  var o=pool[Math.floor(grand()*pool.length)];
   seen.push(o.l.f);
   try{localStorage.setItem(LS_BAG,JSON.stringify(seen));localStorage.setItem(LS_OPEN,o.l.f);}catch(e){}
   /* the price-of-power storyline no longer opens on the same turn every time */
-  STORY_CARDS[0].at=2+Math.floor(Math.random()*9);
+  STORY_CARDS[0].at=2+Math.floor(grand()*9);
   return o;
 }
 /* each first morning comes back */
@@ -4520,7 +4673,7 @@ function pickLine(k,dir){
 }
 function pickHandle(taken){
   var free=HANDLES.filter(function(h){return taken.indexOf(h)<0;});
-  return free[Math.floor(Math.random()*free.length)];
+  return free[Math.floor(grand()*free.length)];
 }
 function feedFor(ch){
   if(!G.live)return;
@@ -4540,7 +4693,15 @@ function feedFor(ch){
     msgs=[{h:"Your Chief of Staff",t:"Your Excellency, the Senate and the governors are already talking to the people who want your job. Their support will cost more every month from now on.",c:"warn"}];
   }
   (ch.fd||[]).forEach(function(m){taken.push(m[0]);msgs.push({h:m[0],t:m[1],c:""});});
-  /* then the measures this decision moved furthest, in the voices of people living it */
+  /* then what the country is saying about this decision: its subject, the way the public
+     took it, and the tag it is trending under */
+  var cc=G.curCard,trend=null;
+  if(cc&&(cc.l===ch||cc.r===ch||cc.c===ch)&&typeof topicPosts==="function"){
+    var tpp=topicPosts(cc,ch,taken);trend=tpp.trend;
+    tpp.posts.forEach(function(p){if(msgs.length<3)msgs.push(p);});
+  }
+  if(!trend){
+  /* failing that, the measures this decision moved furthest, in the voices of people living it */
   var moved=[];
   for(var k in (ch.v||{}))if(FEED[k]&&Math.abs(ch.v[k])>=5)moved.push({k:k,d:ch.v[k]});
   moved.sort(function(a,b){return Math.abs(b.d)-Math.abs(a.d);});
@@ -4556,6 +4717,10 @@ function feedFor(ch){
     var pick=(G.v[lo.k]-lo.s<=-(G.v[hi.k]-hi.s))?{k:lo.k,dir:"dn"}:{k:hi.k,dir:"up"};
     msgs.push({h:pickHandle(taken),t:pickLine(pick.k,pick.dir),c:pick.dir});
   }
+  }
+  var tr=$("gTrend");
+  if(tr){ if(trend){tr.querySelector("b").textContent=trend.tag;tr.querySelector("i").textContent=trend.n;
+      tr.classList.toggle("hot",!!trend.hot);tr.hidden=false;} else tr.hidden=true; }
   var box=$("gFeedMsgs");
   box.innerHTML=msgs.slice(0,3).map(function(m){
     return '<div class="fmsg '+m.c+'"><i aria-hidden="true"></i><div><b></b><p></p></div></div>';
@@ -4682,7 +4847,7 @@ blocMove=(function(orig){
   return function(k,raw){
     var d=orig(k,raw);
     if(!G||!G.live)return d;
-    var noise=1+(Math.random()*2-1)*PRESSURE.spread;
+    var noise=1+(grand()*2-1)*PRESSURE.spread;
     var stake=(G.term>=2?PRESSURE.term2:1);
     return Math.max(-30,Math.min(30,d*noise*stake));
   };
@@ -4781,7 +4946,7 @@ function campStart(){
   ZONES.forEach(function(z){G.camp.z[z.k]=0;G.camp.local[z.k]=rnd(4);});
   /* every opposition has strongholds: two neighbouring zones where its candidate is from
      or where its machine is strongest. Which two is drawn fresh for every presidency. */
-  var hi=Math.floor(Math.random()*ZONES.length);
+  var hi=Math.floor(grand()*ZONES.length);
   G.camp.hi=hi;
   G.camp.home[ZONES[hi].k]=1;G.camp.home[ZONES[(hi+1)%ZONES.length].k]=1;
   G.elecHome=[ZONES[hi].n,ZONES[(hi+1)%ZONES.length].n];
@@ -4852,14 +5017,14 @@ function campPlay(side){
   G.camp.step++;
   setTimeout(G.camp.step<CAMP.length?dealCamp:campResolve,800);
 }
-function rnd(a){return (Math.random()*2-1)*a;}
+function rnd(a){return (grand()*2-1)*a;}
 function zoneMemory(){
   var m={};ZONES.forEach(function(z){m[z.k]=0;});
   ZONE_MEMORY.forEach(function(x){ if(G.flags[x[0]])m[x[1]]+=x[2]; });
   return m;
 }
 function campResolve(){
-  var united=Math.random()<uniteNow(),est=zoneEstimate(),home=G.camp.home,hi=G.camp.hi;
+  var united=grand()<uniteNow(),est=zoneEstimate(),home=G.camp.home,hi=G.camp.hi;
   /* when the opposition unites, its candidate holds most of the vote against you; when it
      splits, a third candidate takes a real share, and you can win with less */
   var rivalCut=united?0.76:0.6;
@@ -5303,7 +5468,7 @@ function planYear(n,first){
   var pool=eligible().filter(function(i){var c=DECK[i];return !c.req&&!c.now&&c.at===undefined;});
   var mean=0;KEYS.forEach(function(k){mean+=(G.gn[k]||0);});mean/=KEYS.length;
   var scored=pool.map(function(i){var ak=DECK[i].l.ax?Object.keys(DECK[i].l.ax)[0]:null;
-    return {i:i,n:(ak?(G.gn[ak]||0):mean)+Math.random()*0.9};}).sort(function(a,b){return a.n-b.n;});
+    return {i:i,n:(ak?(G.gn[ak]||0):mean)+grand()*0.9};}).sort(function(a,b){return a.n-b.n;});
   var out=[],axes={};
   for(var j=0;j<scored.length&&out.length<n;j++){
     var c=DECK[scored[j].i],ak=c.l.ax?Object.keys(c.l.ax)[0]:"_"+j;
@@ -5539,6 +5704,238 @@ var NEW_CARDS=[
   r:{t:"Keep the rules as they are",m:{purse:8},v:{pro:5,sov:-6},ax:{horizon:1}}}
 ];
 Array.prototype.push.apply(DECK,NEW_CARDS);
+var TPMAP={"Nigeria cannot afford cheap petrol and e": "fuel", "Protesters have blocked a major road for": "protest", "People in my state are being killed whil": "security", "Your government does not reach every com": "palace", "We can start this project within weeks i": "corrupt", "Our members cannot live on the current w": "wage", "The official exchange rate is far from t": "naira", "The allegations against your Minister ar": "corrupt", "The universities have been shut for nine": "edu", "The military has overthrown the governme": "security", "The court has ruled against your governm": "courts", "Cheap imports are undercutting Nigerian ": "food", "Electricity is being sold for less than ": "power", "We can finance your railway now, but our": "debt", "Debt payments are bigger than the revenu": "debt", "Our states generate this tax, but Abuja ": "states", "We have enough evidence to charge a gove": "corrupt", "The protests are spreading through messa": "protest", "No one in your cabinet is under 40. We w": "youth", "Local councils say governors hold back m": "states", "Women remain badly underrepresented in e": "women", "Your Finance Minister wants these expens": "oil", "Militants are attacking oil facilities a": "oil", "Open the market and some Nigerian factor": "trade", "Farmers and herders are clashing across ": "security", "The Finance Ministry cut our election bu": "vote", "This defence purchase is classified, and": "corrupt", "Millions of Nigerians abroad cannot vote": "vote", "An international oil company wants to se": "oil", "Millions of children are out of school, ": "edu", "Three billion dollars is available. The ": "debt", "A reporter has most of the contract file": "corrupt", "A major Nigerian factory says cheap impo": "trade", "Flood-relief money has disappeared in a ": "corrupt", "A Nigerian refinery wants imports restri": "fuel", "Salaried workers and big companies canno": "tax", "The group holding more than a hundred ca": "security", "This government company loses money ever": "trade", "Hospitals are losing doctors to better-p": "health", "The new expressway could transform the c": "build", "Food prices are rising fast. Cheaper imp": "food", "Some states want young children taught f": "edu", "We have CCTV footage of suspects from th": "police", "A foreign government is offering drones,": "security", "Three serving officers are discussing re": "security", "We do not have enough cash to meet every": "wage", "Twenty-two governors have met without yo": "states", "We are not going home. Come out and spea": "protest", "The Council feels ignored. A visit to So": "palace", "We want control of the ports and pipelin": "security", "Send the tax proposal back for consultat": "tax", "Nothing is moving — not the ports, not t": "wage", "Your ministers have shelved the tax bill": "tax", "Two formations refused to deploy. Their ": "security", "Salaries have not been paid. We can crea": "wage", "Some governors are talking openly about ": "states", "Oil revenue has fallen. We can stop capi": "debt", "The kidnappers have contacted an interme": "security", "Flooding has displaced people across our": "flood", "Your Excellency, we are spending far mor": "debt", "You remember the spending cuts? Teachers": "wage", "You remember the borrowing? Interest pay": "debt", "Your revenue reform bill is with us. My ": "nass", "You remember the tariff increase? Supply": "power", "You remember when you kept tariffs down?": "power", "You remember the subsidy? Transport fare": "fuel", "You remember when you kept the fuel subs": "fuel", "You remember the wage deal on your first": "wage", "You remember your first morning, when yo": "wage", "You remember the timetable you agreed on": "debt", "The budget is with us. Members want thei": "nass", "You remember the fuel arrears you paid o": "fuel", "You remember the review you ordered on y": "fuel", "You remember the reserve you released on": "fuel", "You remember the promise to defend the n": "naira", "The naira has settled since your first w": "naira", "You remember how you brought us in durin": "states", "You remember when we stayed away from yo": "states", "You remember the payments you froze on y": "corrupt", "You remember the contractors you paid on": "build", "The tribunal has upheld your election. T": "vote", "Your Excellency, your bills are dying in": "nass", "The Assembly has passed everything we se": "nass", "The budget has not passed. Until it does": "nass", "The Assembly no longer argues with anyth": "nass", "Digital lenders are giving millions of p": "tech", "Nigeria has not counted its people in al": "vote", "Fertiliser meant for farmers is going to": "food", "Several electricity distribution compani": "power", "Very few Nigerians have health insurance": "health", "Doctors trained at public expense are le": "japa", "We do not have enough police officers, a": "police", "Most of the people in our prisons have n": "courts", "Rents in the cities are rising faster th": "build", "A foreign state lender will build the ne": "build", "Millions of phone lines are still not li": "tech", "My colleagues want to pass a bill agains": "tech", "Thousands of people dig for gold without": "trade", "Ships wait weeks to unload and importers": "build", "Retired workers have gone months without": "wage", "Most of the money in the economy never p": "tech", "Oil companies are still burning off gas ": "oil", "The rains have flooded farmland and home": "flood", "Nigeria has no national airline, and our": "build", "The school feeding programme reaches mil": "corrupt", "The banks made record profits from the e": "tax", "A governor has removed a traditional rul": "palace", "Every time a junior officer is made a se": "security", "Factories cannot buy the dollars they ne": "naira", "My colleagues want new official cars and": "nass", "Thousands of kilometres of federal roads": "build", "Every year, graduates finish national se": "youth", "Foreign technology companies hold the pe": "tech", "Nurses, engineers and programmers are le": "japa", "Millions of young Nigerians trade crypto": "crypto", "Freelancers, content creators and remote": "tax", "Fees at the federal universities are ris": "edu", "Our films and music are watched across t": "culture", "Young people say officers stop them for ": "police", "Betting apps are on almost every young m": "betting", "The phone companies want to raise data p": "tech", "Our most successful start-ups register t": "tech", "You remember the power plant contract yo": "power", "You remember the contract you suspended ": "corrupt", "The grid that collapsed on your first mo": "power", "You remember the bank you rescued on you": "banks", "You remember the bank you let fail on yo": "banks", "The exam leak on your first morning was ": "edu", "The ministers the party gave you on your": "party", "You remember the experts you appointed o": "party", "The rains are coming again, and the town": "flood", "Your Excellency, the party is asking who": "party", "I retire next month. By custom the most ": "courts", "My board has suspended our new lending t": "debt", "The opposition wants to hold a national ": "protest", "My members can remove the limit altogeth": "party", "Foreign investors cannot take their prof": "naira", "A foreign consortium will build new powe": "debt", "Oil theft is draining the revenue. A pri": "oil", "After a series of attacks on military ba": "security", "Three opposition governors want to join ": "party", "The INEC Chairman's term ends this year,": "vote", "You remember approving the state police ": "police", "You remember sending money straight to t": "states", "You remember the programme you agreed wi": "debt", "Your Excellency, the party wants to know": "party", "You remember backing the reformer? She h": "corrupt", "You remember backing the loyalist? His p": "party", "The primaries are over and the field is ": "vote", "The cash transfer programme for the poor": "welfare", "Three opposition parties are close to ag": "party", "You remember matching the opposition's p": "fuel", "Your Excellency, we have a problem. The ": "wage", "Your Excellency, there are fuel queues i": "fuel", "Your Excellency, the naira fell sharply ": "naira", "Your Excellency, Governor Bassey Ekanem ": "states", "Your Excellency, the contractors are in ": "corrupt", "Your Excellency, the losing candidate ha": "vote", "Your Excellency, on its last day in offi": "corrupt", "Your Excellency, the national grid colla": "power", "Your Excellency, one of the big banks ca": "banks", "Your Excellency, the national school-lea": "edu", "Your Excellency, the party leaders who c": "party", "Your Excellency, flood waters are rising": "flood"};
+
+/* ---------- the young country: nine decisions about the lives of Nigerians under 35 ----------
+   Fictional speakers, no real figures, no statistics. Each side carries its own reaction (fd)
+   and its own trending tag (tg), so the feed answers the decision actually taken. */
+var YOUTH_CARDS=[
+ {w:"Minister of Labour",youth:1,tp:"japa",
+  s:"Nurses, engineers and programmers are leaving for jobs abroad faster than we can train them. We can charge foreign employers a fee for every skilled worker they recruit here, or make leaving easier and court the money they send home.",
+  l:{t:"Charge foreign recruiters a fee",m:{street:-8,purse:4},v:{sov:6,cap:3,pro:-3},ax:{horizon:-1},tg:"#JapaTax",
+     fd:[["@Lagos_TechBro","So instead of fixing the reasons we're leaving, they want to tax the exit. Wow."]]},
+  r:{t:"Make it easier to go, and court the money sent home",m:{street:8,palace:-4},v:{pro:5,cap:-4,sov:-3},ax:{horizon:1},tg:"#JapaWithBlessings",
+     fd:[["Dayo (Uni group chat)","Government said japa in peace. Who's applying with me?"]]}},
+ {w:"Director-General of the Securities Commission",youth:1,tp:"crypto",
+  s:"Millions of young Nigerians trade crypto on their phones, and some have lost everything to schemes that vanished overnight. We can bar the banks from serving crypto exchanges, or license the exchanges, supervise them and tax what they earn.",
+  l:{t:"Cut the exchanges off from the banks",m:{street:-10,purse:4,barracks:2},v:{int:3,pro:-6,sec:2},ax:{econ:1},tg:"#CryptoBan",
+     fd:[["@ChiomaCodes","They've banned the app, not the hustle. Everyone will just move to P2P."]]},
+  r:{t:"License them and tax them",m:{street:8,purse:-2},v:{pro:6,int:4,cap:2},ax:{econ:-1},tg:"#CryptoIsLegal",
+     fd:[["@FinanceWithFunmi","Licensing means rules, and rules mean someone to report the scammers to. About time."]]}},
+ {w:"Chair of the Revenue Service",youth:1,tp:"tax",
+  s:"Freelancers, content creators and remote workers earn in dollars from abroad, and very few of them pay any tax here. We can have the banks deduct tax as the money lands, or exempt online earnings below a set amount for five years and let the sector grow.",
+  l:{t:"Tax it as it lands",m:{street:-10,purse:6},v:{cap:6,int:4,pro:-5},ax:{econ:1},tg:"#TaxTheCreators",
+     fd:[["@SkitMaker_Ola","I pay for my own light, my own data, my own security. Now I'm paying for theirs too."]]},
+  r:{t:"Exempt them for five years",m:{street:10,purse:-4},v:{pro:7,cap:-3},ax:{econ:-1},tg:"#CreatorEconomy",
+     fd:[["Jide, Uber driver","My younger brother does design for a company in Canada. He says this decision just kept him in Nigeria."]]}},
+ {w:"Minister of Education",youth:1,tp:"edu",
+  s:"Fees at the federal universities are rising and many students are dropping out. We can lend to every student at scale and recover it from their salaries once they work, or keep fees low by funding the universities directly.",
+  l:{t:"Lend to every student",m:{street:6,purse:-4},v:{cap:6,pro:3,int:-2},ax:{econ:-1},tg:"#StudentLoans",
+     fd:[["@NaijaStudentsUpdate","A loan you repay from a job. Which job, sir? Still, it's better than dropping out."]]},
+  r:{t:"Fund the universities directly",m:{street:4,purse:-8,nass:4},v:{cap:4,pro:-3,coh:3},ax:{econ:1},tg:"#FundOurUniversities",
+     fd:[["Aisha, Class of 2019 group","If the money actually reaches the departments this time, fine. We have heard this before."]]}},
+ {w:"Minister of Culture and the Creative Economy",youth:1,tp:"culture",
+  s:"Our films and music are watched across the world, but the studios, the cinemas and the protection against piracy are all paid for by the artists themselves. A creative industries fund would change that. The Minister of Industry wants the same money to revive the textile mills.",
+  l:{t:"Fund film, music and games",m:{street:8,purse:-4,palace:-4},v:{pro:5,coh:5,sov:3},ax:{social:1},tg:"#FundNollywood",
+     fd:[["@AfroBeatsDaily","Government money for studios and anti-piracy. If they don't share it among their friends, this is big."]]},
+  r:{t:"Revive the textile mills",m:{street:-4,purse:6,gov:6},v:{pro:4,sov:4,coh:-2},ax:{social:-1},tg:"#BringBackTheMills",
+     fd:[["Emeka, Aba trader","Factories employ thousands. Music employs the ones who are already famous."]]}},
+ {w:"Inspector-General of Police",youth:1,tp:"police",
+  s:"Young people say officers stop them for carrying laptops and expensive phones, search the phones and demand money. My officers say it is how they catch internet fraudsters. You can ban phone searches without a warrant and put cameras on every officer, or keep the power to stop and search.",
+  l:{t:"Ban warrantless phone searches",m:{street:12,barracks:-6},v:{int:8,cap:3,sec:-3},ax:{security:1},tg:"#MyPhoneMyRights",
+     fd:[["@Tolu_Lagos","They can't just collect your phone and scroll anymore. Screenshot this before they reverse it."]]},
+  r:{t:"Keep the power to stop and search",m:{street:-12,barracks:6},v:{int:-6,sec:3},ax:{security:-1},tg:"#StopProfilingUs",
+     fd:[["@ChiomaCodes","So carrying a laptop is still evidence. Noted. I'll leave mine at home and work from where?"]]}},
+ {w:"Director-General of the Lottery Commission",youth:1,tp:"betting",
+  s:"Betting apps are on almost every young man's phone and many are losing their wages every week. We can ban betting adverts and cap how much anyone can stake in a day, or keep it legal, tax the companies hard and put the money into youth sport.",
+  l:{t:"Ban the adverts and cap the stakes",m:{street:-6,purse:-6,palace:6},v:{pro:2,coh:3,cap:2},ax:{social:-1},tg:"#BetSafe",
+     fd:[["Seun, Okada rider","Dem cap the stake? Na small small I dey play anyway. But my guy lost his rent last month, so maybe."]]},
+  r:{t:"Tax them and fund youth sport",m:{street:6,purse:4,palace:-6},v:{pro:3,cap:4,coh:-2},ax:{social:1},tg:"#TaxTheBetCompanies",
+     fd:[["@KanoGist","Football pitches paid for by the people who lose on football. Nigeria."]]}},
+ {w:"Minister of Communications",youth:1,tp:"tech",
+  s:"The phone companies want to raise data prices sharply. They say the old prices do not cover the networks they have to build. Young people say data is how they work, learn and earn. Approve the increase, or hold prices where they are.",
+  l:{t:"Approve the increase",m:{street:-12,purse:8},v:{cap:4,pro:-5},ax:{econ:-1},tg:"#DataPriceHike",
+     fd:[["@NaijaStudentsUpdate","My data finished in three days. I'm doing lectures on borrowed Wi-Fi now."]]},
+  r:{t:"Hold prices where they are",m:{street:10,purse:-8},v:{pro:3,cap:-5},ax:{econ:1},tg:"#DataIsLife",
+     fd:[["@Lagos_TechBro","Prices stay where they are. Now watch the network get slower every week."]]}},
+ {w:"Minister of Science and Technology",youth:1,tp:"tech",
+  s:"Our most successful start-ups register their companies abroad because the rules here are slow and getting dollars out is hard. We can give start-ups tax holidays and fast access to foreign currency, or spend the same money training a million young people in digital skills.",
+  l:{t:"Tax holidays and dollars for start-ups",m:{purse:8,street:-4},v:{pro:6,sov:-2,coh:-2},ax:{econ:-1},tg:"#StartupAct",
+     fd:[["@ChiomaCodes","Founders are happy. The rest of us are asking where our own tax holiday is."]]},
+  r:{t:"Train a million young people",m:{street:8,purse:-4},v:{cap:6,pro:3},ax:{econ:1},tg:"#OneMillionCoders",
+     fd:[["Dayo (Uni group chat)","Free training is good. Who is hiring us after it?"]]}}
+];
+Array.prototype.push.apply(DECK,YOUTH_CARDS);
+
+/* ---------- what the country is saying about the decision you just took ----------
+   Every card is read once for what it is about. The feed then speaks about that subject,
+   in the direction the public took the decision, with the tag it would trend under. */
+var YOUNG_HANDLES=["@Lagos_TechBro","@ChiomaCodes","Dayo (Uni group chat)","@NaijaStudentsUpdate",
+ "@FinanceWithFunmi","Jide, Uber driver","@AfroBeatsDaily","@SkitMaker_Ola","@IbadanHustler","Kemi, POS agent"];
+HANDLES.push.apply(HANDLES,YOUNG_HANDLES);
+var TOPICS=[
+ {k:"japa",re:/abroad for jobs|leaving for jobs|japa/i,
+  tags:{yes:["#Japa","#StayAndBuild"],no:["#JapaSzn","#ThisCountryNoGood"]},
+  yes:["Japa or stay, at least someone in Abuja is thinking about us.","Whatever you decide, the people leaving are the ones we need most."],
+  no:["Every week another send-off party. My whole department is in Canada.","Visa interview next month. Pray for me."]},
+ {k:"crypto",re:/crypto/i,tags:{yes:["#Crypto"],no:["#CryptoBan"]},
+  yes:["Finally clear rules. The scammers will have nowhere to hide.","My savings are in USDT and I can sleep tonight."],
+  no:["Na the young people they're targeting again.","P2P traders are laughing at this policy."]},
+ {k:"fuel",re:/fuel|subsid|petrol|refiner|filling station/i,
+  tags:{yes:["#FuelPrice","#FuelQueue"],no:["#FuelScarcity","#SubsidyRemoval"]},
+  yes:["Bought fuel at the normal price today. Make e last.","Okada fare didn't go up this week. Small mercy.","No queue at the filling station this morning. Strange."],
+  no:["Fuel don reach where person no fit buy again.","Queued at the filling station since 5am. Still no fuel.","Transport fare to work is now half my salary."]},
+ {k:"naira",re:/naira|exchange rate|dollars? |foreign currency|parallel market|float/i,
+  tags:{yes:["#Naira","#NairaRecovers"],no:["#NairaCrash","#DollarRate"]},
+  yes:["Naira gained small today. I'm screenshotting it.","Importers are saying prices might come down. We'll see."],
+  no:["Black market rate has jumped again. Who is feeling this?","Bought this phone last month. The same phone costs double today."]},
+ {k:"power",re:/electricit|grid|tariff|power plant|distribution compan/i,
+  tags:{yes:["#UpNEPA","#Light"],no:["#NoLight","#Blackout"]},
+  yes:["Light don stay all day. Who is this?","Turned off the generator for the first time this week."],
+  no:["Generator has been running all week. Fuel money don finish me.","Paid the new tariff and got four hours of light."]},
+ {k:"wage",re:/wage|strike|labour leader|unions|pension|salar|members/i,
+  tags:{yes:["#MinimumWage","#LabourWins"],no:["#NationwideStrike","#PayUs"]},
+  yes:["The strike is off. Markets open tomorrow.","Teachers are getting the new wage. My mum is happy."],
+  no:["Salary never reach. Strike starts Monday.","Banks are closed, ports are closed, nothing is moving."]},
+ {k:"tax",re:/\btax|revenue service|VAT|duties/i,
+  tags:{yes:["#TaxReform"],no:["#TooManyTaxes","#TaxTheRich"]},
+  yes:["If the big men pay too, I don't mind paying.","Tax that actually lands on the right people. Okay."],
+  no:["Another tax. What exactly are we getting for the last one?","They taxed the trader and left the senator."]},
+ {k:"debt",re:/lender|IMF|borrow|debt|loan from|tranche|financ/i,
+  tags:{yes:["#Economy"],no:["#DebtTrap","#WhoIsRunningNigeria"]},
+  yes:["At least we're not borrowing to pay salaries this time.","Investors are talking about Nigeria again."],
+  no:["So who exactly is running this country, us or the lenders?","Our grandchildren will be paying for this loan."]},
+ {k:"corrupt",re:/contract|allegation|evidence|audit|anti-graft|tender|disappeared|files/i,
+  tags:{yes:["#Accountability","#NoSacredCows"],no:["#CorruptionNaija","#SameOldStory"]},
+  yes:["So they can actually prosecute big men? Interesting.","They published the contract with the full price. First time I've seen that."],
+  no:["Same story, different contract. Who is surprised?","The rules are for small people, as usual."]},
+ {k:"police",re:/police|stop and search|detain|detention/i,
+  tags:{yes:["#PoliceReform"],no:["#PoliceBrutality","#StopProfilingUs"]},
+  yes:["Passed three checkpoints today and nobody asked for anything.","The police are actually accountable now? Let's see."],
+  no:["They stopped my brother again because of his phone.","If you look young and have a laptop, you're a suspect."]},
+ {k:"protest",re:/protest|blocked a major road|messaging apps|gate|rally|the net/i,
+  tags:{yes:["#TheyListened"],no:["#Protest","#LetUsSpeak"]},
+  yes:["The government came out to speak. That is how it should be.","No teargas this time. Respect."],
+  no:["They shut the internet so nobody would see what happened.","We have the right to gather. Write it down."]},
+ {k:"security",re:/kidnap|bandit|militant|attack|insurgen|captives|soldiers|military|drones|security force|armed|defence|coup|officers/i,
+  tags:{yes:["#Security","#RoadsAreSafe"],no:["#Insecurity","#SecureNigeria"]},
+  yes:["Drove to Kaduna yesterday. The road was calm for once.","Farmers around us went back to their farms this season."],
+  no:["My parents say the road home isn't safe any more. We're not travelling this year.","People are scared to move after dark in our area now."]},
+ {k:"states",re:/governor|states|councils|federation|VAT formula|Abuja collects/i,
+  tags:{yes:["#Restructuring","#TrueFederalism"],no:["#AbujaVsTheStates","#StatesRights"]},
+  yes:["Our governor and Abuja actually agreed on something. Write it down.","Money going straight to councils? My LGA chairman is sweating."],
+  no:["Governors versus Abuja again. Nobody is thinking about us.","The governors will just share the money anyway."]},
+ {k:"palace",re:/traditional ruler|Council feels|throne|Sokoto|the Council/i,
+  tags:{yes:["#Royal"],no:["#Kingmakers"]},
+  yes:["The elders are happy. Things will calm down.","Respect for the throne. That's how it's done here."],
+  no:["Why are unelected people deciding things for us in 2027?","The palace gets a visit. We get a press release."]},
+ {k:"vote",re:/INEC|election|tribunal|vote|census|seats|diaspora/i,
+  tags:{yes:["#MyVoteCounts"],no:["#ElectionMatters","#INEC"]},
+  yes:["If this sticks, my vote might actually count next time.","Finally something that makes the election cleaner."],
+  no:["They're preparing the ground for rigging. Watch.","Nobody trusts the referee they've chosen."]},
+ {k:"edu",re:/universit|ASUU|students?|school|exam|lecturers|teach|children/i,
+  tags:{yes:["#Education","#BackToSchool"],no:["#ASUUStrike","#FixEducation"]},
+  yes:["My sister's school finally has a teacher for every class.","Lectures resume next week. I almost forgot what campus looks like."],
+  no:["Four years course, now six years. Thanks, government.","My younger ones are home again. No school."]},
+ {k:"health",re:/hospital|doctors|health|insurance|nurses/i,
+  tags:{yes:["#Healthcare"],no:["#FixOurHospitals"]},
+  yes:["Hospital had drugs today. Didn't have to buy anything outside.","My mum's treatment is now covered. Thank God."],
+  no:["Hospital sent us away. No drugs, no doctor.","All the good doctors I know are writing exams to leave."]},
+ {k:"food",re:/food|farmer|fertiliser|rice|harvest|herders|border|ranch/i,
+  tags:{yes:["#FoodPrices"],no:["#FoodPrices","#HungerNaija"]},
+  yes:["Rice price came down small at the market. Small but real.","My uncle in the village says the fertiliser actually reached them."],
+  no:["Garri price don waka again.","A bag of rice now costs more than my salary."]},
+ {k:"build",re:/road|railway|expressway|housing|rent|homes|ports|airline|contractor|project/i,
+  tags:{yes:["#Infrastructure"],no:["#Demolition","#AbandonedProjects"]},
+  yes:["The road to my village is finally being fixed. Pictures in the comments.","Rent laws that protect tenants? I'll believe it when my landlord does."],
+  no:["They marked our house with an X. Where are we supposed to go?","Another project that will be abandoned after the ribbon cutting."]},
+ {k:"tech",re:/data|phone|internet|digital|start-ups?|online|technolog|identity number|cash/i,
+  tags:{yes:["#NaijaTech"],no:["#Data","#BringBackOurNetwork"]},
+  yes:["Something for the tech people for once. I'll take it.","Online business just got easier. Small win."],
+  no:["My line got blocked and I'm the one who has to go and queue.","Without data, there's no work for half of us."]},
+ {k:"oil",re:/oil|Niger Delta|pipeline|gas|flaring|amnesty/i,
+  tags:{yes:["#NigerDelta"],no:["#OilTheft","#NigerDelta"]},
+  yes:["The creeks are calm. Production is up. Let's see where the money goes.","Finally someone is taking the Delta seriously."],
+  no:["The Delta feeds the country and lives on smoke.","Pipeline blown again. There goes the revenue."]},
+ {k:"flood",re:/flood|rains|displaced|dam/i,
+  tags:{yes:["#FloodRelief"],no:["#Floods"]},
+  yes:["Relief trucks reached our area this morning. Thank God.","The emergency fund was released. Some families have roofs tonight."],
+  no:["The water is at the windows and nobody from government has come.","Same flood, same towns, every year."]},
+ {k:"nass",re:/Senate|Assembly|budget|constituency|my members|the bill/i,
+  tags:{yes:["#NASS"],no:["#NASS","#PaddedBudget"]},
+  yes:["The Assembly actually read the bill this time. Progress.","Budget passed on time? Write it down."],
+  no:["New cars for senators while hospitals have no gloves.","Constituency projects again. Show us one that was finished."]},
+ {k:"party",re:/party|successor|succeed you|third term|amendment|ministers|cabinet|defect/i,
+  tags:{yes:["#Politics"],no:["#Politricks","#2027"]},
+  yes:["At least this one is playing it straight.","Politics with some sense for a change."],
+  no:["They're already arranging the next election.","Politicians sharing positions while the country suffers."]},
+ {k:"trade",re:/factor|imports?|manufactur|market|competitors|industr/i,
+  tags:{yes:["#MadeInNigeria"],no:["#PricesUp"]},
+  yes:["Made in Nigeria, paid for in Nigeria. I like the sound of that.","The factory near us is hiring again."],
+  no:["Imported things now cost double and the local ones are not ready.","Another factory closed. Three hundred people at home."]},
+ {k:"culture",re:/film|music|Nollywood|creative/i,tags:{yes:["#Nollywood"],no:["#Nollywood"]},
+  yes:["Our stories, funded at home. Finally.","Afrobeats built a brand for this country. Good to see it paid back."],
+  no:["The money will end up with the same five producers.","They remember artists only when it's time to campaign."]},
+ {k:"betting",re:/betting/i,tags:{yes:["#Betting"],no:["#Betting"]},
+  yes:["My guy lost his whole salary on a single slip last month. This is overdue.","Something to protect the young boys at the betting shops."],
+  no:["They will tax us for everything, even our small entertainment.","The big companies will find a way around it."]},
+ {k:"courts",re:/court|justice|prison|trial/i,tags:{yes:["#RuleOfLaw"],no:["#JusticeForAll","#RuleOfLaw"]},
+  yes:["The government obeyed the court. Is that so hard?","Due process, for once. Screenshot it."],
+  no:["Court orders are now suggestions, apparently.","If it was a poor man, he'd still be in a cell."]},
+ {k:"youth",re:/young Nigerians|national service|under 40/i,tags:{yes:["#NotTooYoungToRule"],no:["#YouthsAreNotLazy","#NotTooYoungToRule"]},
+  yes:["Someone under 40 at the table. Let's see what they do with it.","Finally a decision that remembers people my age exist."],
+  no:["We're the majority and they still treat us like an afterthought.","Old men deciding what young people need. Again."]},
+ {k:"women",re:/women/i,tags:{yes:["#WomenInPolitics"],no:["#WomenInPolitics"]},
+  yes:["More women in the chamber. My daughter saw this.","Representation matters. This is a start."],
+  no:["Half the population, a handful of seats.","They debated it and nothing changed. As usual."]},
+ {k:"banks",re:/bank/i,tags:{yes:["#Banking"],no:["#BankRun","#MyMoney"]},
+  yes:["I got my money out of the bank today. Relief.","The banks are calm again. Okay."],
+  no:["Queued at the bank since 6am. ATM empty.","Your savings are not safe anywhere in this country."]},
+ {k:"welfare",re:/cash transfer|poorest households/i,tags:{yes:["#CashTransfer"],no:["#CashTransfer","#VoteBuying"]},
+  yes:["My aunty got the transfer alert this morning. It helps.","Money reaching people who actually need it. Good."],
+  no:["Funny how the money only goes where the votes are.","They're sharing money like it's campaign season. Oh wait."]}
+];
+var QUOTE={
+ yes:["“{t}.” I didn't expect it, but I like it.","Finally: “{t}.” Please don't spoil it.","“{t}.” Okay, this one makes sense."],
+ no:["“{t}”?? Who advised them?","“{t}.” And they expect us to clap?","So the plan is “{t}.” We're watching."],
+ mix:["“{t}.” The timeline has split in two.","Half my group chat likes “{t}.” The other half has left the chat."]
+};
+function topicOf(c){
+  if(!c)return null;
+  if(c._tp!==undefined)return c._tp;
+  var tx=(c.w||"")+" "+(c.s||""),t=null;
+  var want=c.tp||(typeof TPMAP!=="undefined"&&c.s?TPMAP[c.s.slice(0,40)]:null);
+  if(want){for(var i=0;i<TOPICS.length;i++)if(TOPICS[i].k===want){t=TOPICS[i];break;}}
+  if(!t)for(var j=0;j<TOPICS.length;j++){if(TOPICS[j].re.test(tx)){t=TOPICS[j];break;}}
+  c._tp=t;return t;
+}
+/* how the public took it: the street, and what they will feel in their pockets and their safety */
+function stanceOf(ch){
+  var m=ch.m||{},v=ch.v||{};
+  var s=(m.street||0)+0.6*(v.pro||0)+0.35*(v.int||0)+0.3*(v.sec||0)+0.3*(v.cap||0);
+  return {d:s>2.5?"yes":(s<-2.5?"no":"mix"),s:s};
+}
+function rot(pool,key){var u=G.feedUsed[key]||0;G.feedUsed[key]=u+1;return pool[u%pool.length];}
+function trendFor(c,ch,tp,st){
+  var tag=ch.tg||(tp?rot(tp.tags[st.d==="mix"?(st.s>=0?"yes":"no"):st.d],"tg"+tp.k+st.d):null);
+  if(!tag)return null;
+  var n=4+Math.abs(st.s)*2.2+Math.random()*26; n=Math.min(180,n);
+  return {tag:tag,n:(n>=10?Math.round(n):Math.round(n*10)/10)+"k posts",hot:st.d==="no"};
+}
+function topicPosts(c,ch,taken){
+  var tp=topicOf(c),st=stanceOf(ch),out=[];
+  if(!tp)return {posts:out,trend:null};
+  var dir=st.d==="mix"?(st.s>=0?"yes":"no"):st.d;
+  /* a card that brought its own reaction has already said the specific thing */
+  if(!ch.fd){var h=pickHandle(taken);taken.push(h);
+    out.push({h:h,t:rot(tp[dir],"tp"+tp.k+dir),c:dir==="yes"?"up":"dn"});}
+  /* the other side of the timeline, or someone quoting the decision straight back */
+  var q=QUOTE[st.d],h2=pickHandle(taken);taken.push(h2);
+  if(st.d==="mix"){var od=dir==="yes"?"no":"yes";out.push({h:h2,t:rot(tp[od],"tp"+tp.k+od),c:od==="yes"?"up":"dn"});}
+  else out.push({h:h2,t:rot(q,"q"+st.d).replace("{t}",String(ch.t||"").replace(/[.!]$/,"")),c:st.d==="yes"?"up":"dn"});
+  return {posts:out,trend:trendFor(c,ch,tp,st)};
+}
+
 
 /* ---------- six more first mornings ---------- */
 Array.prototype.push.apply(OPENINGS,[
@@ -5874,12 +6271,12 @@ var CAMP_EXTRA=[CAMP_BASE[2],CAMP_BASE[3],
   r:{t:"Door to door where we are weak",m:{purse:-4},v:{},fx:function(){var o=G.camp.order||[];[o[0],o[1]].forEach(function(z){if(z)G.camp.z[z]+=3;});}}}
 ];
 campStart=(function(orig){return function(){
-  var pick=function(a,n){a=a.slice();var o=[];while(o.length<n&&a.length)o.push(a.splice(Math.floor(Math.random()*a.length),1)[0]);return o;};
+  var pick=function(a,n){a=a.slice();var o=[];while(o.length<n&&a.length)o.push(a.splice(Math.floor(grand()*a.length),1)[0]);return o;};
   var first=pick(CAMP_OPEN,1)[0],extra=pick(CAMP_EXTRA,2);
   CAMP.length=0;CAMP.push(first,CAMP_BASE[1],extra[0],extra[1]);
   orig();
   /* the opposition's appetite for unity is not fixed either */
-  if(first!==CAMP_BASE[0])G.camp.unite=0.35+Math.random()*0.35;
+  if(first!==CAMP_BASE[0])G.camp.unite=0.35+grand()*0.35;
 };})(campStart);
 
 /* ---------- the National Ledger: your last morning in office ----------
@@ -6282,66 +6679,173 @@ function kqCellPrims(k,v){
   var name=KQ_MOTIF[k][v>0?0:1];
   return {fill:Math.abs(v)===2?KQ_COL.deep:KQ_COL.mid,prims:kqPrims(name,Math.abs(v))};
 }
-/* the answers, laid out by lens, in the order they were given */
+/* ---------- the cloth, version two ----------
+   Three layers, each with its own job:
+   1. Meaning. Every question has its own square, always in the same place, and its own
+      pattern: the lens sets the motif family (so a band still reads as one argument),
+      the question sets the layout of that motif, the side you took picks the family's
+      motif, and how firmly you hold it sets the weight.
+   2. Character. The border belongs to your tradition, and the depth of the indigo is how
+      firmly you hold your views overall.
+   3. The hand. Real adire is tied and dyed by hand, so no two cloths match. Each weave
+      gets its own seed: uneven dye, a little bleed at the edges, fold lines, and slightly
+      irregular spacing. This layer carries no meaning; the same answers make the same
+      pattern, in a different hand. */
+function kqRng(seed){var a=seed>>>0;return function(){a=(a+0x6D2B79F5)>>>0;var t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;};}
+function kqHex(h){h=h.replace("#","");return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function kqMix(a,b,t){var A=kqHex(a),B=kqHex(b);return"#"+A.map(function(v,i){var c=Math.round(v+(B[i]-v)*Math.max(0,Math.min(1,t)));return(c<16?"0":"")+c.toString(16);}).join("");}
+function kqShade(c,t){return t>=0?kqMix(c,"#ffffff",t):kqMix(c,"#000000",-t);}
+/* where each question sits in its band */
+var KQ_POS={};KEYS.forEach(function(k){KQ_ITEMS.filter(function(q){return q.a===k;}).forEach(function(q,i){KQ_POS[q.id]=i;});});
 function kqGrid(){
-  var g={};KEYS.forEach(function(k){g[k]=[];});
-  Q.forEach(function(q,i){ if(st.a[i]!==null||st.sk[i])g[q.a].push(st.sk[i]?null:st.a[i]); });
+  var g={};KEYS.forEach(function(k){g[k]=[undefined,undefined,undefined,undefined];});
+  Q.forEach(function(q,i){ if(st.a[i]!==null||st.sk[i])g[q.a][KQ_POS[q.item.id]]=st.sk[i]?null:st.a[i]; });
   return g;
+}
+function kqConviction(){
+  var n=0,s=0;st.a.forEach(function(v,i){if(v!==null&&!st.sk[i]){n++;s+=Math.abs(v)/2;}});
+  return n?s/n:0.5;
+}
+function kqTradition(){
+  if(!st.r||!st.r.ranked||!st.r.ranked.length)return -1;
+  return AR.indexOf(st.r.ranked[0].a);
+}
+function kqSeed(){
+  if(st.seed==null){var h=7;st.a.forEach(function(v,i){h=Math.imul(h^((v==null?9:v+3)+i*31),2654435761);});st.seed=h>>>0;}
+  return st.seed;
+}
+/* the layout a question gives its motif: whole, four small, turned, framed */
+function kqLayout(pos){
+  if(pos===1)return[[["t",0,0],["s",.5]],[["t",50,0],["s",.5]],[["t",0,50],["s",.5]],[["t",50,50],["s",.5]]];
+  if(pos===2)return[[["t",50,50],["r",45],["s",.74],["t",-50,-50]]];
+  if(pos===3)return[[["t",50,50],["s",.6],["t",-50,-50]]];
+  return[[]];
+}
+function kqWScale(pos){return pos===1?1.7:pos===2?1.25:pos===3?1.45:1;}
+/* a border for each of the ten traditions, drawn in the margin */
+function kqBorder(ti,W,H,m,rng){
+  var P=[],w=2.4,mid=m/2,i,n;
+  function C(x,y,r,f){P.push({c:[x,y,r],w:w,f:f});}
+  function L(a,b,c,d){P.push({l:[a,b,c,d],w:w});}
+  function D(d){P.push({p:d,w:w});}
+  function along(step,fn){ /* walk the four sides */
+    for(var x=m;x<=W-m+0.1;x+=step){fn(x,mid,0);fn(x,H-mid,0);}
+    for(var y=m+step;y<=H-m-step+0.1;y+=step){fn(mid,y,1);fn(W-mid,y,1);}
+  }
+  switch(ti){
+   case 0: along(16,function(x,y,v){v?L(x,y-4,x,y+4):L(x-4,y,x+4,y);});break;                     /* stitches */
+   case 1: along(14,function(x,y){C(x,y,2.6,1);});break;                                          /* seeds */
+   case 2: along(18,function(x,y,v){v?D("M"+(x-5)+" "+(y-7)+" L"+(x+5)+" "+y+" L"+(x-5)+" "+(y+7)):D("M"+(x-7)+" "+(y-5)+" L"+x+" "+(y+5)+" L"+(x+7)+" "+(y-5));});break; /* teeth */
+   case 3: (function(){var d="";for(var x=m;x<W-m;x+=12)d+=(x===m?"M":"L")+x+" "+(mid+(((x-m)/12)%2?4:-4));D(d);d="";for(x=m;x<W-m;x+=12)d+=(x===m?"M":"L")+x+" "+(H-mid+(((x-m)/12)%2?4:-4));D(d);
+            d="";for(var y=m;y<H-m;y+=12)d+=(y===m?"M":"L")+(mid+(((y-m)/12)%2?4:-4))+" "+y;D(d);d="";for(y=m;y<H-m;y+=12)d+=(y===m?"M":"L")+(W-mid+(((y-m)/12)%2?4:-4))+" "+y;D(d);})();break; /* river */
+   case 4: D("M"+(mid-5)+" "+(mid-5)+" H"+(W-mid+5)+" V"+(H-mid+5)+" H"+(mid-5)+" Z");D("M"+(mid+5)+" "+(mid+5)+" H"+(W-mid-5)+" V"+(H-mid-5)+" H"+(mid+5)+" Z");
+           along(14,function(x,y,v){v?L(x-5,y,x+5,y):L(x,y-5,x,y+5);});break;                      /* ladder */
+   case 5: n=0;along(15,function(x,y){C(x,y,(n++%2)?2:4.2,0);});break;                            /* beads */
+   case 6: along(16,function(x,y,v){v?D("M"+(x-5)+" "+(y-5)+" L"+x+" "+y+" L"+(x-5)+" "+(y+5)):D("M"+(x-5)+" "+(y-5)+" L"+x+" "+y+" L"+(x+5)+" "+(y-5));});break; /* arrows */
+   case 7: D("M"+(mid-4)+" "+(mid-4)+" H"+(W-mid+4)+" V"+(H-mid+4)+" H"+(mid-4)+" Z");D("M"+(mid+4)+" "+(mid+4)+" H"+(W-mid-4)+" V"+(H-mid-4)+" H"+(mid+4)+" Z");break; /* double line */
+   case 8: along(15,function(x,y){L(x-4,y-4,x+4,y+4);L(x-4,y+4,x+4,y-4);});break;                 /* cross-stitch */
+   case 9: along(18,function(x,y){D("M"+x+" "+(y-6)+" L"+(x+6)+" "+y+" L"+x+" "+(y+6)+" L"+(x-6)+" "+y+" Z");});break; /* diamonds */
+   default: D("M"+mid+" "+mid+" H"+(W-mid)+" V"+(H-mid)+" H"+mid+" Z");w=1.2;
+  }
+  return P;
+}
+/* the whole cloth as one display list, painted by either renderer below */
+function kqModel(opt){
+  opt=opt||{};
+  var g=kqGrid(),cs=100,gap=6,m=28,rng=kqRng(kqSeed()),conv=kqConviction(),ti=opt.noBorder?-1:(opt.ti!=null?opt.ti:kqTradition());
+  var deep=kqMix("#2B3F7C","#0A1431",conv),midc=kqMix("#3C5297","#1C2D5E",conv),plain=kqMix("#34477F","#16234A",conv);
+  var edge=kqMix("#16214A","#070D20",conv);
+  /* thread spacing: each row and column sits a little off true */
+  var cx=[],ry=[],x0=m;for(var c=0;c<4;c++){cx.push(x0);x0+=cs+gap+(rng()*4-2);}
+  var y0=m;for(var r=0;r<7;r++){ry.push(y0);y0+=cs+gap+(rng()*4-2);}
+  var W=Math.round(x0-gap+m),H=Math.round(y0-gap+m),cells=[];
+  KEYS.forEach(function(k,ri){
+    for(var ci=0;ci<4;ci++){
+      var v=g[k][ci],cell={x:cx[ci],y:ry[ri],dyed:v!==undefined,kids:[]};
+      if(v===undefined){
+        cell.kids.push({rect:[0,0,cs,cs],fill:KQ_COL.undyed});
+        cell.kids.push({p:"M0 "+(48+rng()*4)+" H100 M"+(48+rng()*4)+" 0 V100",w:1.2,stroke:KQ_COL.fold});
+      } else {
+        var base=v===null?plain:(v===0?midc:(Math.abs(v)===2?deep:midc));
+        cell.kids.push({rect:[0,0,cs,cs],fill:kqShade(base,(rng()-.5)*.1)});
+        /* uneven dye: soft patches where the cloth took more or less indigo */
+        var bl={clip:1,kids:[]};
+        for(var b=0;b<4;b++){bl.kids.push({c:[rng()*100,rng()*100,22+rng()*26],fill:rng()<.55?"#000000":"#ffffff",op:.022+rng()*.03});}
+        cell.kids.push(bl);
+        /* bleed at the edges */
+        var ins=1.5+rng()*2;cell.kids.push({rect:[ins,ins,cs-2*ins,cs-2*ins],stroke:KQ_COL.thread,w:2+rng()*1.5,op:.08+rng()*.07});
+        var prims,pos=ci,hand=[["t",50,50],["r",(rng()-.5)*6],["t",-50+(rng()-.5)*4,-50+(rng()-.5)*4]];
+        if(v===null)prims=[{l:[30,50,70,50],w:2}];
+        else if(v===0)prims=[{c:[50,50,22],w:3},{c:[50,50,4],w:3}];
+        else prims=kqPrims(KQ_MOTIF[k][v>0?0:1],Math.abs(v));
+        var ws=(0.88+rng()*.24)*(v===null||v===0?1:kqWScale(pos)),lay=(v===null||v===0)?[[]]:kqLayout(pos);
+        lay.forEach(function(ops){
+          cell.kids.push({ops:hand.concat(ops),kids:prims.map(function(p){var q={};for(var kk in p)q[kk]=p[kk];q.w=p.w*ws;q.stroke=KQ_COL.thread;return q;})});
+        });
+        if(pos===3&&v!==null&&v!==0)cell.kids.push({rect:[9,9,82,82],stroke:KQ_COL.thread,w:2.2*ws});
+      }
+      cells.push(cell);
+    }
+  });
+  /* fold lines across the whole cloth, where it was tied before dyeing */
+  var folds=[],fy=m+rng()*(H-2*m),fx=m+rng()*(W-2*m);
+  folds.push({p:"M0 "+fy.toFixed(1)+" Q"+(W/2)+" "+(fy+(rng()-.5)*14).toFixed(1)+" "+W+" "+(fy+(rng()-.5)*6).toFixed(1),w:2.2,stroke:KQ_COL.thread,op:.13});
+  folds.push({p:"M"+fx.toFixed(1)+" 0 Q"+(fx+(rng()-.5)*12).toFixed(1)+" "+(H/2)+" "+(fx+(rng()-.5)*6).toFixed(1)+" "+H,w:2.2,stroke:KQ_COL.thread,op:.1});
+  if(rng()<.5){var fy2=m+rng()*(H-2*m);folds.push({p:"M0 "+fy2.toFixed(1)+" L"+W+" "+(fy2+(rng()-.5)*8).toFixed(1),w:1.6,stroke:KQ_COL.thread,op:.08});}
+  var border=kqBorder(ti,W,H,m,rng).map(function(p){p.stroke=KQ_COL.thread;p.op=.62;if(p.f)p.fill=KQ_COL.thread;return p;});
+  return {W:W,H:H,edge:edge,cells:cells,folds:folds,border:border};
+}
+function kqSvgNode(n){
+  var op=n.op!=null?' opacity="'+n.op.toFixed(3)+'"':"";
+  if(n.clip)return '<g clip-path="url(#kqClip)">'+n.kids.map(kqSvgNode).join("")+'</g>';
+  if(n.kids){var t=(n.ops||[]).map(function(o){return o[0]==="t"?"translate("+o[1].toFixed(2)+" "+o[2].toFixed(2)+")":o[0]==="r"?"rotate("+o[1].toFixed(2)+")":"scale("+o[1]+")";}).join(" ");
+    return '<g'+(t?' transform="'+t+'"':"")+'>'+n.kids.map(kqSvgNode).join("")+'</g>';}
+  var paint=(n.fill?' fill="'+n.fill+'"':' fill="none"')+(n.stroke?' stroke="'+n.stroke+'" stroke-width="'+(n.w||1).toFixed(2)+'" stroke-linecap="round" stroke-linejoin="round"':"")+op;
+  if(n.rect)return '<rect x="'+n.rect[0]+'" y="'+n.rect[1]+'" width="'+n.rect[2]+'" height="'+n.rect[3]+'"'+paint+'/>';
+  if(n.c)return '<circle cx="'+n.c[0].toFixed(1)+'" cy="'+n.c[1].toFixed(1)+'" r="'+n.c[2].toFixed(1)+'"'+paint+'/>';
+  if(n.l)return '<line x1="'+n.l[0]+'" y1="'+n.l[1]+'" x2="'+n.l[2]+'" y2="'+n.l[3]+'"'+paint+'/>';
+  if(n.p)return '<path d="'+n.p+'"'+paint+'/>';
+  return "";
+}
+function kqCanvasNode(x,n){
+  x.save();
+  if(n.op!=null)x.globalAlpha*=n.op;
+  if(n.clip){var cp=new Path2D();cp.rect(0,0,100,100);x.clip(cp);}
+  if(n.kids){(n.ops||[]).forEach(function(o){if(o[0]==="t")x.translate(o[1],o[2]);else if(o[0]==="r")x.rotate(o[1]*Math.PI/180);else x.scale(o[1],o[1]);});
+    n.kids.forEach(function(k){kqCanvasNode(x,k);});x.restore();return;}
+  x.lineCap="round";x.lineJoin="round";
+  var path=null;
+  if(n.rect){path=new Path2D();path.rect(n.rect[0],n.rect[1],n.rect[2],n.rect[3]);}
+  else if(n.c){path=new Path2D();path.arc(n.c[0],n.c[1],n.c[2],0,Math.PI*2);}
+  else if(n.l){path=new Path2D();path.moveTo(n.l[0],n.l[1]);path.lineTo(n.l[2],n.l[3]);}
+  else if(n.p&&typeof Path2D!=="undefined")path=new Path2D(n.p);
+  if(path){if(n.fill){x.fillStyle=n.fill;x.fill(path);}if(n.stroke){x.strokeStyle=n.stroke;x.lineWidth=n.w||1;x.stroke(path);}}
+  x.restore();
 }
 function kqClothSVG(opt){
   opt=opt||{};
-  var g=kqGrid(),cs=100,gap=6,pad=14,W=pad*2+4*cs+3*gap,H=pad*2+7*cs+6*gap,out=[],n=0;
-  out.push('<svg viewBox="0 0 '+W+' '+H+'" class="kq-cloth'+(opt.cls?" "+opt.cls:"")+'" role="img" aria-label="'+(opt.label||"Your cloth")+'">');
-  out.push('<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="'+KQ_COL.edge+'"/>');
-  KEYS.forEach(function(k,ri){
-    for(var ci=0;ci<4;ci++){
-      var x=pad+ci*(cs+gap),y=pad+ri*(cs+gap),cell=kqCellPrims(k,g[k][ci]);
-      var delay=opt.anim?(' style="animation-delay:'+(n*0.06).toFixed(2)+'s"'):"";
-      out.push('<g class="kq-cell'+(cell.fill?" dyed":"")+'" transform="translate('+x+' '+y+')"'+delay+'>');
-      if(!cell.fill){
-        out.push('<rect width="'+cs+'" height="'+cs+'" fill="'+KQ_COL.undyed+'"/><path d="M0 50 H100 M50 0 V100" stroke="'+KQ_COL.fold+'" stroke-width="1.2"/>');
-      } else {
-        out.push('<rect width="'+cs+'" height="'+cs+'" fill="'+cell.fill+'"/>');
-        cell.prims.forEach(function(p){
-          var st0=' fill="none" stroke="'+KQ_COL.thread+'" stroke-width="'+p.w+'" stroke-linecap="round" stroke-linejoin="round"';
-          if(p.c)out.push('<circle cx="'+p.c[0]+'" cy="'+p.c[1]+'" r="'+p.c[2]+'"'+st0+'/>');
-          if(p.l)out.push('<line x1="'+p.l[0]+'" y1="'+p.l[1]+'" x2="'+p.l[2]+'" y2="'+p.l[3]+'"'+st0+'/>');
-          if(p.p)out.push('<path d="'+p.p+'"'+st0+'/>');
-        });
-        n++;
-      }
-      out.push('</g>');
-    }
+  var M=kqModel(opt),out=[],n=0;
+  out.push('<svg viewBox="0 0 '+M.W+' '+M.H+'" class="kq-cloth'+(opt.cls?" "+opt.cls:"")+'" role="img" aria-label="'+(opt.label||"Your cloth")+'">');
+  out.push('<defs><clipPath id="kqClip" clipPathUnits="userSpaceOnUse"><rect width="100" height="100"/></clipPath></defs>');
+  out.push('<rect x="0" y="0" width="'+M.W+'" height="'+M.H+'" fill="'+M.edge+'"/>');
+  M.border.forEach(function(p){out.push(kqSvgNode(p));});
+  M.cells.forEach(function(c){
+    var delay=(opt.anim&&c.dyed)?(' style="animation-delay:'+(n++*0.06).toFixed(2)+'s"'):"";
+    out.push('<g class="kq-cell'+(c.dyed?" dyed":"")+'" transform="translate('+c.x.toFixed(2)+' '+c.y.toFixed(2)+')"'+delay+'>'+c.kids.map(kqSvgNode).join("")+'</g>');
   });
+  M.folds.forEach(function(p){out.push(kqSvgNode(p));});
   out.push('</svg>');
   return out.join("");
 }
-/* the same cloth, painted onto the share card */
 function kqClothCanvas(x,X,Y,size){
-  var g=kqGrid(),cs=100,gap=6,pad=14,W=pad*2+4*cs+3*gap,H=pad*2+7*cs+6*gap,sc=size/H;
+  var M=kqModel(),sc=size/M.H;
   x.save();x.translate(X,Y);x.scale(sc,sc);
-  x.fillStyle=KQ_COL.edge;x.fillRect(0,0,W,H);
-  KEYS.forEach(function(k,ri){
-    for(var ci=0;ci<4;ci++){
-      var px=pad+ci*(cs+gap),py=pad+ri*(cs+gap),cell=kqCellPrims(k,g[k][ci]);
-      x.save();x.translate(px,py);
-      if(!cell.fill){x.fillStyle=KQ_COL.undyed;x.fillRect(0,0,cs,cs);x.strokeStyle=KQ_COL.fold;x.lineWidth=1.2;x.beginPath();x.moveTo(0,50);x.lineTo(100,50);x.moveTo(50,0);x.lineTo(50,100);x.stroke();}
-      else{
-        x.fillStyle=cell.fill;x.fillRect(0,0,cs,cs);
-        x.strokeStyle=KQ_COL.thread;x.lineCap="round";x.lineJoin="round";
-        cell.prims.forEach(function(p){
-          x.lineWidth=p.w;x.beginPath();
-          if(p.c){x.arc(p.c[0],p.c[1],p.c[2],0,Math.PI*2);}
-          if(p.l){x.moveTo(p.l[0],p.l[1]);x.lineTo(p.l[2],p.l[3]);}
-          if(p.p&&typeof Path2D!=="undefined"){x.stroke(new Path2D(p.p));return;}
-          x.stroke();
-        });
-      }
-      x.restore();
-    }
-  });
+  x.fillStyle=M.edge;x.fillRect(0,0,M.W,M.H);
+  M.border.forEach(function(p){kqCanvasNode(x,p);});
+  M.cells.forEach(function(c){x.save();x.translate(c.x,c.y);c.kids.forEach(function(k){kqCanvasNode(x,k);});x.restore();});
+  M.folds.forEach(function(p){kqCanvasNode(x,p);});
   x.restore();
-  return {w:W*sc,h:size};
+  return {w:M.W*sc,h:size};
 }
 function kqSwatch(k,v){ /* one motif, for the legend */
   var cell=kqCellPrims(k,v),o=['<svg viewBox="0 0 100 100" class="kq-sw" aria-hidden="true"><rect width="100" height="100" fill="'+(cell.fill||KQ_COL.undyed)+'"/>'];
@@ -6365,7 +6869,7 @@ function kqBuild(){
   Q=seq.map(function(it){return {a:it.a,w:1,t:it.h+". "+it.s,item:it,flip:Math.random()<0.5};});
   MAX={};KEYS.forEach(function(k){MAX[k]=0;});Q.forEach(function(q){MAX[q.a]+=2;});
   st.a=new Array(Q.length).fill(null);st.sk=new Array(Q.length).fill(false);st.ch=new Array(Q.length).fill(null);
-  st.deep=false;st.i=0;
+  st.deep=false;st.i=0;st.seed=(Math.random()*4294967296)>>>0;
 }
 var KQ_CORE=21;
 function kqOpts(q){ return q.flip?[q.item.o[1],q.item.o[0]]:[q.item.o[0],q.item.o[1]]; }
@@ -6586,6 +7090,58 @@ buildCard=function(face){
   return c;
 };
 kqBuild();
+
+/* ---------- the quiz's front door ----------
+   The President's Desk has a gate that says what the game is; the quiz now has one too.
+   It shows who you might turn out to be: the Nigerians whose arguments the results are
+   built on. */
+var KQI={skip:false,timer:null,hi:0,ti:0};
+function kqiEsc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+(function(){
+  /* the ten Nigerians the traditions are matched to, and the two women who appear in the
+     results as having argued in them */
+  var W={
+   "ransome-kuti":{n:"Funmilayo Ransome-Kuti",in:"FR",img:"ransome-kuti"},
+   ekpo:{n:"Margaret Ekpo",in:"ME",img:"ekpo"}};
+  var order=["restructurer","ransome-kuti","traditionalist","afrodreamer","changemaker","ekpo","unifier","grassroots","patriot","stabiliser","technocrat","hustler"];
+  var figs=order.map(function(id){
+    if(W[id])return W[id];
+    var t=TR[id];if(!t)return null;
+    return {n:t.n,in:t.in,img:t.img};
+  }).filter(Boolean);
+  KQI.figs=figs;
+  var box=document.createElement("div");box.className="kq-intro";box.id="kqIntro";box.hidden=true;
+  box.innerHTML=
+   '<span class="lab gate-kick">If Na You · Know your politics</span>'+
+   '<h1 class="gate-title">Which great Nigerian argued like you?</h1>'+
+   '<p class="gate-sub">For a hundred years Nigerians have argued about the same things: who holds power, who gets the money, how far the state should reach, and what we owe each other. Answer '+KQ_CORE+' questions and find out whose side of that argument you are on.</p>'+
+   '<div class="kqi-wall" id="kqiWall" role="list">'+figs.map(function(f,i){
+     return '<span class="kqi-f" role="listitem" tabindex="0" title="'+kqiEsc(f.n)+'" aria-label="'+kqiEsc(f.n)+'">'+
+      '<span class="kqi-ph"><img src="portraits/sm/'+f.img+'.png" alt="" loading="lazy" decoding="async" onerror="this.remove()"><i>'+f.in+'</i></span>'+
+      '</span>';}).join("")+
+   '</div>'+
+   '<div class="cta kqi-top"><button class="btn go" id="kqiGo" data-kqi-go>Begin the questions →</button>'+
+    '<span class="lab kqi-meta">'+KQ_CORE+' questions · about four minutes · no right answers</span></div>';
+  var kq=$("kq");kq.insertBefore(box,kq.firstChild);
+  KQI.show=function(){};
+  box.querySelectorAll("[data-kqi-go]").forEach(function(b){b.addEventListener("click",function(){KQI.skip=true;renderQ();
+    try{window.scrollTo({top:0,behavior:"smooth"});}catch(e){window.scrollTo(0,0);}});});
+})();
+function kqFresh(){
+  if(KQI.skip||st.part!==1||st.i!==0||st.deep)return false;
+  for(var i=0;i<(st.a||[]).length;i++){if(st.a[i]!==null&&st.a[i]!==undefined)return false;if(st.sk&&st.sk[i])return false;}
+  return true;
+}
+renderQ=(function(orig){return function(){
+  if(kqFresh()){
+    $("kq").hidden=false;document.querySelector("#view-quiz .qshell").hidden=true;
+    ["kqMain","kqRoundBox","kqWeave","kqPeek"].forEach(function(id){$(id).hidden=true;});
+    $("kqIntro").hidden=false;KQI.show();return;
+  }
+  $("kqIntro").hidden=true;clearInterval(KQI.timer);
+  orig();
+};})(renderQ);
+reset=(function(orig){return function(){KQI.skip=false;orig();};})(reset);
 
 /* ---------- Your ballot: Nigeria as 8,809 lights, one per ward ----------
    Data: ballot.json, built from INEC's final lists of candidates (2027) and the
@@ -7795,12 +8351,12 @@ function pickShock(){
   if(G.day<6)return null;
   if(G.crisisN>=3)return null;
   if(G.lastShock!==undefined&&G.day-G.lastShock<SHOCK_GAP)return null;
-  if(Math.random()>SHOCK_P)return null;
+  if(grand()>SHOCK_P)return null;
   var yr=Math.floor(G.day/PER_YEAR)+1;
   var pool=SHOCKS.filter(function(x){
     return !G.shocks[x.id] && yr>=x.yr[0] && yr<=x.yr[1];});
   if(!pool.length)return null;
-  return pool[Math.floor(Math.random()*pool.length)];
+  return pool[Math.floor(grand()*pool.length)];
 }
 function dealShock(sk){
   G.shocks[sk.id]=true; G.lastShock=G.day; G.shockN=(G.shockN||0)+1;
@@ -7842,6 +8398,7 @@ function dealShock(sk){
   };
 }
 function nextCard(){
+  socReseed();
   if(G.impRemoved){endGame(null,"impeached");return;}
   $("gCard").className="card";
   $("gL").parentNode.classList.remove("one");
@@ -7906,7 +8463,7 @@ function nextCard(){
     var bestI=pool[0],bestN=1e9;
     pool.forEach(function(i){
       var ak=DECK[i].l.ax?Object.keys(DECK[i].l.ax)[0]:null;
-      var n=(ak?(G.gn[ak]||0):mean)+Math.random()*2.4;
+      var n=(ak?(G.gn[ak]||0):mean)+grand()*2.4-(DECK[i].youth?1.6:0);
       if(n<bestN){bestN=n;bestI=i;}
     });
     pick=bestI;
@@ -7949,6 +8506,7 @@ function applyV(o,scale){
    card outright. A decision now locks the controls until the next card is on screen. */
 function play(side){
   if(!G.live||G.busy)return;
+  socPlayed(side);
   if(SND&&AC&&AC.state!=="running")unlock();
   G.busy=true;
   hideHist();
@@ -8210,6 +8768,7 @@ function endGame(bloc,why){
      ballot instead of at section 143(9). */
   if(G.done)return;
   G.done=true;
+  G.endWhy=why||"";setTimeout(socEnd,0);
   SFX.over();
   G.live=false;
   clearShift();
@@ -8698,6 +9257,7 @@ function beginRun(){
   hideHist();
   if(SND)unlock();
   G.rec=[];G.met={};G.warned={};G.praised={};G.feedUsed={};G.memo={};
+  socBegin();
   $("gHead").hidden=true;
   $("gameRun").classList.add("fresh");
   $("gFeed").hidden=true;$("gFeedMsgs").innerHTML="";$("gWhy").hidden=true;$("gWhyBtn").hidden=true;
@@ -8746,6 +9306,418 @@ document.addEventListener("keydown",function(e){
   if((e.key==="ArrowDown"||e.key==="ArrowUp")&&!$("gC").hidden){e.preventDefault();$("gC").click();}
 });
 
+
+/* ---------- playing together ----------
+   Two ways. "Same game, compare after": a group link seeds the game, so everyone who opens
+   it meets the same Nigeria and the same luck, and each finished presidency lands on the
+   group's board. "Cabinet night": one person is the President and runs the game; friends
+   join on their phones as ministers, vote on each decision, and carry a secret agenda that
+   is revealed at the end. Both need the live site's /api; the shared seed works anywhere. */
+var SOC={api:"/api/",ok:null,grp:null,room:null,poll:null};
+var SOC_LET="ABCDEFGHJKMNPQRSTVWXYZ";
+function socNick(){try{return localStorage.getItem("ifnayou.nick")||"";}catch(e){return "";}}
+function socSaveNick(n){try{localStorage.setItem("ifnayou.nick",n);}catch(e){}}
+function socEsc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);
+  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function hashStr(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+/* the game's own dice: seeded in a shared game, reseeded every turn so that one different
+   decision does not shift the luck of every turn after it */
+function grand(){return (typeof G!=="undefined"&&G&&G.rng)?G.rng():Math.random();}
+function socReseed(){if(G&&G.seed!==undefined)G.rng=mulberry((G.seed^Math.imul(G.day+1,2654435761))>>>0);}
+function socCode(n,abc){var s="";for(var i=0;i<n;i++)s+=abc[Math.floor(Math.random()*abc.length)];return s;}
+function socApi(path,opt){
+  return fetch(SOC.api+path,opt).then(function(r){
+    return r.json().catch(function(){return {};}).then(function(j){
+      if(!r.ok){var e=new Error(j.error||("HTTP "+r.status));e.status=r.status;throw e;}return j;});});
+}
+function socPost(path,body){return socApi(path,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)});}
+function socProbe(cb){
+  if(SOC.ok!==null){cb(SOC.ok);return;}
+  socApi("room?ping=1").then(function(j){SOC.ok=!!j.ok;cb(SOC.ok);},function(){SOC.ok=false;cb(false);});
+}
+function socBase(){return location.href.split("#")[0];}
+function socCopy(t,msg){
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(
+    function(){gtoast(msg||"Copied");},function(){gtoast("Your browser blocked the copy");});
+}
+
+/* ---------- the gate: the two ways in ---------- */
+(function(){
+  var cta=$("gameGate").querySelector(".cta");
+  var box=document.createElement("div");
+  box.className="together";box.id="gTogether";
+  box.innerHTML=
+   '<button type="button" class="tg-toggle" id="tgToggle" aria-expanded="false" aria-controls="tgBody">Play with friends <span aria-hidden="true">▾</span></button>'+
+   '<div class="tg-body" id="tgBody" hidden>'+
+   '<p class="tg-invite" id="tgInvite" hidden></p>'+
+   '<div class="tg-opts" id="tgOpts">'+
+    '<button type="button" class="tg-opt" id="tgSame"><b>Same game, compare after</b>'+
+     '<span>Everyone gets the same Nigeria: the same crises, the same luck. Play on your own phones, then see whose presidency went furthest.</span></button>'+
+    '<button type="button" class="tg-opt" id="tgCab"><b>Cabinet night</b>'+
+     '<span>You are the President. Your friends join on their phones as your ministers and vote on every decision. Each of them has a secret agenda.</span></button>'+
+   '</div>'+
+   '<div class="tg-join" id="tgJoinBox"><label class="lab" for="tgCode">Got a cabinet code from a friend?</label>'+
+    '<div class="tg-row"><input id="tgCode" type="text" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCD">'+
+    '<button class="btn ghost sm" id="tgJoin">Join their cabinet</button></div></div>'+
+   '<div class="tg-form" id="tgForm" hidden>'+
+    '<label class="lab" for="tgNick">Your name, the way your friends know you</label>'+
+    '<div class="tg-row"><input id="tgNick" type="text" maxlength="20" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="e.g. Tolu">'+
+    '<button class="btn go" id="tgGo">Continue</button></div>'+
+    '<p class="tg-err" id="tgErr" hidden></p>'+
+   '</div>'+
+   '<div class="tg-share" id="tgShare" hidden>'+
+    '<p id="tgShareP"></p><div class="tg-link" id="tgLink"></div>'+
+    '<div class="cta"><a class="btn ghost sm" id="tgWa" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>'+
+    '<button class="btn ghost sm" id="tgCopy">Copy the link</button>'+
+    '<button class="btn go" id="tgStart">Start my presidency →</button></div>'+
+   '</div></div>';
+  cta.parentNode.insertBefore(box,cta.nextSibling);
+  var mode=null;
+  function openBody(on){$("tgBody").hidden=!on;$("tgToggle").setAttribute("aria-expanded",String(on));box.classList.toggle("open",on);}
+  $("tgToggle").addEventListener("click",function(){openBody($("tgBody").hidden);});
+  function form(m){mode=m;$("tgForm").hidden=false;$("tgErr").hidden=true;
+    $("tgNick").value=socNick();$("tgNick").focus();
+    $("tgSame").classList.toggle("on",m==="same");$("tgCab").classList.toggle("on",m==="cab");}
+  function err(t){$("tgErr").textContent=t;$("tgErr").hidden=false;}
+  $("tgSame").addEventListener("click",function(){form("same");});
+  $("tgCab").addEventListener("click",function(){
+    socProbe(function(ok){ if(!ok){form("cab");err("Cabinet night runs on ifnayou.com. Open the game there to host one.");$("tgGo").disabled=true;return;}
+      $("tgGo").disabled=false;form("cab");});
+  });
+  function go(){
+    var nick=$("tgNick").value.replace(/[<>]/g,"").trim().slice(0,20);
+    if(!nick){err("Put a name your friends will recognise.");return;}
+    socSaveNick(nick);
+    if(mode==="join"){SOC.grp.nick=nick;beginRun();return;}
+    if(mode==="same"){
+      SOC.grp={code:socCode(6,SOC_LET+"23456789"),nick:nick};
+      var link=socBase()+"#grp="+SOC.grp.code;
+      $("tgForm").hidden=true;$("tgOpts").hidden=true;$("tgShare").hidden=false;
+      $("tgShareP").textContent="Send this to your friends. Everyone who opens it plays the same game, and the results appear on one board.";
+      $("tgLink").textContent=link;
+      $("tgWa").href="https://wa.me/?text="+encodeURIComponent("Let's play the same Nigeria and see whose presidency goes furthest. If na you, wetin you for do?\n"+link);
+      $("tgCopy").onclick=function(){socCopy(link,"Link copied");};
+      $("tgStart").onclick=function(){beginRun();};
+      return;
+    }
+    if(mode==="cab"){
+      $("tgGo").disabled=true;
+      socPost("room",{action:"create",nick:nick}).then(function(j){
+        $("tgGo").disabled=false;
+        SOC.room={code:j.code,key:j.host_key,nick:nick,host:true,turn:0,sig:"",agree:{},cast:{},over:0,players:[],votes:[]};
+        cabLobby();
+      },function(e){$("tgGo").disabled=false;err("Could not open a room just now. Try again in a moment.");});
+    }
+  }
+  $("tgGo").addEventListener("click",go);
+  var joinCode=function(){var c=$("tgCode").value.toUpperCase().replace(/[^A-Z]/g,"");
+    if(c.length!==4){$("tgCode").focus();return;}
+    try{history.replaceState(null,"","#cab="+c);}catch(e){}cabJoin(c);};
+  $("tgJoin").addEventListener("click",joinCode);
+  $("tgCode").addEventListener("keydown",function(e){if(e.key==="Enter")joinCode();});
+  $("tgNick").addEventListener("keydown",function(e){if(e.key==="Enter")go();});
+  SOC.inviteForm=function(){mode="join";openBody(true);$("tgToggle").hidden=true;
+    $("tgOpts").hidden=true;$("tgJoinBox").hidden=true;$("tgInvite").hidden=false;
+    $("tgInvite").textContent="Your friends sent you this game. You'll all face the same Nigeria, then compare how far each of you got.";
+    $("tgForm").hidden=false;$("tgNick").value=socNick();$("tgGo").textContent="Start the same game →";
+    $("gStart").hidden=true;};
+})();
+
+/* a group or a cabinet link is part of the address the person was sent */
+function socRoute(){
+  var h=location.hash.replace(/^#/,""),g=/(?:^|&)grp=([A-Z0-9]{5,8})/i.exec(h),c=/(?:^|&)cab=([A-Z]{4})/i.exec(h);
+  if(g){SOC.grp={code:g[1].toUpperCase(),nick:null};setTimeout(function(){SOC.inviteForm();},0);return {view:"play",deep:false};}
+  if(c){setTimeout(function(){cabJoin(c[1].toUpperCase());},0);return null;}
+  return null;
+}
+
+/* the run starts: seed it, or open the cabinet */
+function socBegin(){
+  if(SOC.grp&&SOC.grp.nick){G.seed=hashStr("grp:"+SOC.grp.code);socReseed();}
+  var R=SOC.room;
+  if(R&&R.host&&R.phase==="play"){G.cab=true;R.turn=0;R.sig="";cabTick();}
+}
+/* a decision was taken on the President's device */
+function socPlayed(side){
+  var R=SOC.room;
+  if(!R||!R.host||R.phase!=="play"||!R.card)return;
+  var cast={},n=0;
+  R.votes.forEach(function(v){cast[v.choice]=(cast[v.choice]||0)+1;n++;
+    R.cast[v.id]=(R.cast[v.id]||0)+1; if(v.choice===side)R.agree[v.id]=(R.agree[v.id]||0)+1;});
+  var maj=null;for(var k in cast)if(cast[k]*2>n)maj=k;
+  var over=n>=2&&maj&&maj!==side;
+  if(over){R.over++;gtoast("You overruled your cabinet");}
+  var btn=$(side==="l"?"gL":(side==="r"?"gR":"gC"));
+  R.last={turn:R.card.turn,side:side,t:btn?btn.querySelector(".txt").textContent:"",over:!!over,n:n};
+  R.card=null;R.sig="";cabPush();
+}
+
+/* ---------- Cabinet night: the President's side ---------- */
+var MINISTRIES=[{b:"purse",role:"Minister of Finance"},{b:"barracks",role:"Minister of Defence"},
+ {b:"street",role:"Minister of Youth and Labour"},{b:"gov",role:"Minister for the States"},
+ {b:"palace",role:"Minister for Traditional Affairs"},{b:"nass",role:"Leader of the Senate"}];
+function blocName(k){var b=blocOf(k);return b?b.n:k;}
+function cabAgendas(players){
+  var seats={},secrets={},pool=MINISTRIES.slice().sort(function(){return Math.random()-.5;});
+  var sab=players.length>=3?players[Math.floor(Math.random()*players.length)].id:null;
+  players.forEach(function(p,i){
+    var m=pool[i]||{b:null,role:"Special Adviser"},a;
+    if(p.id===sab)a={t:"sab",txt:"You are secretly working against this President. Make sure there is no second term. Nobody else knows."};
+    else{
+      var kinds=m.b?["own","own","heard","rival","survive"]:["heard","survive"],k=kinds[Math.floor(Math.random()*kinds.length)];
+      if(k==="own")a={t:"own",b:m.b,txt:"Keep "+blocName(m.b)+" at 55 or higher when the presidency ends."};
+      else if(k==="rival"){var o=MINISTRIES.filter(function(x){return x.b!==m.b;})[Math.floor(Math.random()*5)].b;
+        a={t:"rival",b:m.b,o:o,txt:"Finish with "+blocName(m.b)+" stronger than "+blocName(o)+"."};}
+      else if(k==="heard")a={t:"heard",txt:"Get the President to side with you on at least half of the decisions you vote on. Vote at least five times."};
+      else a={t:"survive",txt:"Keep this President in office into a second term."};
+    }
+    seats[p.id]={nick:p.nick,role:m.role,b:m.b};
+    secrets[p.id]={role:m.role,b:m.b,agenda:a};
+  });
+  return {seats:seats,secrets:secrets};
+}
+function cabEval(a,id){
+  var R=SOC.room;
+  if(!a)return false;
+  if(a.t==="sab")return G.term<2;
+  if(a.t==="survive")return G.term>=2;
+  if(a.t==="own")return (G.m[a.b]||0)>=55;
+  if(a.t==="rival")return (G.m[a.b]||0)>(G.m[a.o]||0);
+  if(a.t==="heard"){var c=R.cast[id]||0;return c>=5&&(R.agree[id]||0)*2>=c;}
+  return false;
+}
+function cabState(extra){
+  var R=SOC.room,bl={};
+  if(G&&G.m)BLOCS.forEach(function(b){bl[b.k]=Math.round(G.m[b.k]);});
+  var s={phase:R.phase,seats:R.seats||{},blocs:bl,card:R.card||null,last:R.last||null,
+    day:G&&G.day||0,clock:($("gClock")&&$("gClock").textContent)||"",over:R.over||0};
+  for(var k in extra)s[k]=extra[k];
+  return s;
+}
+function cabPush(extra,secrets){
+  var R=SOC.room;if(!R||!R.host)return Promise.resolve();
+  var body={action:"push",code:R.code,host_key:R.key,state:cabState(extra||{})};
+  if(secrets)body.secrets=secrets;
+  return socPost("room",body).catch(function(){});
+}
+function cabLobby(){
+  var R=SOC.room;R.phase="lobby";
+  var ov=document.createElement("div");ov.className="cab-ov";ov.id="cabLobby";
+  var link=socBase()+"#cab="+R.code;
+  ov.innerHTML='<div class="cab-in">'+
+   '<span class="lab">Cabinet night</span><h2 class="cab-h">Your cabinet is gathering.</h2>'+
+   '<p class="cab-p">Send your friends the link, or have them open Play President on ifnayou.com and enter this code.</p>'+
+   '<div class="cab-code" id="cabCode">'+R.code+'</div>'+
+   '<div class="cta"><a class="btn ghost sm" id="cabWa" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent("Join my cabinet. I'm the President, you're my minister. Code "+R.code+"\n"+link)+'">Send on WhatsApp</a>'+
+   '<button class="btn ghost sm" id="cabCopy">Copy the link</button></div>'+
+   '<span class="lab cab-sub">Ministers in the room</span><ul class="cab-list" id="cabList"><li class="empty">Nobody yet. Send the link.</li></ul>'+
+   '<p class="cab-note">Each minister gets a ministry and a secret agenda. They vote on every decision; you decide. Two to eight friends works best.</p>'+
+   '<div class="cta"><button class="btn go" id="cabBegin" disabled>Start the presidency →</button><button class="btn ghost sm" id="cabCancel">Cancel</button></div>'+
+  '</div>';
+  document.body.appendChild(ov);
+  $("cabCopy").onclick=function(){socCopy(link,"Link copied");};
+  $("cabCancel").onclick=function(){clearInterval(SOC.poll);SOC.room=null;ov.remove();};
+  $("cabBegin").onclick=function(){
+    var ps=R.players.slice();if(!ps.length)return;
+    var as=cabAgendas(ps);R.seats=as.seats;R.secrets=as.secrets;R.phase="play";
+    clearInterval(SOC.poll);
+    cabPush({},as.secrets).then(function(){ov.remove();beginRun();});
+  };
+  clearInterval(SOC.poll);
+  var poll=function(){
+    socApi("room?code="+R.code+"&host_key="+R.key).then(function(j){
+      R.players=j.players||[];
+      $("cabList").innerHTML=R.players.length?R.players.map(function(p){return '<li>'+socEsc(p.nick)+'</li>';}).join(""):'<li class="empty">Nobody yet. Send the link.</li>';
+      $("cabBegin").disabled=!R.players.length;
+    },function(){});
+  };
+  poll();SOC.poll=setInterval(poll,1600);
+}
+/* what is on the President's screen right now, read off the screen itself, so every kind
+   of card — the deck, an impeachment, the campaign, the third-term vote — reaches the room */
+function cabCardNow(){
+  if(!G||!G.live||G.busy)return null;
+  var opts=[];
+  [["l","gL"],["r","gR"],["c","gC"]].forEach(function(o){var b=$(o[1]);
+    if(b&&!b.hidden&&b.offsetParent!==null)opts.push({k:o[0],t:b.querySelector(".txt").textContent});});
+  if(!opts.length)return null;
+  var c={who:$("gWho").textContent,says:$("gSays").textContent,opts:opts};
+  /* each minister sees what each option would do to their own ministry */
+  var cc=G.curCard,stake={};
+  if(cc&&cc.l&&cc.r){opts.forEach(function(o){var ch=o.k==="l"?cc.l:(o.k==="r"?cc.r:cc.c);
+    if(ch&&ch.t===o.t&&ch.m)stake[o.k]=ch.m;});}
+  c.stake=stake;
+  return c;
+}
+function cabTick(){
+  var R=SOC.room;clearInterval(SOC.poll);
+  SOC.poll=setInterval(function(){
+    if(!SOC.room||R.phase!=="play")return clearInterval(SOC.poll);
+    var c=cabCardNow();
+    if(c){var sig=c.who+"|"+c.says+"|"+c.opts.map(function(o){return o.t;}).join("|");
+      if(sig!==R.sig){R.sig=sig;R.turn++;c.turn=R.turn;R.card=c;R.votes=[];cabTally();cabPush();}}
+    socApi("room?code="+R.code+"&host_key="+R.key).then(function(j){
+      R.players=j.players||R.players;
+      if(R.card&&j.state&&j.state.card&&j.state.card.turn===R.card.turn){R.votes=j.votes||[];cabTally();}
+    },function(){});
+  },1300);
+}
+/* the cabinet's votes, under the President's options */
+function cabTally(){
+  var R=SOC.room,box=$("cabTally");
+  if(!box){box=document.createElement("div");box.id="cabTally";box.className="cab-tally";
+    var ch=document.querySelector("#gameRun .g-choices");ch.parentNode.insertBefore(box,ch.nextSibling);}
+  if(!R||R.phase!=="play"){box.hidden=true;return;}
+  box.hidden=false;
+  var by={};R.votes.forEach(function(v){by[v.id]=v.choice;});
+  ["gL","gR","gC"].forEach(function(id,i){var b=$(id),k=["l","r","c"][i],n=R.votes.filter(function(v){return v.choice===k;}).length;
+    var s=b.querySelector(".cv");if(!s){s=document.createElement("span");s.className="cv";b.appendChild(s);}
+    s.textContent=n?String(n):"";s.hidden=!n;});
+  var seats=R.seats||{};
+  box.innerHTML='<span class="lab">Your cabinet</span>'+Object.keys(seats).map(function(id){
+    var s=seats[id],v=by[id];
+    return '<span class="cab-chip'+(v?" in":"")+'"><b>'+socEsc(s.nick)+'</b> '+socEsc(s.role.replace(/^Minister (of|for) (the )?/,""))+
+      (v?' <i>'+({l:"A",r:"B",c:"C"})[v]+'</i>':' <i class="wait">…</i>')+'</span>';}).join("");
+}
+
+/* ---------- the end of a presidency, for groups and cabinets ---------- */
+function socEnd(){
+  var why=G.endWhy||"";
+  var res={title:$("gEndTitle").textContent,kick:$("gEndKick").textContent,name:(typeof presName==="function"?presName():"")||"",
+    days:G.day,term:G.term,end:why};
+  var kept=0,tested=0;KEYS.forEach(function(k){kept+=G.gwith[k]||0;tested+=G.gtest[k]||0;});
+  res.kept=kept;res.tested=tested;
+  var end=$("gameEnd"),anchor=end.querySelector(".namebox");
+  if(SOC.grp&&SOC.grp.nick){
+    var box=$("gGroup");
+    if(!box){box=document.createElement("div");box.id="gGroup";box.className="grp-board";anchor.parentNode.insertBefore(box,anchor);}
+    box.innerHTML='<span class="lab">Your group · '+socEsc(SOC.grp.code)+'</span><div id="gGroupRows"><p class="cab-note">Posting your presidency…</p></div>'+
+      '<div class="cta"><button class="btn ghost sm" id="gGroupRef">Refresh</button><button class="btn ghost sm" id="gGroupCopy">Invite more friends</button></div>';
+    var link=socBase()+"#grp="+SOC.grp.code;
+    $("gGroupCopy").onclick=function(){socCopy(link,"Link copied");};
+    var load=function(){socApi("group?code="+SOC.grp.code).then(function(j){groupRows(j.results||[]);},
+      function(){$("gGroupRows").innerHTML='<p class="cab-note">Your friends\' results appear here on ifnayou.com.</p>';});};
+    $("gGroupRef").onclick=load;
+    socPost("group",{code:SOC.grp.code,nick:SOC.grp.nick,result:res}).then(load,load);
+  }
+  var R=SOC.room;
+  if(R&&R.host&&R.phase==="play"){
+    R.phase="end";clearInterval(SOC.poll);
+    socApi("room?code="+R.code+"&host_key="+R.key).then(function(j){return j;},function(){return null;}).then(function(){
+      /* the secrets are on the server; the President's device kept its own copy of the seats */
+      var reveal=[];
+      Object.keys(R.seats||{}).forEach(function(id){var s=R.seats[id],a=R.secrets&&R.secrets[id]&&R.secrets[id].agenda;
+        reveal.push({id:id,nick:s.nick,role:s.role,txt:a?a.txt:"",sab:!!(a&&a.t==="sab"),done:cabEval(a,id),
+          agree:R.agree[id]||0,cast:R.cast[id]||0});});
+      R.reveal=reveal;
+      cabPush({result:res,reveal:reveal});
+      var box=$("cabReveal");
+      if(!box){box=document.createElement("div");box.id="cabReveal";box.className="cab-reveal";anchor.parentNode.insertBefore(box,anchor);}
+      box.innerHTML=cabRevealHtml(reveal,R.over,true);
+      var t=$("cabTally");if(t)t.hidden=true;
+    });
+  }
+}
+function groupRows(rows){
+  var seen={},list=[];
+  rows.forEach(function(r){if(seen[r.nick])return;seen[r.nick]=1;list.push(r);});
+  list.sort(function(a,b){return (b.result.term-a.result.term)||(b.result.days-a.result.days);});
+  var me=SOC.grp&&SOC.grp.nick;
+  $("gGroupRows").innerHTML=list.length?'<ol class="grp-rows">'+list.map(function(r,i){var x=r.result||{};
+    return '<li'+(r.nick===me?' class="me"':'')+'><span class="grp-n">'+(i+1)+'</span><div><b>'+socEsc(r.nick)+'</b>'+
+      (x.name?' <em>'+socEsc(x.name)+'</em>':'')+'<p>“'+socEsc(x.title||"")+'”</p>'+
+      '<span class="grp-m">'+spanWords(x.days||0)+' in office'+(x.tested?' · kept their word '+x.kept+' of '+x.tested:'')+'</span></div></li>';}).join("")+'</ol>'
+    :'<p class="cab-note">Nobody else has finished yet. Send the link and come back.</p>';
+}
+function cabRevealHtml(rv,over,pres){
+  var who=pres?"You":"The President",whose=pres?"your":"the";
+  return '<span class="lab">Cabinet night · the reveal</span>'+
+    (over?'<p class="cab-p">'+who+' overruled '+whose+' cabinet '+over+' time'+(over===1?'':'s')+'.</p>':'<p class="cab-p">'+who+' never once overruled '+whose+' cabinet.</p>')+
+    '<ul class="cab-rv">'+rv.map(function(r){return '<li class="'+(r.done?"won":"lost")+(r.sab?" sab":"")+'">'+
+      '<b>'+socEsc(r.nick)+'</b> <span>'+socEsc(r.role)+'</span>'+
+      '<p>'+(r.sab?'<strong>The traitor.</strong> ':'')+socEsc(r.txt)+'</p>'+
+      '<i>'+(r.done?'Agenda achieved':'Agenda failed')+(r.cast?' · the President sided with them '+r.agree+' of '+r.cast+' times':'')+'</i></li>';}).join("")+'</ul>';
+}
+
+/* ---------- Cabinet night: a minister's phone ---------- */
+function cabJoin(code){
+  var ov=document.createElement("div");ov.className="cab-ov cab-me";ov.id="cabMe";
+  document.body.appendChild(ov);document.body.classList.add("cab-on");
+  var key="ifnayou.cab."+code,me=null;
+  try{me=JSON.parse(sessionStorage.getItem(key)||"null");}catch(e){}
+  var last="",open=false;
+  function shell(inner){ov.innerHTML='<div class="cab-in">'+inner+'</div>';}
+  function fail(t){clearInterval(SOC.poll);shell('<span class="lab">Cabinet night</span><h2 class="cab-h">'+t+'</h2><div class="cta"><a class="btn go" href="'+socBase()+'">Go to If Na You</a></div>');}
+  function joinForm(host){
+    shell('<span class="lab">Cabinet night · '+code+'</span><h2 class="cab-h">'+socEsc(host)+' is forming a government.</h2>'+
+      '<p class="cab-p">You\'ll be a minister. You vote on every decision the President faces, and you\'ll get a secret agenda of your own.</p>'+
+      '<label class="lab" for="cabNick">Your name, the way your friends know you</label>'+
+      '<div class="tg-row"><input id="cabNick" type="text" maxlength="20" autocomplete="off" autocapitalize="words" spellcheck="false" value="'+socEsc(socNick())+'">'+
+      '<button class="btn go" id="cabJoinGo">Join the cabinet</button></div><p class="tg-err" id="cabErr" hidden></p>');
+    var go=function(){var n=$("cabNick").value.replace(/[<>]/g,"").trim().slice(0,20);if(!n)return;socSaveNick(n);
+      $("cabJoinGo").disabled=true;
+      socPost("room",{action:"join",code:code,nick:n}).then(function(j){me={id:j.player_id,token:j.token};
+        try{sessionStorage.setItem(key,JSON.stringify(me));}catch(e){}tick();SOC.poll=setInterval(tick,1500);},
+        function(e){$("cabJoinGo").disabled=false;$("cabErr").hidden=false;
+          $("cabErr").textContent=e.status===409?"This cabinet has already started or is full.":"Could not join. Check the code and try again.";});};
+    $("cabJoinGo").onclick=go;$("cabNick").addEventListener("keydown",function(e){if(e.key==="Enter")go();});
+  }
+  function vote(turn,k){
+    socPost("room",{action:"vote",code:code,token:me.token,turn:turn,choice:k}).then(tick,function(){tick();});
+  }
+  function stakeTxt(d){if(d==null||!d)return '<span class="stk">No effect on your ministry</span>';
+    var up=d>0,a=Math.abs(d);return '<span class="stk '+(up?"up":"dn")+'">'+(up?"▲":"▼")+(a>=8?(up?"▲":"▼"):"")+' '+(up?"Good":"Bad")+' for your ministry</span>';}
+  function render(j){
+    var s=j.state||{},mine=j.me||{},sec=mine.secret||{},seat=(s.seats||{})[mine.id]||{};
+    var sig=JSON.stringify([j.ver,j.votes,open]);if(sig===last)return;last=sig;
+    if(s.phase==="lobby"||!s.phase){
+      shell('<span class="lab">Cabinet night · '+code+'</span><h2 class="cab-h">You\'re in.</h2>'+
+        '<p class="cab-p">Waiting for '+socEsc(j.host)+' to start the presidency.</p>'+
+        '<span class="lab cab-sub">In the room</span><ul class="cab-list">'+(j.players||[]).map(function(p){return '<li'+(p.id===mine.id?' class="me"':'')+'>'+socEsc(p.nick)+'</li>';}).join("")+'</ul>');
+      return;
+    }
+    var head='<div class="cab-seat"><span class="lab">'+socEsc(sec.role||seat.role||"Minister")+'</span>'+
+      (sec.b?'<span class="cab-bar"><b>'+socEsc(blocName(sec.b))+'</b><i style="width:'+((s.blocs||{})[sec.b]||0)+'%"></i><em>'+((s.blocs||{})[sec.b]||0)+'</em></span>':'')+
+      '<button class="cab-secret" id="cabSec" aria-expanded="'+open+'">'+(open?'Hide your secret agenda':'Your secret agenda')+'</button>'+
+      (open?'<p class="cab-agenda">'+socEsc(sec.agenda?sec.agenda.txt:"")+'</p>':'')+'</div>';
+    if(s.phase==="end"){
+      var r=s.result||{},mineRv=(s.reveal||[]).filter(function(x){return x.id===mine.id;})[0];
+      shell('<span class="lab">The presidency is over</span><h2 class="cab-h">'+socEsc(r.title||"")+'</h2>'+
+        (r.name?'<p class="cab-p"><em>'+socEsc(r.name)+'</em></p>':'')+
+        (mineRv?'<p class="cab-big '+(mineRv.done?"won":"lost")+'">'+(mineRv.done?'You achieved your agenda.':'Your agenda failed.')+'</p>':'')+
+        '<div class="cab-reveal">'+cabRevealHtml(s.reveal||[],s.over||0)+'</div>'+
+        '<div class="cta"><a class="btn go" href="'+socBase()+'#play">Play President yourself</a></div>');
+      clearInterval(SOC.poll);return;
+    }
+    var c=s.card,body="";
+    if(s.last&&(!c||c.turn!==s.last.turn)){
+      body+='<p class="cab-last">The President chose <b>'+socEsc(s.last.t)+'</b>'+(s.last.over?' — <strong>overruling the cabinet</strong>.':'.')+'</p>';
+    }
+    if(c){
+      var my=(j.votes||[]).filter(function(v){return v.id===mine.id;})[0];
+      var seats=s.seats||{};
+      body+='<div class="cab-card"><span class="who">'+socEsc(c.who)+'</span><p class="says">'+socEsc(c.says)+'</p></div>'+
+        '<div class="cab-opts">'+c.opts.map(function(o,i){var d=sec.b&&c.stake&&c.stake[o.k]?c.stake[o.k][sec.b]:null;
+          var who=(j.votes||[]).filter(function(v){return v.choice===o.k;}).map(function(v){return socEsc((seats[v.id]||{}).nick||"");});
+          return '<button class="cab-opt'+(my&&my.choice===o.k?" on":"")+'" data-k="'+o.k+'"><span class="ab">'+"ABC"[i]+'</span><span class="t">'+socEsc(o.t)+'</span>'+
+            (sec.b&&c.stake&&Object.keys(c.stake).length?stakeTxt(d):'')+
+            (who.length?'<span class="vw">'+who.join(", ")+'</span>':'')+'</button>';}).join("")+'</div>'+
+        '<p class="cab-note">'+(my?'Your vote is in. You can change it until the President decides.':'Vote for what you want the President to do.')+'</p>';
+    } else body+='<p class="cab-note">The President is deciding…</p>';
+    shell(head+body);
+    $("cabSec").onclick=function(){open=!open;last="";render(j);};
+    if(c)ov.querySelectorAll(".cab-opt").forEach(function(b){b.onclick=function(){vote(c.turn,b.getAttribute("data-k"));};});
+  }
+  function tick(){
+    socApi("room?code="+code+(me?"&token="+me.token:"")).then(function(j){
+      if(!me||!j.me){ if(me&&!j.me){me=null;} if(!$("cabNick"))joinForm(j.host); return; }
+      render(j);
+    },function(e){fail(e.status===404?"This cabinet has closed.":"Can't reach the cabinet. Check your connection.");});
+  }
+  tick();
+  if(me)SOC.poll=setInterval(tick,1500);
+}
 /* ---------- product analytics: funnel, decisions, answers, drop-off (repo-only) ----------
    Everything here hooks the game and quiz from the outside, by wrapping functions the
    rest of the page already calls by name, so the artifact's game code stays untouched
@@ -8928,6 +9900,18 @@ document.addEventListener("keydown",function(e){
   });
 })();
 
+/* "Play with friends" needs /api/room and /api/group, which this site does not have yet, so
+   without them Cabinet night could only fail (and tell people it "runs on ifnayou.com" while
+   they are on it). Hidden until /api/room answers; a group or cabinet link keeps it, since
+   those visitors need the form to start. (repo-only: Play with friends needs /api/room) */
+(function(){
+  var b=$("gTogether");if(!b)return;
+  if(/(^|[#&])(grp|cab)=/i.test(location.hash))return;
+  b.style.display="none";
+  try{fetch("/api/room?ping=1").then(function(r){return r.ok?r.json():null;})
+    .then(function(j){if(j&&j.ok)b.style.display="";}).catch(function(){});}catch(e){}
+})();
+
 /* ---------- boot ---------- */
 /* Whatever a previous version stored for the map that never existed goes on the first
    load after this one, not on the first result. */
@@ -8943,7 +9927,7 @@ function start(){
   st.cmp=readInvite();
   renderBallot();renderInvite();
   /* An advert, a post or a shared link can name the half it is selling. */
-  var r0=routeFrom(location.hash);
+  var r0=socRoute()||routeFrom(location.hash);
   if(r0)enter(r0.view,{deep:r0.deep,history:false});
   else show("start");
   marks();

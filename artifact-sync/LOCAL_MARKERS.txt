@@ -23,3 +23,4 @@ autoConfig
 quiz_question_viewed
 game_card_viewed
 product analytics: funnel, decisions, answers
+Play with friends needs /api/room
