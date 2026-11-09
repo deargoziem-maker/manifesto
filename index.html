@@ -9860,6 +9860,20 @@ function cabJoin(code){
     });
   }catch(e){}
 
+  /* Play with friends: counts only. No nicknames, codes or votes ever go into an event. */
+  try{
+    cabLobby=(function(orig){return function(){evt("cabinet_hosted",{});return orig.apply(this,arguments);};})(cabLobby);
+    cabJoin=(function(orig){return function(){evt("cabinet_join_opened",{});return orig.apply(this,arguments);};})(cabJoin);
+    socBegin=(function(orig){return function(){
+      var r=orig.apply(this,arguments);
+      try{
+        if(SOC.grp&&SOC.grp.nick)evt("group_game_started",{});
+        if(SOC.room&&SOC.room.host&&SOC.room.phase==="play")evt("cabinet_started",{ministers:(SOC.room.players||[]).length});
+      }catch(e){}
+      return r;
+    };})(socBegin);
+  }catch(e){}
+
   /* invite_link_opened: someone arrived on a shared result (c= quiz, g= game) */
   readInvite=(function(orig){return function(){
     var r=orig.apply(this,arguments);
@@ -9900,16 +9914,23 @@ function cabJoin(code){
   });
 })();
 
-/* "Play with friends" needs /api/room and /api/group, which this site does not have yet, so
-   without them Cabinet night could only fail (and tell people it "runs on ifnayou.com" while
-   they are on it). Hidden until /api/room answers; a group or cabinet link keeps it, since
-   those visitors need the form to start. (repo-only: Play with friends needs /api/room) */
+/* "Play with friends" needs the /api/room and /api/group endpoints, and the database tables
+   behind them (migration 0004). It stays hidden until /api/room says it is set up, so nobody is
+   offered a Cabinet night that cannot open. Asked once, and only when someone reaches the
+   Play President screen, not on every visit. A group or cabinet link keeps it, since those
+   visitors need the form to start. (repo-only: Play with friends needs /api/room) */
 (function(){
-  var b=$("gTogether");if(!b)return;
+  var b=$("gTogether"),v=$("view-play");if(!b||!v)return;
   if(/(^|[#&])(grp|cab)=/i.test(location.hash))return;
   b.style.display="none";
-  try{fetch("/api/room?ping=1").then(function(r){return r.ok?r.json():null;})
-    .then(function(j){if(j&&j.ok)b.style.display="";}).catch(function(){});}catch(e){}
+  var asked=false;
+  function ask(){
+    if(asked||v.hidden)return;asked=true;
+    try{fetch("/api/room?ping=1").then(function(r){return r.ok?r.json():null;})
+      .then(function(j){if(j&&j.ok)b.style.display="";}).catch(function(){});}catch(e){}
+  }
+  try{new MutationObserver(ask).observe(v,{attributes:true,attributeFilter:["hidden"]});}catch(e){}
+  ask();
 })();
 
 /* ---------- boot ---------- */

@@ -40,7 +40,7 @@ Copy `.env.example` to `.env.local` and fill in your Supabase project's URL + se
 
 Ad pixels: only the Meta Pixel is installed, and it receives PageView plus generic conversion events only (`mpx()` allow-list). Its automatic event collection is switched off (`autoConfig`), because left on it sends the text of every button clicked, which here is the exact quiz answer or game choice. There is no PostHog or Google Ads tag in the page.
 
-6. Run `supabase/migrations/0002_add_content_version.sql` and `0003_session_progress.sql` too. Without 0003 everything still works; the dashboard just cannot show where unfinished runs stopped.
+6. Run `supabase/migrations/0002_add_content_version.sql` and `0003_session_progress.sql` too (and `0004_play_together.sql` to turn on Play with friends). Without 0003 everything still works; the dashboard just cannot show where unfinished runs stopped.
 
 ## What's tracked
 
@@ -88,6 +88,15 @@ Tag every ad's final URL, because platforms add click ids but not always the cam
 
 - Google Ads: `?utm_source=google&utm_medium=cpc&utm_campaign={campaignid}` (or use the account's "final URL suffix" so it applies to every ad)
 - Meta Ads: `?utm_source=meta&utm_medium=paid_social&utm_campaign={{campaign.name}}` in the ad's URL parameters
+
+### Play with friends (Cabinet night and group boards)
+
+The page offers two ways to play with others once `supabase/migrations/0004_play_together.sql` has been run; until then the section stays hidden.
+
+- **Same game, compare after**: a six-character group code in the link seeds the game, so everyone gets the same Nigeria. Finished presidencies are posted to `/api/group` and shown on one board.
+- **Cabinet night**: one person plays the President; friends join on their phones as ministers (`/api/room`), vote on every decision and carry a secret agenda that is revealed at the end. The President's page runs the game and the scoring; the server is a relay that holds the room, shows ministers the current card, collects votes, and keeps each agenda to its owner until the reveal.
+
+Stored: the nicknames people type, the headline of each finished presidency (groups, kept 30 days), and a room's ministers, agendas and votes (deleted two days after the last activity). None of it is linked to the analytics tables or the anonymous id, and none of it goes to any pixel; the page only records counts (`cabinet_hosted`, `cabinet_started`, `cabinet_join_opened`, `group_game_started`). Anything a browser sends is rebuilt field by field in `api/_lib/together.js` before it is stored or shown to another player. Tests: `node tests/together.test.js`. To try it locally without Supabase: `node tests/devserver.js 5512`.
 
 ### The admin dashboard
 

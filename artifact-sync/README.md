@@ -32,7 +32,7 @@ the public-site wrapper. Do not copy the artifact over `index.html`; these would
 | Meta Pixel, the `mpx()` allow-list, and the script that hides `c=`, `g=` and `at=` from the URL | The pixel would fire from inside the artifact viewer and pollute the ad data; the artifact page has no such URL to hide |
 | `/api/track` calls, `CONTENT_VERSION`, `beginCompass()` and the other `evt()` / `track()` hooks | Anonymous analytics only make sense on the live site |
 | Source capture (`window.__IFY_SRC`, sent with `participant_seen`) and the pixel's `autoConfig` off switch | Ad-source tracking; keeps button text (quiz answers) out of Meta |
-| "Play with friends" (the artifact's group games and Cabinet night) is hidden until `/api/room` answers | It calls `/api/room` and `/api/group`, which this repo does not have yet; without them Cabinet night can only fail. Delete the guard just above `boot` once they exist |
+| `api/room.js`, `api/group.js`, `api/_lib/together.js`, migration `0004`, and the "Play with friends" hide-until-ready guard above `boot` | The artifact has the Play with friends screens but no backend. The guard keeps the section hidden until `/api/room?ping=1` says the tables exist. The page and these endpoints share a contract (`api/room.js` header); change both together |
 | The product-analytics block above `boot` (wraps `evt`, `enter`, `play`, `endGame`, `kqCommit`, `kqRender`, `readInvite`; watches `#gSays` and `#gFlagBox`) | Same. If the artifact renames one of those functions, update the block or that event stops |
 
 Everything else is in both. These are guarded by `LOCAL_MARKERS.txt` so an artifact-side edit cannot silently drop them:

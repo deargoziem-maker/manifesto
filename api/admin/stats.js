@@ -92,6 +92,7 @@ const PLAN_EVENTS = [
   "quiz_answer_submitted", "compass_completed", "president_completed", "result_viewed",
   "result_shared", "share_clicked", "share_completed", "invite_link_opened",
   "quiz_question_viewed", "game_card_viewed", "game_consequence_viewed", "game_history_opened",
+  "group_game_started", "cabinet_hosted", "cabinet_started", "cabinet_join_opened",
 ];
 async function countEvents(supabase, sinceIso) {
   const out = {};
