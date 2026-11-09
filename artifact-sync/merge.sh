@@ -31,9 +31,8 @@ while IFS= read -r m; do
 done < artifact-sync/LOCAL_MARKERS.txt
 
 echo "-- images and data the page refers to, missing from the repo?"
-grep -o '\(art\|faces\|hero\|portraits\)/[A-Za-z0-9_./-]*\.\(webp\|avif\|png\|jpg\)\|fetch("[A-Za-z0-9_./-]*\.json")' "$OUT" | sed 's/^fetch("//; s/")$//' | sort -u | while read -r f; do
-  [ -f "$f" ] || echo "   MISSING: $f   (fetch it from the artifact's published files)"
-done | tee /dev/stderr | grep -q . && fail=1 || true
+missing=$(grep -o '\(art\|faces\|hero\|portraits\)/[A-Za-z0-9_./-]*\.\(webp\|avif\|png\|jpg\)\|fetch("[A-Za-z0-9_./-]*\.json")' "$OUT" | sed 's/^fetch("//; s/")$//' | sort -u | while read -r f; do [ -f "$f" ] || echo "   MISSING: $f   (fetch it from the artifact's published files)"; done)
+if [ -n "$missing" ]; then echo "$missing"; fail=1; fi
 
 echo "-- inline scripts parse?"
 python3 - "$OUT" <<'PY' || fail=1

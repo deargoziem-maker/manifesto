@@ -1525,6 +1525,118 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
   #gameRun.fresh .mwrap{display:block;opacity:0;}
   #gameRun .shift{left:0;right:0;}
 }
+/* ===== on a phone: the whole picture, fading into the words =====
+   The picture was a cropped strip with the words in a box below it; most of every
+   illustration was cut away. Now the picture is shown whole, never cropped. Its lower
+   edge dissolves into a dark, blurred continuation of itself, and the card's words sit
+   on that continuation. On a short phone the picture is capped in height and the blurred
+   copy fills either side, so nothing is cut off and the decision still fits one screen. */
+@media (max-width:720px){
+  #gameRun{--fade:#0c111b;}
+  #gameRun .scene,body.runlock #view-play .scene,body.runlock #view-play .scene.tight,body.runlock #view-play .scene.tighter{
+    aspect-ratio:1400/933;width:100%;height:auto;flex:none;margin:0;border-bottom:0;background:var(--fade);isolation:isolate;}
+  body.runlock #view-play .scene.tighter .frame{display:flex;}
+  #gameRun .scene::before{content:"";position:absolute;inset:-12%;z-index:0;pointer-events:none;
+    background:var(--art,none) center/cover no-repeat;filter:blur(22px) brightness(.34) saturate(1.1);}
+  #gameRun .scene > img{z-index:1;object-fit:cover;
+    -webkit-mask-image:linear-gradient(180deg,#000 62%,transparent 100%);mask-image:linear-gradient(180deg,#000 62%,transparent 100%);}
+  #gameRun .scene > #gSceneImg{z-index:2;}
+  #gameRun .scene::before{display:none;}
+  #gameRun .scene > img.cam-push,#gameRun .scene > img.cam-pan{animation:sceneIn .6s ease both;transform:none;}
+  #gameRun .scene::after{display:none;}
+  /* the picture's caption already names who is speaking; the card says it again only when the caption is hidden */
+  #gameRun .card .who{display:none;}
+  #gameRun:has(#gFrame[hidden]) .card .who{display:block;}
+  #gameRun .scene .frame,#gameRun .scene .g-clock,#gameRun .scene-tag{z-index:3;}
+  #gameRun .card,body.runlock #gameRun .card{position:relative;isolation:isolate;overflow:hidden;border:0;margin-top:0;
+    background:var(--fade);color:#F3F4F0;box-shadow:none;}
+  #gameRun .card::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background:var(--art,none) center bottom/cover no-repeat;filter:blur(22px) brightness(.3) saturate(1.1);}
+  /* the card grows to hold its words; if a long one does not fit, the page scrolls, the picture does not shrink */
+  body.runlock{overflow:auto;}
+  body.runlock .g-wrap{height:auto;min-height:calc(100vh - var(--mast-h,58px) - 32px);min-height:calc(100dvh - var(--mast-h,58px) - 32px);}
+  body.runlock #gameRun{flex:1 0 auto;}
+  body.runlock #gameRun .card{flex:1 0 auto;overflow:visible;box-shadow:none;}
+  body.runlock #gameRun.roomless .feed{display:block;}
+  #gameRun .card .who{color:#7fd6a8;}
+  #gameRun .card .says{color:#fff;}
+  #view-play #gameRun .card.shock{background:#1b0f0c;border:0;box-shadow:inset 3px 0 0 var(--laterite);}
+  #view-play #gameRun .card.shock .who{color:#f0a48c;}
+  #gameRun .card .hist-btn{color:#F3F4F0;border-color:rgba(243,244,240,.45);}
+  #gameRun .card .hist-note{color:#e3e5e8;border-color:rgba(243,244,240,.25);}
+  #gameRun .card .hist-note a{color:#fff;}
+}
+/* ===== laptop and desktop: the scene is the screen =====
+   The picture fills the whole screen under the masthead, edge to edge. The powers float
+   across its top; the words and the answers sit on its darkened lower half; the country's
+   voices sit in the lower right. Nothing on the screen is page. */
+@media (min-width:721px){
+  body.runlock{background:#0b1019;}
+  body.runlock #view-play{padding:0 !important;}
+  body.runlock #view-play .g-wrap{max-width:none;padding:0;margin:0;}
+  body.runlock #gameRun:not([hidden]){position:relative;isolation:isolate;overflow:hidden;
+    width:100vw;margin-left:calc(50% - 50vw);
+    height:calc(100vh - var(--mast-h,58px));height:calc(100dvh - var(--mast-h,58px));min-height:560px;
+    display:grid;grid-template-columns:minmax(32px,1fr) minmax(0,920px) minmax(280px,1fr);
+    grid-template-rows:auto 1fr auto auto auto;column-gap:32px;row-gap:0;align-items:end;align-content:stretch;
+    padding:18px 0 26px;}
+  body.runlock #gameRun .side-view,body.runlock #gameRun .side-desk{display:contents;}
+  /* the picture, the whole screen */
+  body.runlock #gameRun .scene{position:absolute;inset:0;z-index:0;width:auto;height:auto;aspect-ratio:auto;max-height:none;
+    margin:0;border:0;background:#0b1019;}
+  body.runlock #gameRun .scene > img{object-fit:cover;-webkit-mask-image:none;mask-image:none;}
+  body.runlock #gameRun .scene::before{display:none;}
+  body.runlock #gameRun .scene::after{display:block;z-index:2;
+    background:linear-gradient(180deg,rgba(8,11,18,.62) 0,rgba(8,11,18,0) 20%,rgba(8,11,18,0) 38%,rgba(8,11,18,.78) 64%,rgba(8,11,18,.94) 100%),
+               linear-gradient(90deg,rgba(8,11,18,.35) 0,rgba(8,11,18,0) 30%,rgba(8,11,18,0) 70%,rgba(8,11,18,.45) 100%);}
+  body.runlock #gameRun .scene .frame{top:auto;bottom:auto;display:none;}
+  body.runlock #gameRun .scene .g-clock{position:absolute;top:18px;right:24px;z-index:3;margin:0;}
+  body.runlock #gameRun .scene-tag{z-index:3;top:18px;left:24px;}
+  /* the powers, floating over the top */
+  body.runlock #gameRun .rn-head{grid-column:2;grid-row:1;position:relative;z-index:3;align-self:start;margin:0;}
+  body.runlock #gameRun .mt .bar{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18);}
+  body.runlock #gameRun .mt span,body.runlock #gameRun .mt .lab,body.runlock #gameRun .meters{color:#E3E6EA;text-shadow:0 1px 2px rgba(0,0,0,.6);}
+  body.runlock #gameRun .shift{background:rgba(10,14,22,.62);border-color:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
+  /* the words and the answers on the lower half */
+  body.runlock #gameRun .card{grid-column:2;grid-row:3;position:relative;z-index:3;width:100%;margin:0;
+    background:transparent;border:0;padding:0 0 18px;min-height:0;color:#fff;transform:none !important;box-shadow:none;}
+  body.runlock #gameRun .card .who{color:#7fd6a8;margin-bottom:10px;}
+  body.runlock #gameRun .card .says{color:#fff;font-size:clamp(1.2rem,.6rem + 1.05vw,1.75rem);line-height:1.38;
+    text-shadow:0 2px 6px rgba(0,0,0,.55);}
+  body.runlock #view-play #gameRun .card.shock{background:transparent;border:0;box-shadow:none;}
+  body.runlock #view-play #gameRun .card.shock .who{color:#f0a48c;}
+  body.runlock #gameRun .card .hist-btn{color:#F3F4F0;border-color:rgba(243,244,240,.45);}
+  body.runlock #gameRun .card .hist-note{color:#e3e5e8;border-color:rgba(243,244,240,.25);background:rgba(10,14,22,.5);}
+  body.runlock #gameRun .card .hist-note a{color:#fff;}
+  body.runlock #gameRun .g-choices{grid-column:2;grid-row:4;position:relative;z-index:3;width:100%;margin:0;grid-template-columns:1fr 1fr;}
+  body.runlock #gameRun .g-choices.one{grid-template-columns:1fr;}
+  body.runlock #gameRun .g-choices:has(#gC:not([hidden])){grid-template-columns:1fr 1fr 1fr;}
+  body.runlock #gameRun .g-choice{color:#fff;background:rgba(14,19,29,.72);border-color:rgba(255,255,255,.18);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
+  body.runlock #gameRun .g-choice:hover{background:rgba(24,31,46,.85);border-color:rgba(255,255,255,.4);}
+  body.runlock #gameRun .g-choice .ab{border-color:rgba(255,255,255,.7);color:#fff;}
+  body.runlock #gameRun .g-flag{grid-column:2;grid-row:5;position:relative;z-index:3;width:100%;margin-top:10px;}
+  body.runlock #gameRun .cab-tally{grid-column:2;grid-row:5;position:relative;z-index:3;}
+  body.runlock #cabTally .lab{color:#AEB4BE;}
+  body.runlock #cabTally .cab-chip{color:#C9CDD4;border-color:rgba(255,255,255,.2);}
+  body.runlock #cabTally .cab-chip.in{color:#fff;border-color:rgba(255,255,255,.5);}
+  /* the country's voices, lower right */
+  body.runlock #gameRun .feed{grid-column:3;grid-row:2 / span 3;align-self:end;justify-self:end;margin-right:32px !important;position:relative;z-index:3;
+    width:calc(100% - 32px);max-width:330px;margin:0;padding:14px 16px;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+    background:rgba(10,14,22,.58);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#E9EBEE;}
+  body.runlock #gameRun .feed .clab,body.runlock #gameRun .fmsg b,body.runlock #gameRun .ftrend span,body.runlock #gameRun .ftrend i{color:#AEB4BE;}
+  body.runlock #gameRun .fmsg,body.runlock #gameRun .fmsg p,body.runlock #gameRun .fwhy{color:#E9EBEE;}
+  body.runlock #gameRun .ftrend{background:rgba(255,255,255,.07);}
+  body.runlock #gameRun .ftrend.hot{background:rgba(222,98,64,.18);}
+  body.runlock #gameRun .ftrend b{color:#fff;}
+  body.runlock #gameRun .fmsgs .fmsg:nth-child(n+3){display:grid;}
+}
+/* narrower laptops: the voices drop out of the corner and the words take the width */
+@media (min-width:721px) and (max-width:1180px){
+  body.runlock #gameRun:not([hidden]){grid-template-columns:minmax(24px,1fr) minmax(0,860px) minmax(24px,1fr);}
+  body.runlock #gameRun .feed{display:none;}
+}
+
 @media (min-width:721px) and (max-height:760px){
   #gameRun .mt .bar{height:34px;}
   #gameRun .card{padding:12px 16px;}
@@ -4542,6 +4654,8 @@ function feedFor(ch){
     G.toldLame=true;
     msgs=[{h:"Your Chief of Staff",t:"Your Excellency, the Senate and the governors are already talking to the people who want your job. Their support will cost more every month from now on.",c:"warn"}];
   }
+  /* the people who handle the money speak when there is something to say */
+  if(G.fNotes&&G.fNotes.length)msgs=G.fNotes.splice(0,1).concat(msgs).slice(0,2);
   (ch.fd||[]).forEach(function(m){taken.push(m[0]);msgs.push({h:m[0],t:m[1],c:""});});
   /* then what the country is saying about this decision: its subject, the way the public
      took it, and the tag it is trending under */
@@ -4549,6 +4663,12 @@ function feedFor(ch){
   if(cc&&(cc.l===ch||cc.r===ch||cc.c===ch)&&typeof topicPosts==="function"){
     var tpp=topicPosts(cc,ch,taken);trend=tpp.trend;
     tpp.posts.forEach(function(p){if(msgs.length<3)msgs.push(p);});
+  }
+  /* when prices are rising, somebody always says so */
+  if(G.infl>=8&&grand()<Math.min(0.75,G.infl/30)){
+    var ph=PRICE_HANDLES.filter(function(h){return taken.indexOf(h)<0;});
+    var pp={h:ph[Math.floor(grand()*ph.length)],t:rot(PRICE_POSTS,"price"),c:"dn"};
+    if(msgs.length>=3)msgs[msgs.length-1]=pp; else msgs.push(pp);
   }
   if(!trend){
   /* failing that, the measures this decision moved furthest, in the voices of people living it */
@@ -5162,7 +5282,8 @@ var ART={office:"art/office2.webp",officeWide:"art/office_wide.webp",officeTall:
  gyang:"art/gyang.webp",gyangCall:"art/gyang_call.webp",
  works:"art/works.webp",finance:"art/finance.webp",
  farm:"art/farm.webp",hospital:"art/hospital.webp",fuel:"art/fuel.webp",market:"art/market.webp",campus:"art/campus.webp",polling:"art/polling.webp",
- forum:"art/forum.webp",chairman:"art/chairman.webp",cbn:"art/cbn.webp",cos:"art/cos.webp"};
+ forum:"art/forum.webp",chairman:"art/chairman.webp",cbn:"art/cbn.webp",cos:"art/cos.webp",
+ youth_hub:"art/youth_hub.webp",youth_street:"art/youth_street.webp",power_dark:"art/power_dark.webp",power_grid:"art/power_grid.webp",treasury:"art/treasury.webp",lenders:"art/lenders.webp",court:"art/court.webp",police:"art/police.webp",delta:"art/delta.webp",flood:"art/flood.webp",bank:"art/bank.webp",senate:"art/senate.webp",classroom:"art/classroom.webp",airport:"art/airport.webp",port:"art/port.webp",housing:"art/housing.webp",mining:"art/mining.webp",culture:"art/culture.webp"};
 /* the people who speak for the powers have their own pictures: composed when their
    power is calm with you, under pressure when it is not */
 var PEOPLE=[
@@ -5192,7 +5313,7 @@ var TOPIC_ART=[
  [/INEC|polling|ballot|election|voter|campaign/i,"polling"],
  [/hospital|doctor|nurse|clinic|health|patient/i,"hospital"],
  [/fuel|petrol|pump|kerosene|subsidy/i,"fuel"],
- [/farm|harvest|herder|crop|fertili|planting|grain|rice/i,"farm"],
+ [/\bfarm|harvest|herder|\bcrops?\b|fertili|planting|\bgrain|\brice\b/i,"farm"],
  [/protest|strike|march|crowd|at the gate|demonstrat|occupy|union/i,"protest"],
  [/transport|road|highway|traffic|danfo|okada|bus|fare|commut/i,"traffic"],
  [/market|trader|price|garri|food|shop/i,"market"]
@@ -5202,8 +5323,13 @@ function topicArt(c){
   for(var i=0;i<TOPIC_ART.length;i++)if(TOPIC_ART[i][0].test(t))return TOPIC_ART[i][1];
   return null;
 }
+/* pictures chosen by hand where the keywords chose wrong (audited 9 Nov 2026), keyed by who speaks and how the card opens */
+var ARTFIX={"Accountant-General|Debt payments are bigger than the revenu": "cabinetEmpty", "Delegation of Young Nige|No one in your cabinet is under 40. We w": "student", "Niger Delta Leader|Your Finance Minister wants these expens": "cabinetMeeting", "Minister of Education|Millions of children are out of school, ": "student", "IMF Mission Chief|Three billion dollars is available. The ": "cabinetMeeting", "Revenue Service Chair|Salaried workers and big companies canno": "cabinetEmpty", "Education Minister|Some states want young children taught f": "student", "Accountant-General|We do not have enough cash to meet every": "cabinetEmpty", "Accountant-General|You remember when you kept the fuel subs": "cabinetEmpty", "Accountant-General|You remember the payments you froze on y": "cabinetEmpty", "Health Minister|Doctors trained at public expense are le": "hospital", "Managing Director of the|Ships wait weeks to unload and importers": "traffic", "Minister of Humanitarian|The school feeding programme reaches mil": "student", "Minister of Labour|Nurses, engineers and programmers are le": "street", "Director-General of the |Millions of young Nigerians trade crypto": "student", "Chair of the Revenue Ser|Freelancers, content creators and remote": "street", "Director-General of the |Betting apps are on almost every young m": "street", "Minister of Communicatio|The phone companies want to raise data p": "student", "Director-General, Debt M|Your Excellency, a large share of everyt": "cabinetEmpty", "Minister of Power|You remember the power plant contract yo": "cabinetMeeting", "Foreign Lender|My board has suspended our new lending t": "cabinetMeeting", "Attorney-General|You remember sending money straight to t": "cabinetMeeting", "IMF Mission Chief|You remember the programme you agreed wi": "cabinetMeeting", "Minister of Humanitarian|The cash transfer programme for the poor": "market", "Your Chief of Staff, on |Your Excellency, Governor Bassey Ekanem ": "forum", "Your Chief of Staff, on |Your Excellency, the contractors are in ": "works", "Your Chief of Staff, on |Your Excellency, on its last day in offi": "works", "Your Chief of Staff, on |Your Excellency, the national grid colla": "sitroom", "Your Chief of Staff, on |Your Excellency, one of the big banks ca": "cbn", "Your Chief of Staff, on |Your Excellency, the party leaders who c": "chairman", "Your Chief of Staff, on |Your Excellency, flood waters are rising": "sitroom", "Minister of Petroleum|Fuel queues are back in the cities a mon": "fuel", "An event outside your co|Oil prices have fallen sharply below the": "sitroom", "An event outside your co|Oil prices have risen above the budget’s": "sitroom", "An event outside your co|The military has taken power in a neighb": "sitroom", "An event outside your co|Children have been abducted from a board": "sitroom", "An event outside your co|Leaked financial records name senior pol": "confidential"};
+/* the scenes painted for these cards (9 Nov 2026) */
+Object.assign(ARTFIX,{"Minister of Communicatio|Millions of phone lines are still not li": "youth_hub", "Minister of Communicatio|Foreign technology companies hold the pe": "youth_hub", "Director-General of the |Millions of young Nigerians trade crypto": "youth_hub", "Chair of the Revenue Ser|Freelancers, content creators and remote": "youth_hub", "Minister of Science and |Our most successful start-ups register t": "youth_hub", "Delegation of Young Nige|No one in your cabinet is under 40. We w": "youth_street", "Inspector-General of Pol|Young people say officers stop them for ": "youth_street", "Director-General of the |Betting apps are on almost every young m": "youth_street", "Minister of Communicatio|The phone companies want to raise data p": "youth_street", "Minister of Power|Electricity is being sold for less than ": "power_dark", "Minister of Power|You remember when you kept tariffs down?": "power_dark", "Minister of Power|Several electricity distribution compani": "power_dark", "Minister of Power|The grid that collapsed on your first mo": "power_dark", "Your Chief of Staff, on |Your Excellency, the national grid colla": "power_dark", "Minister of Power|You remember the tariff increase? Supply": "power_grid", "Minister of Power|You remember the power plant contract yo": "power_grid", "Minister of Power|A foreign consortium will build new powe": "power_grid", "Accountant-General|Debt payments are bigger than the revenu": "treasury", "Revenue Service Chair|Salaried workers and big companies canno": "treasury", "Accountant-General|We do not have enough cash to meet every": "treasury", "Accountant-General|You remember when you kept the fuel subs": "treasury", "Accountant-General|You remember the payments you froze on y": "treasury", "Director-General, Debt M|Your Excellency, a large share of everyt": "treasury", "Foreign Lender|We can finance your railway now, but our": "lenders", "IMF Mission Chief|Three billion dollars is available. The ": "lenders", "Chief of Defence Staff|A foreign government is offering drones,": "lenders", "Minister of Transportati|A foreign state lender will build the ne": "lenders", "Foreign Lender|My board has suspended our new lending t": "lenders", "IMF Mission Chief|You remember the programme you agreed wi": "lenders", "Chief Justice|The court has ruled against your governm": "court", "Attorney-General|Most of the people in our prisons have n": "court", "Attorney-General|You remember the contract you suspended ": "court", "Chief Justice|I retire next month. By custom the most ": "court", "Chief Justice|You remember approving the state police ": "court", "An event outside your co|The court has ruled against the federal ": "court", "Inspector-General of Pol|We have CCTV footage of suspects from th": "police", "Inspector-General of Pol|We do not have enough police officers, a": "police", "Inspector-General of Pol|The opposition wants to hold a national ": "police", "Inspector-General of Pol|You remember approving the state police ": "police", "Niger Delta Leader|Your Finance Minister wants these expens": "delta", "Chief of Defence Staff|Militants are attacking oil facilities a": "delta", "Minister of Environment|Oil companies are still burning off gas ": "delta", "National Security Advise|Oil theft is draining the revenue. A pri": "delta", "The governors of the ele|Flooding has displaced people across our": "flood", "Minister of Humanitarian|The rains have flooded farmland and home": "flood", "Minister of Humanitarian|The rains are coming again, and the town": "flood", "Your Chief of Staff, on |Your Excellency, flood waters are rising": "flood", "An event outside your co|Severe flooding has displaced people acr": "flood", "Central Bank Governor|Most of the money in the economy never p": "bank", "Central Bank Governor|You remember the bank you rescued on you": "bank", "Central Bank Governor|You remember the bank you let fail on yo": "bank", "Your Chief of Staff, on |Your Excellency, one of the big banks ca": "bank", "Sponsor of the Seats Bil|Women remain badly underrepresented in e": "senate", "Senator Ladi Gyang, on t|The budget has not passed. Until it does": "senate", "Senator Ladi Gyang, Lead|My colleagues want to pass a bill agains": "senate", "Senator Ladi Gyang, Lead|My colleagues want new official cars and": "senate", "Senator Ladi Gyang, Lead|My members can remove the limit altogeth": "senate", "Minister of Education|Millions of children are out of school, ": "classroom", "Education Minister|Some states want young children taught f": "classroom", "Minister of Humanitarian|The school feeding programme reaches mil": "classroom", "Health Minister|Doctors trained at public expense are le": "airport", "Minister of Aviation|Nigeria has no national airline, and our": "airport", "Minister of Labour|Nurses, engineers and programmers are le": "airport", "Managing Director of the|Ships wait weeks to unload and importers": "port", "Minister of Works|The new expressway could transform the c": "housing", "Minister of Housing|Rents in the cities are rising faster th": "housing", "Minister of Solid Minera|Thousands of people dig for gold without": "mining", "Minister of Culture and |Our films and music are watched across t": "culture"});
 function sceneFor(c,fmt){
   if(!c)return "cabinetEmpty";
+  var fx=ARTFIX[String(c.w||"").slice(0,24)+"|"+String(c.s||c.h||"").slice(0,40)];if(fx&&ART[fx])return fx;
   if(fmt==="paper")return topicArt(c)||"market";
   var pp=personOf(c); if(pp)return pp[0];
   if(fmt==="call")return "call";
@@ -5249,6 +5375,8 @@ function setScene(key,fmt){
       pv.classList.remove("fade");void pv.offsetWidth;pv.classList.add("fade");}
     im.src=src;
   }
+  /* the card's words sit on a blurred continuation of the same picture */
+  var gr=$("gameRun");if(gr)gr.style.setProperty("--art","url("+src+")");
   im.alt="";
   /* the camera moves: across a crowd, towards a person or a room */
   var pan=/market|fuel|protest|polling|farm|campus|traffic|street|hospital|forum/.test(key||"");
@@ -5772,6 +5900,135 @@ function trendFor(c,ch,tp,st){
   var n=4+Math.abs(st.s)*2.2+Math.random()*26; n=Math.min(180,n);
   return {tag:tag,n:(n>=10?Math.round(n):Math.round(n*10)/10)+"k posts",hot:st.d==="no"};
 }
+/*fiscal*/
+
+/* ---------- the money: what it costs to spend what you do not have ----------
+   The Treasury used to be a meter with no memory: a loan topped it up and was forgotten,
+   and an empty Treasury ended the run outright. Neither is how a country works. Now:
+   - borrowing adds to a debt the player never sees; once a year the lenders are paid
+     first, out of the Treasury, and the Finance Minister says so;
+   - when the Treasury runs dry the Central Bank pays the bills with new money instead of
+     the run ending; that money reaches market prices over the following months;
+   - rising prices cost the Street and prosperity every month they last, and bring the
+     strikes and food-price arguments to the desk;
+   - when prices run away the Central Bank Governor asks for a decision, and when the
+     debt can no longer be carried the lenders do.
+   Spending before an election still works, as it does in life. The bill arrives after. */
+var FISC={
+  rate:0.24,      /* share of the debt repaid out of the Treasury each year */
+  principal:0.12, /* the part of that repayment that actually reduces the debt */
+  printAt:3,      /* the Treasury level at which the Central Bank starts paying the bills */
+  printAmt:14,    /* what one month of the Central Bank paying puts back in the Treasury */
+  passThrough:0.9,/* how much of that money ends up in prices */
+  arrive:0.3,     /* share of the money still on its way that reaches prices each month */
+  decay:0.93,     /* how much of last month's price rise is still rising this month */
+  biteStreet:0.14,biteProsper:0.09,
+  numb:35,        /* how much rising prices blunt a gain with the Street: at this rate, a handout is mostly swallowed */
+  cbAt:12,cbGap:6,/* the Governor comes when prices rise this fast, at most this often */
+  runaway:30,calm:22,runawayMonths:4, /* prices this high for this long bring a government down */
+  lendAt:55       /* the debt at which the lenders stop lending and start setting terms */
+};
+/* the choices that are borrowing, by what the player is asked to do; 1 means "the amount
+   the Treasury gains", any other number is the amount borrowed */
+var BORROW={"Take the loan":1,"Borrow again":1,"Take the IMF programme":1,
+  "Borrow against future oil revenue":1,"Take the lender's offer":1,
+  "Ease the conditions and keep going":1,"Keep the promise in full":14};
+var PAYDOWN={"Use the savings to pay down debt":15};
+function fiscInit(){
+  G.debt=0;G.pipe=0;G.infl=0;G.fNotes=[];G.fDay=-1;G.fYear=-1;
+  G.printN=0;G.cbLast=-99;G.lendDone=false;G.lentOff=false;G.inflSaid={};
+}
+function fiscNote(h,t,c){G.fNotes.push({h:h,t:t,c:c||"warn"});if(G.fNotes.length>2)G.fNotes.shift();}
+/* a decision has been taken: if it was borrowing, it is owed */
+function fiscChoice(side){
+  G.fStreet0=G.m.street;
+  var c=G.curCard;if(!c||!c[side])return;
+  var ch=c[side],b=BORROW[ch.t],p=PAYDOWN[ch.t];
+  if(b){var amt=b===1?Math.max(6,(ch.m&&ch.m.purse)||10):b;
+    G.debt+=amt;
+    /* refused the lenders: the only one left is the Central Bank */
+    if(G.lentOff)G.pipe+=amt*FISC.passThrough;}
+  if(p)G.debt=Math.max(0,G.debt-p);
+}
+/* once a month, before anything else is counted */
+function fiscTurn(){
+  if(G.debt===undefined||G.fDay===G.day)return;
+  G.fDay=G.day;
+  if(G.m.purse<=FISC.printAt){
+    var a=FISC.printAmt;
+    G.m.purse+=a;G.debt+=a*0.5;G.pipe+=a*FISC.passThrough;G.printN++;
+    if(G.printN===1)fiscNote("Central Bank Governor","The Treasury could not meet this month's salaries, so the Central Bank has paid them. You will not see it today. You will see it in prices.");
+    else if(G.printN%3===0)fiscNote("Central Bank Governor","We are paying the government's bills with new money again. Prices are already moving, and they will keep moving.");
+  }
+  /* a handout given while prices race ahead is mostly swallowed by the prices */
+  if(G.fStreet0!==undefined&&G.infl>5&&G.m.street>G.fStreet0){
+    G.m.street-=(G.m.street-G.fStreet0)*Math.min(0.75,G.infl/FISC.numb);}
+  G.fStreet0=undefined;
+  var arr=G.pipe*FISC.arrive;G.pipe-=arr;G.infl=G.infl*FISC.decay+arr;
+  if(G.infl>2){
+    G.m.street=Math.max(0,G.m.street-G.infl*FISC.biteStreet);
+    G.v.pro=Math.max(0,G.v.pro-G.infl*FISC.biteProsper);
+  }
+  [[8,"Mama Nkechi, Onitsha market","Everything don cost more this month. Rice, garri, transport. The money we get never change."],
+   [16,"Labour leader","Workers' pay has not moved and prices have. If this continues, we will have no choice but to down tools."],
+   [26,"Your Chief of Staff","Your Excellency, prices are now the only thing anyone is talking about. Every other thing you do is being judged by it."]]
+  .forEach(function(t){
+    if(G.infl>=t[0]&&!G.inflSaid[t[0]]){G.inflSaid[t[0]]=true;fiscNote(t[1],t[2]);}
+    else if(G.infl<t[0]*0.5)G.inflSaid[t[0]]=false;
+  });
+  /* prices out of control: the streets give a government a few months, not a term */
+  if(G.infl>=FISC.runaway){
+    G.runaway=(G.runaway||0)+1;
+    if(G.runaway===1)fiscNote("Your Chief of Staff","Your Excellency, prices are out of control and the protests are growing every week. Governments in this position have months, not years. Bring prices down or they will bring you down.");
+    if(G.runaway>FISC.runawayMonths)G.burnt="purse";
+  } else if(G.infl<FISC.calm&&G.runaway){
+    G.runaway=0;fiscNote("Central Bank Governor","Prices are still high, but they have stopped running. The worst of it is behind us, if we do not start printing again.","up");
+  }
+  /* a new year: the lenders are paid before anyone else */
+  if(G.day>0&&G.day%PER_YEAR===0&&G.fYear!==G.day){
+    G.fYear=G.day;
+    var svc=G.debt*FISC.rate;
+    if(svc>=1){
+      G.m.purse=Math.max(0,G.m.purse-svc);G.debt-=G.debt*FISC.principal;
+      if(svc>=9)fiscNote("Finance Minister","Most of what comes in now goes straight to the lenders. We cannot borrow our way out of this.");
+      else if(svc>=5)fiscNote("Finance Minister","Debt repayments took a large bite out of the Treasury again this year. Every new loan makes next year's bite bigger.");
+      else if(svc>=2)fiscNote("Finance Minister","Repayments on what we have borrowed came out of the Treasury first this year.","");
+    }
+  }
+}
+/* when prices are rising, the arguments about pay, food and fuel come to the desk sooner */
+function fiscPull(c){
+  if(!G.infl||G.infl<8||typeof TPMAP==="undefined"||!c.s)return 0;
+  var t=c.tp||TPMAP[c.s.slice(0,40)];
+  return (t==="wage"||t==="food"||t==="fuel"||t==="naira")?1.4:0;
+}
+var PRICE_POSTS=["Garri price don go up again this week.","Same money, half the bag of rice I bought in January.",
+ "Transport fare to work went up twice this month.","The shop owner changed the price tags while I was standing there.",
+ "My salary is the same. Everything else is not.","I bought less and paid more. Tomatoes, pepper, onions, everything."];
+var PRICE_HANDLES=["Kemi, POS agent","Mama Nkechi, Onitsha market","Jide, Uber driver","Aisha, Kano","Seun, Okada rider","@NaijaStudentsUpdate"];
+
+/* the two decisions the money forces */
+function fiscAgain(card){var i=DECK.indexOf(card),j=G.seen.indexOf(i);if(j>=0)G.seen.splice(j,1);}
+var CB_CARD={w:"Central Bank Governor",now:1,tp:"naira",
+  cond:function(){return G.infl>=FISC.cbAt&&G.day-G.cbLast>=FISC.cbGap;},
+  s:"Prices are rising every week, and they will keep rising while the government's bills are paid with new money. I can raise interest rates sharply. It will stop the rise, and it will cost businesses, borrowers and jobs. Or we keep money cheap and hope it passes.",
+  l:{t:"Raise interest rates",m:{street:-6,purse:-4,gov:-2},v:{pro:-4,cap:2,int:3},ax:{econ:-1},tg:"#InterestRates",
+     fx:function(){G.infl*=0.45;G.pipe*=0.5;G.cbLast=G.day;fiscAgain(CB_CARD);},
+     fd:[["@FinanceWithFunmi","Rates up. Loans cost more, prices should calm down. Painful, but someone had to do it."]]},
+  r:{t:"Keep money cheap",m:{street:4,purse:2},v:{pro:2,int:-2},ax:{econ:1},tg:"#PricesUp",
+     fx:function(){G.pipe+=6;G.cbLast=G.day;fiscAgain(CB_CARD);},
+     fd:[["Mama Nkechi, Onitsha market","They say they will not touch it. So prices go up again next week. Thank you."]]}};
+var LEND_CARD={w:"Director-General, Debt Management Office",now:1,tp:"debt",
+  cond:function(){return !G.lendDone&&G.debt>=FISC.lendAt;},
+  s:"Your Excellency, a large share of everything the government earns now goes to repaying what it owes, and the markets have stopped lending to us. The lenders will refinance the debt, but only if we cut the fuel subsidy, raise taxes and freeze hiring. Without them, the only lender left is our own Central Bank.",
+  l:{t:"Accept their terms",m:{street:-12,purse:12,gov:-4},v:{pro:-3,sov:-6,int:3},ax:{horizon:1},tg:"#LendersTerms",
+     fx:function(){G.debt*=0.6;G.lendDone=true;},
+     fd:[["@AbujaInsider","Subsidy gone, taxes up, hiring frozen. The lenders wrote this budget, not Abuja."]]},
+  r:{t:"Refuse and go it alone",m:{street:4,purse:-8},v:{sov:6,pro:-2},ax:{horizon:-1},tg:"#NoToTheLenders",
+     fx:function(){G.lendDone=true;G.lentOff=true;},
+     fd:[["@KanoGist","Nobody will tell Nigeria what to do. Now let's see who lends us money."]]}};
+DECK.push(CB_CARD,LEND_CARD);
+
 function topicPosts(c,ch,taken){
   var tp=topicOf(c),st=stanceOf(ch),out=[];
   if(!tp)return {posts:out,trend:null};
@@ -5878,7 +6135,8 @@ Array.prototype.push.apply(DECK,[
 var HERO={score:62,nass:45,gov:50};
 function heroReady(){
   if(G.term!==2||G.third||G.limit!==BASE_LIMIT)return false;
-  if(G.day<PER_TERM*2-PER_YEAR)return false;
+  /* from halfway through the second term: about one strong presidency in ten is tempted */
+  if(G.day<PER_TERM+PER_TERM/2)return false;
   if(G.crisisN||G.imp)return false;
   if(!G.elec||G.elec.outcome!=="won")return false;
   var lo=100,hi=0; BLOCS.forEach(function(b){lo=Math.min(lo,G.m[b.k]);hi=Math.max(hi,G.m[b.k]);});
@@ -8014,6 +8272,7 @@ var LIFTED={
  nass:"The budget has passed. Late, amended, and argued over, but passed."
 };
 function updateStates(){
+  fiscTurn();
   var loudest=null;
   G.lifted=null;
   edgeCheck();
@@ -8313,7 +8572,7 @@ function nextCard(){
     var bestI=pool[0],bestN=1e9;
     pool.forEach(function(i){
       var ak=DECK[i].l.ax?Object.keys(DECK[i].l.ax)[0]:null;
-      var n=(ak?(G.gn[ak]||0):mean)+grand()*2.4-(DECK[i].youth?1.6:0);
+      var n=(ak?(G.gn[ak]||0):mean)+grand()*2.4-(DECK[i].youth?1.6:0)-fiscPull(DECK[i]);
       if(n<bestN){bestN=n;bestI=i;}
     });
     pick=bestI;
@@ -8356,7 +8615,7 @@ function applyV(o,scale){
    card outright. A decision now locks the controls until the next card is on screen. */
 function play(side){
   if(!G.live||G.busy)return;
-  socPlayed(side);
+  socPlayed(side);fiscChoice(side);
   if(SND&&AC&&AC.state!=="running")unlock();
   G.busy=true;
   hideHist();
@@ -8628,13 +8887,13 @@ function endGame(bloc,why){
   if(why==="fuse"){
     var fb=blocOf(G.burnt);
     kick=({barracks:"THE ARMY STOPPED TAKING ORDERS",
-           purse:"THE MONEY RAN OUT",
+           purse:"THE MONEY STOPPED BEING WORTH ANYTHING",
            gov:"THE FEDERATION STOPPED PRETENDING"})[G.burnt];
     title=({barracks:"They came at four in the morning.",
             purse:"You bankrupted the country.",
             gov:"It came apart at the seams."})[G.burnt];
     body=({barracks:"Nine months of officers who would not deploy, allowances nobody paid and rumours nobody stopped. You were told what was happening and you were told how long you had. Every coup this country has had began in exactly this condition, and this one ended the way they all do.",
-           purse:"Twelve months without salaries. Not the ministers — the soldiers, the police, the teachers, the nurses. A government that cannot pay the people who carry out its decisions has stopped being a government, and the rest followed within the month.",
+           purse:"The Treasury ran dry, so the Central Bank paid the bills with new money, and then it did it again. Prices doubled, then doubled again. Salaries bought less every month until they bought almost nothing, and the people who had cheered the spending were the first into the streets. Governments that run out of money are rarely voted out. They are brought down like this.",
            gov:"Eighteen months of states that would not remit and would not attend, and a word nobody was correcting in public. Federations do not end in a single afternoon. They end like this, slowly, with everybody watching and nobody moving."})[G.burnt];
     bloc=fb;
   } else if(why==="collapse"){
@@ -9081,7 +9340,7 @@ function beginRun(){
   hideHist();
   if(SND)unlock();
   G.rec=[];G.met={};G.warned={};G.praised={};G.feedUsed={};G.memo={};
-  socBegin();
+  fiscInit();socBegin();
   $("gHead").hidden=true;
   $("gameRun").classList.add("fresh");
   $("gFeed").hidden=true;$("gFeedMsgs").innerHTML="";$("gWhy").hidden=true;$("gWhyBtn").hidden=true;
