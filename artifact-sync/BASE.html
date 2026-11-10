@@ -1214,6 +1214,11 @@ body.cab-on{overflow:hidden;}
   font-size:clamp(1.5rem,1.2rem + 1.2vw,2.1rem);}
 .rv.up .rv-h b,.rv.up .rv-h em{color:var(--palm-text);}
 .rv.dn .rv-h b,.rv.dn .rv-h em{color:var(--laterite-text);}
+.rv-why{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px;max-width:62ch;}
+.rv-why li{display:grid;grid-template-columns:3.2em minmax(0,1fr);gap:10px;align-items:baseline;font-size:.95rem;line-height:1.45;color:var(--ink-2);}
+.rv-why em{font-style:normal;font-family:"IBM Plex Mono",monospace;font-weight:600;font-variant-numeric:tabular-nums;}
+.rv.up .rv-why em{color:var(--palm-text);} .rv.dn .rv-why em{color:var(--laterite-text);}
+.rv-ag{margin:8px 0 0;font-size:.88rem;color:var(--ink-2);opacity:.85;max-width:62ch;}
 .rv-w{margin:7px 0 0;color:var(--ink-2);font-size:.95rem;line-height:1.55;max-width:58ch;}
 .rv-none{margin:16px 0 0;color:var(--ink-2);font-size:.98rem;line-height:1.6;max-width:58ch;}
 .rest{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;
@@ -5022,6 +5027,7 @@ function campResolve(){
   $("gL").parentNode.classList.add("one");
   G.cur=-1;G.busy=false;
   $("gWho").textContent="The Returning Officer, results night";
+  if(typeof setScene==="function")setScene("polling","none");
   var lead=(united?"The opposition went into the vote united behind one candidate":"The opposition went into the vote split between two candidates")+
     ", strongest in the "+G.elecHome[0]+" and the "+G.elecHome[1]+". ";
   var verdict=outcome==="won"
@@ -5309,7 +5315,10 @@ function personOf(c){
 }
 /* where the story is set decides the picture; nothing here is chosen at random */
 var TOPIC_ART=[
- [/universit|student|lecturer|ASUU|school|graduat|teacher|exam/i,"campus"],
+ [/universit|student|lecturer|ASUU|graduat|exam/i,"campus"],
+ [/primary school|out of school|school feeding|teacher|pupil/i,"classroom"],
+ [/flood/i,"flood"],[/\bpolice\b|officers/i,"police"],[/the Senate|the Assembly|impeach/i,"senate"],
+ [/court|judge|ruling/i,"court"],[/depositors|bank run|queues at the banks/i,"bank"],
  [/INEC|polling|ballot|election|voter|campaign/i,"polling"],
  [/hospital|doctor|nurse|clinic|health|patient/i,"hospital"],
  [/fuel|petrol|pump|kerosene|subsidy/i,"fuel"],
@@ -5324,14 +5333,29 @@ function topicArt(c){
   return null;
 }
 /* pictures chosen by hand where the keywords chose wrong (audited 9 Nov 2026), keyed by who speaks and how the card opens */
-var ARTFIX={"Accountant-General|Debt payments are bigger than the revenu": "cabinetEmpty", "Delegation of Young Nige|No one in your cabinet is under 40. We w": "student", "Niger Delta Leader|Your Finance Minister wants these expens": "cabinetMeeting", "Minister of Education|Millions of children are out of school, ": "student", "IMF Mission Chief|Three billion dollars is available. The ": "cabinetMeeting", "Revenue Service Chair|Salaried workers and big companies canno": "cabinetEmpty", "Education Minister|Some states want young children taught f": "student", "Accountant-General|We do not have enough cash to meet every": "cabinetEmpty", "Accountant-General|You remember when you kept the fuel subs": "cabinetEmpty", "Accountant-General|You remember the payments you froze on y": "cabinetEmpty", "Health Minister|Doctors trained at public expense are le": "hospital", "Managing Director of the|Ships wait weeks to unload and importers": "traffic", "Minister of Humanitarian|The school feeding programme reaches mil": "student", "Minister of Labour|Nurses, engineers and programmers are le": "street", "Director-General of the |Millions of young Nigerians trade crypto": "student", "Chair of the Revenue Ser|Freelancers, content creators and remote": "street", "Director-General of the |Betting apps are on almost every young m": "street", "Minister of Communicatio|The phone companies want to raise data p": "student", "Director-General, Debt M|Your Excellency, a large share of everyt": "cabinetEmpty", "Minister of Power|You remember the power plant contract yo": "cabinetMeeting", "Foreign Lender|My board has suspended our new lending t": "cabinetMeeting", "Attorney-General|You remember sending money straight to t": "cabinetMeeting", "IMF Mission Chief|You remember the programme you agreed wi": "cabinetMeeting", "Minister of Humanitarian|The cash transfer programme for the poor": "market", "Your Chief of Staff, on |Your Excellency, Governor Bassey Ekanem ": "forum", "Your Chief of Staff, on |Your Excellency, the contractors are in ": "works", "Your Chief of Staff, on |Your Excellency, on its last day in offi": "works", "Your Chief of Staff, on |Your Excellency, the national grid colla": "sitroom", "Your Chief of Staff, on |Your Excellency, one of the big banks ca": "cbn", "Your Chief of Staff, on |Your Excellency, the party leaders who c": "chairman", "Your Chief of Staff, on |Your Excellency, flood waters are rising": "sitroom", "Minister of Petroleum|Fuel queues are back in the cities a mon": "fuel", "An event outside your co|Oil prices have fallen sharply below the": "sitroom", "An event outside your co|Oil prices have risen above the budget’s": "sitroom", "An event outside your co|The military has taken power in a neighb": "sitroom", "An event outside your co|Children have been abducted from a board": "sitroom", "An event outside your co|Leaked financial records name senior pol": "confidential"};
+var ARTFIX={"Accountant-General|Debt payments are bigger than the revenu": "cabinetEmpty", "Delegation of Young Nige|No one in your cabinet is under 40. We w": "student", "Niger Delta Leader|Your Finance Minister wants these expens": "cabinetMeeting", "Minister of Education|Millions of children are out of school, ": "student", "IMF Mission Chief|Three billion dollars is available. The ": "cabinetMeeting", "Revenue Service Chair|Salaried workers and big companies canno": "cabinetEmpty", "Education Minister|Some states want young children taught f": "student", "Accountant-General|We do not have enough cash to meet every": "cabinetEmpty", "Accountant-General|You remember when you kept the fuel subs": "cabinetEmpty", "Accountant-General|You remember the payments you froze on y": "cabinetEmpty", "Health Minister|Doctors trained at public expense are le": "hospital", "Managing Director of the|Ships wait weeks to unload and importers": "traffic", "Minister of Humanitarian|The school feeding programme reaches mil": "student", "Minister of Labour|Nurses, engineers and programmers are le": "street", "Director-General of the |Millions of young Nigerians trade crypto": "student", "Chair of the Revenue Ser|Freelancers, content creators and remote": "street", "Director-General of the |Betting apps are on almost every young m": "street", "Minister of Communicatio|The phone companies want to raise data p": "student", "Director-General, Debt M|Your Excellency, a large share of everyt": "cabinetEmpty", "Minister of Power|You remember the power plant contract yo": "cabinetMeeting", "Foreign Lender|My board has suspended our new lending t": "cabinetMeeting", "Attorney-General|You remember sending money straight to t": "court", "IMF Mission Chief|You remember the programme you agreed wi": "cabinetMeeting", "Minister of Humanitarian|The cash transfer programme for the poor": "market", "Your Chief of Staff, on |Your Excellency, Governor Bassey Ekanem ": "forum", "Your Chief of Staff, on |Your Excellency, the contractors are in ": "works", "Your Chief of Staff, on |Your Excellency, on its last day in offi": "works", "Your Chief of Staff, on |Your Excellency, the national grid colla": "sitroom", "Your Chief of Staff, on |Your Excellency, one of the big banks ca": "cbn", "Your Chief of Staff, on |Your Excellency, the party leaders who c": "chairman", "Your Chief of Staff, on |Your Excellency, flood waters are rising": "sitroom", "Minister of Petroleum|Fuel queues are back in the cities a mon": "fuel", "An event outside your co|Oil prices have fallen sharply below the": "sitroom", "An event outside your co|Oil prices have risen above the budget’s": "sitroom", "An event outside your co|The military has taken power in a neighb": "sitroom", "An event outside your co|Children have been abducted from a board": "sitroom", "An event outside your co|Leaked financial records name senior pol": "confidential"};
 /* the scenes painted for these cards (9 Nov 2026) */
-Object.assign(ARTFIX,{"Minister of Communicatio|Millions of phone lines are still not li": "youth_hub", "Minister of Communicatio|Foreign technology companies hold the pe": "youth_hub", "Director-General of the |Millions of young Nigerians trade crypto": "youth_hub", "Chair of the Revenue Ser|Freelancers, content creators and remote": "youth_hub", "Minister of Science and |Our most successful start-ups register t": "youth_hub", "Delegation of Young Nige|No one in your cabinet is under 40. We w": "youth_street", "Inspector-General of Pol|Young people say officers stop them for ": "youth_street", "Director-General of the |Betting apps are on almost every young m": "youth_street", "Minister of Communicatio|The phone companies want to raise data p": "youth_street", "Minister of Power|Electricity is being sold for less than ": "power_dark", "Minister of Power|You remember when you kept tariffs down?": "power_dark", "Minister of Power|Several electricity distribution compani": "power_dark", "Minister of Power|The grid that collapsed on your first mo": "power_dark", "Your Chief of Staff, on |Your Excellency, the national grid colla": "power_dark", "Minister of Power|You remember the tariff increase? Supply": "power_grid", "Minister of Power|You remember the power plant contract yo": "power_grid", "Minister of Power|A foreign consortium will build new powe": "power_grid", "Accountant-General|Debt payments are bigger than the revenu": "treasury", "Revenue Service Chair|Salaried workers and big companies canno": "treasury", "Accountant-General|We do not have enough cash to meet every": "treasury", "Accountant-General|You remember when you kept the fuel subs": "treasury", "Accountant-General|You remember the payments you froze on y": "treasury", "Director-General, Debt M|Your Excellency, a large share of everyt": "treasury", "Foreign Lender|We can finance your railway now, but our": "lenders", "IMF Mission Chief|Three billion dollars is available. The ": "lenders", "Chief of Defence Staff|A foreign government is offering drones,": "lenders", "Minister of Transportati|A foreign state lender will build the ne": "lenders", "Foreign Lender|My board has suspended our new lending t": "lenders", "IMF Mission Chief|You remember the programme you agreed wi": "lenders", "Chief Justice|The court has ruled against your governm": "court", "Attorney-General|Most of the people in our prisons have n": "court", "Attorney-General|You remember the contract you suspended ": "court", "Chief Justice|I retire next month. By custom the most ": "court", "Chief Justice|You remember approving the state police ": "court", "An event outside your co|The court has ruled against the federal ": "court", "Inspector-General of Pol|We have CCTV footage of suspects from th": "police", "Inspector-General of Pol|We do not have enough police officers, a": "police", "Inspector-General of Pol|The opposition wants to hold a national ": "police", "Inspector-General of Pol|You remember approving the state police ": "police", "Niger Delta Leader|Your Finance Minister wants these expens": "delta", "Chief of Defence Staff|Militants are attacking oil facilities a": "delta", "Minister of Environment|Oil companies are still burning off gas ": "delta", "National Security Advise|Oil theft is draining the revenue. A pri": "delta", "The governors of the ele|Flooding has displaced people across our": "flood", "Minister of Humanitarian|The rains have flooded farmland and home": "flood", "Minister of Humanitarian|The rains are coming again, and the town": "flood", "Your Chief of Staff, on |Your Excellency, flood waters are rising": "flood", "An event outside your co|Severe flooding has displaced people acr": "flood", "Central Bank Governor|Most of the money in the economy never p": "bank", "Central Bank Governor|You remember the bank you rescued on you": "bank", "Central Bank Governor|You remember the bank you let fail on yo": "bank", "Your Chief of Staff, on |Your Excellency, one of the big banks ca": "bank", "Sponsor of the Seats Bil|Women remain badly underrepresented in e": "senate", "Senator Ladi Gyang, on t|The budget has not passed. Until it does": "senate", "Senator Ladi Gyang, Lead|My colleagues want to pass a bill agains": "senate", "Senator Ladi Gyang, Lead|My colleagues want new official cars and": "senate", "Senator Ladi Gyang, Lead|My members can remove the limit altogeth": "senate", "Minister of Education|Millions of children are out of school, ": "classroom", "Education Minister|Some states want young children taught f": "classroom", "Minister of Humanitarian|The school feeding programme reaches mil": "classroom", "Health Minister|Doctors trained at public expense are le": "airport", "Minister of Aviation|Nigeria has no national airline, and our": "airport", "Minister of Labour|Nurses, engineers and programmers are le": "airport", "Managing Director of the|Ships wait weeks to unload and importers": "port", "Minister of Works|The new expressway could transform the c": "housing", "Minister of Housing|Rents in the cities are rising faster th": "housing", "Minister of Solid Minera|Thousands of people dig for gold without": "mining", "Minister of Culture and |Our films and music are watched across t": "culture"});
+Object.assign(ARTFIX,{"Minister of Communicatio|Millions of phone lines are still not li": "youth_hub", "Minister of Communicatio|Foreign technology companies hold the pe": "youth_hub", "Director-General of the |Millions of young Nigerians trade crypto": "youth_hub", "Chair of the Revenue Ser|Freelancers, content creators and remote": "youth_hub", "Minister of Science and |Our most successful start-ups register t": "youth_hub", "Delegation of Young Nige|No one in your cabinet is under 40. We w": "youth_street", "Director-General of the |Betting apps are on almost every young m": "youth_street", "Minister of Communicatio|The phone companies want to raise data p": "youth_street", "Minister of Power|Electricity is being sold for less than ": "power_dark", "Minister of Power|You remember when you kept tariffs down?": "power_dark", "Minister of Power|Several electricity distribution compani": "power_dark", "Minister of Power|The grid that collapsed on your first mo": "power_dark", "Your Chief of Staff, on |Your Excellency, the national grid colla": "power_dark", "Minister of Power|You remember the tariff increase? Supply": "power_grid", "Minister of Power|You remember the power plant contract yo": "power_grid", "Minister of Power|A foreign consortium will build new powe": "power_grid", "Accountant-General|Debt payments are bigger than the revenu": "treasury", "Revenue Service Chair|Salaried workers and big companies canno": "treasury", "Accountant-General|We do not have enough cash to meet every": "treasury", "Accountant-General|You remember when you kept the fuel subs": "treasury", "Accountant-General|You remember the payments you froze on y": "treasury", "Director-General, Debt M|Your Excellency, a large share of everyt": "treasury", "Foreign Lender|We can finance your railway now, but our": "lenders", "IMF Mission Chief|Three billion dollars is available. The ": "lenders", "Minister of Transportati|A foreign state lender will build the ne": "lenders", "Foreign Lender|My board has suspended our new lending t": "lenders", "IMF Mission Chief|You remember the programme you agreed wi": "lenders", "Chief Justice|The court has ruled against your governm": "court", "Attorney-General|Most of the people in our prisons have n": "court", "Attorney-General|You remember the contract you suspended ": "court", "Chief Justice|I retire next month. By custom the most ": "court", "Chief Justice|You remember approving the state police ": "court", "An event outside your co|The court has ruled against the federal ": "court", "Inspector-General of Pol|We have CCTV footage of suspects from th": "police", "Inspector-General of Pol|We do not have enough police officers, a": "police", "Inspector-General of Pol|The opposition wants to hold a national ": "police", "Inspector-General of Pol|You remember approving the state police ": "police", "Niger Delta Leader|Your Finance Minister wants these expens": "delta", "Minister of Environment|Oil companies are still burning off gas ": "delta", "National Security Advise|Oil theft is draining the revenue. A pri": "delta", "The governors of the ele|Flooding has displaced people across our": "flood", "Minister of Humanitarian|The rains have flooded farmland and home": "flood", "Minister of Humanitarian|The rains are coming again, and the town": "flood", "Your Chief of Staff, on |Your Excellency, flood waters are rising": "flood", "An event outside your co|Severe flooding has displaced people acr": "flood", "Central Bank Governor|Most of the money in the economy never p": "bank", "Central Bank Governor|You remember the bank you rescued on you": "bank", "Central Bank Governor|You remember the bank you let fail on yo": "bank", "Your Chief of Staff, on |Your Excellency, one of the big banks ca": "bank", "Sponsor of the Seats Bil|Women remain badly underrepresented in e": "senate", "Senator Ladi Gyang, on t|The budget has not passed. Until it does": "senate", "Senator Ladi Gyang, Lead|My colleagues want to pass a bill agains": "senate", "Senator Ladi Gyang, Lead|My colleagues want new official cars and": "senate", "Senator Ladi Gyang, Lead|My members can remove the limit altogeth": "senate", "Minister of Education|Millions of children are out of school, ": "classroom", "Education Minister|Some states want young children taught f": "classroom", "Minister of Humanitarian|The school feeding programme reaches mil": "classroom", "Health Minister|Doctors trained at public expense are le": "hospital", "Minister of Aviation|Nigeria has no national airline, and our": "airport", "Minister of Labour|Nurses, engineers and programmers are le": "airport", "Managing Director of the|Ships wait weeks to unload and importers": "port", "Minister of Works|The new expressway could transform the c": "housing", "Minister of Housing|Rents in the cities are rising faster th": "housing", "Minister of Solid Minera|Thousands of people dig for gold without": "mining", "Minister of Culture and |Our films and music are watched across t": "culture"});
+/* the institution speaking decides the picture before the subject does: a police chief is
+   seen with the police, the Senate President in the Senate */
+var SPEAKER_ART=[
+ [/Inspector-General|\bPolice\b/i,"police"],
+ [/Campaign Director|INEC|Returning Officer/i,"polling"],
+ [/Senate President|President of the Senate|Speaker of the House|\bSenator\b|Senate\b|House of Representatives/i,"senate"],
+ [/Chief Justice|Attorney-General|tribunal|\bpanel\b/i,"court"],
+ [/IMF|Foreign Lender|World Bank/i,"lenders"],
+ [/Accountant-General|Revenue Service|Debt Management/i,"treasury"],
+ [/Minister of Power/i,"power_dark"],
+ [/Niger Delta/i,"delta"],
+ [/Ports Authority/i,"port"],[/Aviation/i,"airport"],[/Minister of Housing/i,"housing"],
+ [/Solid Minerals/i,"mining"],[/Minister of Culture/,"culture"]];
+function speakerArt(w){w=String(w||"");for(var i=0;i<SPEAKER_ART.length;i++)if(SPEAKER_ART[i][0].test(w)&&ART[SPEAKER_ART[i][1]])return SPEAKER_ART[i][1];return null;}
 function sceneFor(c,fmt){
   if(!c)return "cabinetEmpty";
   var fx=ARTFIX[String(c.w||"").slice(0,24)+"|"+String(c.s||c.h||"").slice(0,40)];if(fx&&ART[fx])return fx;
   if(fmt==="paper")return topicArt(c)||"market";
   var pp=personOf(c); if(pp)return pp[0];
+  var sp=speakerArt(c.w); if(sp)return sp;
   if(fmt==="call")return "call";
   if(fmt==="voices"||fmt==="paper")return topicArt(c)||"market";
   if(fmt==="dossier")return "confidential";
@@ -5935,7 +5959,7 @@ var BORROW={"Take the loan":1,"Borrow again":1,"Take the IMF programme":1,
   "Ease the conditions and keep going":1,"Keep the promise in full":14};
 var PAYDOWN={"Use the savings to pay down debt":15};
 function fiscInit(){
-  G.debt=0;G.pipe=0;G.infl=0;G.fNotes=[];G.fDay=-1;G.fYear=-1;
+  G.debt=0;G.pipe=0;G.infl=0;G.fNotes=[];G.pend=[];G.why={};G.src=null;G.fDay=-1;G.fYear=-1;
   G.printN=0;G.cbLast=-99;G.lendDone=false;G.lentOff=false;G.inflSaid={};
 }
 function fiscNote(h,t,c){G.fNotes.push({h:h,t:t,c:c||"warn"});if(G.fNotes.length>2)G.fNotes.shift();}
@@ -6028,6 +6052,188 @@ var LEND_CARD={w:"Director-General, Debt Management Office",now:1,tp:"debt",
      fx:function(){G.lendDone=true;G.lentOff=true;},
      fd:[["@KanoGist","Nobody will tell Nigeria what to do. Now let's see who lends us money."]]}};
 DECK.push(CB_CARD,LEND_CARD);
+
+
+/* ---------- delivery: approving a programme is not the same as delivering it ----------
+   For the programmes the government itself has to carry out, the benefit no longer lands
+   the day you decide. It arrives a few months later, and how much of it arrives depends
+   on three things at that moment: whether the state can do things (Public services),
+   whether the Treasury can pay, and, where the states run it, whether the governors are
+   cooperating. The same choice works for a capable government and falls short for a
+   hollowed-out one. Costs still land at once, as they do in life. */
+var DL_DELAY=3;
+var DL={
+ "Millions of children are out of school, a|Launch nationwide":{n:"the back-to-school programme",who:"Minister of Education",sens:1.2,st:1,
+  good:"The back-to-school programme is ahead of plan. Classrooms that were empty last year are full, and the states are asking for more places.",
+  ok:"The back-to-school programme is running. Enrolment is up in most states, and slower in the ones that had the fewest teachers to begin with.",
+  weak:"The back-to-school programme was announced, but there were not enough teachers or classrooms to receive the children. Many came for a term and went home."},
+ "Millions of children are out of school, a|Target the worst-hit states":{n:"the programme in the worst-hit states",who:"Minister of Education",sens:0.8,st:1,
+  good:"In the states we targeted, enrolment has jumped. Teachers are in post and the children are staying.",
+  ok:"Enrolment is up in most of the states we targeted, though some schools are still short of teachers.",
+  weak:"In the states we targeted, the money arrived but the teachers did not. Enrolment barely moved."},
+ "Farmers and herders are clashing across s|Launch a national ranching plan":{n:"the ranching plan",who:"Minister of Agriculture",sens:1.0,st:1,
+  good:"The first ranches are working. Herders who moved in are staying, and the clashes around them have eased.",
+  ok:"Some ranches are running. Where states gave land it is working; elsewhere little has changed.",
+  weak:"The ranching plan stalled. The land was never surveyed, the water points were not dug, and herders kept to the old routes."},
+ "Fertiliser meant for farmers is going to |Send vouchers to farmers directly":{n:"the fertiliser vouchers",who:"Minister of Agriculture",sens:1.0,
+  good:"The vouchers reached farmers before planting. Harvests are up, and the middlemen are complaining.",
+  ok:"Most of the vouchers reached farmers. Some arrived after planting had started.",
+  weak:"The vouchers reached farmers too late for the planting season. The money was approved; the delivery was not ready."},
+ "The grid that collapsed on your first mor|Fund a new transmission network":{n:"the new transmission network",who:"Minister of Power",sens:1.1,
+  good:"The new lines are carrying power. Collapses are rarer and supply is steadier in most cities.",
+  ok:"Part of the new network is finished. The grid holds better, but not everywhere.",
+  weak:"The transmission project is behind schedule. Contracts were signed, but the engineers and the equipment did not arrive in time."},
+ "Hospitals are losing doctors to better-pa|Upgrade the hospitals":{n:"the hospital upgrades",who:"Health Minister",sens:1.0,
+  good:"The upgraded hospitals are open and busy, and some doctors who had planned to leave are staying.",
+  ok:"Some hospitals have been upgraded. Others are still waiting for their equipment.",
+  weak:"New equipment arrived at hospitals with nobody trained to use it and no money for the power to run it."},
+ "Very few Nigerians have health insurance.|Make health insurance compulsory":{n:"compulsory health insurance",who:"Health Minister",sens:1.1,
+  good:"Enrolment in health insurance has grown fast, and clinics are being paid on time.",
+  ok:"Enrolment has grown in the cities. Few people outside them have signed up.",
+  weak:"The insurance law is on the books, but few employers enrolled their staff and almost nobody working for themselves signed up."},
+ "Very few Nigerians have health insurance.|Expand free care for mothers and children":{n:"free care for mothers and children",who:"Health Minister",sens:0.9,st:1,
+  good:"More women are giving birth in clinics, and the clinics have the drugs to treat them.",
+  ok:"Free care is reaching mothers in most states, though some clinics run out of drugs every month.",
+  weak:"Free care was announced, but the clinics were not paid back, so many of them started charging again."},
+ "Most of the people in our prisons have ne|Build courts and hear each case":{n:"the new courts",who:"Attorney-General",sens:1.0,
+  good:"The new courts are hearing cases, and the number of people waiting in prison for trial is falling.",
+  ok:"Some of the new courts are sitting. The backlog is smaller, but still long.",
+  weak:"Courtrooms were built, but too few judges were appointed to sit in them, and the backlog barely moved."},
+ "Rents in the cities are rising faster tha|Build the homes directly":{n:"the housing programme",who:"Minister of Housing",sens:1.1,st:1,
+  good:"The first estates are finished and families have moved in. Rents nearby have stopped climbing so fast.",
+  ok:"Some estates are finished. Others are waiting for roads, water and power.",
+  weak:"The estates went up without roads, water or power connections, and many of the homes stand empty."},
+ "The rains have flooded farmland and homes|Rebuild the embankments":{n:"the embankments",who:"Minister of Humanitarian Affairs",sens:1.0,st:1,
+  good:"The rebuilt embankments held through the rains. Towns that flooded last year stayed dry.",
+  ok:"Most of the embankments were finished in time. A few stretches were not.",
+  weak:"The embankment work was not finished before the rains, and the water came through the same gaps."},
+ "Our most successful start-ups register th|Train a million young people":{n:"the training programme",who:"Minister of Science and Technology",sens:0.9,
+  good:"The first trainees have finished, and many of them have found work.",
+  ok:"Thousands have been trained. Not all of them have found work.",
+  weak:"The places were filled, but the courses were thin and few of the graduates found jobs."},
+ "You remember the subsidy? Transport fares|Spend the savings on buses and cash transfers":{n:"the buses and cash transfers",who:"Your Chief of Staff",sens:1.0,st:1,
+  good:"The buses are running and the transfers are arriving. People can see where the subsidy money went.",
+  ok:"The transfers are arriving, but there are fewer buses than were promised.",
+  weak:"The list of who should receive transfers was years out of date, and much of the money never reached the people it was meant for."},
+ "Nigeria has not counted its people in alm|Hold the census next year":{n:"the census",who:"Chairman of the Population Commission",sens:1.0,st:1,
+  good:"The census was counted cleanly, and most states have accepted the results.",
+  ok:"The census was held. Some states dispute their figures.",
+  weak:"The census was badly run, and the count is too disputed to use."},
+ "Nigeria has no national airline, and our |Fix the airports instead":{n:"the airport works",who:"Minister of Aviation",sens:0.8,
+  good:"The airport upgrades are finished, and airlines are adding routes.",
+  ok:"Some airports have been upgraded. Others are still waiting.",
+  weak:"The airport works stalled halfway, and passengers now walk through building sites."}
+};
+function dlFind(c,ch){var s=String(c.s||"");for(var k in DL){var i=k.lastIndexOf("|");if(k.slice(i+1)===ch.t&&s.indexOf(k.slice(0,i))===0)return DL[k];}return null;}
+function dlNote(h,t,c){if(!G.fNotes)G.fNotes=[];G.fNotes.unshift({h:h,t:t,c:c||"warn"});if(G.fNotes.length>3)G.fNotes.length=3;}
+function capFirst(x){return x.charAt(0).toUpperCase()+x.slice(1);}
+/* called with the choice's effects on the country: returns what lands today, and holds back
+   what has to be delivered */
+function deliverSplit(c,ch){
+  var d=c&&ch&&dlFind(c,ch);
+  if(!d||!ch.v)return ch.v;
+  var now={},ben={},any=false;
+  for(var k in ch.v){if(ch.v[k]>0){ben[k]=ch.v[k];any=true;}else now[k]=ch.v[k];}
+  if(!any)return ch.v;
+  G.pend.push({due:G.day+DL_DELAY,ben:ben,d:d,src:{who:c.w,txt:ch.t}});
+  dlNote(d.who,"Approved. It will take a few months to reach people, and we will know then whether it is working.","");
+  return now;
+}
+/* once a month: anything due arrives, in whatever measure the state can manage */
+function deliverTurn(){
+  if(!G.pend||!G.pend.length)return;
+  var keep=[];
+  G.pend.forEach(function(p){
+    if(G.day<p.due){keep.push(p);return;}
+    var d=p.d;
+    var fc=Math.max(0.4,Math.min(1.4,1+(G.v.cap-30)/30*d.sens));
+    var fm=(G.m.purse<=8)?0.6:1;
+    var fs=(d.st&&G.m.gov<30)?0.75:1;
+    var f=Math.max(0.25,Math.min(1.4,fc*fm*fs));
+    var was=G.src;G.src=p.src;applyV(p.ben,0.55*f);G.src=was;
+    var line,cls;
+    if(f>=1.1){line=d.good;cls="up";}
+    else if(f>=0.8){line=d.ok;cls="";}
+    else if(fm<1&&fm<=fs&&fm<=fc){line=capFirst(d.n)+" was approved, but the Treasury could not release the money when it was needed, so most of it never happened.";cls="warn";}
+    else if(fs<1&&fs<=fc){line="Several governors would not cooperate with "+d.n+", so it reached only part of the country.";cls="warn";}
+    else {line=d.weak;cls="warn";}
+    dlNote(d.who,line,cls);
+  });
+  G.pend=keep;
+}
+
+/* ---------- what moved the country ----------
+   Every change to the six measures is booked to where it came from: a decision (and what
+   it later delivered), an event, rising prices, open crises, or the slow wear on a
+   country nobody repairs. The end of the run can then name the causes, not just the
+   biggest single day. */
+applyV=(function(orig){return function(o,scale){
+  if(!G||!G.v||!o)return orig(o,scale);
+  var b={};for(var k in G.v)b[k]=G.v[k];
+  orig(o,scale);
+  if(!G.whyOuter)whyBook(b);
+};})(applyV);
+function whyKey(s){
+  if(!s)return "other";
+  if(s.sys)return "sys:"+s.sys+(s.txt?"|"+s.txt:"");
+  return "dec:"+(s.who||"")+"|"+(s.txt||"");
+}
+function whyBook(before){
+  if(!G.why)G.why={};
+  var key=whyKey(G.src);
+  for(var k in G.v){var dd=G.v[k]-before[k];if(!dd)continue;
+    if(!G.why[k])G.why[k]={};G.why[k][key]=(G.why[k][key]||0)+dd;}
+}
+function whySys(sys,txt,fn){var was=G.src,wo=G.whyOuter;G.src={sys:sys,txt:txt};G.whyOuter=true;var b={};for(var k in G.v)b[k]=G.v[k];
+  try{fn();}finally{G.whyOuter=wo;whyBook(b);G.src=was;}}
+play=(function(orig){return function(side){
+  if(G.live&&!G.busy){
+    var btn=$(side==="l"?"gL":(side==="c"?"gC":"gR")),t=btn&&btn.querySelector(".txt");
+    G.src={who:$("gWho").textContent,txt:t?t.textContent:""};
+  }
+  return orig(side);
+};})(play);
+fiscTurn=(function(orig){return function(){whySys("prices","",orig);};})(fiscTurn);
+pressure=(function(orig){return function(){whySys("decay","",orig);};})(pressure);
+function whyLabel(key){
+  if(key==="sys:decay")return "The slow wear on a country, where nothing was repaired";
+  if(key==="sys:prices")return "Rising prices, once the government's bills were paid with new money";
+  if(key==="sys:crisis")return "Months governed through open crises";
+  if(key.indexOf("sys:event|")===0)return "Something outside your control: "+lowerFirst(key.slice(10).replace(/\.$/,""));
+  if(key.indexOf("dec:")===0){var p=key.slice(4).split("|");var t=(p[1]||"").replace(/[.\s]+$/,"");
+    return t?"Your answer to "+whoRef(p[0])+": “"+t+"”":"A decision on what "+whoRef(p[0])+" brought you";}
+  return "Other things";
+}
+/* "the Minister of Communications", "your Chief of Staff", "Senator Ladi Gyang" */
+function whoRef(w){w=String(w||"").trim();
+  if(/^(Your|The|A|An|Three|Two|Several)\b/.test(w))return w.charAt(0).toLowerCase()+w.slice(1);
+  if(/Gyang|Dangana|Ogundipe|Tijjani|Nwachukwu|Ekanem/.test(w))return w;
+  return "the "+w;}
+function whyFor(k,dir){
+  var m=(G.why&&G.why[k])||{},a=[];
+  for(var key in m){var v=m[key];if(Math.abs(v)<0.8)continue;a.push({key:key,v:v});}
+  var w=a.filter(function(x){return dir>0?x.v>0:x.v<0;}).sort(function(x,y){return Math.abs(y.v)-Math.abs(x.v);});
+  var o=a.filter(function(x){return dir>0?x.v<0:x.v>0;}).sort(function(x,y){return Math.abs(y.v)-Math.abs(x.v);});
+  return {with_:w.slice(0,3),against:o[0]||null};
+}
+function whyNum(v){return (v>0?"+":"−")+Math.round(Math.abs(v));}
+ledger=(function(orig){return function(){
+  orig();
+  if(!G.why)return;
+  var moved=VALUES.map(function(v){return {v:v,d:Math.round(G.v[v.k]-v.s)};})
+    .sort(function(x,y){return Math.abs(y.d)-Math.abs(x.d);}).filter(function(m){return Math.abs(m.d)>=6;}).slice(0,2);
+  if(!moved.length)return;
+  var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
+  $("gReveal").innerHTML=moved.map(function(m){
+    var up=m.d>0,w=whyFor(m.v.k,up?1:-1);
+    var items=w.with_.map(function(x){return '<li><em>'+whyNum(x.v)+'</em><span>'+esc(whyLabel(x.key))+'</span></li>';}).join("");
+    var ag=(w.against&&Math.abs(w.against.v)>=3)?'<p class="rv-ag">Pulling the other way: '+esc(whyLabel(w.against.key))+' ('+whyNum(w.against.v)+').</p>':'';
+    return '<div class="rv '+(up?"up":"dn")+'">'+
+      '<div class="rv-h"><b>'+m.v.n+'</b><em>'+(up?"+":"−")+Math.abs(m.d)+'</em></div>'+
+      (items?'<p class="rv-w">What moved it:</p><ul class="rv-why">'+items+'</ul>':'<p class="rv-w">'+(up?"It rose steadily and nothing in particular did it.":"It fell steadily and nothing in particular did it.")+'</p>')+
+      ag+'</div>';
+  }).join("");
+};})(ledger);
 
 function topicPosts(c,ch,taken){
   var tp=topicOf(c),st=stanceOf(ch),out=[];
@@ -7974,6 +8180,7 @@ function impCard(who,says,lt,rt){
   $("gL").parentNode.classList.remove("one");
   $("gWho").textContent=who;
   $("gSays").textContent="\u201c"+says+"\u201d";
+  setScene(speakerArt(who)||(/Chief of Staff/.test(who)?"cos":"senate"),"none");
   clearSubs();$("gL").querySelector(".txt").textContent=lt;
   $("gR").querySelector(".txt").textContent=rt;
   $("gFlagBox").hidden=true;
@@ -8230,7 +8437,7 @@ function edgeCheck(){
   if(n){
     G.crisisTurns++;
     /* a country running two or three emergencies at once pays for them every month */
-    applyV({pro:-1.2*n,sec:-0.9*n,coh:-0.9*n,cap:-0.6*n},1);
+    whySys("crisis","",function(){applyV({pro:-1.2*n,sec:-0.9*n,coh:-0.9*n,cap:-0.6*n},1);});
   }
   return n;
 }
@@ -8272,7 +8479,7 @@ var LIFTED={
  nass:"The budget has passed. Late, amended, and argued over, but passed."
 };
 function updateStates(){
-  fiscTurn();
+  fiscTurn();deliverTurn();
   var loudest=null;
   G.lifted=null;
   edgeCheck();
@@ -8476,7 +8683,7 @@ function dealShock(sk){
     G.m[b.k]=Math.max(0,Math.min(100,before+d));
     deltas[b.k]=G.m[b.k]-before;
   });
-  applyV(sk.v,0.8);
+  whySys("event",firstSentence(sk.s),function(){applyV(sk.v,0.8);});
   if(sk.f)G.flags[sk.f]=true;
   G.day++;G.year=Math.floor((G.day-1)/PER_YEAR);
   var shift=updateStates();
@@ -8715,7 +8922,7 @@ function play(side){
     if(!G.cause[vk][dir]||mag>G.cause[vk][dir].mag)
       G.cause[vk][dir]={mag:mag,who:c.w,txt:ch.t};
   }}
-  applyV(ch.v);
+  applyV(deliverSplit(c,ch));
   feedFor(ch);
   /* a poor country turns on you whatever the blocs think — this is what stops
      pure bloc-balancing from being a winning strategy */
@@ -8768,6 +8975,7 @@ function election(){
               :"The amended term. Nobody is pretending any more.");
   hideThird();
   $("gWho").textContent="The Returning Officer";
+  if(typeof setScene==="function")setScene("polling","none");
   $("gSays").textContent=G.term===3?"“You have been returned for a third term. Four more years, under a constitution you rewrote to stay. Everyone who voted for you knows what they were voting for.”":"“You have been returned for a second term. Four more years, and then the constitution says you go. Nobody has forgotten anything, and the people who want your job have already started.”";
   clearSubs();$("gL").querySelector(".txt").textContent="Continue.";
   $("gR").querySelector(".txt").textContent="Continue.";
