@@ -20,7 +20,7 @@ over it. This folder is what keeps the two from drifting apart unnoticed.
 applied, so the next merge always starts from the right place. `artifact-sync/` is in `.vercelignore`,
 so none of this is served on the live site.
 
-## Where the repo and the artifact stand (artifact `1794268432-05df`, 2026-11-10)
+## Where the repo and the artifact stand (artifact `1794312282-983c`, 2026-11-10)
 
 On 2026-11-08 the artifact was updated to match the live site, so the game, the home screen, the ballot page and
 every layout fix now exist in both places. What the artifact deliberately does **not** have is the analytics and

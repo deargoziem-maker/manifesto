@@ -1441,6 +1441,8 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 @keyframes gateIn{from{transform:scale(1)}to{transform:scale(1.14) translateY(2%)}}
 @keyframes prevOut{from{opacity:1}to{opacity:0}}
 @keyframes sceneIn{from{opacity:0}to{opacity:1}}
+@keyframes phoneDrift{from{object-position:var(--fx,50%) 40%;transform:scale(1)}to{object-position:var(--fx2,50%) 40%;transform:scale(1.045)}}
+@media (prefers-reduced-motion:reduce){#gameRun .scene > #gSceneImg{animation:sceneIn .6s ease both !important;transform:none !important;}}
 @keyframes mote{0%{transform:translate(0,0);opacity:0}15%{opacity:.85}85%{opacity:.6}100%{transform:translate(18px,-46px);opacity:0}}
 @keyframes lamp{0%,100%{opacity:.55}50%{opacity:.85}}
 .scene > img{transform-origin:50% 45%;will-change:transform;}
@@ -1530,46 +1532,58 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
   #gameRun.fresh .mwrap{display:block;opacity:0;}
   #gameRun .shift{left:0;right:0;}
 }
-/* ===== on a phone: the whole picture, fading into the words =====
-   The picture was a cropped strip with the words in a box below it; most of every
-   illustration was cut away. Now the picture is shown whole, never cropped. Its lower
-   edge dissolves into a dark, blurred continuation of itself, and the card's words sit
-   on that continuation. On a short phone the picture is capped in height and the blurred
-   copy fills either side, so nothing is cut off and the decision still fits one screen. */
+/* ===== on a phone: the picture is the card =====
+   The picture fills the screen below the powers, edge to edge, and the words and the
+   answers sit on its darkened lower part. A phone is tall and the pictures are wide, so
+   each picture keeps the part of the frame that matters (its focal point), not simply
+   the middle. The country's voices follow below the picture. */
 @media (max-width:720px){
   #gameRun{--fade:#0c111b;}
-  #gameRun .scene,body.runlock #view-play .scene,body.runlock #view-play .scene.tight,body.runlock #view-play .scene.tighter{
-    aspect-ratio:1400/933;width:100%;height:auto;flex:none;margin:0;border-bottom:0;background:var(--fade);isolation:isolate;}
-  body.runlock #view-play .scene.tighter .frame{display:flex;}
-  #gameRun .scene::before{content:"";position:absolute;inset:-12%;z-index:0;pointer-events:none;
-    background:var(--art,none) center/cover no-repeat;filter:blur(22px) brightness(.34) saturate(1.1);}
-  #gameRun .scene > img{z-index:1;object-fit:cover;
-    -webkit-mask-image:linear-gradient(180deg,#000 62%,transparent 100%);mask-image:linear-gradient(180deg,#000 62%,transparent 100%);}
-  #gameRun .scene > #gSceneImg{z-index:2;}
-  #gameRun .scene::before{display:none;}
-  #gameRun .scene > img.cam-push,#gameRun .scene > img.cam-pan{animation:sceneIn .6s ease both;transform:none;}
-  #gameRun .scene::after{display:none;}
-  /* the picture's caption already names who is speaking; the card says it again only when the caption is hidden */
-  #gameRun .card .who{display:none;}
-  #gameRun:has(#gFrame[hidden]) .card .who{display:block;}
-  #gameRun .scene .frame,#gameRun .scene .g-clock,#gameRun .scene-tag{z-index:3;}
-  #gameRun .card,body.runlock #gameRun .card{position:relative;isolation:isolate;overflow:hidden;border:0;margin-top:0;
-    background:var(--fade);color:#F3F4F0;box-shadow:none;}
-  #gameRun .card::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-    background:var(--art,none) center bottom/cover no-repeat;filter:blur(22px) brightness(.3) saturate(1.1);}
-  /* the card grows to hold its words; if a long one does not fit, the page scrolls, the picture does not shrink */
   body.runlock{overflow:auto;}
-  body.runlock .g-wrap{height:auto;min-height:calc(100vh - var(--mast-h,58px) - 32px);min-height:calc(100dvh - var(--mast-h,58px) - 32px);}
-  body.runlock #gameRun{flex:1 0 auto;}
-  body.runlock #gameRun .card{flex:1 0 auto;overflow:visible;box-shadow:none;}
-  body.runlock #gameRun.roomless .feed{display:block;}
-  #gameRun .card .who{color:#7fd6a8;}
-  #gameRun .card .says{color:#fff;}
-  #view-play #gameRun .card.shock{background:#1b0f0c;border:0;box-shadow:inset 3px 0 0 var(--laterite);}
+  body.runlock .g-wrap{height:auto;min-height:0;}
+  body.runlock #gameRun:not([hidden]),#gameRun:not([hidden]){display:grid;grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto var(--sp,42vh) auto auto auto auto auto;position:relative;isolation:isolate;flex:none;min-height:0;}
+  #gameRun .side-desk,#gameRun .side-view{display:contents;}
+  #gameRun .rn-head{grid-row:1;order:0;position:relative;z-index:3;}
+  #gameRun .headline-strip{grid-row:3;}
+  /* the picture spans everything from under the powers down to the answers */
+  #gameRun .scene,body.runlock #view-play #gameRun .scene,body.runlock #view-play #gameRun .scene.tight,body.runlock #view-play #gameRun .scene.tighter{
+    grid-row:2 / 6;grid-column:1;order:0;position:relative;z-index:0;
+    width:auto;height:auto;aspect-ratio:auto;max-height:none;
+    margin:0 -2px;border:0;border-radius:0;background:var(--fade);}
+  #gameRun .scene > img{object-fit:cover;object-position:var(--fx,50%) 40%;
+    -webkit-mask-image:none;mask-image:none;transform:none;}
+  #gameRun .scene > #gSceneImg,#gameRun .scene > #gSceneImg.cam-push,#gameRun .scene > #gSceneImg.cam-pan{
+    animation:sceneIn .6s ease both, phoneDrift var(--dur,26s) ease-in-out 3.5s infinite alternate both;transform-origin:var(--fx,50%) 40%;}
+  #gameRun .scene::before{display:none;}
+  #gameRun .scene::after{display:block;content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:linear-gradient(180deg,rgba(8,11,18,.5) 0,rgba(8,11,18,0) 13%,rgba(8,11,18,0) 30%,rgba(8,11,18,.72) 50%,rgba(8,11,18,.93) 72%,rgba(8,11,18,.97) 100%);}
+  #gameRun .scene .g-clock,#gameRun .scene-tag{z-index:3;}
+  /* the caption that names the moment moves out of the picture and leads the card */
+  #gameRun .card > .frame{position:static;display:flex;flex-direction:column;gap:3px;margin:0 0 10px;color:#F3F4F0;}
+  #gameRun .card > .frame[hidden]{display:none;}
+  #gameRun .card > .frame .cap-t{color:#fff;}
+  /* the words and the answers, on the picture */
+  #gameRun .card,body.runlock #gameRun .card,body.runlock #view-play #gameRun .card{grid-row:4;grid-column:1;order:0;align-self:end;
+    position:relative;z-index:3;background:transparent;border:0;box-shadow:none;margin:0;padding:0 16px 14px;
+    flex:none;min-height:0;overflow:visible;color:#F3F4F0;}
+  #gameRun .card::before{display:none;}
+  #gameRun .card .who{display:none;color:#7fd6a8;}
+  #gameRun:has(#gFrame[hidden]) .card .who{display:block;}
+  #gameRun .card .says{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);}
+  #view-play #gameRun .card.shock{background:transparent;border:0;box-shadow:inset 3px 0 0 var(--laterite);}
   #view-play #gameRun .card.shock .who{color:#f0a48c;}
   #gameRun .card .hist-btn{color:#F3F4F0;border-color:rgba(243,244,240,.45);}
-  #gameRun .card .hist-note{color:#e3e5e8;border-color:rgba(243,244,240,.25);}
+  #gameRun .card .hist-note{color:#e3e5e8;border-color:rgba(243,244,240,.25);background:rgba(10,14,22,.55);}
   #gameRun .card .hist-note a{color:#fff;}
+  #gameRun .g-choices{grid-row:5;grid-column:1;order:0;position:relative;z-index:3;margin:0;padding:0 12px 14px;}
+  #gameRun .g-choice{background:rgba(14,19,29,.74);color:#fff;border-color:rgba(255,255,255,.2);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+  #gameRun .g-choice .ab{border-color:rgba(255,255,255,.7);color:#fff;}
+  #gameRun .g-choice .sub{color:#c9cdd4;}
+  #gameRun .g-flag,#gameRun .cab-tally{grid-row:6;grid-column:1;order:0;position:relative;z-index:3;}
+  #gameRun .feed{grid-row:7;grid-column:1;order:0;position:relative;z-index:3;}
+  body.runlock #gameRun.roomless .feed{display:block;}
 }
 /* ===== laptop and desktop: the scene is the screen =====
    The picture fills the whole screen under the masthead, edge to edge. The powers float
@@ -1666,6 +1680,8 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 .ledger-mast::before{content:"";display:inline-block;width:12px;height:3px;background:var(--g-ac,var(--danfo));vertical-align:middle;margin-right:7px;}
 .ledger-title{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(1.6rem,1.1rem + 2.4vw,2.6rem);line-height:1.02;letter-spacing:-.02em;color:#fff;margin:0;}
 .ledger-verdict{margin:0;font-family:"Literata",serif;font-size:1.05rem;color:#F0EDE4;}
+.ledger-after{margin:0 0 18px;padding-top:12px;border-top:1px solid var(--hair);}
+.ledger-after p{margin:6px 0 0;font-size:1rem;line-height:1.5;color:var(--ink);}
 .ledger-stand{margin:0 0 14px;font-size:1rem;line-height:1.5;color:var(--ink);}
 .ledger-k{display:block;font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;}
 .ledger-grid{border-top:2px solid var(--ink);padding-top:10px;margin-bottom:16px;}
@@ -5401,6 +5417,7 @@ function setScene(key,fmt){
   }
   /* the card's words sit on a blurred continuation of the same picture */
   var gr=$("gameRun");if(gr)gr.style.setProperty("--art","url("+src+")");
+  if(typeof phoneFit==="function")setTimeout(phoneFit,0);
   im.alt="";
   /* the camera moves: across a crowd, towards a person or a room */
   var pan=/market|fuel|protest|polling|farm|campus|traffic|street|hospital|forum/.test(key||"");
@@ -6235,6 +6252,67 @@ ledger=(function(orig){return function(){
   }).join("");
 };})(ledger);
 
+
+/* where each picture's subject is, as a share of its width (0 = left edge, 1 = right). On a
+   phone the picture is much narrower than it was painted, so it is cropped around this. */
+var ART_FX={"airport.webp":.58,"amaka.webp":.42,"amaka_call.webp":.4,"bank.webp":.4,"cabinet.webp":.6,"cabinet2.webp":.5,
+ "cabinet_empty.webp":.47,"cabinet_meeting3.webp":.5,"cabinet_meeting.webp":.5,"cabinet_meeting2.webp":.5,"call.webp":.65,"campus.webp":.4,"cbn.webp":.5,"chairman.webp":.45,
+ "classroom.webp":.6,"confidential.webp":.45,"cos.webp":.6,"court.webp":.35,"culture.webp":.62,"dangana.webp":.55,
+ "dangana_call.webp":.45,"delta.webp":.52,"ekanem.webp":.42,"ekanem_call.webp":.4,"farm.webp":.45,"finance.webp":.5,
+ "flood.webp":.28,"forum.webp":.5,"fuel.webp":.35,"gyang.webp":.45,"gyang_call.webp":.4,"hauwa.webp":.42,
+ "hauwa_bargain.webp":.4,"hospital.webp":.35,"housing.webp":.42,"lenders.webp":.7,"market.webp":.5,"mining.webp":.38,
+ "minister.webp":.4,"office2.webp":.6,"desk.webp":.5,"office_wide.webp":.7,"office_tall.webp":.5,"ogundipe.webp":.47,"ogundipe_call.webp":.45,
+ "police.webp":.6,"polling.webp":.62,"port.webp":.27,"power_dark.webp":.45,"power_grid.webp":.33,"protest.webp":.45,
+ "senate.webp":.3,"sitroom.webp":.5,"street2.webp":.55,"student.webp":.45,"traffic.webp":.5,"treasury.webp":.32,
+ "works.webp":.38,"youth_hub.webp":.55,"youth_street.webp":.45};
+/* object-position X% lines up X% of the picture with X% of the frame; to centre on the
+   subject, X depends on how much of the width the frame shows */
+function artFocus(){
+  var im=$("gSceneImg");if(!im||!im.naturalWidth)return;
+  var f=(im.getAttribute("src")||"").split("/").pop(),fx=ART_FX[f];if(fx===undefined)fx=.5;
+  var box=im.getBoundingClientRect();if(!box.width||!box.height)return;
+  var r=(box.width/box.height)/(im.naturalWidth/im.naturalHeight);
+  var x=r>=1?.5:Math.max(0,Math.min(1,(fx-r/2)/(1-r)));
+  var gr=$("gameRun"),x2=x<.5?Math.min(1,x+.55):Math.max(0,x-.55);
+  if(r>=.92)x2=x;
+  var was=gr.style.getPropertyValue("--fx");
+  gr.style.setProperty("--fx",(x*100).toFixed(1)+"%");
+  gr.style.setProperty("--fx2",(x2*100).toFixed(1)+"%");
+  gr.style.setProperty("--dur",Math.round(16+Math.abs(x2-x)*22)+"s");
+  /* a new picture starts its drift from its subject again */
+  if(artFocus.src!==im.getAttribute("src")){artFocus.src=im.getAttribute("src");
+    im.style.animation="none";void im.offsetWidth;im.style.animation="";}
+}
+(function(){var im=$("gSceneImg");if(im)im.addEventListener("load",artFocus);
+  window.addEventListener("resize",function(){clearTimeout(artFocus.t);artFocus.t=setTimeout(artFocus,120);});})();
+
+
+/* on a phone the caption leads the card; on a wider screen it sits in the picture */
+(function(){var fr=$("gFrame"),sc=$("gScene"),cd=$("gCard"),mq=window.matchMedia?window.matchMedia("(max-width:720px)"):null;
+  function place(){if(!fr||!sc||!cd)return;var ph=mq?mq.matches:window.innerWidth<=720;
+    if(ph&&fr.parentNode!==cd)cd.insertBefore(fr,cd.firstChild);else if(!ph&&fr.parentNode!==sc)sc.appendChild(fr);}
+  place();if(mq&&mq.addEventListener)mq.addEventListener("change",place);else window.addEventListener("resize",place);})();
+
+
+/* on a phone: picture, words and answers fill exactly one screen; a long card takes room
+   from the picture, never pushes the answers off the screen unless it has to */
+function phoneFit(){
+  var gr=$("gameRun");if(!gr||gr.hidden)return;
+  if(window.innerWidth>720){gr.style.removeProperty("--sp");return;}
+  var hd=gr.querySelector(".rn-head"),cd=$("gCard"),ch=gr.querySelector(".g-choices"),fl=$("gFlagBox");
+  var top=gr.getBoundingClientRect().top+window.scrollY;
+  var used=(hd?hd.offsetHeight:0)+(cd?cd.offsetHeight:0)+(ch?ch.offsetHeight:0)+(fl&&!fl.hidden?fl.offsetHeight:0);
+  var sp=Math.max(150,window.innerHeight-top-used-10);
+  gr.style.setProperty("--sp",Math.round(sp)+"px");
+  if(typeof artFocus==="function")artFocus();
+}
+(function(){
+  if(window.ResizeObserver){var ro=new ResizeObserver(function(){phoneFit();});
+    ["gCard","gFlagBox"].forEach(function(id){var e=$(id);if(e)ro.observe(e);});
+    var gr=$("gameRun");if(gr){var c=gr.querySelector(".g-choices"),hd=gr.querySelector(".rn-head");if(c)ro.observe(c);if(hd)ro.observe(hd);}}
+  window.addEventListener("resize",function(){clearTimeout(phoneFit.t);phoneFit.t=setTimeout(phoneFit,100);});
+})();
+
 function topicPosts(c,ch,taken){
   var tp=topicOf(c),st=stanceOf(ch),out=[];
   if(!tp)return {posts:out,trend:null};
@@ -6528,6 +6606,37 @@ Array.prototype.push.apply(DECK,[
   l:{t:"Keep the government out of the campaign",m:{gov:-6,nass:-4,street:6},v:{int:8},f:"clean_handover"},
   r:{t:"Keep governing as normal",m:{gov:6},v:{int:-5},f:"busy_handover"}}
 ]);
+
+/* ---------- the keys to the villa, and what you are after them ----------
+   The last decision of a presidency that ends on time: the successor has won, your people
+   want guarantees, the president-elect wants a free hand. Then a few lines on the front
+   page about two years on: whether your standing survives without the office depends on
+   whether it was built on the office (appointments, defectors, a loyal successor, a
+   friendly referee) or on the public and on letting go. No outcome is the winning one. */
+var VILLA_CARD={w:"Your Party Chairman",at:46,
+  cond:function(){return G.term===2&&G.third!=="passed"&&G.day<G.limit;},
+  s:"Your Excellency, your successor has won. Our people want guarantees before the handover: their ministries, their contracts, the party chairmanship. The president-elect says the cabinet will be chosen freely and nobody will be promised anything. You still hold the office for a few more weeks. Use it, or let it go.",
+  l:{t:"Demand guarantees",m:{nass:6,gov:6,street:-6},v:{int:-6,coh:-3},f:"villa_demand",
+     fd:[["@AbujaInsider","The outgoing President is negotiating the next cabinet. The president-elect is not smiling."]]},
+  r:{t:"Let the president-elect choose freely",m:{nass:-6,gov:-6,street:5},v:{int:7,coh:3},f:"villa_release",
+     fd:[["@KanoGist","Outgoing President says the new one should pick their own team. Didn't expect that."]]}};
+DECK.push(VILLA_CARD);
+function afterOffice(why){
+  if(why!=="legacy"||G.third==="passed"||!G.flags)return null;
+  var f=G.flags,street=G.m.street,intg=G.v.int;
+  var lean=["defectors_in","succ_loyal","succ_shield","inec_loyal","busy_handover","succ_withdrawn","villa_demand"].filter(function(k){return f[k];}).length;
+  var freeSucc=(f.succ_reformer&&!f.succ_withdrawn)||f.succ_files||f.succ_open;
+  if(f.villa_demand&&freeSucc)
+    return {k:"fight",t:"Your successor refused the guarantees, and your allies are fighting them for the party, in the courts and in the press. Your name is in every one of those fights, and you control none of them."};
+  if(lean>=3&&street<50)
+    return {k:"fracture",t:"The governors and senators who came over for appointments went to the new President the week you left. What held your coalition together was the office, and the office has gone."};
+  if(f.villa_demand||(lean>=2&&street>=50))
+    return {k:"counts",t:"Your allies still hold ministries and party offices, and the President still clears the big decisions with you. How long that lasts depends on a successor who owes you, and knows it."};
+  if((f.villa_release||f.clean_handover)&&street>=45&&intg>=30)
+    return {k:"elder",t:"You still get calls, from your successor among others, and you can say no to them. Nobody owes you a ministry, which is why people still listen to you."};
+  return {k:"quiet",t:"You went home. The phone rings less each month, which is how it is meant to work."};
+}
+
 /* who you handed over to, in a sentence for the front page */
 function succLine(why){
   if(why!=="legacy"||G.third==="passed")return "";
@@ -6678,6 +6787,8 @@ frontPage=function(endTitle){
   var stand=span+" in office"+(G.term>=2&&why==="legacy"?(G.third==="passed"?", three terms":", two terms"):"")+".";
   var sl=(typeof succLine==="function")?succLine(why):"";
   f.appendChild(el("p","ledger-stand",stand+(sl?" "+sl:"")));
+  var ao=(typeof afterOffice==="function")?afterOffice(why):null;
+  if(ao){var aw=el("div","ledger-after");aw.appendChild(el("span","ledger-k","Two years later"));aw.appendChild(el("p","",ao.t));f.appendChild(aw);}
   /* what happened to Nigeria: where each measure started and where you left it */
   var grid=el("div","ledger-grid");
   grid.appendChild(el("span","ledger-k","What happened to Nigeria"));
