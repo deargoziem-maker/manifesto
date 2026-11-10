@@ -1534,8 +1534,8 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 @keyframes gateIn{from{transform:scale(1)}to{transform:scale(1.14) translateY(2%)}}
 @keyframes prevOut{from{opacity:1}to{opacity:0}}
 @keyframes sceneIn{from{opacity:0}to{opacity:1}}
-@keyframes phoneDrift{from{object-position:var(--fx,50%) 40%;transform:scale(1)}to{object-position:var(--fx2,50%) 40%;transform:scale(1.045)}}
-@media (prefers-reduced-motion:reduce){#gameRun .scene > #gSceneImg{animation:sceneIn .6s ease both !important;transform:none !important;}}
+@keyframes phoneDrift{from{transform:translate3d(var(--tx1,0px),0,0) scale(1)}to{transform:translate3d(var(--tx2,0px),0,0) scale(1.025)}}
+@media (prefers-reduced-motion:reduce){#gameRun .scene > #gSceneImg{animation:sceneIn .6s ease both !important;transform:translate3d(var(--tx1,0px),0,0) !important;}}
 @keyframes mote{0%{transform:translate(0,0);opacity:0}15%{opacity:.85}85%{opacity:.6}100%{transform:translate(18px,-46px);opacity:0}}
 @keyframes lamp{0%,100%{opacity:.55}50%{opacity:.85}}
 .scene > img{transform-origin:50% 45%;will-change:transform;}
@@ -1647,7 +1647,10 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
   #gameRun .scene > img{object-fit:cover;object-position:var(--fx,50%) 40%;
     -webkit-mask-image:none;mask-image:none;transform:none;}
   #gameRun .scene > #gSceneImg,#gameRun .scene > #gSceneImg.cam-push,#gameRun .scene > #gSceneImg.cam-pan{
-    animation:sceneIn .6s ease both, phoneDrift var(--dur,26s) ease-in-out 3.5s infinite alternate both;transform-origin:var(--fx,50%) 40%;}
+    animation:sceneIn .6s ease both, phoneDrift var(--dur,75s) cubic-bezier(.45,.05,.55,.95) 4s infinite alternate both;
+    left:0;right:auto;width:var(--iw,100%);max-width:none;transform-origin:50% 40%;will-change:transform;backface-visibility:hidden;}
+  /* the outgoing picture is not carried across; the new one fades in over the dark */
+  #gameRun .scene > #gScenePrev{display:none;}
   #gameRun .scene::before{display:none;}
   #gameRun .scene::after{display:block;content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
     background:linear-gradient(180deg,rgba(8,11,18,.5) 0,rgba(8,11,18,0) 13%,rgba(8,11,18,0) 30%,rgba(8,11,18,.72) 50%,rgba(8,11,18,.93) 72%,rgba(8,11,18,.97) 100%);}
@@ -6406,7 +6409,7 @@ ledger=(function(orig){return function(){
 /* where each picture's subject is, as a share of its width (0 = left edge, 1 = right). On a
    phone the picture is much narrower than it was painted, so it is cropped around this. */
 var ART_FX={"airport.webp":.58,"amaka.webp":.42,"amaka_call.webp":.4,"bank.webp":.4,"cabinet.webp":.6,"cabinet2.webp":.5,
- "cabinet_empty.webp":.47,"cabinet_meeting3.webp":.5,"cabinet_meeting.webp":.5,"cabinet_meeting2.webp":.5,"call.webp":.65,"campus.webp":.4,"cbn.webp":.5,"chairman.webp":.45,
+ "cabinet_empty.webp":.47,"cabinet_meeting3.webp":.5,"cabinet_meeting.webp":.5,"cabinet_meeting2.webp":.5,"call.webp":.65,"campus.webp":.4,"cbn.webp":.5,"chairman.webp":.3,
  "classroom.webp":.6,"confidential.webp":.45,"cos.webp":.6,"court.webp":.35,"culture.webp":.62,"dangana.webp":.55,
  "dangana_call.webp":.45,"delta.webp":.52,"ekanem.webp":.42,"ekanem_call.webp":.4,"farm.webp":.45,"finance.webp":.5,
  "flood.webp":.28,"forum.webp":.5,"fuel.webp":.35,"gyang.webp":.45,"gyang_call.webp":.4,"hauwa.webp":.42,
@@ -6417,18 +6420,30 @@ var ART_FX={"airport.webp":.58,"amaka.webp":.42,"amaka_call.webp":.4,"bank.webp"
  "works.webp":.38,"youth_hub.webp":.55,"youth_street.webp":.45};
 /* object-position X% lines up X% of the picture with X% of the frame; to centre on the
    subject, X depends on how much of the width the frame shows */
+var ART_PERSON={};["amaka","amaka_call","call","cbn","chairman","cos","dangana","dangana_call","ekanem","ekanem_call","finance",
+ "gyang","gyang_call","hauwa","hauwa_bargain","minister","ogundipe","ogundipe_call","student","street2"].forEach(function(n){ART_PERSON[n+".webp"]=1;});
 function artFocus(){
-  var im=$("gSceneImg");if(!im||!im.naturalWidth)return;
+  var im=$("gSceneImg"),gr=$("gameRun"),sc=$("gScene");if(!im||!gr||!sc||!im.naturalWidth)return;
   var f=(im.getAttribute("src")||"").split("/").pop(),fx=ART_FX[f];if(fx===undefined)fx=.5;
-  var box=im.getBoundingClientRect();if(!box.width||!box.height)return;
-  var r=(box.width/box.height)/(im.naturalWidth/im.naturalHeight);
+  var box=sc.getBoundingClientRect();if(!box.width||!box.height)return;
+  var nr=im.naturalWidth/im.naturalHeight,r=(box.width/box.height)/nr;
   var x=r>=1?.5:Math.max(0,Math.min(1,(fx-r/2)/(1-r)));
-  var gr=$("gameRun"),x2=x<.5?Math.min(1,x+.55):Math.max(0,x-.55);
+  var x2=x<.5?Math.min(1,x+.35):Math.max(0,x-.35);
+  /* in a picture of one person, that person never leaves the screen; a scene is free to
+     drift to what the crop hides at its sides */
+  if(ART_PERSON[f]){var lo=(fx+.15*r-r)/(1-r),hi=(fx-.15*r)/(1-r);
+    x2=Math.max(Math.max(0,lo),Math.min(Math.min(1,hi),x2));}
   if(r>=.92)x2=x;
-  var was=gr.style.getPropertyValue("--fx");
   gr.style.setProperty("--fx",(x*100).toFixed(1)+"%");
-  gr.style.setProperty("--fx2",(x2*100).toFixed(1)+"%");
-  gr.style.setProperty("--dur",Math.round(16+Math.abs(x2-x)*22)+"s");
+  /* on a phone the picture is laid out at its full painted width and slid sideways by the
+     graphics hardware: smooth at any speed, where moving the crop steps a pixel at a time */
+  if(window.innerWidth<=720&&r<1){
+    var iw=box.height*nr,over=iw-box.width;
+    gr.style.setProperty("--iw",iw.toFixed(1)+"px");
+    gr.style.setProperty("--tx1",(-x*over).toFixed(1)+"px");
+    gr.style.setProperty("--tx2",(-x2*over).toFixed(1)+"px");
+  } else {["--iw","--tx1","--tx2"].forEach(function(k){gr.style.removeProperty(k);});}
+  gr.style.setProperty("--dur",Math.round(50+Math.abs(x2-x)*80)+"s");
   /* a new picture starts its drift from its subject again */
   if(artFocus.src!==im.getAttribute("src")){artFocus.src=im.getAttribute("src");
     im.style.animation="none";void im.offsetWidth;im.style.animation="";}
