@@ -2674,7 +2674,7 @@ var $=function(i){return document.getElementById(i);};
    or the President deck/values. Date-based, not semver: ships aren't
    backward compatible with each other in a way that makes semver meaningful
    here, and the date is what you'd want to know anyway. */
-var CONTENT_VERSION="2026-11-10.3";
+var CONTENT_VERSION="2026-11-10.4";
 function uuid(){
   if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
@@ -6129,7 +6129,7 @@ var BORROW={"Take the loan":1,"Borrow again":1,"Take the IMF programme":1,
   "Ease the conditions and keep going":1,"Keep the promise in full":14};
 var PAYDOWN={"Use the savings to pay down debt":15};
 function fiscInit(){
-  G.debt=0;G.pipe=0;G.infl=0;G.fNotes=[];G.pend=[];G.why={};G.src=null;G.fDay=-1;G.fYear=-1;
+  applyTuning();G.debt=0;G.pipe=0;G.infl=0;G.fNotes=[];G.pend=[];G.why={};G.src=null;G.fDay=-1;G.fYear=-1;
   G.printN=0;G.cbLast=-99;G.lendDone=false;G.lentOff=false;G.inflSaid={};
 }
 function fiscNote(h,t,c){G.fNotes.push({h:h,t:t,c:c||"warn"});if(G.fNotes.length>2)G.fNotes.shift();}
@@ -6477,6 +6477,191 @@ function phoneFit(){
     var gr=$("gameRun");if(gr){var c=gr.querySelector(".g-choices"),hd=gr.querySelector(".rn-head");if(c)ro.observe(c);if(hd)ro.observe(hd);}}
   window.addEventListener("resize",function(){clearTimeout(phoneFit.t);phoneFit.t=setTimeout(phoneFit,100);});
 })();
+
+
+/* ---------- every card a dilemma, every choice a price (10 Nov 2026) ----------
+   An audit of all 185 decisions found three faults, fixed here in one place:
+   1. cards where one answer was plainly right because the text gave the other no case;
+      the "responsible" answer now has a named price too;
+   2. answers that cost nothing; each now costs something real;
+   3. the newer cards moved the powers about two-thirds as much as the originals and were
+      never remembered; their stakes are raised and seventeen of their consequences now
+      come back months later.
+   Cards are matched by the opening of their text, which stays unchanged so the picture
+   and topic maps still find them. */
+function tuneFind(prefix){
+  var sets=[DECK,OPENINGS,typeof CAMP_BASE!=="undefined"?CAMP_BASE:[],typeof CAMP_OPEN!=="undefined"?CAMP_OPEN:[],
+    typeof CAMP_EXTRA!=="undefined"?CAMP_EXTRA:[],typeof AMEND!=="undefined"?AMEND:[]];
+  for(var i=0;i<sets.length;i++)for(var j=0;j<sets[i].length;j++){var c=sets[i][j];
+    if(c&&typeof c.s==="string"&&c.s.indexOf(prefix)===0)return c;}
+  return null;
+}
+function tune(prefix,o){
+  var c=tuneFind(prefix);if(!c){if(window.console)console.warn("tune: no card",prefix);return;}
+  if(o.s)c.s=o.s; if(o.add)c.s=c.s.replace(/\s*$/,"")+" "+o.add;
+  ["l","r","c"].forEach(function(k){if(o[k]&&c[k]){for(var p in o[k])c[k][p]=o[k][p];}});
+}
+function applyTuning(){
+  if(applyTuning.done||typeof DECK==="undefined")return;applyTuning.done=true;
+  /* 3a. the newer batch: stakes raised to match the rest of the desk */
+  var A="Digital lenders are giving millions",B="Our most successful start-ups register";
+  var a=-1,b=-1;DECK.forEach(function(c,i){if(c.s&&c.s.indexOf(A)===0)a=i;if(c.s&&c.s.indexOf(B)===0)b=i;});
+  if(a>=0&&b>=a)for(var i=a;i<=b;i++)["l","r","c"].forEach(function(k){var ch=DECK[i][k];if(!ch)return;
+    if(ch.m)for(var p in ch.m)ch.m[p]=Math.round(ch.m[p]*1.45);
+    if(ch.v)for(var q in ch.v)ch.v[q]=Math.round(ch.v[q]*1.3);});
+
+  /* the quiet ones among the originals, raised to the same stakes */
+  ["Open the market and some Nigerian factories","A major Nigerian factory says cheap imports","The naira has settled since your first week",
+   "The ministers the party gave you on your first morning"].forEach(function(px){var c=tuneFind(px);if(!c)return;
+    ["l","r","c"].forEach(function(k){var ch=c[k];if(ch&&ch.m)for(var p in ch.m)ch.m[p]=Math.round(ch.m[p]*1.4);});});
+  /* 1. the obvious answers, given a real case on both sides */
+  tune("Your Excellency, on its last day in office the outgoing government signed",{
+    s:"Your Excellency, on its last day in office the outgoing government signed a very large contract for a power plant. Nobody here has seen the terms. The country needs the power, and the contractor says that if work does not start this month its financiers will pull out and it will sue for every naira it has spent.",
+    l:{m:{purse:-10,gov:6,nass:4,street:4},v:{pro:6,cap:4,int:-6}},
+    r:{m:{purse:6,nass:-8,gov:-4,street:-6},v:{int:7,pro:-6,cap:-3}}});
+  tune("The court has ruled against your government in a landmark case",{
+    s:"The court has ruled against your government in a landmark case: the land for the national housing scheme was taken without proper compensation. Obey now and building stops, with thousands of homes half-finished. The Minister wants time to appeal and keep building.",
+    l:{m:{street:4,barracks:-8,gov:6,purse:-10},v:{pro:-6,int:16,cap:4,coh:4}},
+    r:{m:{barracks:6,street:-6,purse:6,gov:-4},v:{pro:6,int:-16,cap:-6,coh:-3}}});
+  tune("The Finance Ministry cut our election budget",{
+    add:"The Finance Minister says the only money left to restore it is what was set aside for the teachers' salary arrears.",
+    l:{m:{purse:-14,nass:6,street:-6,gov:-4},v:{int:16,coh:4,cap:3,pro:-3}},
+    r:{m:{purse:8,street:4,nass:-4},v:{int:-14,coh:-6,sec:-4}}});
+  tune("A reporter has most of the contract file",{
+    s:"A reporter has most of the contract file, but not the documents explaining the emergency award. Those are classified: the award paid for equipment for an operation that is still under way. Published alone, the story says you handed the deal to a favourite. Ask the paper to hold it until the operation ends, or let her publish and take the hit.",
+    l:{m:{barracks:10,street:-10},v:{int:-12,sec:5,coh:-3}},
+    r:{m:{street:-8,barracks:-8,palace:-4},v:{int:12,sec:-4,pro:-2}}});
+  tune("No one in your cabinet is under 40",{
+    s:"No one in your cabinet is under 40. We want young Nigerians in the room where decisions are made. Your Chief of Staff says a reshuffle now means new ministers learning the job in the middle of the debt talks and the budget, and the ministers you drop have followings of their own.",
+    l:{m:{street:16,palace:-10,gov:-6,nass:-4},v:{coh:8,cap:-4,int:3,pro:-3}},
+    r:{m:{palace:8,street:-14,gov:4},v:{cap:4,coh:-6,pro:3}}});
+  tune("The exam leak on your first morning",{
+    s:"The exam leak on your first morning was traced to officials inside the examination body. Prosecute them and the trial will show how far the papers spread, which could void this year's results for students who did nothing wrong. Retire them quietly and the results stand.",
+    l:{m:{street:-12,nass:-6},v:{int:10,cap:3,coh:-3}},
+    r:{m:{street:8,nass:6},v:{int:-9,cap:-2}}});
+  tune("I retire next month. By custom",{
+    s:"I retire next month. By custom the most senior justice of the Supreme Court succeeds me. She retires herself within the year, and the backlog will wait on another changeover. Your advisers suggest a younger justice known for clearing cases quickly, who would serve for a decade.",
+    l:{m:{street:6,nass:-10},v:{int:8,cap:-5}},
+    r:{m:{nass:10,street:-12},v:{int:-9,cap:7,coh:-3}}});
+  tune("You remember sending money straight to the councils? Most are spending",{
+    s:"You remember sending money straight to the councils? Most are spending it on clinics and roads, and the audits show it. A few chairmen have stolen theirs. Publish every council's accounts and the governors will wave the worst of them in the Assembly to end the reform. Deal with the thieves quietly and the reform survives.",
+    l:{m:{gov:-10,nass:-6,street:8},v:{int:10,cap:-3}},
+    r:{m:{gov:4,nass:2},v:{int:-6,cap:5}}});
+  tune("The opposition wants to hold a national rally",{
+    s:"The opposition wants to hold a national rally in the capital against the third term. The State Security Service says it has credible warnings that armed groups plan to use the crowd. Refuse the permit and you will be accused of silencing your critics. Allow it, and whatever happens is on you.",
+    l:{m:{street:8,barracks:-8},v:{int:7,sec:-6,coh:2}},
+    r:{m:{street:-12,barracks:8},v:{int:-9,sec:5,coh:-4}}});
+  tune("Your revenue reform bill is with us",{
+    c:{m:{nass:-10,street:2,purse:-6},v:{int:7,pro:-5,cap:-5}}});
+  tune("The tribunal has upheld your election",{
+    add:"Your party says reaching out now rewards a petition that called you a thief.",
+    l:{m:{street:6,nass:-10,gov:-6},v:{coh:6,int:2}},
+    r:{m:{nass:8,gov:6,street:-8},v:{coh:-5}}});
+  tune("Your Excellency, the party is asking who comes after you",{
+    l:{m:{nass:-12,gov:-10,palace:4,street:6},v:{coh:5,int:4}},
+    r:{m:{nass:6,gov:4,street:-10},v:{coh:-6,int:-3}}});
+  tune("The television stations want a live debate",{
+    l:{m:{street:-8},v:{int:7,coh:3}},
+    r:{m:{street:-6},v:{int:-5}}});
+  tune("Millions of young Nigerians trade crypto",{
+    add:"License them, and the next exchange that collapses will collapse with your government's licence on it.",
+    l:{m:{street:-14,purse:6,barracks:3},v:{int:4,pro:-8,sec:3},f:"crypto_ban"},
+    r:{m:{street:10,purse:-4,barracks:-4},v:{pro:8,int:-3,cap:3},f:"crypto_lic"}});
+
+  /* 2. no answer is free */
+  tune("You remember when we stayed away from your swearing-in",{l:{m:{gov:12,nass:-2,street:-4},v:{coh:3,int:-2}}});
+  tune("You remember the programme you agreed with us? The numbers are better",{l:{m:{purse:10,street:-6},v:{pro:6,sov:-3}}});
+  tune("Your Excellency, the naira fell sharply overnight",{c:{m:{purse:-6,street:-4},v:{int:4}}});
+  tune("Your Excellency, the losing candidate has filed a petition",{l:{m:{street:-6,nass:-4},v:{int:6}}});
+  tune("Your Excellency, the party leaders who carried your campaign",{c:{m:{nass:-4,gov:-2,street:-4},v:{cap:2,coh:2}}});
+  tune("The two main opposition parties are talking about a joint ticket",{r:{m:{street:4,nass:-6,gov:-4},v:{int:4}}});
+  tune("We have a file on the main opposition candidate",{r:{m:{street:-6},v:{int:5}}});
+  tune("Materials are being moved to the polling units",{r:{m:{barracks:-6,street:2},v:{int:4,sec:-5}}});
+  tune("A video of you saying things you never said",{l:{m:{street:-6},v:{int:4}}});
+
+  /* 3b. the newer cards now leave a mark, and their consequences come back */
+  tune("Ships wait weeks to unload",{l:{f:"port_foreign"},r:{f:"port_reform"}});
+  tune("Most of the money in the economy never passes through a bank",{l:{f:"cash_cap"}});
+  tune("Nigeria has no national airline",{l:{f:"airline"}});
+  tune("The school feeding programme reaches millions",{l:{f:"feed_expand"},r:{f:"feed_verify"}});
+  tune("Foreign technology companies hold the personal data",{l:{f:"data_local"}});
+  tune("Freelancers, content creators and remote workers",{l:{f:"tax_dollar"},r:{f:"tax_exempt"}});
+  tune("Young people say officers stop them",{l:{f:"search_ban"},r:{f:"search_keep"}});
+  tune("Betting apps are on almost every young man",{l:{f:"bet_ban"},r:{f:"bet_tax"}});
+  tune("The phone companies want to raise data prices",{l:{f:"data_up"},r:{f:"data_held"}});
+  var W=5,L=function(o){o.wait=W;o.from=o.req;return o;};
+  [
+   L({w:"Managing Director of the Ports Authority",req:"port_foreign",tp:"trade",
+    s:"You remember bringing in the foreign operator at the port? Ships now unload in days, not weeks. But the operator has laid off a third of the dockworkers, and their union has shut the gates.",
+    l:{t:"Back the operator",m:{purse:6,street:-12},v:{pro:5,cap:3,coh:-4}},
+    r:{t:"Make them take the workers back",m:{street:10,purse:-6},v:{pro:-4,sov:3,coh:3}}}),
+   L({w:"Managing Director of the Ports Authority",req:"port_reform",tp:"trade",
+    s:"You remember reforming the Ports Authority ourselves? The new managers have cleared some of the backlog, but ships still wait twice as long as at the ports next door, and importers are sending their cargo through Cotonou and Lomé.",
+    l:{t:"Give the reform another year",m:{purse:-8,street:-4},v:{pro:-4,sov:3}},
+    r:{t:"Bring in the foreign operator after all",m:{purse:8,street:-8},v:{pro:6,sov:-6,int:-2}}}),
+   L({w:"Central Bank Governor",req:"cash_cap",tp:"naira",
+    s:"You remember capping cash withdrawals? Digital payments have grown. But traders are paying agents a premium to get cash, and people in the villages say they cannot buy food where nobody takes transfers.",
+    l:{t:"Raise the cap outside the cities",m:{street:10,purse:-4},v:{int:-3,cap:-2,coh:3}},
+    r:{t:"Hold the cap",m:{street:-14,purse:6},v:{cap:4,int:3}}}),
+   L({w:"Minister of Aviation",req:"airline",
+    s:"You remember the national airline? It flies, and the planes are full. It also loses money on every route, and the foreign partner wants a bigger share before it puts in any more.",
+    l:{t:"Give the partner a majority",m:{purse:8,palace:-6},v:{sov:-8,pro:4}},
+    r:{t:"Cover the losses from the budget",m:{purse:-14,palace:4,street:2},v:{sov:5,pro:-5}}}),
+   L({w:"Auditor-General",req:"feed_expand",
+    s:"You remember expanding school feeding without cleaning the lists first? The audit is back. Much of the new money went to schools that do not exist, and the newspapers have the names.",
+    l:{t:"Prosecute and claw the money back",m:{gov:-12,street:6},v:{int:10,cap:3,coh:-3}},
+    r:{t:"Fix the lists quietly",m:{gov:6,street:-6},v:{int:-8}}}),
+   L({w:"Minister of Humanitarian Affairs",req:"feed_verify",
+    s:"You remember suspending school feeding to check the lists? A third of the names were false. But while the meals stopped, attendance fell in the poorest states, and some of those children have not come back.",
+    l:{t:"Restart on the clean lists and pay the arrears",m:{purse:-12,gov:6,street:6},v:{coh:4,cap:4}},
+    r:{t:"Restart it slowly",m:{purse:4,gov:-6,street:-8},v:{cap:2,coh:-4}}}),
+   L({w:"Minister of Communications",req:"data_local",
+    s:"You remember requiring Nigerians' data to be stored here? Two of the big platforms have built data centres in Lagos. A third says it will leave instead, and millions of small businesses sell through it.",
+    l:{t:"Give it an exemption",m:{street:8,barracks:-4},v:{sov:-6,pro:4,int:-2}},
+    r:{t:"Hold firm",m:{street:-10,barracks:4},v:{sov:6,pro:-5}}}),
+   L({w:"Chair of the Revenue Service",req:"tax_dollar",
+    s:"You remember taxing foreign earnings as they land? Revenue is up. But freelancers are opening accounts abroad to be paid there instead, and money that used to come home is staying out.",
+    l:{t:"Cut the rate to bring them back",m:{purse:-6,street:8},v:{pro:4,cap:-3}},
+    r:{t:"Go after the foreign accounts",m:{purse:6,street:-10},v:{cap:4,int:2,pro:-3}}}),
+   L({w:"Chair of the Revenue Service",req:"tax_exempt",
+    s:"You remember exempting creators and remote workers for five years? Thousands of salaried workers are now registering as freelancers to pay nothing, and the tax take is falling.",
+    l:{t:"Close the gap now",m:{street:-10,purse:8},v:{cap:4,int:-3}},
+    r:{t:"Keep your word for the five years",m:{purse:-8,street:4},v:{int:4,cap:-4}}}),
+   L({w:"Inspector-General of Police",req:"search_ban",
+    s:"You remember banning phone searches without a warrant? Complaints against officers have fallen. But the fraud units say their cases now take months longer, and foreign payment companies are blocking more Nigerian cards.",
+    l:{t:"Fund a cybercrime unit and faster warrants",m:{purse:-10,barracks:4},v:{sec:4,int:3,cap:3}},
+    r:{t:"Give the police back their powers",m:{barracks:8,street:-14},v:{int:-8,sec:3}}}),
+   L({w:"Inspector-General of Police",req:"search_keep",
+    s:"You remember keeping stop and search? A video of officers making a student transfer money from his phone at a checkpoint is everywhere, and students are marching in three cities.",
+    l:{t:"Suspend the unit and open an inquiry",m:{street:12,barracks:-10},v:{int:8,sec:-3}},
+    r:{t:"Stand by the officers",m:{street:-14,barracks:8},v:{int:-8,coh:-4}}}),
+   L({w:"Minister of Youth and Sports",req:"bet_tax",
+    s:"You remember taxing the betting companies to fund youth sport? The pitches are being built. The betting adverts are now on every jersey and every stadium wall, and more young men are in debt.",
+    l:{t:"Ban betting adverts at youth sport",m:{purse:-6,street:-4,palace:6},v:{coh:3}},
+    r:{t:"Leave it. The money is working",m:{purse:6,palace:-6},v:{coh:-4,pro:2}}}),
+   L({w:"Director-General of the Lottery Commission",req:"bet_ban",
+    s:"You remember banning betting adverts and capping stakes? The licensed companies are losing their customers to apps run from abroad that pay no tax and cap nothing.",
+    l:{t:"Block the foreign apps",m:{barracks:4,street:-8,purse:-4},v:{sov:4,int:2}},
+    r:{t:"Lift the caps for licensed firms",m:{purse:6,palace:-6,street:4},v:{coh:-3,int:-2}}}),
+   L({w:"Minister of Communications",req:"data_up",
+    s:"You remember approving the data price rise? The networks are reaching new towns. But students and online traders say a week of data now costs them a day's income.",
+    l:{t:"Fund free data for schools and universities",m:{purse:-8,street:8},v:{cap:3,coh:2}},
+    r:{t:"Let the market settle",m:{street:-10,purse:2},v:{pro:2}}}),
+   L({w:"Minister of Communications",req:"data_held",
+    s:"You remember holding data prices down? The networks have stopped building masts outside the cities, and calls drop every few minutes across half the country.",
+    l:{t:"Let prices rise now",m:{street:-12,purse:4},v:{cap:4,pro:3}},
+    r:{t:"Pay for the masts from the budget",m:{purse:-12,street:4},v:{cap:3,sov:2}}}),
+   L({w:"Director-General of the Securities Commission",req:"crypto_lic",
+    s:"You remember licensing the crypto exchanges? One of them has frozen withdrawals, and thousands of young people have lost their savings. They say your licence told them it was safe.",
+    l:{t:"Compensate them from public funds",m:{purse:-12,street:10},v:{int:-3,cap:-2}},
+    r:{t:"Prosecute the owners and let the courts recover what they can",m:{street:-10},v:{int:6,cap:3}}}),
+   L({w:"Director-General of the Securities Commission",req:"crypto_ban",
+    s:"You remember cutting the crypto exchanges off from the banks? The trading has moved to person-to-person deals nobody can see, and the dollar price on those apps is now the rate everyone quotes.",
+    l:{t:"Reverse it and license them",m:{street:8,purse:-2},v:{int:-3,pro:4,cap:2}},
+    r:{t:"Go further and block the apps",m:{street:-12,barracks:4},v:{sov:3,pro:-4}}})
+  ].forEach(function(c){DECK.push(c);});
+}
+setTimeout(applyTuning,0);
 
 function topicPosts(c,ch,taken){
   var tp=topicOf(c),st=stanceOf(ch),out=[];
