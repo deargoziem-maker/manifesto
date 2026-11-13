@@ -1440,6 +1440,33 @@ footer.site .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:
 @keyframes camPan{from{transform:scale(1.12) translateX(-3.5%)}to{transform:scale(1.12) translateX(3.5%)}}
 @keyframes gateIn{from{transform:scale(1)}to{transform:scale(1.14) translateY(2%)}}
 @keyframes prevOut{from{opacity:1}to{opacity:0}}
+.coach{position:relative;z-index:6;margin:8px 0 4px;padding:10px 12px;border-radius:8px;
+  background:rgba(12,17,27,.94);color:#F3F4F0;border:1px solid rgba(242,183,5,.6);box-shadow:0 6px 18px rgba(0,0,0,.35);
+  font-size:.92rem;line-height:1.45;}
+.coach::before{content:"";position:absolute;top:-6px;left:28px;width:10px;height:10px;background:inherit;
+  border-left:1px solid rgba(242,183,5,.6);border-top:1px solid rgba(242,183,5,.6);transform:rotate(45deg);}
+.coach p{margin:0;}
+.coach-why{list-style:none;margin:6px 0;padding:0;display:grid;gap:3px;}
+.coach-why li{margin:0;}
+.coach b{color:#fff;}
+.coach .up{color:#7fd6a8;font-weight:600;white-space:nowrap;} .coach .dn{color:#f0a48c;font-weight:600;white-space:nowrap;}
+.coach-b{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.coach button{font:inherit;font-size:.85rem;font-weight:600;border-radius:6px;padding:6px 12px;cursor:pointer;}
+.coach .coach-ok{background:#f2b705;color:#141a26;border:0;}
+.coach .coach-skip{background:transparent;color:#c9cdd4;border:1px solid rgba(255,255,255,.3);}
+.coach button:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+#gameRun.fresh.coach-show .mwrap,body.runlock #gameRun.fresh.coach-show .mwrap{display:block !important;opacity:1 !important;pointer-events:auto;}
+#gMeters.coach-on{outline:2px solid rgba(242,183,5,.85);outline-offset:4px;border-radius:6px;animation:coachPulse 1.6s ease-in-out infinite;}
+#gMeters .mt.coach-hit{outline:2px solid #f2b705;outline-offset:2px;border-radius:4px;}
+@keyframes coachPulse{0%,100%{outline-color:rgba(242,183,5,.85)}50%{outline-color:rgba(242,183,5,.25)}}
+@media (prefers-reduced-motion:reduce){#gMeters.coach-on{animation:none;}}
+.res-key{display:flex;flex-wrap:wrap;gap:6px 14px;padding:8px 0 2px;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);}
+.res-key span{display:inline-flex;align-items:center;gap:6px;}
+.res-key i{display:inline-block;width:12px;height:8px;}
+.res-key i.y{background:var(--g-ac,var(--palm));} .res-key i.o{background:var(--laterite);} .res-key i.t{background:var(--ink-3);}
+.res-why{border-left:3px solid var(--laterite);padding:2px 0 2px 12px;}
+.res-why-lab{display:block;font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--laterite-text);margin-bottom:4px;}
+.res-why p{margin:0;font-size:.9rem;line-height:1.5;color:var(--ink);}
 @keyframes sceneIn{from{opacity:0}to{opacity:1}}
 @keyframes phoneDrift{from{transform:translate3d(var(--tx1,0px),0,0) scale(1)}to{transform:translate3d(var(--tx2,0px),0,0) scale(1.025)}}
 @media (prefers-reduced-motion:reduce){#gameRun .scene > #gSceneImg{animation:sceneIn .6s ease both !important;transform:translate3d(var(--tx1,0px),0,0) !important;}}
@@ -5980,7 +6007,7 @@ var BORROW={"Take the loan":1,"Borrow again":1,"Take the IMF programme":1,
 var PAYDOWN={"Use the savings to pay down debt":15};
 function fiscInit(){
   applyTuning();G.debt=0;G.pipe=0;G.infl=0;G.fNotes=[];G.pend=[];G.why={};G.src=null;G.fDay=-1;G.fYear=-1;
-  G.printN=0;G.cbLast=-99;G.lendDone=false;G.lentOff=false;G.inflSaid={};
+  G.printN=0;G.crisisBy={};G.censusDay=null;G.cbLast=-99;G.lendDone=false;G.lentOff=false;G.inflSaid={};
 }
 function fiscNote(h,t,c){G.fNotes.push({h:h,t:t,c:c||"warn"});if(G.fNotes.length>2)G.fNotes.shift();}
 /* a decision has been taken: if it was borrowing, it is owed */
@@ -6169,7 +6196,7 @@ function deliverTurn(){
     var fc=Math.max(0.4,Math.min(1.4,1+(G.v.cap-30)/30*d.sens));
     var fm=(G.m.purse<=8)?0.6:1;
     var fs=(d.st&&G.m.gov<30)?0.75:1;
-    var f=Math.max(0.25,Math.min(1.4,fc*fm*fs));
+    var cb=censusBoost(d);var f=Math.max(0.25,Math.min(1.4,fc*fm*fs*cb));
     var was=G.src;G.src=p.src;applyV(p.ben,0.55*f);G.src=was;
     var line,cls;
     if(f>=1.1){line=d.good;cls="up";}
@@ -6177,7 +6204,7 @@ function deliverTurn(){
     else if(fm<1&&fm<=fs&&fm<=fc){line=capFirst(d.n)+" was approved, but the Treasury could not release the money when it was needed, so most of it never happened.";cls="warn";}
     else if(fs<1&&fs<=fc){line="Several governors would not cooperate with "+d.n+", so it reached only part of the country.";cls="warn";}
     else {line=d.weak;cls="warn";}
-    dlNote(d.who,line,cls);
+    if(cb>1&&cls!=="warn")line+=" The census figures meant it reached the places that needed it.";dlNote(d.who,line,cls);
   });
   G.pend=keep;
 }
@@ -6510,8 +6537,104 @@ function applyTuning(){
     l:{t:"Reverse it and license them",m:{street:8,purse:-2},v:{int:-3,pro:4,cap:2}},
     r:{t:"Go further and block the apps",m:{street:-12,barracks:4},v:{sov:3,pro:-4}}})
   ].forEach(function(c){DECK.push(c);});
+
+  /* five lines at most on a phone: the situation, and the price of each side (12 Nov 2026) */
+  ["The universities have been shut for nine months. Meet our demands on funding and pay and lecturers return. Your Finance Minister says it costs more than the whole education budget.", "The military has overthrown the government next door, and ECOWAS expects Nigeria to lead. Troops back up our word but put soldiers at risk. Sanctions keep them home, and the junta can wait us out.", "The court has ruled against your government in a landmark case: the housing scheme's land was taken without compensation. Obey and building stops, with thousands of homes half-built. The Minister wants to appeal.", "Electricity is being sold for less than it costs to supply, so nobody invests. Raise tariffs and every home and business pays more now. Keep them down and the budget keeps covering the gap.", "Our states generate this tax, but Abuja collects it and decides what comes back. Let us collect it ourselves. Your Finance Minister says the poorer states will lose out.", "No one in your cabinet is under 40. We want young Nigerians in the room. Your Chief of Staff warns that new ministers would be learning the job mid-budget, and those you drop have followings.", "Militants are attacking oil facilities and production is falling. Send us in and we restore control, but civilians may be caught in the fighting. Negotiate, and you bargain with men attacking the country.", "Open the market and some Nigerian factories will struggle against stronger African rivals. Protect us and local jobs get breathing room, but consumers pay more and our best firms lose a bigger market.", "Farmers and herders are clashing across several states, and people are dying. National ranches could end open grazing, but communities may refuse the land. Leave it to states and rules change at each border.", "The Finance Ministry cut our election budget by a third. I can still run the election, but thinner. The only money left to restore it was set aside for the teachers' salary arrears.", "An international oil company wants to sell its fields to a Nigerian buyer and leave. Communities want the old pollution settled first. Hold the sale and the company says investment keeps falling.", "Millions of children are out of school, and I want to bring them back. We cannot reach everywhere at once. Go nationwide now, or start where the problem is worst.", "A reporter has most of the contract file, but not the classified part: it paid for an operation still under way. Alone, it looks like favouritism. Ask the paper to wait, or take the hit.", "Digital lenders are giving millions of people loans the banks never would. Some shame late payers by messaging their contacts. License and regulate them now, or let the sector grow first.", "Nigeria has not counted its people in almost twenty years. A census changes how money and seats are shared, and every state suspects it will lose. Hold it next year, or wait for more trust.", "Several electricity distribution companies have not invested in years, and customers get a few hours of light a day. Take back their licences, or give the owners a year and new capital.", "Doctors trained at public expense are leaving within a year of qualifying. Bond new graduates to five years here, or make staying worth it with housing and faster promotion.", "We do not have enough police officers, and too many guard important people. Recruit a hundred thousand more, or take officers off guard duty and retrain the ones we have.", "Most of the people in our prisons have never been convicted, and many have waited years for trial. Release those held longer than their charge could carry, or build courts and hear each case.", "A foreign state lender will build the new railway quickly, with its own contractors and on its terms. A private partnership is slower and dearer for travellers, but leaves us less in debt.", "Thousands of people dig for gold without licences, and most of it leaves the country unrecorded. License them as cooperatives that sell to the government, or close the sites by force.", "Ships wait weeks to unload and importers pass the cost on to everything people buy. A foreign operator offers to clear the backlog in a year. The dockworkers say it means lost jobs.", "Retired workers have gone months without their pensions while the fund managers report record profits. Pay the arrears from this year's budget, or fix the pension law first so it never happens again.", "Most of the money in the economy never passes through a bank, so it is hard to tax and easy to steal. Cap cash withdrawals, or leave cash alone until banks reach the villages.", "Oil companies are still burning off gas they were told to stop flaring years ago. Enforce the full fines now, or extend the deadline for a binding plan to capture and sell it.", "The rains have flooded farmland and homes along two big rivers, made worse by a neighbour's dam. Families have lost their harvest. Pay them cash directly, or rebuild the embankments.", "Nigeria has no national airline, and our routes are flown by foreign carriers. Launch one with a foreign minority partner, or spend it on airports and let private airlines grow.", "The school feeding programme reaches millions of children, but audits find many schools and pupils on the payroll do not exist. Expand it as it is, or suspend payments until each school is verified.", "Every time a junior officer is made a service chief, every general senior to him retires, and decades of experience go at once. Let seniors stay, or keep the custom that renews the services.", "Factories cannot buy the dollars they need for machines and raw materials, while importers of finished goods find them easily. Give factories priority for foreign exchange, or let everyone compete at the market rate.", "My colleagues want new official cars and higher running allowances. They say the old figures no longer cover what an office costs. The papers have already found out.", "Nurses, engineers and programmers are leaving faster than we can train them. Charge foreign employers a fee for every worker they recruit here, or make leaving easier and court the money sent home.", "Millions of young Nigerians trade crypto on their phones, and some have lost everything to schemes that vanished. Cut the exchanges off from the banks, or license and tax them, and own the next collapse.", "Freelancers, content creators and remote workers earn dollars from abroad, and few pay tax here. Have the banks deduct it as the money lands, or exempt smaller earners for five years.", "Fees at the federal universities are rising and students are dropping out. Lend to every student and recover it from their salaries, or keep fees low by funding the universities directly.", "Our films and music are watched across the world, but artists pay for studios and piracy protection themselves. A creative fund would help. The Minister of Industry wants the money for textile mills.", "Young people say officers stop them for their laptops and phones, search them and demand money. Officers say it is how they catch fraudsters. Ban warrantless phone searches, or keep stop and search.", "Betting apps are on almost every young man's phone, and many lose their wages every week. Ban the adverts and cap daily stakes, or tax the companies hard and fund youth sport.", "The phone companies want to raise data prices sharply to pay for their networks. Young people say data is how they work, learn and earn. Approve the increase, or hold prices.", "Our most successful start-ups register their companies abroad because the rules here are slow. Give them tax holidays and fast access to dollars, or train a million young people instead.", "Prices are rising every week, and they will keep rising while we print to pay the bills. Raise rates and it stops, at a cost in jobs. Or keep money cheap and hope.", "Your Excellency, a large share of everything the government earns goes on debt. The lenders will refinance if we cut the fuel subsidy, raise taxes and freeze hiring. Without them, we print.", "The exam leak on your first morning was traced to officials inside the exam body. A trial could void this year's results for innocent students. Retire them quietly and the results stand.", "Your Excellency, the party is asking who comes after you. Name a successor and you become a president with an end date. Name nobody and every ambitious person starts working against you.", "I retire next month. By custom the most senior justice succeeds me, but she retires within the year. Your advisers prefer a younger justice who clears cases quickly and would serve a decade.", "The opposition wants to hold a national rally against the third term. Security warns that armed groups may use the crowd. Refuse, and you silenced your critics. Allow it, and whatever happens is on you.", "Foreign investors cannot take their profits home because we lack the dollars, and some are threatening to leave. Clear the backlog now and the naira takes the strain. Clear it slowly and investors stay away.", "A foreign consortium will build new power plants and roads worth more than our capital budget, if tariffs and tolls are set in dollars. If the naira falls, every bill in the country rises.", "Oil theft is draining the revenue. A private security firm with local ties will guard the pipelines, for an exclusive ten-year contract without open bidding, because it says secrecy is the point.", "After a series of attacks on military bases, the service chiefs want six months of power to detain suspects and restrict movement without going to court. They say the courts are too slow.", "Three opposition governors want to join our party, with their states, machines and Senate votes. They want guaranteed nominations for their people. Our own members in those states are furious.", ["You remember sending money straight to the councils? Most","You remember sending money straight to the councils? A few chairmen stole theirs. Publish every account and the governors will use the worst to kill the reform. Deal with them quietly and it survives."], "Your Excellency, the party wants to know who you will back to succeed you. A popular reformer will build on your record and investigate it. A party loyalist promises continuity and protection.", "You remember backing the reformer? She has asked for the files on three of your contracts and will open them once in office. Your ministers want you to withdraw your support.", "The primaries are over and the field is set. The candidates want the government out of the campaign: no announcements, no new projects, no state money at rallies. It is customary, and rarely honoured.", "Your Excellency, your successor has won. Our people want guarantees before the handover: ministries, contracts, the party chairmanship. The president-elect says nobody will be promised anything. You hold the office for a few more weeks.", "The cash transfer programme for the poorest households is ready to expand. The party wants the swing states first, with your picture on the cards. The ministry would follow the register of need.", "Three opposition parties are close to agreeing on a single candidate against you. Two governors holding the talks together would take ministries in your cabinet. Their people are not ones you would choose.", "You remember matching the opposition's promise during the campaign? Fuel and wages now cost far more than budgeted. Keep it in full and borrow, or tell the country it can only be kept in part.", "You remember reforming the Ports Authority ourselves? The backlog is smaller, but ships still wait twice as long as next door, and importers are using Cotonou and Lomé instead.", "You remember suspending school feeding to check the lists? A third of the names were false, but attendance fell in the poorest states while meals stopped, and some children have not come back.", "Your Excellency, we have a problem. The unions have called a nationwide strike from Monday over the minimum wage. The Finance Minister says the treasury cannot afford it. You promised a better life.", "Your Excellency, on its last day in office the outgoing government signed a power plant contract nobody here has seen. The country needs the power. Delay it, and the contractor walks away and sues.", "Your Excellency, one of the big banks cannot pay its depositors, and the queues started before dawn. The regulator can wind it down, or the government can put in money to keep it open.", "A video of you saying things you never said is spreading everywhere. It is fake, and very good. Answer it point by point, or have the regulator take it down.", "Fuel queues are back in the cities a month before the vote. Import at any price to clear them by election day, or tell people the truth about the cost and ride it out.", "The opposition candidate's convoy was stoned in a state your party holds, and some of those arrested carry our card. The governor says send federal investigators and forget his state on election day.", "The main opposition candidate has promised cheaper fuel and a higher minimum wage, and the crowds love it. Matching it could win the vote back, and cut next year's roads and hospitals."].forEach(function(t){var k=t.slice(0,40);if(Array.isArray(t)){k=t[0];t=t[1];}var c=tuneFind(k);
+    if(c)c.s=t;else if(window.console)console.warn("trim: no card",t.slice(0,40));});
 }
 setTimeout(applyTuning,0);
+
+
+/* ---------- the first game: two short pointers ----------
+   Testers did not see at first that their choices move the bars. On a player's very first
+   game, the first card says what the bars are; after the first choice, it says which bars
+   moved and which way. Once per device, and either can be skipped. */
+/* why each bar moved, for the choices on the opening cards (the first card of every game) */
+var COACH_WHY={
+ "Meet their demand":{street:"workers get the raise they struck for",purse:"the Treasury pays for it",gov:"the states must now pay the new wage too"},
+ "Hold the line and keep talking":{street:"workers lose pay and patience",purse:"the Treasury keeps its money",barracks:"the army likes a firm hand"},
+ "Pay part now, agree a timetable for the rest":{street:"workers get something now",purse:"part of the bill lands today",nass:"the Assembly likes a deal"},
+ "Pay the importers what they are owed":{purse:"the Treasury pays the old debt",street:"the fuel queues start to clear"},
+ "Order a full review of what is owed first":{street:"the queues stay while you review",purse:"no money leaves yet"},
+ "Release the strategic reserve for two weeks":{street:"fuel flows again, for now",purse:"releasing the reserve costs money"},
+ "Announce that the naira will be defended":{street:"people feel someone is in charge",purse:"defending the naira burns the reserves"},
+ "Say nothing and let the market settle":{street:"your silence reads as not caring",purse:"the markets like a hands-off start"},
+ "Speak alongside the Central Bank Governor":{purse:"the markets hear hesitation",street:"people wanted a clear answer"},
+ "Invite them to Aso Rock this week":{gov:"the governors feel taken seriously",purse:"the visit and its promises cost money",street:"people see a snub rewarded"},
+ "Ignore it and get on with governing":{gov:"the governors feel ignored again",nass:"the Assembly respects a president who won't be pushed"},
+ "Give the states seats on the transition committee":{gov:"the states get a seat at the table",nass:"the Assembly wanted those seats"},
+ "Pay the verified debts in full":{purse:"the Treasury pays out at once",gov:"work restarts in the states"},
+ "Freeze every payment pending an audit":{purse:"no money leaves until the audit",gov:"building sites stay shut in every state"},
+ "Pay half now and audit the rest":{purse:"half the bill lands now",gov:"some sites restart"},
+ "Say nothing and let the tribunal work":{street:"silence looks like weakness",nass:"your allies wanted you to fight"},
+ "Answer the petition hard in public":{street:"your supporters like the fight",nass:"your allies are relieved"},
+ "Offer the losing side places in government":{purse:"jobs for the other side cost money",nass:"senators on both sides gain"},
+ "Honour the contract":{purse:"the contract costs money",gov:"the states want the power",nass:"the plant's backers are pleased",street:"people want the lights on"},
+ "Suspend it pending a review":{purse:"the money stays put",nass:"the plant's backers are angry",gov:"the states lose their power plant",street:"people see the power delayed"},
+ "Hospitals and water first":{street:"people see lives put first",purse:"factories stay dark for days"},
+ "Industry and the cities first":{purse:"business is running again first",street:"homes and clinics wait"},
+ "Restart everywhere at once and accept the delay":{street:"everyone waits longer"},
+ "Rescue the bank":{purse:"the rescue costs public money",street:"savers keep their deposits"},
+ "Let the regulator wind it down":{purse:"the Treasury pays nothing",street:"savers lose their money"},
+ "Cancel and reschedule everything":{street:"students and parents lose weeks",palace:"religious and traditional leaders back fairness"},
+ "Go ahead and investigate the leak":{street:"students sit their exams on time"},
+ "Send the party's list":{nass:"senators see their people rewarded",gov:"the governors get their nominees",street:"people see the same old faces"},
+ "Pick experts and explain later":{nass:"the Senate wanted its own names",gov:"the governors lose their nominees",street:"people like capable new faces"},
+ "Half and half":{nass:"nobody gets all they wanted",gov:"half their names are dropped",street:"people see a compromise"},
+ "Release emergency funds now":{purse:"the emergency money leaves the Treasury",gov:"the states get help fast",street:"families see help arrive"},
+ "Send the army engineers first":{barracks:"the military leads the rescue",purse:"the engineers cost less",street:"help is slower to arrive"}
+};
+/* any other card: what each power cares about */
+var COACH_WHY_ANY={
+ street:["ordinary people liked it","ordinary people pay for it"],palace:["the traditional and religious leaders approve","the traditional and religious leaders disapprove"],
+ barracks:["the military got what it wanted","the military is unhappy"],purse:["it saves money or pleases business","it costs the Treasury or business"],
+ gov:["the states got something they wanted","the states lose out"],nass:["the Assembly got its way","the Assembly is unhappy"]};
+var COACH={key:"ifnayou-coach-v1",step:0};
+function coachSeen(){try{return localStorage.getItem(COACH.key)==="1";}catch(e){return false;}}
+function coachDone(){COACH.step=-1;try{localStorage.setItem(COACH.key,"1");}catch(e){}coachHide();}
+function coachHide(){var b=$("gCoach");if(b)b.hidden=true;var m=$("gMeters");if(m)m.classList.remove("coach-on");
+  document.querySelectorAll("#gMeters .mt.coach-hit").forEach(function(e){e.classList.remove("coach-hit");});
+  if(typeof phoneFit==="function")setTimeout(phoneFit,0);}
+function coachShow(html,btns){
+  var m=$("gMeters");if(!m)return;
+  var b=$("gCoach");
+  if(!b){b=document.createElement("div");b.id="gCoach";b.className="coach";b.setAttribute("role","status");
+    m.parentNode.insertBefore(b,m.nextSibling);}
+  b.innerHTML='<div class="coach-t">'+html+'</div><div class="coach-b">'+btns.map(function(x,i){
+    return '<button type="button" class="'+(i?"coach-skip":"coach-ok")+'" data-coach="'+x[0]+'">'+x[1]+'</button>';}).join("")+'</div>';
+  b.hidden=false;
+  b.querySelectorAll("button").forEach(function(btn){btn.addEventListener("click",function(){
+    var a=btn.getAttribute("data-coach");if(a==="done")coachDone();else coachHide();});});
+  if(typeof phoneFit==="function")setTimeout(phoneFit,0);
+}
+function coachEsc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+showCard=(function(orig){return function(c){
+  orig(c);
+  if(COACH.step===0&&G.live&&!coachSeen()){
+    COACH.step=1;$("gameRun").classList.add("coach-show");$("gMeters").classList.add("coach-on");
+    coachShow("<b>Your first decision.</b> These six bars are the powers that keep you in office. Every choice you make moves them. If one runs out, you fall.",
+      [["hide","Got it"],["done","Skip the tips"]]);
+  }
+};})(showCard);
+play=(function(orig){return function(side){
+  if(COACH.step!==1||!G.live)return orig(side);
+  var before={};BLOCS.forEach(function(b){before[b.k]=G.m[b.k];});
+  var btn=$(side==="l"?"gL":(side==="c"?"gC":"gR")),t=btn&&btn.querySelector(".txt"),said=t?t.textContent:"";
+  coachHide();COACH.step=2;
+  var r=orig(side);
+  setTimeout(function(){
+    if(COACH.step!==2)return;
+    var moved=BLOCS.map(function(b){return {b:b,d:Math.round((G.m[b.k]||0)-(before[b.k]||0))};})
+      .filter(function(x){return x.d;}).sort(function(x,y){return Math.abs(y.d)-Math.abs(x.d);}).slice(0,3);
+    if(!moved.length){coachDone();return;}
+    moved.forEach(function(x){var el=$("gMeters").querySelector('[data-k="'+x.b.k+'"]');if(el)el.classList.add("coach-hit");});
+    var why=COACH_WHY[said.trim()]||{};
+    var list=moved.map(function(x){var r=why[x.b.k]||COACH_WHY_ANY[x.b.k][x.d>0?0:1];
+      return '<li>'+coachEsc(x.b.n)+' <span class="'+(x.d>0?"up":"dn")+'">'+(x.d>0?"▲ ":"▼ ")+Math.abs(x.d)+'</span>: '+coachEsc(r)+'.</li>';}).join("");
+    coachShow("<b>“"+coachEsc(said.replace(/[.\s]+$/,""))+"” moved them.</b><ul class=\"coach-why\">"+list+"</ul>Every decision from here will move them too.",[["done","Start governing"]]);
+  },700);
+  return r;
+};})(play);
 
 function topicPosts(c,ch,taken){
   var tp=topicOf(c),st=stanceOf(ch),out=[];
@@ -6933,6 +7056,884 @@ presidencyCode=(function(orig){return function(bloc,why){
     var start=VALUES.reduce(function(t,v){return t+v.s;},0)/VALUES.length;
     if(national()>=start)return {c:"knew"};
   }
+  return r;
+};})(presidencyCode);
+/* ---------- copy pass: the speaker argues, the button costs (approved 13 Nov 2026) ----------
+   Advisers who used to read out both options now argue for one and name who warns against
+   it; answers that read as a safe pause now say what they cost; some cards carry their own
+   reactions. Where a card's opening changed, everything keyed to the old opening (its picture,
+   its topic, how it is delivered) is pointed at the new one. */
+var COPY2_VOICE=[
+[
+"Protesters have blocked a major road for",
+"Protesters have blocked a major road for four days. Let my men clear it tonight. Your Chief of Staff warns force could turn a blockade into a riot, but every day costs commuters and traders."
+],
+[
+"We can start this project within weeks i",
+"We can start this project within weeks if you approve the contractor directly. A tender means months of paperwork while the road rots. The anti-corruption agency says direct awards are how money disappears."
+],
+[
+"The official exchange rate is far from t",
+"The official rate is a lie, Your Excellency, and I am draining our reserves every morning to defend it. Let me float the naira today. The Finance Minister warns import prices will explode by Friday."
+],
+[
+"We can finance your railway now, but our",
+"We can finance your railway now, but our companies build it. That is how we lend. Your Labour Minister says the jobs must be Nigerian. Then find the money somewhere else."
+],
+[
+"Local councils say governors hold back m",
+"Local councils say governors hijack the money meant for their communities, and I believe them. Pay the councils directly. The governors warn the councils will loot it, and remind you they control your senators."
+],
+[
+"Millions of Nigerians abroad cannot vote",
+"Millions of Nigerians abroad cannot vote from where they live, yet what they send home keeps this country running. Do not make them wait again. INEC warns an untested system could fail on election day."
+],
+[
+"Millions of children are out of school, ",
+"Millions of children are out of school, and every year we wait, more never come back. Enrol them nationwide. The Finance Minister warns we can only afford the worst-hit states; spread thinner, it collapses."
+],
+[
+"A reporter has most of the contract file",
+"A reporter has most of the contract file, but not the classified annex: it funded a covert operation still under way. Published alone, it looks like cronyism. Lean on the editor until the mission ends."
+],
+[
+"Two formations refused to deploy. Their ",
+"Two formations refused to deploy this morning. Their allowances are nine months overdue, and frankly, I do not blame them. Clear their arrears today. Retire the commanders instead, and the refusal will spread."
+],
+[
+"Salaries have not been paid. We can crea",
+"Salaries have not been paid. I can print the money tonight so teachers eat this week, though prices will follow. The Accountant-General beside me would rather sell public assets, at whatever scrap price buyers offer."
+],
+[
+"Oil revenue has fallen. We can stop capi",
+"Oil revenue has crashed. We must freeze capital projects and live within our means. Your Works Minister warns half-built roads will rot in the rains, and wants to borrow against future oil instead."
+],
+[
+"Your Excellency, we are spending far mor",
+"Your Excellency, we are spending far more than we collect. Cut the fat now: freeze federal hiring and slash overheads. Your party chairman warns that ending patronage means a revolt, and says borrow instead."
+],
+[
+"Digital lenders are giving millions of p",
+"Digital loan apps lend to millions the banks never would, but rogue lenders shame late payers to their whole phonebook. Shut down the abusers. Fintech founders warn strict rules will kill instant loans."
+],
+[
+"Nigeria has not counted its people in al",
+"Nigeria has not counted its people in almost twenty years. We share money and seats by guesswork, and lose billions to ghost figures. Count now. The governors warn that every state will fight the result."
+],
+[
+"Fertiliser meant for farmers is going to",
+"Fertiliser meant for farmers is going to the people who distribute it. Put vouchers straight on farmers' phones. The governors say they know their farmers, and they will fight to keep control."
+],
+[
+"Several electricity distribution compani",
+"Several electricity distribution companies have not invested a kobo in years; millions get three hours of light a day. Revoke their licences. The owners warn that scares investors, and beg one more year."
+],
+[
+"Doctors trained at public expense are le",
+"Doctors trained at public expense are flying out within a year of qualifying, leaving our wards empty. Bond every graduate to five years here. The medical association warns they will strike or leave anyway."
+],
+[
+"We do not have enough police officers, a",
+"We do not have enough police officers, and too many guard important people. Give me a hundred thousand recruits. The people being guarded will not give up their escorts quietly."
+],
+[
+"Most of the people in our prisons have n",
+"Two in three people in our prisons have never been convicted, and many have waited years. Release everyone held past their likely sentence. The police chiefs warn hardened suspects will walk straight back out."
+],
+[
+"Millions of phone lines are still not li",
+"Millions of phone lines are still not linked to a national identity number, and kidnappers use them for ransoms. Cut them off next month. The phone companies warn market women will lose bank alerts overnight."
+],
+[
+"My colleagues want to pass a bill agains",
+"My colleagues are passing a bill against false information online, letting regulators order posts deleted and fine platforms. Journalists call it a gag law. It reaches your desk either way. Will you sign it?"
+],
+[
+"Thousands of people dig for gold without",
+"Thousands of people dig for gold without licences, and most of it leaves the country unrecorded. License them and buy their gold. The army says the sites fund armed gangs and should be closed."
+],
+[
+"Most of the money in the economy never p",
+"Most of the cash in Nigeria never touches a bank, so it escapes tax and moves easily for kidnappers and corrupt officials. Cap daily withdrawals. The market women warn rural trade will starve."
+],
+[
+"Oil companies are still burning off gas ",
+"Oil majors are still burning gas they were ordered to stop flaring years ago, choking Delta communities with soot. Enforce the full fines. The Petroleum Minister warns that drives away investment, and wants more time."
+],
+[
+"The rains have flooded farmland and home",
+"The rains have flooded farmland and homes along two big rivers. Families have lost their harvest and need cash now. The engineers say rebuild the embankments, or we pay again next year."
+],
+[
+"Nigeria has no national airline, and our",
+"Nigeria has no national airline, and our routes are flown by foreign carriers. A flag carrier is a matter of pride. The Finance Minister says fix the airports and let private airlines fly."
+],
+[
+"The banks made record profits from the e",
+"The commercial banks posted record profits off the naira collapse that crushed ordinary households. Hit those windfalls with a one-off tax. Bank chiefs warn it will spook investors and freeze loans to small businesses."
+],
+[
+"Every time a junior officer is made a se",
+"Every time a junior officer is made Service Chief, every general senior to him retires, and decades of counter-insurgency experience walk out. Break the tradition and keep them. Younger officers warn it blocks their promotion."
+],
+[
+"Factories cannot buy the dollars they ne",
+"Local factories cannot find dollars for spare parts and machines, while importers of foreign toothpicks buy them easily. Ring-fence Central Bank dollars for manufacturers. Importers warn that two rates mean round-tripping and a black market."
+],
+[
+"Foreign technology companies hold the pe",
+"Foreign tech firms hold the bank records, biometrics and private messages of millions of Nigerians on servers beyond our laws. Force them to store it here. They warn they will invest elsewhere if you do."
+],
+[
+"Nurses, engineers and programmers are le",
+"Nurses, engineers and programmers are leaving faster than we can train them. Charge foreign employers a fee for every specialist they hire. The diaspora office warns that freezes job offers; court their remittances instead."
+],
+[
+"Millions of young Nigerians trade crypto",
+"Millions of young Nigerians trade crypto on their phones, and savings vanish in sudden crashes. Cut the exchanges off from the banks. The industry says license and tax them, and own the next collapse."
+],
+[
+"Freelancers, content creators and remote",
+"Freelancers, content creators and remote workers pull in dollars from abroad and pay almost no tax here. Have the banks deduct it the second it lands. Creators warn they will route every dollar offshore instead."
+],
+[
+"Fees at the federal universities are ris",
+"Federal university fees are surging and students are dropping out mid-semester. Lend to every undergraduate, and let them repay once they earn a salary. The lecturers' union warns loans trap youth in debt."
+],
+[
+"Young people say officers stop them for ",
+"Young people say officers stop them for their laptops and phones and demand money. My officers say those searches are how we catch fraudsters. Ban them, and we work blind."
+],
+[
+"Betting apps are on almost every young m",
+"Betting apps are on almost every young man's phone, and many lose their wages every week. Tax the companies hard and fund youth sport. Religious leaders say ban the adverts and cap stakes."
+],
+[
+"The phone companies want to raise data p",
+"The phone companies are bleeding on diesel and tower costs and want to raise data prices sharply. Without it, no new masts. Student unions warn expensive data cuts young people off from work and classes."
+],
+[
+"You remember matching the opposition's p",
+"You remember matching the opposition's promise on fuel and wages? The bill is due, and it costs far more than budgeted. Keeping it means heavy borrowing. Your party warns breaking it hands them the election."
+],
+[
+"A video of you saying things you never s",
+"A video of you saying things you never said is spreading everywhere. It is fake, and very good. Get it taken down tonight. Your lawyers warn the papers will call it censorship."
+],
+[
+"Fuel queues are back in the cities a mon",
+"Fuel queues are snaking down city highways a month before the vote. Authorise emergency imports at any price, and the pumps flow by election day. The Finance Minister warns the bill lands the week after."
+],
+[
+"We can spend what is left on one enormou",
+"We can spend what is left on one enormous rally in every zone. Crowds make the news. Your field team wants volunteers going door to door in the states where we are weakest."
+],
+[
+"This government company loses money ever",
+"This government company loses money every year, and taxpayers cover it. Sell it. The unions say private owners will sack thousands, and the families depend on those jobs."
+],
+[
+"Salaried workers and big companies canno",
+"Salaried workers and big companies cannot keep carrying the tax burden alone. Bring the traders and small businesses into the net. The market associations warn most shops are barely surviving, and new taxes mean closures."
+],
+[
+"Farmers and herders are clashing across ",
+"Farmers and herders are clashing across the Middle Belt, and villages are burying their dead. Roll out federal ranches nationwide to end open grazing. The governors warn Abuja cannot dictate land use in their states."
+],
+[
+"An international oil company wants to se",
+"An international oil major wants to sell its onshore fields to a local buyer and exit. Delta communities warn the buyer cannot afford decades of clean-up. Hold it, and the major says investment keeps falling."
+],
+[
+"Nothing is moving — not the ports, not t",
+"Nothing is moving — not the ports, not the refineries, not the banks. My members will go back for the wage you promised them and nothing less. I cannot stop this on your word alone."
+],
+[
+"Your ministers have shelved the tax bill",
+"Your ministers have shelved the tax reform bill three times because it reaches traders and small businesses, and the crowd will hate it. You are very popular, Your Excellency, and you are not governing."
+],
+[
+"You remember the review you ordered on y",
+"You remember the review you ordered on your first morning? Most contractor debts were genuine, and fuel truly costs far more than Nigerians pay at the pump. Keep hiding it, and the treasury bleeds."
+],
+[
+"Three billion dollars is available. The ",
+"Three billion dollars is on the table today. The conditions are non-negotiable: end the fuel subsidy, float the naira and freeze spending for two years. Reject them, and you close the budget hole without us."
+],
+[
+"Your Excellency, a large share of everyt",
+"Your Excellency, debt service is swallowing nearly everything we earn. The lenders will refinance if we cut the fuel subsidy, raise taxes and freeze hiring. Without them, we print."
+]
+];
+var COPY2_LABELS=[
+[
+"Farmers and herders are clashing across ",
+"r",
+"Leave each state to its own rules"
+],
+[
+"An international oil company wants to se",
+"l",
+"Let the sale go through"
+],
+[
+"Salaried workers and big companies canno",
+"r",
+"Keep small traders out of the tax net"
+],
+[
+"Nothing is moving — not the ports, not t",
+"r",
+"Let the country stand still and wait them out"
+],
+[
+"Your ministers have shelved the tax bill",
+"r",
+"Leave the tax bill in the drawer"
+],
+[
+"You remember the review you ordered on y",
+"r",
+"Bury the report"
+],
+[
+"The Assembly no longer argues with anyth",
+"r",
+"Keep the Assembly in your pocket"
+],
+[
+"Nigeria has not counted its people in al",
+"r",
+"Postpone it and keep guessing"
+],
+[
+"Most of the money in the economy never p",
+"r",
+"Leave cash alone"
+],
+[
+"The school feeding programme reaches mil",
+"l",
+"Expand it, ghost names and all"
+],
+[
+"A governor has removed a traditional rul",
+"r",
+"Stay out of the governor's quarrel"
+],
+[
+"You remember the bank you let fail on yo",
+"r",
+"Leave the depositors to the process"
+],
+[
+"The rains are coming again, and the town",
+"r",
+"Leave the defences to the states"
+],
+[
+"Foreign investors cannot take their prof",
+"r",
+"Make the investors wait"
+],
+[
+"Three opposition governors want to join ",
+"r",
+"Turn the governors away"
+],
+[
+"You remember approving the state police ",
+"r",
+"Let the states police themselves"
+],
+[
+"Three opposition parties are close to ag",
+"r",
+"Let the opposition unite"
+],
+[
+"You remember suspending school feeding t",
+"r",
+"Restart it school by school"
+],
+[
+"You remember approving the data price ri",
+"r",
+"Leave students to pay"
+],
+[
+"Your Excellency, we have a problem. The ",
+"r",
+"Hold the line and let them strike"
+],
+[
+"Your Excellency, the naira fell sharply ",
+"r",
+"Say nothing and let it fall"
+],
+[
+"Your Excellency, the party leaders who c",
+"r",
+"Pick experts and face the party"
+],
+[
+"Materials are being moved to the polling",
+"r",
+"Keep the army out of it"
+],
+[
+"The opposition candidate's convoy was st",
+"r",
+"Leave it to the governor's police"
+],
+[
+"Digital lenders are giving millions of p",
+"r",
+"Let them grow unregulated"
+],
+[
+"Our members cannot live on the current w",
+"r",
+"Refuse the new wage"
+],
+[
+"This defence purchase is classified, and",
+"r",
+"Sign it today, unreviewed"
+],
+[
+"The group holding more than a hundred ca",
+"r",
+"Refuse to bargain with them"
+],
+[
+"This government company loses money ever",
+"r",
+"Keep the company in public hands"
+],
+[
+"We have CCTV footage of suspects from th",
+"r",
+"Keep facial recognition switched off"
+],
+[
+"Twenty-two governors have met without yo",
+"l",
+"Give them the VAT formula and state police"
+],
+[
+"The Council feels ignored. A visit to So",
+"r",
+"Stay away from Sokoto"
+],
+[
+"My colleagues want new official cars and",
+"l",
+"Give them the cars and allowances"
+],
+[
+"My colleagues want new official cars and",
+"r",
+"Refuse the cars in public"
+],
+[
+"The phone companies want to raise data p",
+"l",
+"Let data prices rise"
+],
+[
+"The phone companies want to raise data p",
+"r",
+"Freeze data prices"
+],
+[
+"Your Excellency, a large share of everyt",
+"l",
+"Accept the lenders' terms"
+],
+[
+"You remember the bank you rescued on you",
+"r",
+"Let the next banks fail"
+],
+[
+"My board has suspended our new lending t",
+"r",
+"Refuse to rule out running again"
+],
+[
+"You remember backing the loyalist? His p",
+"l",
+"Sign the shield for your ministers"
+],
+[
+"Labour has never endorsed a candidate. W",
+"r",
+"Turn down Labour's endorsement"
+],
+[
+"We can spend what is left on one enormou",
+"l",
+"Hold the giant rallies"
+],
+[
+"The official exchange rate is far from t",
+"l",
+"Float the naira"
+],
+[
+"The official exchange rate is far from t",
+"r",
+"Defend the official rate"
+],
+[
+"Millions of Nigerians abroad cannot vote",
+"r",
+"Keep voting strictly domestic"
+],
+[
+"Two formations refused to deploy. Their ",
+"r",
+"Retire the two commanders to enforce discipline"
+],
+[
+"Doctors trained at public expense are le",
+"l",
+"Enforce a five-year service bond"
+],
+[
+"Doctors trained at public expense are le",
+"r",
+"Raise doctors' pay to match global rates"
+],
+[
+"An international oil company wants to se",
+"r",
+"Settle the liabilities first"
+],
+[
+"Salaried workers and big companies canno",
+"l",
+"Bring small traders into the tax net"
+],
+[
+"Nothing is moving — not the ports, not t",
+"l",
+"Sign and pay the promised wage"
+],
+[
+"Three billion dollars is available. The ",
+"l",
+"Take the loan and accept the conditions"
+],
+[
+"Three billion dollars is available. The ",
+"r",
+"Reject the conditions and go it alone"
+]
+];
+var COPY2_POSTS=[
+[
+"A reporter has most of the contract file",
+"l",
+[
+[
+"@NewsroomNG",
+"Armed security agents just visited our newsroom at 2 AM. Is this democracy or military rule? #PressFreedom"
+]
+]
+],
+[
+"A reporter has most of the contract file",
+"r",
+[
+[
+"@AbujaInsider",
+"EXCLUSIVE: Presidency awards ₦40bn 'phantom contract' to a shell company with zero track record. Where is EFCC?"
+]
+]
+],
+[
+"Salaries have not been paid. We can crea",
+"l",
+[
+[
+"@NairaWatch",
+"CBN just turned on the printing press again. Enjoy your salary alert today. A crate of eggs will be ₦10,000 by month-end."
+]
+]
+],
+[
+"Salaries have not been paid. We can crea",
+"r",
+[
+[
+"@LabourUnionNG",
+"Who are the 'mystery buyers' picking up Nigeria's refineries and land for kobo on the naira? We are shutting down on Monday!"
+]
+]
+],
+[
+"Digital lenders are giving millions of p",
+"l",
+[
+[
+"@Tobi_Lagos",
+"Finally! Those 'URGENT PUBLIC NOTICE: OLUWASEUN IS A CHRONIC DEBTOR' WhatsApp broadcasts almost ruined my marriage."
+]
+]
+],
+[
+"Digital lenders are giving millions of p",
+"r",
+[
+[
+"@NaijaHustler",
+"No collateral, no bank wahala, alert enters in 3 minutes. Just pay your loan on time and nobody will call your pastor!"
+]
+]
+],
+[
+"Nigeria has not counted its people in al",
+"l",
+[
+[
+"@DataNaija",
+"Real numbers instead of political guesswork, for the first time in twenty years. The governors are furious, which means the data might actually be real."
+]
+]
+],
+[
+"Doctors trained at public expense are le",
+"l",
+[
+[
+"@Dr_Zainab_ABJ",
+"You pay resident doctors peanuts with no equipment, and now you want to hold us here for five years? Watch every med student pivot to tech!"
+]
+]
+],
+[
+"Doctors trained at public expense are le",
+"r",
+[
+[
+"@CampusWatchNG",
+"So government has money to triple doctors' allowances, yet lecturers are still begging for theirs? Solidarity strike loading!"
+]
+]
+],
+[
+"Millions of phone lines are still not li",
+"l",
+[
+[
+"@Kemi_Ikeja",
+"Since 6 AM my line has been barred, I cannot receive transfers for my shop, and the NIMC office gate is locked! Who did we offend?"
+]
+]
+],
+[
+"Millions of phone lines are still not li",
+"r",
+[
+[
+"@SecurityWatchNG",
+"Another deadline extension! Meanwhile bandits call families from the bush on unregistered SIMs and nobody can trace them."
+]
+]
+],
+[
+"Most of the money in the economy never p",
+"l",
+[
+[
+"@MamaNkechi_Onitsha",
+"Bank app has been spinning since morning, POS agent is charging ₦500 to withdraw ₦5,000, and my customers have gone home with their money!"
+]
+]
+],
+[
+"Most of the money in the economy never p",
+"r",
+[
+[
+"@TaxWatchNG",
+"Over 80% of cash is still outside the banking system. Good luck tracing ransom payouts or taxing the informal billions."
+]
+]
+],
+[
+"Nurses, engineers and programmers are le",
+"l",
+[
+[
+"@NaijaNurseUK",
+"UK hospitals spent £0 training me after Nigeria paid for my nursing school for 5 years. Charging them a levy makes total sense. Just don't block our visas!"
+]
+]
+],
+[
+"Nurses, engineers and programmers are le",
+"r",
+[
+[
+"@TechFounderLagos",
+"Thank God! Slap a recruitment tax on foreign firms and the remote roles and visa sponsorships move to Kenya and Egypt overnight."
+]
+]
+],
+[
+"Freelancers, content creators and remote",
+"l",
+[
+[
+"@Dev_Chidi",
+"You give us zero light, zero internet support and zero loans, and now the Revenue Service wants to slice my Upwork payout before it even clears?"
+]
+]
+],
+[
+"Freelancers, content creators and remote",
+"r",
+[
+[
+"@CivilServantABJ",
+"A nurse earning ₦180k pays tax before she sees her alert, while remote workers earning $4,000 a month pay nothing. Where is the fairness?"
+]
+]
+],
+[
+"You remember matching the opposition's p",
+"l",
+[
+[
+"@NaijaVoterNG",
+"For once, a president actually kept a campaign promise instead of blaming 'what we met on ground', even if the Finance Minister looks like he wants to cry."
+]
+]
+],
+[
+"You remember matching the opposition's p",
+"r",
+[
+[
+"@OppositionWarRoom",
+"Play the campaign tape! 'We will match every kobo!' A few months later and the promise has been edited out of the budget."
+]
+]
+],
+[
+"An international oil company wants to se",
+"r",
+[
+[
+"@DeltaCreeksWatch",
+"Abuja just froze the exit door! Pay for fifty years of ruined farmland and poisoned rivers before you pack a single bag."
+]
+]
+],
+[
+"An international oil company wants to se",
+"l",
+[
+[
+"@EnergyCapitalNG",
+"Ministerial consent granted. Local operators take the wheel, while Delta host communities ask who is paying to clean up decades of old spills."
+]
+]
+],
+[
+"Nothing is moving — not the ports, not t",
+"l",
+[
+[
+"@WorkersVoiceNG",
+"Agreement signed, alert verified! Ports and banks reopen at 8 AM. Workers finally made Abuja honour its own signature."
+]
+]
+],
+[
+"Nothing is moving — not the ports, not t",
+"r",
+[
+[
+"@LagosPortWatch",
+"Day 6 of total shutdown. Containers rotting at Apapa, ATMs dry, and Aso Rock says the treasury simply does not have the money."
+]
+]
+],
+[
+"Your ministers have shelved the tax bill",
+"l",
+[
+[
+"@AbujaPolicyDesk",
+"The President finally stopped hiding behind popularity polls and sent the tax bill. Brace for market association protests by Monday."
+]
+]
+],
+[
+"Your ministers have shelved the tax bill",
+"r",
+[
+[
+"@EconomicWatchNG",
+"Another quarter, another shelved reform bill. Aso Rock is protecting its approval ratings while federal revenue keeps bleeding."
+]
+]
+],
+[
+"Three billion dollars is available. The ",
+"l",
+[
+[
+"@NaijaMarkets",
+"$3bn IMF package signed! Investors are celebrating on Broad Street. Meanwhile transport fares just doubled before sundown."
+]
+]
+],
+[
+"Three billion dollars is available. The ",
+"r",
+[
+[
+"@SovereignNaija",
+"The President just told Washington to keep its conditions! Bold move for national pride. Now let's see where the Finance Minister finds $3 billion by Monday."
+]
+]
+]
+];
+var COPY2_MFIX=[["Nothing is moving — not the ports, not t", "r", {"street": -5}], ["Your ministers have shelved the tax bill", "r", {"street": 6}]];
+function copy2Rekey(c,old){
+  var nw=c.s.slice(0,40),o40=old.slice(0,40);
+  for(var k in DL){var i=k.lastIndexOf("|"),p=k.slice(0,i);
+    if(old.indexOf(p)===0&&c.s.indexOf(p)!==0&&!DL[nw+"|"+k.slice(i+1)])DL[nw+"|"+k.slice(i+1)]=DL[k];}
+  if(nw===o40)return;
+  var w24=String(c.w||"").slice(0,24);
+  if(ARTFIX[w24+"|"+o40]&&!ARTFIX[w24+"|"+nw])ARTFIX[w24+"|"+nw]=ARTFIX[w24+"|"+o40];
+  if(TPMAP[o40]&&!c.tp)c.tp=TPMAP[o40];
+}
+function applyCopy2(){
+  if(applyCopy2.done||typeof DECK==="undefined")return;applyCopy2.done=true;
+  var byPre={};
+  function find(pre){if(byPre[pre])return byPre[pre];var c=tuneFind(pre);if(c)byPre[pre]=c;return c;}
+  /* resolve every card by its original opening before any text changes */
+  COPY2_VOICE.forEach(function(x){find(x[0]);});COPY2_LABELS.forEach(function(x){find(x[0]);});
+  COPY2_POSTS.forEach(function(x){find(x[0]);});COPY2_MFIX.forEach(function(x){find(x[0]);});
+  COPY2_LABELS.forEach(function(x){
+    var c=find(x[0]),ch=c&&c[x[1]];if(!ch){if(window.console)console.warn("copy2: no answer",x[0]);return;}
+    var o=ch.t,n=x[2];if(!o||o===n)return;ch.t=n;
+    if(BORROW[o]!==undefined&&BORROW[n]===undefined)BORROW[n]=BORROW[o];
+    if(PAYDOWN[o]!==undefined&&PAYDOWN[n]===undefined)PAYDOWN[n]=PAYDOWN[o];
+    if(COACH_WHY[o]&&!COACH_WHY[n])COACH_WHY[n]=COACH_WHY[o];
+    for(var k in DL){var i=k.lastIndexOf("|");
+      if(k.slice(i+1)===o&&c.s.indexOf(k.slice(0,i))===0&&!DL[k.slice(0,i)+"|"+n])DL[k.slice(0,i)+"|"+n]=DL[k];}
+  });
+  COPY2_POSTS.forEach(function(x){var c=find(x[0]);if(c&&c[x[1]])c[x[1]].fd=x[2];});
+  COPY2_MFIX.forEach(function(x){var c=find(x[0]),ch=c&&c[x[1]];if(!ch)return;ch.m=ch.m||{};for(var k in x[2])ch.m[k]=x[2][k];});
+  COPY2_VOICE.forEach(function(x){var c=find(x[0]);if(!c){if(window.console)console.warn("copy2: no card",x[0]);return;}
+    var old=c.s;c.s=x[1];copy2Rekey(c,old);});
+  /* holding the census pays off later: programmes reach the places that need them */
+  var cen=find("Nigeria has not counted its people in al");
+  if(cen&&cen.l){var of=cen.l.fx;cen.l.fx=function(){if(of)of();G.flags.census_held=true;G.censusDay=G.day;};}
+}
+applyTuning=(function(orig){return function(){orig();applyCopy2();};})(applyTuning);
+setTimeout(applyCopy2,0);
+function censusBoost(d){
+  return (G.flags&&G.flags.census_held&&G.censusDay!=null&&d&&d.n!=="the census"&&G.day>=G.censusDay+DL_DELAY)?1.15:1;
+}
+
+/* ---------- results night says why, and the bars say whose colour is whose ---------- */
+var EVENT_PAST={
+ "Oil prices have fallen sharply below the price assumed in your budget":"oil prices fell far below what your budget assumed",
+ "Oil prices have risen above the budget’s assumption":"oil prices rose above your budget's assumption",
+ "The military has taken power in a neighbouring country":"the military took power in a neighbouring country",
+ "Severe flooding has displaced people across eleven states":"severe flooding displaced people across eleven states",
+ "The court has ruled against the federal government on revenue allocation":"the Supreme Court ruled against the federal government on revenue allocation",
+ "Higher US interest rates are drawing investment out of Nigeria":"higher US interest rates drew investment out of Nigeria",
+ "Children have been abducted from a boarding school in the north-west":"gunmen abducted schoolchildren from a boarding school in the North West",
+ "Investors have signed a major industrial agreement for projects in Ogun and Kano":"investors signed a major industrial agreement for Ogun and Kano",
+ "A war abroad has disrupted supplies of wheat and fertiliser":"a war abroad disrupted supplies of wheat and fertiliser",
+ "Leaked financial records name senior political figures, including people in your cabinet and campaign":"leaked financial records named people in your cabinet and campaign",
+ "A disease outbreak is spreading across two states":"a disease outbreak spread across two states"};
+var CRISIS_PAST={
+ "street|abandoned":"months of strikes, protests and paralysis across the major cities",
+ "purse|abandoned":"months when the Treasury could not pay its bills",
+ "barracks|abandoned":"months of open unrest in the barracks",
+ "gov|abandoned":"months of governors in open revolt",
+ "nass|abandoned":"months of open war with the National Assembly",
+ "palace|abandoned":"months of open defiance from the emirs and the bishops",
+ "street|owned":"months of governing by crowd",
+ "purse|owned":"months when the Treasury hoarded money while services starved",
+ "barracks|owned":"months when the generals effectively ran your government",
+ "gov|owned":"months when the governors ran your government",
+ "nass|owned":"months when the Assembly ran your government",
+ "palace|owned":"months when the emirs and the bishops held a veto over your government"};
+var ZONE_RECALL={"you refused the governor there the state force he asked for":"you denied their governor's request for a state police force"};
+function elecCause(key){
+  if(key==="sys:prices")return "runaway inflation after you funded government bills by printing money";
+  if(key==="sys:crisis"){var best=null,n=0;for(var k in (G.crisisBy||{}))if(G.crisisBy[k]>n){n=G.crisisBy[k];best=k;}
+    return CRISIS_PAST[best]||"months governed through open crises";}
+  if(key.indexOf("sys:event|")===0){var e=key.slice(10).replace(/\.$/,"");
+    return "something outside your control: "+(EVENT_PAST[e]||lowerFirst(e));}
+  return lowerFirst(whyLabel(key)).replace(/[.\s]+$/,"").replace(/”$/,".”");
+}
+function elecWhy(){
+  var z=(G.elecZ||[]).slice().sort(function(a,b){return a.s-b.s;}).slice(0,2);
+  if(!z.length)return "";
+  var out=["You were weakest in the "+z[0].n+(z[1]?" and the "+z[1].n:"")+"."];
+  for(var i=0;i<z.length;i++){
+    var zk=ZONES.filter(function(q){return q.n===z[i].n;})[0],best=null;
+    if(!zk)continue;
+    ZONE_MEMORY.forEach(function(m){if(m[1]===zk.k&&m[2]<0&&G.flags[m[0]]&&(!best||m[2]<best[2]))best=m;});
+    if(best){out.push("In the "+z[i].n+", voters never forgot that "+(ZONE_RECALL[best[3]]||best[3])+".");break;}
+  }
+  var felt=VALUES.filter(function(v){return v.k==="pro"||v.k==="sec"||v.k==="cap";})
+    .map(function(v){return {k:v.k,d:G.v[v.k]-v.s};}).sort(function(a,b){return a.d-b.d;})[0];
+  if(felt&&felt.d<=-5&&MEASURE_LINE[felt.k]){
+    var ml=MEASURE_LINE[felt.k][1];out.push("Across the country, "+(/^Nigeria/.test(ml)?ml:lowerFirst(ml)));
+    var w=whyFor(felt.k,-1);
+    if(w.with_[0]){var cz=elecCause(w.with_[0].key);out.push("The biggest single cause was "+cz+(/[.”]$/.test(cz)?"":"."));}
+  } else if(G.m.street<40){
+    out.push("By polling day, the Street had turned against you.");
+  }
+  return out.join(" ");
+}
+showResult=(function(orig){return function(o,go){
+  orig(o,go);
+  var zl=$("gResZones"),key=$("gResKey"),why=$("gResWhy");
+  if(!key){key=el("div","res-key");key.id="gResKey";
+    [["y","You"],["o","Opposition"],["t","Others"]].forEach(function(x){var s=el("span");s.appendChild(el("i",x[0]));s.appendChild(document.createTextNode(x[1]));key.appendChild(s);});
+    zl.parentNode.insertBefore(key,zl.nextSibling);}
+  key.hidden=!(o.zones&&o.zones.length);
+  if(!why){why=el("div","res-why");why.id="gResWhy";$("gResLead").parentNode.insertBefore(why,$("gResLead").nextSibling);}
+  var lost=o.nums&&o.nums[0]&&o.nums[0].n==="You"&&G.elec&&(G.elec.outcome==="lost"||G.elec.outcome==="lost_runoff");
+  var t=lost?elecWhy():"";
+  why.innerHTML="";why.hidden=!t;
+  if(t){why.appendChild(el("span","res-why-lab","Why you lost"));why.appendChild(el("p",null,t));}
+};})(showResult);
+
+/* ---------- a losing presidency is named for what lost it ---------- */
+var PN_LOST={
+ lost_unsafe:"THE PRESIDENT WHO COULD NOT KEEP THEM SAFE",
+ lost_prices:"THE PRESIDENT PRICES BROUGHT DOWN",
+ lost_poorer:"THE PRESIDENT WHO LEFT THEM POORER",
+ lost_undelivered:"THE PRESIDENT WHOSE PROMISES NEVER ARRIVED"};
+for(var _k in PN_LOST)PN_NEW[_k]=PN_LOST[_k];
+setTimeout(function(){for(var k in PN_NEW)if(!PN[k])PN[k]=PN_NEW[k];},0);
+function lostCause(){
+  var f=VALUES.filter(function(v){return v.k==="pro"||v.k==="sec"||v.k==="cap";})
+    .map(function(v){return {k:v.k,d:G.v[v.k]-v.s};}).sort(function(a,b){return a.d-b.d;})[0];
+  if(!f||f.d>-6)return null;
+  if(f.k==="sec")return "lost_unsafe";
+  if(f.k==="cap")return "lost_undelivered";
+  var w=whyFor("pro",-1);
+  return (w.with_[0]&&w.with_[0].key==="sys:prices")?"lost_prices":"lost_poorer";
+}
+presidencyCode=(function(orig){return function(bloc,why){
+  var r=orig(bloc,why);
+  if(r&&r.c==="lost"){var c=lostCause();if(c)return {c:c};}
   return r;
 };})(presidencyCode);
 var MEASURE_LINE={
@@ -8746,7 +9747,7 @@ function edgeCheck(){
   var n=0;for(var k in G.crisis)n++;
   G.prevN=G.crisisN||0; G.crisisN=n;
   if(n){
-    G.crisisTurns++;
+    G.crisisTurns++;G.crisisBy=G.crisisBy||{};for(var ck in G.crisis){var cq=ck+"|"+G.crisis[ck];G.crisisBy[cq]=(G.crisisBy[cq]||0)+1;}
     /* a country running two or three emergencies at once pays for them every month */
     whySys("crisis","",function(){applyV({pro:-1.2*n,sec:-0.9*n,coh:-0.9*n,cap:-0.6*n},1);});
   }
